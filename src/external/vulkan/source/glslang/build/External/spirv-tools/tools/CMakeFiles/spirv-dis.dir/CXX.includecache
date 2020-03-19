@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../External/spirv-tools/include/spirv-tools/libspirv.h
+stdbool.h
+-
+stddef.h
+-
+stdint.h
+-
+
+../External/spirv-tools/tools/io.h
+cstdint
+-
+cstdio
+-
+vector
+-
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/source/glslang/External/spirv-tools/tools/dis/dis.cpp
+stdio.h
+-
+unistd.h
+-
+cstdio
+-
+cstring
+-
+string
+-
+vector
+-
+spirv-tools/libspirv.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/source/glslang/External/spirv-tools/tools/dis/spirv-tools/libspirv.h
+tools/io.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/source/glslang/External/spirv-tools/tools/dis/tools/io.h
+
