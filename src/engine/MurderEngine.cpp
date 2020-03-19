@@ -77,7 +77,9 @@ int me::engine_window(std::string title, unsigned int width, unsigned int height
 
 int me::engine_loop()
 {
+  ME_LOGGER->out("Initializing Renderer API ...\n");
   rendererApi->initializeApi();
+  ME_LOGGER->out(std::string("Renderer API initialized [" + RENDERER_API_NAME + "]\n"));
   while(!glfwWindowShouldClose(window))
   {
     rendererApi->clear();

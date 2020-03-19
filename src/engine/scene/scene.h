@@ -3,31 +3,30 @@
 
 #include "../math/vectors.h"
 #include "mesh.h"
+#include "camera.h"
+#include "material.h"
+#include "texture.h"
+#include "light.h"
 #include <vector>
 
 namespace me {
 
   struct item {
     std::string identifier;
-    me::mesh* mesh;
     me::vec3d position;
     me::vec3d rotation;
     me::vec3d scale;
 
-    item(std::string identifier, me::mesh* mesh, me::vec3d position, me::vec3d rotation, me::vec3d scale)
-    {
-      this->identifier = identifier;
-      this->mesh = mesh;
-      this->position = position;
-      this->rotation = rotation;
-      this->scale = scale;
-    }
+    ~item() { }
 
-    ~item()
-    {
+  };
 
-    }
-
+  struct scene_content {
+    std::vector<camera*> cameras;
+    std::vector<material*> materials;
+    std::vector<texture*> textures;
+    std::vector<mesh*> meshes;
+    std::vector<light*> lights;
   };
 
   class scene {

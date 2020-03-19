@@ -6,17 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.cpp
-GL/glew.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/Main.cpp
+iostream
 -
-OpenGLApi.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.h
+string
+-
+engine/MurderEngine.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
+engine/scene/mesh.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/mesh.h
+engine/scene/scene.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
+engine/loaders/mesh_loader.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/mesh_loader.h
 
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.h
-RendererApi.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
+scene/scene.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/mesh_loader.h
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
 ../scene/mesh.h
@@ -33,6 +43,22 @@ vector
 -
 material.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/material.h
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.cpp
+scene.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
+../renderer/RendererApi.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
+iostream
+-
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
+../math/vectors.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
+mesh.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/mesh.h
+vector
+-
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
 string

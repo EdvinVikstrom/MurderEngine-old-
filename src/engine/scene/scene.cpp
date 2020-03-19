@@ -1,6 +1,8 @@
 #include "scene.h"
 #include "../renderer/RendererApi.h"
 
+#include <iostream> // remove
+
 extern IRendererApi* rendererApi;
 
 me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsigned int height, bool _3D)
@@ -15,6 +17,7 @@ me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsig
 
 void me::scene::setup()
 {
+  std::cout << "tjenare\n";
   rendererApi->matrix(ME_MATRIX_PROJECTION);
   rendererApi->viewport(0, 0, width, height);
   float aspect = (float)width/(float)height;

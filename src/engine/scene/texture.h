@@ -72,7 +72,7 @@ namespace me {
 
   };
 
-  struct wcolor {
+  struct wcolor { // stands for wide-color. yes i know very stupid
     unsigned int type;
     float v_float;
     me::vec4f* rgba;

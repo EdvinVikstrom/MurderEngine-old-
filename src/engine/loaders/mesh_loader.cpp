@@ -11,7 +11,7 @@ void me::loadMesh(me::mesh* mesh, int usage)
   unsigned int indexBuffer;
   unsigned int buffer;
 
-  if (RENDERER_API_NAME=="opengl")
+  if (RENDERER_API_NAME=="opengl todo:")
   {
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
