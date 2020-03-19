@@ -6,53 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/EngineManager.h
-scene/texture.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
-scene/material.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/material.h
-scene/mesh.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/mesh.h
-scene/scene.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
-scene/shader.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
-string
--
-vector
--
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.cpp
-GL/glew.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/GL/glew.h
-GLFW/glfw3.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/GLFW/glfw3.h
-vector
--
-string
--
-MurderEngine.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
-EngineManager.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/EngineManager.h
-renderer/RendererApi.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
-renderer/OpenGLApi.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.h
-utilities/Logger.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
-scene/scene.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
-
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.cpp
+GL/glew.h
+-
+OpenGLApi.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.h
 RendererApi.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
+../scene/mesh.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/mesh.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/material.h
 texture.h
@@ -66,23 +34,9 @@ vector
 material.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/material.h
 
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
-../math/vectors.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
-mesh.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/mesh.h
-vector
--
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
-string
--
-
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
 string
 -
 ../math/vectors.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
 

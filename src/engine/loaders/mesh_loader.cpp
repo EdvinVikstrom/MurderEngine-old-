@@ -2,13 +2,16 @@
 #include "../scene/mesh.h"
 #include "mesh_loader.h"
 #include "parsers/collada_parser.h"
+#include "../utilities/FileUtils.h"
+
+extern std::string RENDERER_API_NAME;
 
 void me::loadMesh(me::mesh* mesh, int usage)
 {
   unsigned int indexBuffer;
   unsigned int buffer;
 
-  if (RENDER_API=="opengl")
+  if (RENDERER_API_NAME=="opengl")
   {
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
@@ -28,7 +31,7 @@ void me::loadMesh(me::mesh* mesh, int usage)
 
     mesh->buffer = buffer;
     mesh->indexBuffer = indexBuffer;
-  }else if (RENDER_API=="vulkan")
+  }else if (RENDERER_API_NAME=="vulkan")
   {
 
   }

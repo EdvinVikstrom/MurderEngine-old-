@@ -1,11 +1,11 @@
-#include <iostream> // remove
-#include "GL/glew.h"
-#include "../MurderEngineCommon.h"
-#include "ImageReader.h"
+#include <GL/glew.h>
+#include <string>
 #include "../utilities/StringUtils.h"
-#include "../utilities/Logger.h"
 #include "../utilities/FileUtils.h"
-#include "../MurderEngine.h"
+#include "../scene/texture.h"
+#include "../renderer/RendererApi.h"
+#include "formats.h"
+#include "ImageReader.h"
 
 me::image* readPNG(char* data, unsigned int size)
 {

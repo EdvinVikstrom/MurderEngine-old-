@@ -329,6 +329,33 @@ src/engine/math/vectors.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.s
 .PHONY : src/engine/math/vectors.cpp.s
 
+src/engine/renderer/OpenGLApi.o: src/engine/renderer/OpenGLApi.cpp.o
+
+.PHONY : src/engine/renderer/OpenGLApi.o
+
+# target to build an object file
+src/engine/renderer/OpenGLApi.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o
+.PHONY : src/engine/renderer/OpenGLApi.cpp.o
+
+src/engine/renderer/OpenGLApi.i: src/engine/renderer/OpenGLApi.cpp.i
+
+.PHONY : src/engine/renderer/OpenGLApi.i
+
+# target to preprocess a source file
+src/engine/renderer/OpenGLApi.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.i
+.PHONY : src/engine/renderer/OpenGLApi.cpp.i
+
+src/engine/renderer/OpenGLApi.s: src/engine/renderer/OpenGLApi.cpp.s
+
+.PHONY : src/engine/renderer/OpenGLApi.s
+
+# target to generate assembly for a file
+src/engine/renderer/OpenGLApi.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.s
+.PHONY : src/engine/renderer/OpenGLApi.cpp.s
+
 src/engine/scene/scene.o: src/engine/scene/scene.cpp.o
 
 .PHONY : src/engine/scene/scene.o
@@ -494,6 +521,9 @@ help:
 	@echo "... src/engine/math/vectors.o"
 	@echo "... src/engine/math/vectors.i"
 	@echo "... src/engine/math/vectors.s"
+	@echo "... src/engine/renderer/OpenGLApi.o"
+	@echo "... src/engine/renderer/OpenGLApi.i"
+	@echo "... src/engine/renderer/OpenGLApi.s"
 	@echo "... src/engine/scene/scene.o"
 	@echo "... src/engine/scene/scene.i"
 	@echo "... src/engine/scene/scene.s"

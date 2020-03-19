@@ -2,13 +2,15 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "../MurderEngineCommon.h"
-#include "../MurderEngine.h"
-#include "../../external/rapidxml.hpp"
-#include "../utilities/StringUtils.h"
-#include "../utilities/ArrayUtils.h"
-#include "../utilities/Logger.h"
-#include "ColladaParser.h"
+#include "../../EngineManager.h"
+#include "../mesh_loader.h"
+#include "../../renderer/RendererApi.h"
+#include "../../../external/rapidxml.hpp"
+#include "../../utilities/StringUtils.h"
+#include "../../utilities/ArrayUtils.h"
+#include "../../utilities/Logger.h"
+#include "../../math/vectors.h"
+#include "collada_parser.h"
 
 me::log* COLLADA_LOGGER = new me::log("ColladaParser", "\e[33m[%N] %T #%M \e[0m");
 
@@ -27,12 +29,7 @@ void processEffectColors(rapidxml::xml_node<>* node, me::wcolor& wcolor)
     unsigned int colorArgsCount;
     std::string* colorArgs = utils::split(color->value(), ' ', colorArgsCount);
     wcolor.type = ME_WCOLOR_TYPE_RGBA;
-    wcolor.rgba = new me::vec4f(
-      std::stof(colorArgs[0]),
-      std::stof(colorArgs[1]),
-      std::stof(colorArgs[2]),
-      std::stof(colorArgs[3])
-    );
+    wcolor.rgba = new me::vec4f(std::stof(colorArgs[0]), std::stof(colorArgs[1]), std::stof(colorArgs[2]), std::stof(colorArgs[3]));
   }else if (texture != 0)
   {
     std::string tex = texture->first_attribute("texture")->value();
@@ -111,7 +108,7 @@ void collada::parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
       texCoordOffset = std::stoi(input_node->first_attribute("offset")->value());
     input_node = input_node->next_sibling("input");
   }
-  me::processMesh(mesh, faces, faceCount, vertexOffset, normalOffset, texCoordOffset);
+  me::processMeshFaces(mesh, faces, faceCount, vertexOffset, normalOffset, texCoordOffset);
 }
 
 void collada::parse_effects(rapidxml::xml_node<>* effect_node, me::material* material)

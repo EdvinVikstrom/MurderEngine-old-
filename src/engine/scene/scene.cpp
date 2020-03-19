@@ -1,7 +1,7 @@
 #include "scene.h"
 #include "../renderer/RendererApi.h"
 
-extern IRendererApi* RENDERER_API;
+extern IRendererApi* rendererApi;
 
 me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsigned int height, bool _3D)
 {
@@ -15,34 +15,33 @@ me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsig
 
 void me::scene::setup()
 {
-  RENDERER_API->matrix(ME_MATRIX_PROJECTION);
-  RENDERER_API->viewport(0, 0, width, height);
+  rendererApi->matrix(ME_MATRIX_PROJECTION);
+  rendererApi->viewport(0, 0, width, height);
   float aspect = (float)width/(float)height;
-  RENDERER_API->frustum(-aspect, aspect, -1, 1, 1, 10);
-  RENDERER_API->enable(ME_CULL_FACE);
-  RENDERER_API->cullFace(ME_BACK);
-  RENDERER_API->matrix(ME_MATRIX_MODELVIEW);
+  rendererApi->frustum(-aspect, aspect, -1, 1, 1, 10);
+  rendererApi->enable(ME_CULL_FACE);
+  rendererApi->cullFace(ME_BACK);
+  rendererApi->matrix(ME_MATRIX_MODELVIEW);
 }
 
 void me::scene::updateScene()
 {
-  
+
 }
 
 void me::scene::renderScene()
 {
   for (me::item* item : me::scene::items)
   {
-    RENDERER_API->loadIdentity();
-    RENDERER_API->translated(item->position.x, item->position.y, item->position.z);
-    RENDERER_API->rotated(item->rotation.x, item->rotation.y, item->rotation.z);
-    RENDERER_API->scaled(item->scale.x, item->scale.y, item->scale.z);
-    RENDERER_API->enable(ME_RENDERER_TEXTURE_2D);
-    RENDERER_API->bind(ME_RENDERER_TEXTURE_2D, item->mesh->material->surfaces)
+    rendererApi->loadIdentity();
+    rendererApi->translated(item->position.x, item->position.y, item->position.z);
+    rendererApi->rotated(item->rotation.x, item->rotation.y, item->rotation.z);
+    rendererApi->scaled(item->scale.x, item->scale.y, item->scale.z);
+    rendererApi->enable(ME_TEXTURE_2D);
     for (me::texture* tex : item->mesh->material->surfaces)
-      RENDERER_API->bind(ME_RENDERER_TEXTURE_2D, tex->image->texId);
-    RENDERER_API->renderMesh(item->mesh);
-    RENDERER_API->disable(ME_RENDERER_TEXTURE_2D);
+      rendererApi->bind(ME_TEXTURE_2D, tex->image->texId);
+    rendererApi->renderMesh(item->mesh);
+    rendererApi->disable(ME_TEXTURE_2D);
   }
 }
 void me::scene::registerItem(me::item* item)

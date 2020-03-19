@@ -9,10 +9,10 @@
 #define ME_RENDERER_POLYGONS                  0x4
 
 /* Image Stuff */
-#define ME_RENDERER_TEXTURE_2D                0x5
-#define ME_RENDERER_TEXTURE_3D                0x6
-#define ME_RENDERER_NEAREST                   0x7
-#define ME_RENDERER_LINEAR                    0x8
+#define ME_TEXTURE_2D                         0x5
+#define ME_TEXTURE_3D                         0x6
+#define ME_TEX_NEAREST                        0x7
+#define ME_TEX_LINEAR                         0x8
 
 #define ME_MATRIX_PROJECTION                  0x9
 #define ME_MATRIX_MODELVIEW                   0x10
@@ -20,6 +20,12 @@
 #define ME_CULL_FACE                          0x11
 #define ME_BACK                               0x12
 #define ME_FRONT                              0x13
+
+/* Shader Stuff */
+#define ME_SHADER_VERTEX                      0x234
+#define ME_SHADER_FRAGMENT                    0x235
+
+#include "../scene/mesh.h"
 
 class IRendererApi {
 

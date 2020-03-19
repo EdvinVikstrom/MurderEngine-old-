@@ -11,6 +11,7 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/loaders/mesh_loader.cpp
   ${SOURCE_DIR}/engine/math/vectors.cpp
   ${SOURCE_DIR}/engine/scene/scene.cpp
+  ${SOURCE_DIR}/engine/renderer/OpenGLApi.cpp
 )
 set(HEADERS ${HEADERS}
 )

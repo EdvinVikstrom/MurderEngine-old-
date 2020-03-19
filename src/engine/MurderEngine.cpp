@@ -11,7 +11,7 @@
 #include "utilities/Logger.h"
 
 std::string RENDERER_API_NAME = "opengl";
-IRendererApi* RENDERER_API;
+IRendererApi* rendererApi;
 
 std::string w_title;
 unsigned int w_width, w_height;
@@ -77,10 +77,10 @@ int me::engine_window(std::string title, unsigned int width, unsigned int height
 
 int me::engine_loop()
 {
-  RENDERER_API->initializeApi()
+  rendererApi->initializeApi();
   while(!glfwWindowShouldClose(window))
   {
-    RENDERER_API->clear();
+    rendererApi->clear();
     for (IEngineEvent* event : events)
       event->onLoop();
     for (me::scene* scene : scenes)
@@ -98,7 +98,7 @@ int me::engine_loop()
 int me::engine_setup_renderer_api(std::string apiName)
 {
   if (apiName=="opengl")
-    RENDERER_API = new OpenGLApi();
+    rendererApi = new OpenGLApi();
   else if (apiName=="vulkan") { }
   RENDERER_API_NAME = apiName;
   return 0;
@@ -107,11 +107,13 @@ int me::engine_setup_renderer_api(std::string apiName)
 int me::engine_register_scene(me::scene* scene)
 {
   scenes.push_back(scene);
+  return 1;
 }
 
 int me::engine_unregister_scene(me::scene* scene)
 {
   // TODO:
+  return 1;
 }
 
 void me::engine_window_size(unsigned int* width, unsigned int* height)

@@ -1,7 +1,7 @@
 #ifndef COLLADA_READER_H
   #define COLLADA_READER_H
 
-#include "../../external/rapidxml.hpp"
+#include "../../../external/rapidxml.hpp"
 
 namespace collada {
 
