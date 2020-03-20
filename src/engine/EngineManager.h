@@ -1,14 +1,7 @@
 #ifndef MURDER_ENGINE_MATH
   #define MURDER_ENGINE_MATH
 
-#include "scene/texture.h"
-#include "scene/material.h"
-#include "scene/mesh.h"
 #include "scene/scene.h"
-#include "scene/shader.h"
-
-#include <string>
-#include <vector>
 
 namespace me {
 

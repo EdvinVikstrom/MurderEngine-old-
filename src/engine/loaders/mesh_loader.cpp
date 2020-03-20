@@ -1,5 +1,5 @@
 #include <GL/glew.h>
-#include "../scene/mesh.h"
+#include "../scene/scene.h"
 #include "mesh_loader.h"
 #include "parsers/collada_parser.h"
 #include "../utilities/FileUtils.h"
@@ -13,9 +13,10 @@ void me::loadMesh(me::mesh* mesh, int usage)
 
   if (RENDERER_API_NAME=="opengl todo:")
   {
+    /*
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, mesh->positionCount * sizeof(float), mesh->positions, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, mesh->positions.count * sizeof(float), mesh->positions.values, GL_STATIC_DRAW);
 
 
     glEnableVertexAttribArray(0);
@@ -31,6 +32,7 @@ void me::loadMesh(me::mesh* mesh, int usage)
 
     mesh->buffer = buffer;
     mesh->indexBuffer = indexBuffer;
+    */
   }else if (RENDERER_API_NAME=="vulkan")
   {
 
@@ -39,6 +41,7 @@ void me::loadMesh(me::mesh* mesh, int usage)
 
 void me::processMeshFaces(me::mesh* mesh, unsigned int* faces, unsigned int faceCount, int vertexOffset, int normalOffset, int texCoordOffset)
 {
+  /*
   mesh->indiceCount = faceCount;
   mesh->indices = faces;
   for (int i = 0; i < faceCount; i+=3)
@@ -52,14 +55,15 @@ void me::processMeshFaces(me::mesh* mesh, unsigned int* faces, unsigned int face
     mesh->vertices.push_back(mesh->uvMap->texCoords[faces[i+texCoordOffset]].x);
     mesh->vertices.push_back(mesh->uvMap->texCoords[faces[i+texCoordOffset]].y);
   }
+  */
 }
 
-me::mesh* me::loadMeshFromFile(const char* filepath, unsigned int* meshCount)
+std::vector<me::item*> me::loadMeshFromFile(const char* filepath, unsigned int& itemCount)
 {
   unsigned int size;
   char* data = file_utils_read(filepath, size);
   unsigned int format = ME_MESH_FORMAT_COLLADA;
   if (format==ME_MESH_FORMAT_COLLADA)
-    return collada::loadColladaFile(data, size, meshCount);
-  return nullptr;
+    return collada::loadColladaFile(data, size, itemCount);
+  return {};
 }

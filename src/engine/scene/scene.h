@@ -1,32 +1,28 @@
 #ifndef SCENE_H
   #define SCENE_H
 
-#include "../math/vectors.h"
-#include "mesh.h"
-#include "camera.h"
-#include "material.h"
-#include "texture.h"
-#include "light.h"
+
 #include <vector>
+#include <map>
+#include <string>
+#include "../math/vectors.h"
+/* Only include these with scene.h */
+#include "texture.h"
+#include "shader.h"
+#include "material.h"
+#include "item.h"
+#include "camera.h"
+#include "light.h"
+#include "mesh.h"
 
 namespace me {
 
-  struct item {
-    std::string identifier;
-    me::vec3d position;
-    me::vec3d rotation;
-    me::vec3d scale;
-
-    ~item() { }
-
-  };
-
   struct scene_content {
-    std::vector<camera*> cameras;
-    std::vector<material*> materials;
-    std::vector<texture*> textures;
-    std::vector<mesh*> meshes;
-    std::vector<light*> lights;
+    std::map<std::string, camera*> cameras;
+    std::map<std::string, material*> materials;
+    std::map<std::string, texture*> textures;
+    std::map<std::string, mesh*> meshes;
+    std::map<std::string, light*> lights;
   };
 
   class scene {

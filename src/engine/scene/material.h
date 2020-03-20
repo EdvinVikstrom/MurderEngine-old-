@@ -1,9 +1,6 @@
 #ifndef MATERIAL_H
   #define MATERIAL_H
 
-#include "texture.h"
-#include <vector>
-
 namespace me {
 
   struct material {

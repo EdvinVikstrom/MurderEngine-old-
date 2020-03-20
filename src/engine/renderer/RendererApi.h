@@ -25,7 +25,7 @@
 #define ME_SHADER_VERTEX                      0x234
 #define ME_SHADER_FRAGMENT                    0x235
 
-#include "../scene/mesh.h"
+#include "../scene/scene.h"
 
 class IRendererApi {
 

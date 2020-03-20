@@ -2,7 +2,8 @@
 #include <string>
 #include "../utilities/StringUtils.h"
 #include "../utilities/FileUtils.h"
-#include "../scene/texture.h"
+#include "../math/vectors.h"
+  #include "../scene/texture.h"
 #include "../renderer/RendererApi.h"
 #include "formats.h"
 #include "ImageReader.h"

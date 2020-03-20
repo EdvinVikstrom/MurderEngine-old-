@@ -302,6 +302,33 @@ src/engine/loaders/parsers/collada_parser.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.s
 .PHONY : src/engine/loaders/parsers/collada_parser.cpp.s
 
+src/engine/math/maths.o: src/engine/math/maths.cpp.o
+
+.PHONY : src/engine/math/maths.o
+
+# target to build an object file
+src/engine/math/maths.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o
+.PHONY : src/engine/math/maths.cpp.o
+
+src/engine/math/maths.i: src/engine/math/maths.cpp.i
+
+.PHONY : src/engine/math/maths.i
+
+# target to preprocess a source file
+src/engine/math/maths.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.i
+.PHONY : src/engine/math/maths.cpp.i
+
+src/engine/math/maths.s: src/engine/math/maths.cpp.s
+
+.PHONY : src/engine/math/maths.s
+
+# target to generate assembly for a file
+src/engine/math/maths.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.s
+.PHONY : src/engine/math/maths.cpp.s
+
 src/engine/math/vectors.o: src/engine/math/vectors.cpp.o
 
 .PHONY : src/engine/math/vectors.o
@@ -518,6 +545,9 @@ help:
 	@echo "... src/engine/loaders/parsers/collada_parser.o"
 	@echo "... src/engine/loaders/parsers/collada_parser.i"
 	@echo "... src/engine/loaders/parsers/collada_parser.s"
+	@echo "... src/engine/math/maths.o"
+	@echo "... src/engine/math/maths.i"
+	@echo "... src/engine/math/maths.s"
 	@echo "... src/engine/math/vectors.o"
 	@echo "... src/engine/math/vectors.i"
 	@echo "... src/engine/math/vectors.s"

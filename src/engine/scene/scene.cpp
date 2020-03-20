@@ -34,15 +34,15 @@ void me::scene::updateScene()
 
 void me::scene::renderScene()
 {
-  for (me::item* item : me::scene::items)
+  for (me::item* i : me::scene::items)
   {
+    mesh_item* item = (mesh_item*) i;
     rendererApi->loadIdentity();
-    rendererApi->translated(item->position.x, item->position.y, item->position.z);
-    rendererApi->rotated(item->rotation.x, item->rotation.y, item->rotation.z);
-    rendererApi->scaled(item->scale.x, item->scale.y, item->scale.z);
+    rendererApi->translated(item->position->x, item->position->y, item->position->z);
+    rendererApi->rotated(item->rotation->x, item->rotation->y, item->rotation->z);
+    rendererApi->scaled(item->scale->x, item->scale->y, item->scale->z);
     rendererApi->enable(ME_TEXTURE_2D);
-    for (me::texture* tex : item->mesh->material->surfaces)
-      rendererApi->bind(ME_TEXTURE_2D, tex->image->texId);
+    rendererApi->bind(ME_TEXTURE_2D, item->mesh->material->rgba.texture->image->texId);
     rendererApi->renderMesh(item->mesh);
     rendererApi->disable(ME_TEXTURE_2D);
   }

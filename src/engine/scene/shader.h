@@ -1,8 +1,6 @@
 #ifndef SHADER_H
   #define SHADER_H
 
-#include <string>
-
 namespace me {
 
   struct shader {

@@ -4,52 +4,82 @@
 CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/Main.cpp
 CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/MurderEngine.h
 CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/loaders/mesh_loader.h
+CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/math/vectors.h
+CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/scene/camera.h
+CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/scene/item.h
+CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/scene/light.h
 CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/scene/material.h
 CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/scene/mesh.h
 CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/scene/scene.h
+CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/scene/shader.h
 CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/scene/texture.h
+CMakeFiles/MurderEngine.dir/src/Main.cpp.o: src/engine/utilities/ArrayUtils.h
 
 CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/EngineManager.cpp
 CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/EngineManager.h
+CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/math/vectors.h
+CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/scene/camera.h
+CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/scene/item.h
+CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/scene/light.h
 CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/scene/material.h
 CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/scene/mesh.h
 CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/scene/scene.h
 CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/scene/shader.h
 CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/scene/texture.h
+CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o: src/engine/utilities/ArrayUtils.h
 
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/EngineManager.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/MurderEngine.cpp
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/MurderEngine.h
+CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/math/vectors.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/renderer/OpenGLApi.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/renderer/RendererApi.h
+CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/scene/camera.h
+CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/scene/item.h
+CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/scene/light.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/scene/material.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/scene/mesh.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/scene/scene.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/scene/shader.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/scene/texture.h
+CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/utilities/ArrayUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o: src/engine/utilities/Logger.h
 
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/loaders/ImageReader.cpp
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/loaders/ImageReader.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/loaders/formats.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/math/vectors.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/renderer/RendererApi.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/scene/camera.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/scene/item.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/scene/light.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/scene/material.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/scene/mesh.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/scene/scene.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/scene/shader.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/scene/texture.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/utilities/ArrayUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/utilities/FileUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o: src/engine/utilities/StringUtils.h
 
 CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/loaders/mesh_loader.cpp
 CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/loaders/mesh_loader.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/loaders/parsers/collada_parser.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/math/vectors.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/scene/camera.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/scene/item.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/scene/light.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/scene/material.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/scene/mesh.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/scene/scene.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/scene/shader.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/scene/texture.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/utilities/ArrayUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/engine/utilities/FileUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o: src/external/rapidxml.hpp
 
@@ -57,8 +87,12 @@ CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/loaders/mesh_loader.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/loaders/parsers/collada_parser.cpp
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/loaders/parsers/collada_parser.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/math/vectors.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/renderer/RendererApi.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/scene/camera.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/scene/item.h
+CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/scene/light.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/scene/material.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/scene/mesh.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/scene/scene.h
@@ -69,24 +103,41 @@ CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/engine/utilities/StringUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o: src/external/rapidxml.hpp
 
+CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o: src/engine/math/maths.cpp
+CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o: src/engine/math/maths.h
+
+CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o: src/engine/math/vectors.cpp
 CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o: src/engine/math/vectors.h
 
+CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/math/vectors.h
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/renderer/OpenGLApi.cpp
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/renderer/OpenGLApi.h
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/renderer/RendererApi.h
+CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/scene/camera.h
+CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/scene/item.h
+CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/scene/light.h
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/scene/material.h
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/scene/mesh.h
+CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/scene/scene.h
+CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/scene/shader.h
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/scene/texture.h
+CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/utilities/ArrayUtils.h
 
+CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/math/vectors.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/renderer/RendererApi.h
+CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/camera.h
+CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/item.h
+CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/light.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/material.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/mesh.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/scene.cpp
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/scene.h
+CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/shader.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/texture.h
+CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/utilities/ArrayUtils.h
 
 CMakeFiles/MurderEngine.dir/src/engine/utilities/ArrayUtils.cpp.o: src/engine/utilities/ArrayUtils.cpp
 CMakeFiles/MurderEngine.dir/src/engine/utilities/ArrayUtils.cpp.o: src/engine/utilities/ArrayUtils.h

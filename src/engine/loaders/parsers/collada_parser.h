@@ -1,9 +1,8 @@
 #ifndef COLLADA_READER_H
   #define COLLADA_READER_H
 
-#include <string>
 #include "../../../external/rapidxml.hpp"
-#include "../../scene/texture.h"
+#include "../../scene/scene.h"
 
 namespace collada {
 
@@ -22,22 +21,23 @@ namespace collada {
 
   struct param {
     std::string sid;
-    std::vector<me::node*> node;
+    std::vector<collada::node_tree*> nodes;
   };
 
   struct effect {
     std::string identifier;
-    std::vector<param> params;
+    std::vector<param*> params;
     me::wcolor emission, diffuse, reflectivity, transparent, index_of_refraction;
   };
 
-  void parse_mesh(rapidxml::xml_node<>* mesh_node, me::mesh* mesh);
-  void parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh);
-  void parse_effect(rapidxml::xml_node<>* effect_node, me::effect* effect);
-  void parse_camera(rapidxml::xml_node<>* camera_node, me::camera* camera);
-  void parse_light(rapidxml::xml_node<>* light_node, me::light* light);
+  bool parse_mesh(rapidxml::xml_node<>* mesh_node, me::mesh* mesh);
+  bool parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh);
+  bool parse_effect(rapidxml::xml_node<>* effect_node, collada::effect* effect);
+  bool parse_camera(rapidxml::xml_node<>* camera_node, me::camera* camera);
+  bool parse_light(rapidxml::xml_node<>* light_node, me::light* light);
+  bool parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string, me::camera*> &cameras, std::map<std::string, me::light*> &lights, std::map<std::string, me::texture*> &textures, std::map<std::string, collada::effect*> &effects, std::map<std::string, me::material*> &materials, std::map<std::string, me::mesh*> &meshes, std::vector<me::item*> &items);
 
-  me::scene_content* collada::loadColladaFile(char* data, unsigned int size, unsigned int& itemCount);
+  std::vector<me::item*> loadColladaFile(char* data, unsigned int size, unsigned int& itemCount);
 
 };
 

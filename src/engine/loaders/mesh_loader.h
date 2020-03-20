@@ -10,7 +10,7 @@ namespace me {
 
   void loadMesh(me::mesh* mesh, int usage);
   void processMeshFaces(me::mesh* mesh, unsigned int* faces, unsigned int faceCount, int vertexOffset, int normalOffset, int texCoordOffset);
-  me::mesh* loadMeshFromFile(const char* filepath, unsigned int* meshCount);
+  std::vector<me::item*> loadMeshFromFile(const char* filepath, unsigned int& itemCount);
 
 };
 

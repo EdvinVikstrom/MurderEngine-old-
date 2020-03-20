@@ -5,17 +5,14 @@
 #define ME_WCOLOR_TYPE_RGBA                    0x128
 #define ME_WCOLOR_TYPE_TEXTURE                 0x256
 
-#include <string>
-#include "../math/vectors.h"
-
 namespace me {
 
   struct uvMap {
     std::string identifier;
     unsigned int count;
-    vec2f* texCoords;
+    me::vec2f* texCoords;
 
-    uvMap(std::string identifier, unsigned int count, vec2f* texCoords)
+    uvMap(std::string identifier, unsigned int count, me::vec2f* texCoords)
     {
       this->identifier = identifier;
       this->count = count;
