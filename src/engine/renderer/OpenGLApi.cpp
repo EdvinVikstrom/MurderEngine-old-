@@ -20,7 +20,9 @@ static const unsigned int ARGS[] {
 
   GL_CULL_FACE,
   GL_BACK,
-  GL_FRONT
+  GL_FRONT,
+
+  GL_DEPTH_TEST
 };
 
 OpenGLApi::OpenGLApi()
@@ -35,7 +37,9 @@ OpenGLApi::~OpenGLApi()
 
 int OpenGLApi::initializeApi()
 {
-  return glewInit();
+  glewInit();
+  glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
+  return 1;
 }
 
 int OpenGLApi::enable(int a)
@@ -69,6 +73,15 @@ int OpenGLApi::clear()
 int OpenGLApi::renderMesh(me::mesh* mesh)
 {
   // TODO:
+  glColor3f(1.0F, 0.0F, 0.0F);
+  glBegin(GL_TRIANGLES);
+  for (unsigned int i = 0; i < mesh->vertices.size(); i+=8)
+  {
+    glTexCoord2f(mesh->vertices[i+6], mesh->vertices[i+7]);
+    glNormal3f(mesh->vertices[i+3], mesh->vertices[i+4], mesh->vertices[i+5]);
+    glVertex3f(mesh->vertices[i], mesh->vertices[i+1], mesh->vertices[i+2]);
+  }
+  glEnd();
   return 1;
 }
 int OpenGLApi::bind(int type, unsigned int bind)
@@ -196,7 +209,7 @@ int OpenGLApi::scaled(double x, double y, double z)
 /* Matrix */
 int OpenGLApi::matrix(int matrix)
 {
-  glMatrixMode(matrix);
+  glMatrixMode(ARGS[matrix]);
   return 1;
 }
 
@@ -229,6 +242,6 @@ int OpenGLApi::loadIdentity()
 }
 int OpenGLApi::cullFace(int face)
 {
-  glCullFace(face);
+  glCullFace(ARGS[face]);
   return 1;
 }

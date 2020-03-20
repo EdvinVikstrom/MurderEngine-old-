@@ -30,7 +30,7 @@ namespace me {
 
   struct camera_item : item {
     me::camera* camera;
-    camera_item(std::string identifier, me::vec3d* position, me::vec3d* rotation, me::vec3d* scale, me::camera* camera) : item(identifier, position, rotation, scale)
+    camera_item(std::string identifier, me::vec3d* position, me::vec3d* rotation, me::vec3d* scale, me::camera* camera) : item(ME_ITEM_TYPE_CAMERA, identifier, position, rotation, scale)
     {
       this->camera = camera;
     }

@@ -17,11 +17,12 @@ me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsig
 
 void me::scene::setup()
 {
-  std::cout << "tjenare\n";
   rendererApi->matrix(ME_MATRIX_PROJECTION);
   rendererApi->viewport(0, 0, width, height);
   float aspect = (float)width/(float)height;
-  rendererApi->frustum(-aspect, aspect, -1, 1, 1, 10);
+  rendererApi->frustum(-aspect, aspect, -1, 1, 0.1, 100);
+  //rendererApi->ortho(-aspect, aspect, -1, 1, -10, 10);
+  rendererApi->enable(ME_DEPTH_TEST);
   rendererApi->enable(ME_CULL_FACE);
   rendererApi->cullFace(ME_BACK);
   rendererApi->matrix(ME_MATRIX_MODELVIEW);
@@ -32,19 +33,25 @@ void me::scene::updateScene()
 
 }
 
+double rot = 0;
+
 void me::scene::renderScene()
 {
   for (me::item* i : me::scene::items)
   {
+    if (i->type != ME_ITEM_TYPE_MESH)
+      continue;
     mesh_item* item = (mesh_item*) i;
     rendererApi->loadIdentity();
     rendererApi->translated(item->position->x, item->position->y, item->position->z);
-    rendererApi->rotated(item->rotation->x, item->rotation->y, item->rotation->z);
+    //rendererApi->rotated(item->rotation->x, item->rotation->y, item->rotation->z);
     rendererApi->scaled(item->scale->x, item->scale->y, item->scale->z);
+    rendererApi->rotated(0, rot, 0);
     rendererApi->enable(ME_TEXTURE_2D);
-    rendererApi->bind(ME_TEXTURE_2D, item->mesh->material->rgba.texture->image->texId);
+    //rendererApi->bind(ME_TEXTURE_2D, item->mesh->material->rgba.texture->image->texId);
     rendererApi->renderMesh(item->mesh);
     rendererApi->disable(ME_TEXTURE_2D);
+    rot+=0.5D;
   }
 }
 void me::scene::registerItem(me::item* item)

@@ -8,15 +8,15 @@ namespace me {
   struct mesh {
     std::string identifier;
     unsigned int buffer, indexBuffer;
-    utils::array<float>* vertices;
-    utils::array<unsigned int>* indices;
-    utils::array<me::vec3f>* positions;
-    utils::array<me::vec3f>* normals;
-    me::uvMap* uvMap; // default uvMap
+    std::vector<float> vertices;
+    std::vector<unsigned int> indices;
+    std::vector<me::vec3f> positions;
+    std::vector<me::vec3f> normals;
+    std::vector<me::vec2f> texCoords;
     me::material* material;
 
-    mesh(std::string identifier, unsigned int buffer, unsigned int indexBuffer, utils::array<float>* vertices, utils::array<unsigned int>* indices,
-    utils::array<me::vec3f>* positions, utils::array<me::vec3f>* normals, me::uvMap* uvMap, me::material* material)
+    mesh(std::string identifier, unsigned int buffer, unsigned int indexBuffer, std::vector<float> vertices,std::vector<unsigned int> indices,
+    std::vector<me::vec3f> positions, std::vector<me::vec3f> normals, std::vector<me::vec2f> texCoords, me::material* material)
     {
       this->identifier = identifier;
       this->buffer = buffer;
@@ -25,7 +25,7 @@ namespace me {
       this->indices = indices;
       this->positions = positions;
       this->normals = normals;
-      this->uvMap = uvMap;
+      this->texCoords = texCoords;
       this->material = material;
     }
 
@@ -41,7 +41,7 @@ namespace me {
   struct mesh_item : item {
     me::mesh* mesh;
     mesh_item(std::string identifier, me::vec3d* position, me::vec3d* rotation, me::vec3d* scale, me::mesh* mesh) :
-    item(identifier, position, rotation, scale)
+    item(ME_ITEM_TYPE_MESH, identifier, position, rotation, scale)
     {
       this->mesh = mesh;
     }

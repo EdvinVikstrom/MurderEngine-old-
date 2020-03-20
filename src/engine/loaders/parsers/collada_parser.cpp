@@ -82,18 +82,18 @@ bool collada::parse_mesh(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
     std::string sourceId = source->first_attribute("id")->value();
     if (utils::endsWith(sourceId, "positions"))
     {
-      mesh->positions = new utils::array<me::vec3f>(count/3, new me::vec3f[count/3]);
-      me::toVec3f(array, mesh->positions->values, count);
+      mesh->positions.reserve(count/3);
+      me::toVec3f(array, &mesh->positions[0], count);
     }
     if (utils::endsWith(sourceId, "normals"))
     {
-      mesh->normals = new utils::array<me::vec3f>(count/3, new me::vec3f[count/3]);
-      me::toVec3f(array, mesh->normals->values, count);
+      mesh->normals.reserve(count/3);
+      me::toVec3f(array, &mesh->normals[0], count);
     }
     if (utils::endsWith(sourceId, "map-0"))
     {
-      mesh->uvMap = new me::uvMap("uvMap", count/2, new me::vec2f[count/2]);
-      me::toVec2f(array, mesh->uvMap->texCoords, count);
+      mesh->texCoords.reserve(count/2);
+      me::toVec2f(array, &mesh->texCoords[0], count);
     }
     source = source->next_sibling("source");
   }
@@ -104,10 +104,14 @@ bool collada::parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
 {
   rapidxml::xml_node<>* triangles_node = mesh_node->first_node("triangles");
   unsigned int faceCount = std::stoi(triangles_node->first_attribute("count")->value());
-  unsigned int* faces = new unsigned int[faceCount*9]; // 9 = x(v,n,t) = 3 + y(v,n,t) = 3 + z(v,n,t) = 3
-  utils::processStringArray(triangles_node->first_node("p")->value(), [&](unsigned int index, std::string arg) {
-    faces[index] = std::stoi(arg);
-  });
+  //utils::processStringArray(triangles_node->first_node("p")->value(), [&](unsigned int index, std::string arg) {
+    //faces[index] = std::stoi(arg);
+  //});
+  unsigned int argCount;
+  std::string* faceArgs = utils::split(triangles_node->first_node("p")->value(), ' ', argCount);
+  unsigned int* faces = new unsigned int[argCount];
+  for (int i = 0; i < argCount; i++)
+    faces[i] = std::stoi(faceArgs[i]);
   rapidxml::xml_node<>* input_node = triangles_node->first_node("input");
   int vertexOffset, normalOffset, texCoordOffset;
   while(input_node != 0)
@@ -121,7 +125,7 @@ bool collada::parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
       texCoordOffset = std::stoi(input_node->first_attribute("offset")->value());
     input_node = input_node->next_sibling("input");
   }
-  me::processMeshFaces(mesh, faces, faceCount, vertexOffset, normalOffset, texCoordOffset);
+  me::processMeshFaces(mesh, faces, argCount, vertexOffset, normalOffset, texCoordOffset);
   return true;
 }
 
@@ -347,7 +351,7 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
     }
   }
 
-  if (library_effects != 0)
+  if (library_geometries != 0)
   {
     /* geometry */
     rapidxml::xml_node<>* geometry = library_geometries->first_node("geometry");

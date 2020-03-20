@@ -14,10 +14,12 @@ int main()
   me::engine_register_scene(scene);
 
   unsigned int itemCount;
-  me::item* item = me::loadMeshFromFile("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/test3.dae", itemCount).at(0);
+  std::vector<me::item*> items = me::loadMeshFromFile("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/test3.dae", itemCount);
   //me::loadMesh(mesh, ME_MESH_USAGE_STATIC);
   //me::item* item = new me::mesh_item("ett fint item", new me::vec3d(0, 0, -4), new me::vec3d(0, 0, 0), new me::vec3d(0, 0, 0), mesh);
-  scene->registerItem(item);
+  scene->setup();
+  for (me::item* item : items)
+    scene->registerItem(item);
 
   /* Starts the engine */
   me::engine_loop();

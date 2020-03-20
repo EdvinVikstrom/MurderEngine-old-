@@ -2,28 +2,30 @@
   #define RENDERER_API
 
 /* Render Shape Type Thing */
-#define ME_RENDERER_TRIANGLES                 0x0
-#define ME_RENDERER_QUADS                     0x1
-#define ME_RENDERER_TRIANGLE_STRIP            0x2
-#define ME_RENDERER_QUAD_STRIP                0x3
-#define ME_RENDERER_POLYGONS                  0x4
+#define ME_RENDERER_TRIANGLES                 0
+#define ME_RENDERER_QUADS                     1
+#define ME_RENDERER_TRIANGLE_STRIP            2
+#define ME_RENDERER_QUAD_STRIP                3
+#define ME_RENDERER_POLYGONS                  4
 
 /* Image Stuff */
-#define ME_TEXTURE_2D                         0x5
-#define ME_TEXTURE_3D                         0x6
-#define ME_TEX_NEAREST                        0x7
-#define ME_TEX_LINEAR                         0x8
+#define ME_TEXTURE_2D                         5
+#define ME_TEXTURE_3D                         6
+#define ME_TEX_NEAREST                        7
+#define ME_TEX_LINEAR                         8
 
-#define ME_MATRIX_PROJECTION                  0x9
-#define ME_MATRIX_MODELVIEW                   0x10
+#define ME_MATRIX_PROJECTION                  9
+#define ME_MATRIX_MODELVIEW                   10
 
-#define ME_CULL_FACE                          0x11
-#define ME_BACK                               0x12
-#define ME_FRONT                              0x13
+#define ME_CULL_FACE                          11
+#define ME_BACK                               12
+#define ME_FRONT                              13
+
+#define ME_DEPTH_TEST                         14
 
 /* Shader Stuff */
-#define ME_SHADER_VERTEX                      0x234
-#define ME_SHADER_FRAGMENT                    0x235
+#define ME_SHADER_VERTEX                      234
+#define ME_SHADER_FRAGMENT                    235
 
 #include "../scene/scene.h"
 

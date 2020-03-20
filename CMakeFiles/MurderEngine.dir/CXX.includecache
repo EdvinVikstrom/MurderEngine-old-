@@ -6,50 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/EngineManager.h
-scene/scene.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/mesh_loader.cpp
-GL/glew.h
--
-../scene/scene.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
-mesh_loader.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/mesh_loader.h
-parsers/collada_parser.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/parsers/collada_parser.h
-../utilities/FileUtils.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/FileUtils.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/mesh_loader.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/parsers/collada_parser.cpp
-iostream
--
-../../EngineManager.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/EngineManager.h
-../mesh_loader.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/mesh_loader.h
-../../renderer/RendererApi.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
-../../../external/rapidxml.hpp
-/home/edvinskomputa/Dokument/OnePunchEngine/src/external/rapidxml.hpp
-../../utilities/StringUtils.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/StringUtils.h
-../../utilities/ArrayUtils.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
-../../utilities/Logger.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
-collada_parser.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/parsers/collada_parser.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/parsers/collada_parser.h
-../../../external/rapidxml.hpp
-/home/edvinskomputa/Dokument/OnePunchEngine/src/external/rapidxml.hpp
-../../scene/scene.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
-
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
@@ -57,6 +13,16 @@ cmath
 -
 maths.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.cpp
+GL/glew.h
+-
+OpenGLApi.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.h
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.h
+RendererApi.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
 ../scene/scene.h
@@ -73,6 +39,14 @@ maths.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/mesh.h
 ../utilities/ArrayUtils.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.cpp
+scene.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
+../renderer/RendererApi.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
+iostream
+-
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
 vector
@@ -106,21 +80,5 @@ mesh.h
 functional
 -
 iostream
--
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/FileUtils.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/StringUtils.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/external/rapidxml.hpp
-cstdlib
--
-cassert
--
-new
--
-exception
 -
 

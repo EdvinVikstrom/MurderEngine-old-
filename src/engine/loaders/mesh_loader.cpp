@@ -4,6 +4,8 @@
 #include "parsers/collada_parser.h"
 #include "../utilities/FileUtils.h"
 
+#include <iostream> // remove
+
 extern std::string RENDERER_API_NAME;
 
 void me::loadMesh(me::mesh* mesh, int usage)
@@ -41,21 +43,21 @@ void me::loadMesh(me::mesh* mesh, int usage)
 
 void me::processMeshFaces(me::mesh* mesh, unsigned int* faces, unsigned int faceCount, int vertexOffset, int normalOffset, int texCoordOffset)
 {
-  /*
-  mesh->indiceCount = faceCount;
-  mesh->indices = faces;
   for (int i = 0; i < faceCount; i+=3)
   {
+    mesh->indices.push_back(faces[i]);
+    mesh->indices.push_back(faces[i+1]);
+    mesh->indices.push_back(faces[i+2]);
+
     mesh->vertices.push_back(mesh->positions[faces[i+vertexOffset]].x);
     mesh->vertices.push_back(mesh->positions[faces[i+vertexOffset]].y);
     mesh->vertices.push_back(mesh->positions[faces[i+vertexOffset]].z);
     mesh->vertices.push_back(mesh->normals[faces[i+normalOffset]].x);
     mesh->vertices.push_back(mesh->normals[faces[i+normalOffset]].y);
     mesh->vertices.push_back(mesh->normals[faces[i+normalOffset]].z);
-    mesh->vertices.push_back(mesh->uvMap->texCoords[faces[i+texCoordOffset]].x);
-    mesh->vertices.push_back(mesh->uvMap->texCoords[faces[i+texCoordOffset]].y);
+    mesh->vertices.push_back(mesh->texCoords[faces[i+texCoordOffset]].x);
+    mesh->vertices.push_back(mesh->texCoords[faces[i+texCoordOffset]].y);
   }
-  */
 }
 
 std::vector<me::item*> me::loadMeshFromFile(const char* filepath, unsigned int& itemCount)
