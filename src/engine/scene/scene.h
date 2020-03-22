@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include "../math/vectors.h"
+#include "../MurderEngine.h"
 /* Only include these with scene.h */
 #include "texture.h"
 #include "shader.h"
@@ -25,7 +26,7 @@ namespace me {
     std::map<std::string, light*> lights;
   };
 
-  class scene {
+  class scene : public me::IEngineEvent {
 
   private:
 
@@ -33,17 +34,23 @@ namespace me {
     int x, y;
     unsigned int width, height;
     bool _3D;
+    unsigned int shader;
+    me::camera* camera;
 
     std::vector<me::item*> items;
 
   public:
 
-    scene(std::string identifier, int x, int y, unsigned int width, unsigned int height, bool _3D);
+    scene(std::string identifier, int x, int y, unsigned int width, unsigned int height, bool _3D, unsigned int shader);
+
+    void onRender();
+    void onLoop();
+
+    void onMouseInput(int action, double posX, double posY, int button);
+    void onKeyInput(int action, int key);
 
     virtual void setup();
 
-    virtual void updateScene();
-    virtual void renderScene();
     virtual void registerItem(me::item* item);
     virtual void unregisterItem(std::string identifier);
     virtual me::item* getItem(std::string identifier);

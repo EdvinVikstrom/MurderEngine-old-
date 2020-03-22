@@ -204,9 +204,22 @@ CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/mesh_loader.cpp -o CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.s
 
+CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
+CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o: src/engine/loaders/shader_loader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/shader_loader.cpp
+
+CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/shader_loader.cpp > CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.i
+
+CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/shader_loader.cpp -o CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.s
+
 CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
 CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o: src/engine/math/vectors.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.cpp
 
 CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.i: cmake_force
@@ -219,7 +232,7 @@ CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.s: cmake_force
 
 CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
 CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o: src/engine/math/maths.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.cpp
 
 CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.i: cmake_force
@@ -232,7 +245,7 @@ CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.s: cmake_force
 
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o: src/engine/scene/scene.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.cpp
 
 CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.i: cmake_force
@@ -245,7 +258,7 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.s: cmake_force
 
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o: src/engine/renderer/OpenGLApi.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.cpp
 
 CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.i: cmake_force
@@ -268,6 +281,7 @@ MurderEngine_OBJECTS = \
 "CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o" \
+"CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o" \
@@ -286,6 +300,7 @@ MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/utilities/ArrayUtils.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o
+MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o
@@ -295,7 +310,7 @@ MurderEngine: /usr/lib/librt.so
 MurderEngine: /usr/lib/libm.so
 MurderEngine: /usr/lib/libX11.so
 MurderEngine: CMakeFiles/MurderEngine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable MurderEngine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable MurderEngine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MurderEngine.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

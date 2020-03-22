@@ -21,6 +21,8 @@ public:
   /* Render Stuff */
   int clear();
 
+  int shader(unsigned int shader);
+
   int renderMesh(me::mesh* mesh);
   int bind(int type, unsigned int bind);
 
@@ -58,11 +60,16 @@ public:
   int viewport(int x, int y, unsigned int width, unsigned int height);
   int ortho(double left, double right, double bottom, double top, double znear, double zfar);
   int frustum(double left, double right, double bottom, double top, double znear, double zfar);
-  int perspective(double left, double right, double bottom, double top, double znear, double zfar);
+  int perspective(double fov, double aspect, double znear, double zfar);
 
   /* Other Stuff */
   int loadIdentity();
+  int pushMatrix();
+  int popMatrix();
   int cullFace(int face);
+  int useAlpha(bool alpha);
+
+  int line(me::vec4f &color, me::vec3d &from, me::vec3d &to);
 
 };
 

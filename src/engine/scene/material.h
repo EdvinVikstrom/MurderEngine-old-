@@ -6,9 +6,9 @@ namespace me {
   struct material {
 
     std::string identifier;
-    wcolor rgba, gloss, metallic, roughness, emission, ior;
+    wcolor *rgba, *gloss, *metallic, *roughness, *emission, *ior;
 
-    material(std::string identifier, wcolor rgba, wcolor gloss, wcolor metallic, wcolor roughness, wcolor emission, wcolor ior)
+    material(std::string identifier, wcolor* rgba, wcolor* gloss, wcolor* metallic, wcolor* roughness, wcolor* emission, wcolor* ior)
     {
       this->identifier = identifier;
       this->rgba = rgba;

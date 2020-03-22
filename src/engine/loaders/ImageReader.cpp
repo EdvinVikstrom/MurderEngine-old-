@@ -13,6 +13,11 @@ me::image* readPNG(char* data, unsigned int size)
   return nullptr;
 }
 
+me::image* readBMP(char* data, unsigned int size)
+{
+  return nullptr;
+}
+
 me::image* readRAW(char* data, unsigned int size)
 {
   short width = ((data[1]&0xFF)) | ((data[0]&0xFF) << 8);
@@ -45,6 +50,10 @@ me::image* me::loadImage(const char* path, unsigned int format)
   me::image* image = nullptr;
   if (format==ME_FILE_FORMAT_RAW)
     image = readRAW(data, size);
+  else if (format==ME_FILE_FORMAT_BMP)
+    image = readBMP(data, size);
+  else if (format==ME_FILE_FORMAT_PNG)
+    image = readPNG(data, size);
   image->texId = createImageId(image);
   return image;
 }

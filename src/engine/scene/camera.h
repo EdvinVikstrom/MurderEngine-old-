@@ -8,15 +8,18 @@ namespace me {
 
   struct camera {
     std::string identifier;
+    me::vec3d position, rotation;
     unsigned int type; // TODO: Find the right name
     float aspectRatio;
     /* FOV (Field Of View) */
     float focalLength;
     double znear, zfar;
 
-    camera(std::string identifier, unsigned int type, float aspectRatio, float focalLength, double znear, double zfar)
+    camera(std::string identifier, me::vec3d position, me::vec3d rotation, unsigned int type, float aspectRatio, float focalLength, double znear, double zfar)
     {
       this->identifier = identifier;
+      this->position = position;
+      this->rotation = rotation;
       this->type = type;
       this->aspectRatio = aspectRatio;
       this->focalLength = focalLength;

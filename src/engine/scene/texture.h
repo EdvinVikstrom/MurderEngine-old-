@@ -3,7 +3,7 @@
 
 #define ME_WCOLOR_TYPE_FLOAT                   0x32
 #define ME_WCOLOR_TYPE_RGBA                    0x128
-#define ME_WCOLOR_TYPE_TEXTURE                 0x256
+#define ME_WCOLOR_TYPE_IMAGE                   0x256
 
 namespace me {
 
@@ -73,7 +73,26 @@ namespace me {
     unsigned int type;
     float v_float;
     me::vec4f* rgba;
-    me::texture* texture;
+    me::image* image;
+    wcolor(me::image* image)
+    {
+      type = ME_WCOLOR_TYPE_IMAGE;
+      this->image = image;
+    }
+    wcolor(me::vec4f* rgba)
+    {
+      type = ME_WCOLOR_TYPE_RGBA;
+      this->rgba = rgba;
+    }
+    wcolor(float v_float)
+    {
+      type = ME_WCOLOR_TYPE_FLOAT;
+      this->v_float = v_float;
+    }
+    wcolor()
+    {
+      
+    }
   };
 
 };

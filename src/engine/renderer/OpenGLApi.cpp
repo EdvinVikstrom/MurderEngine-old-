@@ -1,4 +1,5 @@
 #include <GL/glew.h>
+#include <GL/glu.h>
 #include "OpenGLApi.h"
 
 // TODO: Fix error handling (return glGetError())
@@ -9,6 +10,9 @@ static const unsigned int ARGS[] {
   GL_TRIANGLE_STRIP,
   GL_QUAD_STRIP,
   GL_POLYGON,
+  GL_LINES,
+  GL_LINE_STRIP,
+  GL_LINE_LOOP,
 
   GL_TEXTURE_2D,
   GL_TEXTURE_3D,
@@ -21,6 +25,7 @@ static const unsigned int ARGS[] {
   GL_CULL_FACE,
   GL_BACK,
   GL_FRONT,
+  GL_FRONT_AND_BACK,
 
   GL_DEPTH_TEST
 };
@@ -70,18 +75,29 @@ int OpenGLApi::clear()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   return 1;
 }
+int OpenGLApi::shader(unsigned int shader)
+{
+  glUseProgram(shader);
+  return 1;
+}
 int OpenGLApi::renderMesh(me::mesh* mesh)
 {
   // TODO:
-  glColor3f(1.0F, 0.0F, 0.0F);
+
+  glBindVertexArray(mesh->VAO);
+  glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, nullptr);
+  glBindVertexArray(0);
+
+  /*
   glBegin(GL_TRIANGLES);
-  for (unsigned int i = 0; i < mesh->vertices.size(); i+=8)
+  for (int i = 0; i < mesh->vertices.size(); i+=8)
   {
     glTexCoord2f(mesh->vertices[i+6], mesh->vertices[i+7]);
     glNormal3f(mesh->vertices[i+3], mesh->vertices[i+4], mesh->vertices[i+5]);
     glVertex3f(mesh->vertices[i], mesh->vertices[i+1], mesh->vertices[i+2]);
   }
   glEnd();
+  */
   return 1;
 }
 int OpenGLApi::bind(int type, unsigned int bind)
@@ -157,6 +173,14 @@ int OpenGLApi::renderVertex3d(double x, double y, double z)
   glVertex3d(x, y, z);
   return 1;
 }
+int OpenGLApi::light()
+{
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+  glEnable(GL_LIGHT0);
+  glEnable(GL_LIGHTING);
+  return 1;
+}
 
 /* Transformation */
 int OpenGLApi::translatef(float x, float y, float z)
@@ -229,8 +253,9 @@ int OpenGLApi::frustum(double left, double right, double bottom, double top, dou
   glFrustum(left, right, bottom, top, znear, zfar);
   return 1;
 }
-int OpenGLApi::perspective(double left, double right, double bottom, double top, double znear, double zfar)
+int OpenGLApi::perspective(double fov, double aspect, double znear, double zfar)
 {
+  gluPerspective(fov, aspect, znear, zfar);
   return 1;
 }
 
@@ -240,8 +265,40 @@ int OpenGLApi::loadIdentity()
   glLoadIdentity();
   return 1;
 }
+int OpenGLApi::pushMatrix()
+{
+  glPushMatrix();
+  return 1;
+}
+int OpenGLApi::popMatrix()
+{
+  glPopMatrix();
+  return 1;
+}
 int OpenGLApi::cullFace(int face)
 {
   glCullFace(ARGS[face]);
+  return 1;
+}
+int OpenGLApi::useAlpha(bool alpha)
+{
+  if (alpha)
+  {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  }else
+    glDisable(GL_BLEND);
+  return 1;
+}
+
+int OpenGLApi::line(me::vec4f &color, me::vec3d &from, me::vec3d &to)
+{
+  glPushAttrib(GL_CURRENT_BIT);
+  glColor4f(color.x, color.y, color.z, color.w);
+  glBegin(GL_LINES);
+  glVertex3d(from.x, from.y, from.z);
+  glVertex3d(to.x, to.y, to.z);
+  glEnd();
+  glPopAttrib();
   return 1;
 }

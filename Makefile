@@ -302,6 +302,33 @@ src/engine/loaders/parsers/collada_parser.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.s
 .PHONY : src/engine/loaders/parsers/collada_parser.cpp.s
 
+src/engine/loaders/shader_loader.o: src/engine/loaders/shader_loader.cpp.o
+
+.PHONY : src/engine/loaders/shader_loader.o
+
+# target to build an object file
+src/engine/loaders/shader_loader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o
+.PHONY : src/engine/loaders/shader_loader.cpp.o
+
+src/engine/loaders/shader_loader.i: src/engine/loaders/shader_loader.cpp.i
+
+.PHONY : src/engine/loaders/shader_loader.i
+
+# target to preprocess a source file
+src/engine/loaders/shader_loader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.i
+.PHONY : src/engine/loaders/shader_loader.cpp.i
+
+src/engine/loaders/shader_loader.s: src/engine/loaders/shader_loader.cpp.s
+
+.PHONY : src/engine/loaders/shader_loader.s
+
+# target to generate assembly for a file
+src/engine/loaders/shader_loader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.s
+.PHONY : src/engine/loaders/shader_loader.cpp.s
+
 src/engine/math/maths.o: src/engine/math/maths.cpp.o
 
 .PHONY : src/engine/math/maths.o
@@ -545,6 +572,9 @@ help:
 	@echo "... src/engine/loaders/parsers/collada_parser.o"
 	@echo "... src/engine/loaders/parsers/collada_parser.i"
 	@echo "... src/engine/loaders/parsers/collada_parser.s"
+	@echo "... src/engine/loaders/shader_loader.o"
+	@echo "... src/engine/loaders/shader_loader.i"
+	@echo "... src/engine/loaders/shader_loader.s"
 	@echo "... src/engine/math/maths.o"
 	@echo "... src/engine/math/maths.i"
 	@echo "... src/engine/math/maths.s"

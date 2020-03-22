@@ -5,22 +5,29 @@
 
 namespace me {
 
+  struct vertex {
+    me::vec3f position;
+    me::vec3f normal;
+    me::vec2f texCoord;
+  };
+
   struct mesh {
     std::string identifier;
-    unsigned int buffer, indexBuffer;
-    std::vector<float> vertices;
+    unsigned int VAO, VBO, EBO;
+    std::vector<vertex> vertices;
     std::vector<unsigned int> indices;
     std::vector<me::vec3f> positions;
     std::vector<me::vec3f> normals;
     std::vector<me::vec2f> texCoords;
     me::material* material;
 
-    mesh(std::string identifier, unsigned int buffer, unsigned int indexBuffer, std::vector<float> vertices,std::vector<unsigned int> indices,
+    mesh(std::string identifier, unsigned int VAO, unsigned int VBO, unsigned int EBO, std::vector<vertex> vertices,std::vector<unsigned int> indices,
     std::vector<me::vec3f> positions, std::vector<me::vec3f> normals, std::vector<me::vec2f> texCoords, me::material* material)
     {
       this->identifier = identifier;
-      this->buffer = buffer;
-      this->indexBuffer = indexBuffer;
+      this->VAO = VAO;
+      this->VBO = VBO;
+      this->EBO = EBO;
       this->vertices = vertices;
       this->indices = indices;
       this->positions = positions;

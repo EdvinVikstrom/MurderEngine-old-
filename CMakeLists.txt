@@ -12,4 +12,4 @@ link_directories(/usr/lib/)
 
 include(sourcelist.cmake)
 add_executable(MurderEngine ${HEADERS} ${SOURCES})
-target_link_libraries(MurderEngine glfw GLEW GL)
+target_link_libraries(MurderEngine glfw GLEW GL GLU)

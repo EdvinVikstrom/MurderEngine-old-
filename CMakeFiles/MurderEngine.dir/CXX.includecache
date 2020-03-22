@@ -6,6 +6,8 @@
 
 #IncludeRegexTransform: 
 
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
+
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
@@ -13,16 +15,6 @@ cmath
 -
 maths.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.cpp
-GL/glew.h
--
-OpenGLApi.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.h
-
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.h
-RendererApi.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
 ../scene/scene.h
@@ -57,6 +49,8 @@ string
 -
 ../math/vectors.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
+../MurderEngine.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
 texture.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
 shader.h

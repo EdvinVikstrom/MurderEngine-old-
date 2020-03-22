@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/ImageReader.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o"
   "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/mesh_loader.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o"
   "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/parsers/collada_parser.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o"
+  "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/loaders/shader_loader.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o"
   "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o"
   "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o"
   "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/OpenGLApi.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o"

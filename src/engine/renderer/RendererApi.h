@@ -7,21 +7,25 @@
 #define ME_RENDERER_TRIANGLE_STRIP            2
 #define ME_RENDERER_QUAD_STRIP                3
 #define ME_RENDERER_POLYGONS                  4
+#define ME_RENDERER_LINES                     5
+#define ME_RENDERER_LINE_STRIP                6
+#define ME_RENDERER_LINE_LOOP                 7
 
 /* Image Stuff */
-#define ME_TEXTURE_2D                         5
-#define ME_TEXTURE_3D                         6
-#define ME_TEX_NEAREST                        7
-#define ME_TEX_LINEAR                         8
+#define ME_TEXTURE_2D                         8
+#define ME_TEXTURE_3D                         9
+#define ME_TEX_NEAREST                        10
+#define ME_TEX_LINEAR                         11
 
-#define ME_MATRIX_PROJECTION                  9
-#define ME_MATRIX_MODELVIEW                   10
+#define ME_MATRIX_PROJECTION                  12
+#define ME_MATRIX_MODELVIEW                   13
 
-#define ME_CULL_FACE                          11
-#define ME_BACK                               12
-#define ME_FRONT                              13
+#define ME_CULL_FACE                          14
+#define ME_BACK                               15
+#define ME_FRONT                              16
+#define ME_FRONT_AND_BACK                     17
 
-#define ME_DEPTH_TEST                         14
+#define ME_DEPTH_TEST                         18
 
 /* Shader Stuff */
 #define ME_SHADER_VERTEX                      234
@@ -43,6 +47,8 @@ public:
 
   /* Render Stuff */
   virtual int clear() = 0;
+
+  virtual int shader(unsigned int shader) = 0;
 
   virtual int renderMesh(me::mesh* mesh) = 0;
   virtual int bind(int type, unsigned int bind) = 0;
@@ -66,10 +72,28 @@ public:
   virtual int translatef(float x, float y, float z) = 0;
   virtual int translated(double x, double y, double z) = 0;
 
+  int translatef(me::vec3f &vec)
+  {
+    return translatef(vec.x, vec.y, vec.z);
+  }
+  int translated(me::vec3d &vec)
+  {
+    return translated(vec.x, vec.y, vec.z);
+  }
+
   virtual int rotatef(float angle, float x, float y, float z) = 0;
   virtual int rotated(double angle, double x, double y, double z) = 0;
   virtual int rotatef(float x, float y, float z) = 0;
   virtual int rotated(double x, double y, double z) = 0;
+
+  int rotatef(me::vec3f &vec)
+  {
+    return rotatef(vec.x, vec.y, vec.z);
+  }
+  int rotated(me::vec3d &vec)
+  {
+    return rotated(vec.x, vec.y, vec.z);
+  }
 
   virtual int scalef(float x, float y, float z) = 0;
   virtual int scaled(double x, double y, double z) = 0;
@@ -81,11 +105,16 @@ public:
   virtual int viewport(int x, int y, unsigned int width, unsigned int height) = 0;
   virtual int ortho(double left, double right, double bottom, double top, double znear, double zfar) = 0;
   virtual int frustum(double left, double right, double bottom, double top, double znear, double zfar) = 0;
-  virtual int perspective(double left, double right, double bottom, double top, double znear, double zfar) = 0;
+  virtual int perspective(double fov, double aspect, double znear, double zfar) = 0;
 
   /* Other Stuff */
   virtual int loadIdentity() = 0;
+  virtual int pushMatrix() = 0;
+  virtual int popMatrix() = 0;
   virtual int cullFace(int face) = 0;
+  virtual int useAlpha(bool alpha) = 0;
+
+  virtual int line(me::vec4f &color, me::vec3d &from, me::vec3d &to) = 0;
 
 };
 

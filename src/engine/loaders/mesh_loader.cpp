@@ -10,31 +10,28 @@ extern std::string RENDERER_API_NAME;
 
 void me::loadMesh(me::mesh* mesh, int usage)
 {
-  unsigned int indexBuffer;
-  unsigned int buffer;
-
-  if (RENDERER_API_NAME=="opengl todo:")
+  if (RENDERER_API_NAME=="opengl")
   {
-    /*
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, mesh->positions.count * sizeof(float), mesh->positions.values, GL_STATIC_DRAW);
+    glGenVertexArrays(1, &mesh->VAO);
+    glGenBuffers(1, &mesh->VBO);
+    glGenBuffers(1, &mesh->EBO);
 
+    glBindVertexArray(mesh->VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
+
+    glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(me::vertex), &mesh->vertices[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(unsigned int), &mesh->indices[0], GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3, (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(me::vertex), (void*)0);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3, (void*)12);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(me::vertex), (void*)12);
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2, (void*)24);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(me::vertex), (void*)24);
 
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indiceCount * sizeof(unsigned int), mesh->indices, GL_STATIC_DRAW);
-
-    mesh->buffer = buffer;
-    mesh->indexBuffer = indexBuffer;
-    */
+    glBindVertexArray(0);
   }else if (RENDERER_API_NAME=="vulkan")
   {
 
@@ -45,18 +42,20 @@ void me::processMeshFaces(me::mesh* mesh, unsigned int* faces, unsigned int face
 {
   for (int i = 0; i < faceCount; i+=3)
   {
-    mesh->indices.push_back(faces[i]);
-    mesh->indices.push_back(faces[i+1]);
-    mesh->indices.push_back(faces[i+2]);
+    mesh->indices.push_back(i/3);
 
-    mesh->vertices.push_back(mesh->positions[faces[i+vertexOffset]].x);
-    mesh->vertices.push_back(mesh->positions[faces[i+vertexOffset]].y);
-    mesh->vertices.push_back(mesh->positions[faces[i+vertexOffset]].z);
-    mesh->vertices.push_back(mesh->normals[faces[i+normalOffset]].x);
-    mesh->vertices.push_back(mesh->normals[faces[i+normalOffset]].y);
-    mesh->vertices.push_back(mesh->normals[faces[i+normalOffset]].z);
-    mesh->vertices.push_back(mesh->texCoords[faces[i+texCoordOffset]].x);
-    mesh->vertices.push_back(mesh->texCoords[faces[i+texCoordOffset]].y);
+    float posX = mesh->positions[faces[i+vertexOffset]].x;
+    float posY = mesh->positions[faces[i+vertexOffset]].y;
+    float posZ = mesh->positions[faces[i+vertexOffset]].z;
+    float normalX = mesh->normals[faces[i+normalOffset]].x;
+    float normalY = mesh->normals[faces[i+normalOffset]].y;
+    float normalZ = mesh->normals[faces[i+normalOffset]].z;
+    float texCoordX = mesh->texCoords[faces[i+texCoordOffset]].x;
+    float texCoordY = mesh->texCoords[faces[i+texCoordOffset]].y;
+    mesh->vertices.push_back(
+      { { posX, posY, posZ },
+      { normalX, normalY, normalZ },
+      { texCoordX, texCoordY } });
   }
 }
 

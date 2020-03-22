@@ -1,5 +1,6 @@
 #include "GLFW/glfw3.h"
 #include <vector>
+#include <map>
 #include <string>
 
 #include "MurderEngine.h"
@@ -16,13 +17,21 @@ std::string w_title;
 unsigned int w_width, w_height;
 bool w_vSync, w_fullscreen;
 GLFWwindow* window;
-std::vector<me::scene*> scenes;
 
 unsigned int fpsCount, fps;
 
 me::log* ME_LOGGER = new me::log("MurderEngine", "\e[32m[%N] %T #%M \e[0m");
 
-std::vector<IEngineEvent*> events;
+std::vector<me::IEngineEvent*> events;
+std::map<int, bool> keysPressed; // buttons and keys
+double cursorPosX, cursorPosY;
+
+bool me::IEngineEvent::isPressed(int key)
+{
+  if (keysPressed.count(key))
+    return keysPressed[key];
+  return false;
+}
 
 int me::engine_register_event(IEngineEvent* event)
 {
@@ -38,19 +47,38 @@ int me::engine_init()
 
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
+  double offsetX = xpos-cursorPosX;
+  double offsetY = ypos-cursorPosY;
+  for (me::IEngineEvent* event : events)
+    event->onMouseInput(ME_MOUSE_MOVE, offsetX, offsetY, 0);
+  cursorPosX = xpos;
+  cursorPosY = ypos;
 }
 
 static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
+  for (me::IEngineEvent* event : events)
+    event->onMouseInput(ME_MOUSE_SCROLL, xoffset, yoffset, 0);
 }
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
+  if (action==GLFW_PRESS)
+    keysPressed[button] = true;
+  else if (action==GLFW_RELEASE)
+    keysPressed[button] = false;
+  for (me::IEngineEvent* event : events)
+    event->onMouseInput(action==GLFW_PRESS?ME_PRESS:(action==GLFW_RELEASE?ME_RELEASE:0), cursorPosX, cursorPosY, button);
 }
-
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+  if (action==GLFW_PRESS)
+    keysPressed[key] = true;
+  else if (action==GLFW_RELEASE)
+    keysPressed[key] = false;
+  for (me::IEngineEvent* event : events)
+    event->onKeyInput(action==GLFW_PRESS?ME_PRESS:(action==GLFW_RELEASE?ME_RELEASE:0), key);
 }
 
 
@@ -76,18 +104,13 @@ int me::engine_window(std::string title, unsigned int width, unsigned int height
 
 int me::engine_loop()
 {
-  ME_LOGGER->out("Initializing Renderer API ...\n");
-  rendererApi->initializeApi();
-  ME_LOGGER->out(std::string("Renderer API initialized [" + RENDERER_API_NAME + "]\n"));
   while(!glfwWindowShouldClose(window))
   {
     rendererApi->clear();
-    for (IEngineEvent* event : events)
+    for (me::IEngineEvent* event : events)
       event->onLoop();
-    for (me::scene* scene : scenes)
-      scene->updateScene();
-    for (me::scene* scene : scenes)
-      scene->renderScene();
+    for (me::IEngineEvent* event : events)
+      event->onRender();
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
@@ -102,19 +125,10 @@ int me::engine_setup_renderer_api(std::string apiName)
     rendererApi = new OpenGLApi();
   else if (apiName=="vulkan") { }
   RENDERER_API_NAME = apiName;
+  ME_LOGGER->out("Initializing Renderer API ...\n");
+  rendererApi->initializeApi();
+  ME_LOGGER->out(std::string("Renderer API initialized [" + RENDERER_API_NAME + "]\n"));
   return 0;
-}
-
-int me::engine_register_scene(me::scene* scene)
-{
-  scenes.push_back(scene);
-  return 1;
-}
-
-int me::engine_unregister_scene(me::scene* scene)
-{
-  // TODO:
-  return 1;
 }
 
 void me::engine_window_size(unsigned int* width, unsigned int* height)
