@@ -11,11 +11,11 @@ namespace me {
   struct item {
     unsigned char type;
     std::string identifier;
-    me::vec3d* position;
-    me::vec3d* rotation;
-    me::vec3d* scale;
+    me::vec3d position;
+    me::vec3d rotation;
+    me::vec3d scale;
 
-    item(unsigned char type, std::string identifier, me::vec3d* position, me::vec3d* rotation, me::vec3d* scale)
+    item(unsigned char type, std::string identifier, me::vec3d position, me::vec3d rotation, me::vec3d scale)
     {
       this->type = type;
       this->identifier = identifier;
