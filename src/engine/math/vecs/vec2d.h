@@ -7,46 +7,54 @@ me::vec2d::vec2d(double x, double y)
   this->y = y;
 }
 
-void me::vec2d::add(me::vec2d &vec)
+me::vec2d* me::vec2d::add(me::vec2d &vec)
 {
   this->x = this->x + vec.x;
   this->y = this->y + vec.y;
+  return this;
 }
-void me::vec2d::sub(me::vec2d &vec)
+me::vec2d* me::vec2d::sub(me::vec2d &vec)
 {
   this->x = this->x - vec.x;
   this->y = this->y - vec.y;
+  return this;
 }
-void me::vec2d::mul(me::vec2d &vec)
+me::vec2d* me::vec2d::mul(me::vec2d &vec)
 {
   this->x = this->x * vec.x;
   this->y = this->y * vec.y;
+  return this;
 }
-void me::vec2d::div(me::vec2d &vec)
+me::vec2d* me::vec2d::div(me::vec2d &vec)
 {
   this->x = this->x / vec.x;
   this->y = this->y / vec.y;
+  return this;
 }
 
-void me::vec2d::add(double fac)
+me::vec2d* me::vec2d::add(double fac)
 {
   this->x = this->x + fac;
   this->y = this->y + fac;
+  return this;
 }
-void me::vec2d::sub(double fac)
+me::vec2d* me::vec2d::sub(double fac)
 {
   this->x = this->x - fac;
   this->y = this->y - fac;
+  return this;
 }
-void me::vec2d::mul(double fac)
+me::vec2d* me::vec2d::mul(double fac)
 {
   this->x = this->x * fac;
   this->y = this->y * fac;
+  return this;
 }
-void me::vec2d::div(double fac)
+me::vec2d* me::vec2d::div(double fac)
 {
   this->x = this->x / fac;
   this->y = this->y / fac;
+  return this;
 }
 
 

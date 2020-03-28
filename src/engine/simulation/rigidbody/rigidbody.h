@@ -16,7 +16,9 @@ namespace me {
 
     /* object data */
     me::vec3d velocity;
-    float acceleration;
+    me::vec3d acceleration;
+    
+    me::vec3d distance;
 
     rigidbody_simulation(unsigned char mode, double mass, bool dynamic, float friction, float bounciness) : simulation("RigidBody")
     {
@@ -28,7 +30,8 @@ namespace me {
     }
 
     void applyTo(me::vec3d* position, me::vec3d* rotation) override;
-    void applyForce(me::vec3d direction, float acceleration) override;
+    void applyForce(me::vec3d &force) override;
+    void applyGravity(me::vec3d* position, me::vec3d* rotation) override;
 
   };
 

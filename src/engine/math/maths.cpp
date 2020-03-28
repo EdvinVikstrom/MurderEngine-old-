@@ -565,9 +565,9 @@ double maths::hypotd(double a, double b)
 /* pow */
 long double maths::powl(long double a, long double b)
 {
-
+  return pow(a, b);
 }
 double maths::powd(double a, double b)
 {
-
+  return pow(a, b);
 }

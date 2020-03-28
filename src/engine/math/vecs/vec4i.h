@@ -9,62 +9,70 @@ me::vec4i::vec4i(int x, int y, int z, int w)
   this->w = w;
 }
 
-void me::vec4i::add(me::vec4i &vec)
+me::vec4i* me::vec4i::add(me::vec4i &vec)
 {
   this->x = this->x + vec.x;
   this->y = this->y + vec.y;
   this->z = this->z + vec.z;
   this->w = this->w + vec.w;
+  return this;
 }
-void me::vec4i::sub(me::vec4i &vec)
+me::vec4i* me::vec4i::sub(me::vec4i &vec)
 {
   this->x = this->x - vec.x;
   this->y = this->y - vec.y;
   this->z = this->z - vec.z;
   this->w = this->w - vec.w;
+  return this;
 }
-void me::vec4i::mul(me::vec4i &vec)
+me::vec4i* me::vec4i::mul(me::vec4i &vec)
 {
   this->x = this->x * vec.x;
   this->y = this->y * vec.y;
   this->z = this->z * vec.z;
   this->w = this->w * vec.w;
+  return this;
 }
-void me::vec4i::div(me::vec4i &vec)
+me::vec4i* me::vec4i::div(me::vec4i &vec)
 {
   this->x = this->x / vec.x;
   this->y = this->y / vec.y;
   this->z = this->z / vec.z;
   this->w = this->w / vec.w;
+  return this;
 }
 
-void me::vec4i::add(int fac)
+me::vec4i* me::vec4i::add(int fac)
 {
   this->x = this->x + fac;
   this->y = this->y + fac;
   this->z = this->z + fac;
   this->w = this->w + fac;
+  return this;
 }
-void me::vec4i::sub(int fac)
+me::vec4i* me::vec4i::sub(int fac)
 {
   this->x = this->x - fac;
   this->y = this->y - fac;
   this->z = this->z - fac;
   this->w = this->w - fac;
+  return this;
 }
-void me::vec4i::mul(int fac)
+me::vec4i* me::vec4i::mul(int fac)
 {
   this->x = this->x * fac;
   this->y = this->y * fac;
   this->z = this->z * fac;
   this->w = this->w * fac;
+  return this;
 }
-void me::vec4i::div(int fac)
+me::vec4i* me::vec4i::div(int fac)
 {
   this->x = this->x / fac;
   this->y = this->y / fac;
   this->z = this->z / fac;
   this->w = this->w / fac;
+  return this;
 }
 
 #endif

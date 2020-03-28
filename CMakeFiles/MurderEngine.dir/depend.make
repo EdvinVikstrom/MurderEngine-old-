@@ -284,6 +284,7 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o: src/engine/scene/tex
 CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o: src/engine/simulation/simulation.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o: src/engine/utilities/ArrayUtils.h
 
+CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o: src/engine/math/maths.h
 CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o: src/engine/math/vectors.h
 CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o: src/engine/simulation/rigidbody/rigidbody.cpp
 CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o: src/engine/simulation/rigidbody/rigidbody.h

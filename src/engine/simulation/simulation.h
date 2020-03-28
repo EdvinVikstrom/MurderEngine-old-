@@ -21,7 +21,8 @@ namespace me {
       this->name = name;
     }
     virtual void applyTo(me::vec3d* position, me::vec3d* rotation) = 0;
-    virtual void applyForce(me::vec3d direction, float acceleration) = 0;
+    virtual void applyForce(me::vec3d &force) = 0;
+    virtual void applyGravity(me::vec3d* position, me::vec3d* rotation) = 0;
   };
 
 };

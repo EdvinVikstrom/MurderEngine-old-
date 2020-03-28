@@ -8,54 +8,62 @@ me::vec3f::vec3f(float x, float y, float z)
   this->z = z;
 }
 
-void me::vec3f::add(me::vec3f &vec)
+me::vec3f* me::vec3f::add(me::vec3f &vec)
 {
   this->x = this->x + vec.x;
   this->y = this->y + vec.y;
   this->z = this->z + vec.z;
+  return this;
 }
-void me::vec3f::sub(me::vec3f &vec)
+me::vec3f* me::vec3f::sub(me::vec3f &vec)
 {
   this->x = this->x - vec.x;
   this->y = this->y - vec.y;
   this->z = this->z - vec.z;
+  return this;
 }
-void me::vec3f::mul(me::vec3f &vec)
+me::vec3f* me::vec3f::mul(me::vec3f &vec)
 {
   this->x = this->x * vec.x;
   this->y = this->y * vec.y;
   this->z = this->z * vec.z;
+  return this;
 }
-void me::vec3f::div(me::vec3f &vec)
+me::vec3f* me::vec3f::div(me::vec3f &vec)
 {
   this->x = this->x / vec.x;
   this->y = this->y / vec.y;
   this->z = this->z / vec.z;
+  return this;
 }
 
-void me::vec3f::add(float fac)
+me::vec3f* me::vec3f::add(float fac)
 {
   this->x = this->x + fac;
   this->y = this->y + fac;
   this->z = this->z + fac;
+  return this;
 }
-void me::vec3f::sub(float fac)
+me::vec3f* me::vec3f::sub(float fac)
 {
   this->x = this->x - fac;
   this->y = this->y - fac;
   this->z = this->z - fac;
+  return this;
 }
-void me::vec3f::mul(float fac)
+me::vec3f* me::vec3f::mul(float fac)
 {
   this->x = this->x * fac;
   this->y = this->y * fac;
   this->z = this->z * fac;
+  return this;
 }
-void me::vec3f::div(float fac)
+me::vec3f* me::vec3f::div(float fac)
 {
   this->x = this->x / fac;
   this->y = this->y / fac;
   this->z = this->z / fac;
+  return this;
 }
 
 #endif

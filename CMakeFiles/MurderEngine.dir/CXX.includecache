@@ -100,6 +100,12 @@ mesh.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
 
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.cpp
+rigidbody.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.h
+../../math/maths.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
+
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.h
 ../simulation.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h

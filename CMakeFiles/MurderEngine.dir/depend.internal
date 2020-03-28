@@ -285,6 +285,7 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.cpp
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.h
