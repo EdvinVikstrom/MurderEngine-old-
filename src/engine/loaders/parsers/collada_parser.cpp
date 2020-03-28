@@ -2,7 +2,7 @@
 #include "../../EngineManager.h"
 #include "../mesh_loader.h"
 #include "../ImageReader.h"
-#include "../../renderer/RendererApi.h"
+#include "../../renderer/renderer_api.h"
 #include "../../../external/rapidxml.hpp"
 #include "../../utilities/StringUtils.h"
 #include "../../utilities/ArrayUtils.h"
@@ -27,13 +27,20 @@ std::string getNodePath(rapidxml::xml_node<>* node)
   return path;
 }
 
-bool processEffectColors(rapidxml::xml_node<>* node, me::wcolor* wcolor)
+std::string getParamValue(std::map<std::string, collada::param*> &params, collada::param* param)
+{
+  if (param->init_from.size() != 0)
+    return param->init_from;
+  else if (param->source.size() != 0)
+    return getParamValue(params, params[param->source]);
+  return "";
+}
+
+bool processEffectColors(rapidxml::xml_node<>* node, std::map<std::string, unsigned int> images, collada::effect* effect, me::wcolor* wcolor)
 {
   rapidxml::xml_node<>* color = node->first_node("color");
   rapidxml::xml_node<>* texture = node->first_node("texture");
   rapidxml::xml_node<>* v_float = node->first_node("float");
-  if (wcolor==nullptr)
-    wcolor = new me::wcolor;
   if (color != 0)
   {
     std::string sid = color->first_attribute("sid")->value();
@@ -41,24 +48,18 @@ bool processEffectColors(rapidxml::xml_node<>* node, me::wcolor* wcolor)
     std::string* colorArgs = utils::split(color->value(), ' ', argCount);
     if (argCount < 4)
     {
-      COLLADA_LOGGER->err(std::string("[x < 4] too few arguments in 'color' in { ") + getNodePath(node) + " }\n");
+      COLLADA_LOGGER->err(std::string("[x < 4] too few arguments in 'color' at { ") + getNodePath(node) + " }\n");
       return false;
     }
     wcolor->type = ME_WCOLOR_TYPE_RGBA;
     wcolor->rgba = new me::vec4f(std::stof(colorArgs[0]), std::stof(colorArgs[1]), std::stof(colorArgs[2]), std::stof(colorArgs[3]));
+    delete[] colorArgs;
   }else if (texture != 0)
   {
     std::string tex = texture->first_attribute("texture")->value();
     rapidxml::xml_attribute<>* uvMapAtt = texture->first_attribute("texcoord");
-    me::uvMap* uvMap = nullptr;
-    if (uvMapAtt != 0)
-    {
-      std::string uvMapId = uvMapAtt->value();
-      if (uvMapId!="UVMap")
-        uvMap = me::getUvMap(sources[uvMapId]);
-    }
     wcolor->type = ME_WCOLOR_TYPE_IMAGE;
-    wcolor->image = me::getImage(sources[tex]);
+    wcolor->image = me::getImage(images[getParamValue(effect->params, effect->params[tex])]);
   }else if (v_float != 0)
   {
     wcolor->type = ME_WCOLOR_TYPE_FLOAT;
@@ -78,25 +79,23 @@ bool collada::parse_mesh(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
     std::string arrayId = float_array->first_attribute("id")->value();
     unsigned int count = std::stoi(float_array->first_attribute("count")->value());
     float* array = new float[count];
-    utils::processStringArray(float_array->value(), [&](unsigned int index, std::string arg) {
+    me_utils::processStringArray(float_array->value(), [&](unsigned int index, std::string arg) {
       array[index] = std::stof(arg);
     });
 
     std::string sourceId = source->first_attribute("id")->value();
     if (utils::endsWith(sourceId, "positions"))
     {
-      mesh->positions.reserve(count/3);
-      me::toVec3f(array, &mesh->positions[0], count);
-    }
-    if (utils::endsWith(sourceId, "normals"))
+      mesh->positions.allocate_mem(count/3);
+      me::toVec3f(array, &mesh->positions.values[0], count);
+    }else if (utils::endsWith(sourceId, "normals"))
     {
-      mesh->normals.reserve(count/3);
-      me::toVec3f(array, &mesh->normals[0], count);
-    }
-    if (utils::endsWith(sourceId, "map-0"))
+      mesh->normals.allocate_mem(count/3);
+      me::toVec3f(array, &mesh->normals.values[0], count);
+    }else if (utils::endsWith(sourceId, "map-0"))
     {
-      mesh->texCoords.reserve(count/2);
-      me::toVec2f(array, &mesh->texCoords[0], count);
+      mesh->texCoords.allocate_mem(count/2);
+      me::toVec2f(array, &mesh->texCoords.values[0], count);
     }
     source = source->next_sibling("source");
   }
@@ -132,7 +131,7 @@ bool collada::parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
   return true;
 }
 
-bool collada::parse_effect(rapidxml::xml_node<>* effect_node, collada::effect* effect)
+bool collada::parse_effect(rapidxml::xml_node<>* effect_node, std::map<std::string, unsigned int> images, collada::effect* effect)
 {
   rapidxml::xml_node<>* profile_common = effect_node->first_node("profile_COMMON");
   /* Params */
@@ -141,33 +140,40 @@ bool collada::parse_effect(rapidxml::xml_node<>* effect_node, collada::effect* e
   {
     collada::param* param = new collada::param;
     rapidxml::xml_node<>* node = param_node->first_node();
-    if (std::string(node->name())=="surface")
-    {
-      rapidxml::xml_node<>* init_from = node->first_node("init_from");
-      if (init_from!=0)
-        effect->surface = init_from->value();
-    }
+    param->type = node->name();
+    rapidxml::xml_node<>* source_node = node->first_node("source");
+    rapidxml::xml_node<>* init_from_node = node->first_node("init_from");
+    if (source_node != 0)
+      param->source = source_node->value();
+    if (init_from_node != 0)
+      param->init_from = init_from_node->value();
+    effect->params[std::string(param_node->first_attribute("sid")->value())] = param;
     param_node = param_node->next_sibling("newparam");
   }
   rapidxml::xml_node<>* technique = profile_common->first_node("technique");
   rapidxml::xml_node<>* lambert = technique->first_node("lambert");
 
   rapidxml::xml_node<>* emission_node = lambert->first_node("emission");
+  rapidxml::xml_node<>* ambient_node = lambert->first_node("ambient");
   rapidxml::xml_node<>* diffuse_node = lambert->first_node("diffuse");
+  rapidxml::xml_node<>* specular_node = lambert->first_node("specular");
+  rapidxml::xml_node<>* shininess_node = lambert->first_node("shininess");
+  rapidxml::xml_node<>* reflective_node = lambert->first_node("reflective");
   rapidxml::xml_node<>* reflectivity_node = lambert->first_node("reflectivity");
   rapidxml::xml_node<>* transparent_node = lambert->first_node("transparent");
+  rapidxml::xml_node<>* transparency_node = lambert->first_node("transparency");
   rapidxml::xml_node<>* index_of_refraction_node = lambert->first_node("index_of_refraction");
 
-  if (emission_node != 0)
-    processEffectColors(emission_node, effect->emission);
-  if (diffuse_node != 0)
-    processEffectColors(diffuse_node, effect->diffuse);
-  if (reflectivity_node != 0)
-    processEffectColors(reflectivity_node, effect->reflectivity);
-  if (transparent_node != 0)
-    processEffectColors(transparent_node, effect->transparent);
-  if (index_of_refraction_node != 0)
-    processEffectColors(index_of_refraction_node, effect->index_of_refraction);
+  if (emission_node != 0) processEffectColors(emission_node, images, effect, effect->emission);
+  if (ambient_node != 0) processEffectColors(ambient_node, images, effect, effect->ambient);
+  if (diffuse_node != 0) processEffectColors(diffuse_node, images, effect, effect->diffuse);
+  if (specular_node != 0) processEffectColors(specular_node, images, effect, effect->specular);
+  if (shininess_node != 0) processEffectColors(shininess_node, images, effect, effect->shininess);
+  if (reflective_node != 0) processEffectColors(reflective_node, images, effect, effect->reflective);
+  if (reflectivity_node != 0) processEffectColors(reflectivity_node, images, effect, effect->reflectivity);
+  if (transparent_node != 0) processEffectColors(transparent_node, images, effect, effect->transparent);
+  if (transparency_node != 0) processEffectColors(transparency_node, images, effect, effect->transparency);
+  if (index_of_refraction_node != 0) processEffectColors(index_of_refraction_node, images, effect, effect->index_of_refraction);
   return true;
 }
 
@@ -218,7 +224,7 @@ bool collada::parse_light(rapidxml::xml_node<>* light_node, me::light* light)
   return true;
 }
 
-bool collada::parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string, me::camera*> &cameras, std::map<std::string, me::light*> &lights, std::map<std::string, me::image*> &images, std::map<std::string, collada::effect*> &effects, std::map<std::string, me::material*> &materials, std::map<std::string, me::mesh*> &meshes, std::vector<me::item*> &items)
+bool collada::parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string, unsigned int> &cameras, std::map<std::string, unsigned int> &lights, std::map<std::string, unsigned int> &images, std::map<std::string, collada::effect*> &effects, std::map<std::string, unsigned int> &materials, std::map<std::string, unsigned int> &meshes, std::vector<me::item*> &items)
 {
   rapidxml::xml_node<>* node = scene_node->first_node("node");
   while(node != 0)
@@ -229,9 +235,10 @@ bool collada::parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string
     rapidxml::xml_node<>* geometry_node = node->first_node("instance_geometry");
     rapidxml::xml_node<>* light_node = node->first_node("instance_light");
     rapidxml::xml_node<>* camera_node = node->first_node("instance_camera");
-    me::vec3d* position = new me::vec3d(0, 0, 0);
-    me::vec3d* rotation = new me::vec3d(0, 0, 0);
-    me::vec3d* scale = new me::vec3d(0, 0, 0);
+    me::vec3d position(0, 0, 0);
+    me::vec3d rotation(0, 0, 0);
+    me::vec3d scale(0, 0, 0);
+    me::vec3d origin(0, 0, 0);
     if (matrix_node != 0)
     {
       unsigned int argCount;
@@ -240,17 +247,19 @@ bool collada::parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string
       for (int i = 0; i < argCount; i++)
         matrix[i] = std::stod(matrixArgs[i]);
       if (argCount >= 3)
-      { position->x = matrix[0]; position->y = matrix[1]; position->z = matrix[2]; }
+      { position.x = matrix[0]; position.y = matrix[1]; position.z = matrix[2]; }
       if (argCount >= 6)
-      { rotation->x = matrix[3]; rotation->y = matrix[4]; rotation->z = matrix[5]; }
+      { rotation.x = matrix[3]; rotation.y = matrix[4]; rotation.z = matrix[5]; }
       if (argCount >= 9)
-      { scale->x = matrix[6]; scale->y = matrix[7]; scale->z = matrix[8]; }
+      { scale.x = matrix[6]; scale.y = matrix[7]; scale.z = matrix[8]; }
+      if (argCount >= 12)
+      { origin.x = matrix[9]; origin.y = matrix[10]; origin.z = matrix[11]; }
       delete[] matrixArgs;
     }
     if (geometry_node != 0)
     {
       std::string url = std::string(geometry_node->first_attribute("url")->value()).substr(1);
-      item = new me::mesh_item(identifier, position, rotation, scale, meshes[url]);
+      item = new me::mesh_item(identifier, position, rotation, scale, origin, meshes[url]);
       rapidxml::xml_node<>* bind_material_node = geometry_node->first_node("bind_material");
       if (bind_material_node != 0)
       {
@@ -261,18 +270,18 @@ bool collada::parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string
           if (instance_material != 0)
           {
             std::string target = std::string(instance_material->first_attribute("target")->value()).substr(1);
-            ((me::mesh_item*)item)->mesh->material = materials[target];
+            me::getMesh(((me::mesh_item*)item)->mesh)->material = materials[target];
           }
         }
       }
     }else if (light_node != 0)
     {
       std::string url = std::string(light_node->first_attribute("url")->value()).substr(1);
-      item = new me::light_item(identifier, position, rotation, scale, lights[url]);
+      item = new me::light_item(identifier, position, rotation, scale, origin, lights[url]);
     }else if (camera_node != 0)
     {
       std::string url = std::string(camera_node->first_attribute("url")->value()).substr(1);
-      item = new me::camera_item(identifier, position, rotation, scale, cameras[url]);
+      item = new me::camera_item(identifier, position, rotation, scale, origin, cameras[url]);
     }
     items.push_back(item);
     node = node->next_sibling();
@@ -294,16 +303,17 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
   rapidxml::xml_node<>* library_visual_scenes = node->first_node("library_visual_scenes");
   rapidxml::xml_node<>* library_materials = node->first_node("library_materials");
 
-  std::map<std::string, me::camera*> cameras;
-  std::map<std::string, me::light*> lights;
-  std::map<std::string, me::image*> images;
+  std::map<std::string, unsigned int> images;
   std::map<std::string, collada::effect*> effects;
-  std::map<std::string, me::material*> materials;
-  std::map<std::string, me::mesh*> meshes;
+  std::map<std::string, unsigned int> materials;
+  std::map<std::string, unsigned int> meshes;
+  std::map<std::string, unsigned int> lights;
+  std::map<std::string, unsigned int> cameras;
 
   std::vector<me::item*> items;
 
   /* lights */
+  COLLADA_LOGGER->out("Parsing lights:\n");
   if (library_lights != 0)
   {
     rapidxml::xml_node<>* light_node = library_lights->first_node("light");
@@ -312,15 +322,16 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
       std::string identifier = light_node->first_attribute("id")->value();
       me::light* light = new me::light;
       light->identifier = identifier;
-      COLLADA_LOGGER->out(std::string("Parsing light \"") + identifier + "\"\n");
+      COLLADA_LOGGER->out(std::string("  light[") + identifier + "]\n");
       if (!parse_light(light_node, light))
         break;
-      lights[identifier] = light;
+      lights[identifier] = me::registerLight(light);
       light_node = light_node->next_sibling("light");
     }
   }
 
   /* cameras */
+  COLLADA_LOGGER->out("Parsing cameras:\n");
   if (library_cameras != 0)
   {
     rapidxml::xml_node<>* camera_node = library_cameras->first_node("camera");
@@ -329,15 +340,16 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
       std::string identifier = camera_node->first_attribute("id")->value();
       me::camera* camera = new me::camera;
       camera->identifier = identifier;
-      COLLADA_LOGGER->out(std::string("Parsing camera \"") + identifier + "\"\n");
+      COLLADA_LOGGER->out(std::string("  camera[") + identifier + "]\n");
       if (!parse_camera(camera_node, camera))
         break;
-      cameras[identifier] = camera;
+      cameras[identifier] = me::registerCamera(camera);
       camera_node = camera_node->next_sibling("camera");
     }
   }
 
   /* images */
+  COLLADA_LOGGER->out("Parsing images:\n");
   if (library_images != 0)
   {
     rapidxml::xml_node<>* image_node = library_images->first_node("image");
@@ -346,14 +358,14 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
       std::string identifier = image_node->first_attribute("id")->value();
       rapidxml::xml_node<>* init_from = image_node->first_node("init_from");
       me::image* image = me::loadImage(init_from->value());
-      COLLADA_LOGGER->out(std::string("Loaded image \"") + identifier + "\"\n");
-      images[identifier] = image;
-      me::registerImage(identifier, image);
+      COLLADA_LOGGER->out(std::string("  image[") + identifier + "]\n");
+      images[identifier] = me::registerImage(image);
       image_node = image_node->next_sibling();
     }
   }
 
   /* effects */
+  COLLADA_LOGGER->out("Parsing effects:\n");
   if (library_effects != 0)
   {
     rapidxml::xml_node<>* effect_node = library_effects->first_node("effect");
@@ -362,8 +374,8 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
       std::string identifier = effect_node->first_attribute("id")->value();
       collada::effect* effect = new collada::effect;
       effect->identifier = identifier;
-      COLLADA_LOGGER->out(std::string("Parsing effect \"") + identifier + "\"\n");
-      if (!parse_effect(effect_node, effect))
+      COLLADA_LOGGER->out(std::string("  effect[") + identifier + "]\n");
+      if (!parse_effect(effect_node, images, effect))
         break;
       effects[identifier] = effect;
       effect_node = effect_node->next_sibling("effect");
@@ -371,6 +383,7 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
   }
 
   /* geometry */
+  COLLADA_LOGGER->out("Parsing meshes:\n");
   if (library_geometries != 0)
   {
     rapidxml::xml_node<>* geometry = library_geometries->first_node("geometry");
@@ -378,17 +391,18 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
     {
       std::string identifier = geometry->first_attribute("id")->value();
       me::mesh* mesh = new me::mesh;
-      COLLADA_LOGGER->out(std::string("Parsing mesh \"") + identifier + "\"\n");
+      COLLADA_LOGGER->out(std::string("  mesh[") + identifier + "]\n");
       if (!parse_mesh(geometry->first_node("mesh"), mesh))
         break;
       if (!parse_faces(geometry->first_node("mesh"), mesh))
         break;
-      meshes[identifier] = mesh;
+      meshes[identifier] = me::registerMesh(mesh);
       geometry = geometry->next_sibling("geometry");
     }
   }
 
   /* materials */
+  COLLADA_LOGGER->out("Parsing materials:\n");
   if (library_materials != 0)
   {
     rapidxml::xml_node<>* material_node = library_materials->first_node("material");
@@ -396,12 +410,10 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
     {
       std::string identifier = material_node->first_attribute("id")->value();
       std::string effectUrl = std::string(material_node->first_node("instance_effect")->first_attribute("url")->value()).substr(1);
-      COLLADA_LOGGER->out(std::string("Parsing material \"") + identifier + "\"\n");
+      COLLADA_LOGGER->out(std::string("  material[") + identifier + "]\n");
       collada::effect* effect = effects[effectUrl];
-      me::image* image = images[effect->surface];
-      me::wcolor* rgba = new me::wcolor(image);
-      me::material* material = new me::material(identifier, rgba, new me::wcolor({0.5}), new me::wcolor({0.0}), new me::wcolor({0.5}), effect->emission, effect->index_of_refraction);
-      materials[identifier] = material;
+      me::material* material = new me::material(identifier, effect->diffuse, new me::wcolor({0.5}), new me::wcolor({0.0}), new me::wcolor({0.5}), effect->emission, effect->index_of_refraction);
+      materials[identifier] = me::registerMaterial(material);
       material_node = material_node->next_sibling();
     }
   }

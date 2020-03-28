@@ -5,7 +5,7 @@
 namespace utils {
 
   /* !DO NOT FORGET TO DELETE THE ARRAY AFTER USE! */
-  std::string* split(std::string string, char delimeter, unsigned int& size)
+  std::string* split(const std::string &string, char delimeter, unsigned int& size)
   {
     size = 1; // what if no 'delimeter' found? so start at 1!!!
     for (int i = 0; i < string.size(); i++)
@@ -28,7 +28,7 @@ namespace utils {
     return array;
   }
 
-  bool endsWith(std::string string, std::string with)
+  bool endsWith(const std::string &string, const std::string &with)
   {
     if (with.empty())
       return false;
@@ -43,6 +43,24 @@ namespace utils {
       pos--;
     }
     return false;
+  }
+
+  std::vector<std::string> lines(const std::string &string)
+  {
+    std::vector<std::string> lines;
+    lines.emplace_back("");
+    unsigned int pos = 0;
+    for (unsigned int i = 0; i < string.size(); i++)
+    {
+      if (string.at(i)=='\n')
+      {
+        lines.emplace_back("");
+        pos++;
+        continue;
+      }
+      lines.at(pos)+=string.at(i);
+    }
+    return lines;
   }
 
 };

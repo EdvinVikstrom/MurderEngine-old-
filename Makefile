@@ -383,32 +383,86 @@ src/engine/math/vectors.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.s
 .PHONY : src/engine/math/vectors.cpp.s
 
-src/engine/renderer/OpenGLApi.o: src/engine/renderer/OpenGLApi.cpp.o
+src/engine/renderer/opengl_api.o: src/engine/renderer/opengl_api.cpp.o
 
-.PHONY : src/engine/renderer/OpenGLApi.o
+.PHONY : src/engine/renderer/opengl_api.o
 
 # target to build an object file
-src/engine/renderer/OpenGLApi.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.o
-.PHONY : src/engine/renderer/OpenGLApi.cpp.o
+src/engine/renderer/opengl_api.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o
+.PHONY : src/engine/renderer/opengl_api.cpp.o
 
-src/engine/renderer/OpenGLApi.i: src/engine/renderer/OpenGLApi.cpp.i
+src/engine/renderer/opengl_api.i: src/engine/renderer/opengl_api.cpp.i
 
-.PHONY : src/engine/renderer/OpenGLApi.i
+.PHONY : src/engine/renderer/opengl_api.i
 
 # target to preprocess a source file
-src/engine/renderer/OpenGLApi.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.i
-.PHONY : src/engine/renderer/OpenGLApi.cpp.i
+src/engine/renderer/opengl_api.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.i
+.PHONY : src/engine/renderer/opengl_api.cpp.i
 
-src/engine/renderer/OpenGLApi.s: src/engine/renderer/OpenGLApi.cpp.s
+src/engine/renderer/opengl_api.s: src/engine/renderer/opengl_api.cpp.s
 
-.PHONY : src/engine/renderer/OpenGLApi.s
+.PHONY : src/engine/renderer/opengl_api.s
 
 # target to generate assembly for a file
-src/engine/renderer/OpenGLApi.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/OpenGLApi.cpp.s
-.PHONY : src/engine/renderer/OpenGLApi.cpp.s
+src/engine/renderer/opengl_api.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.s
+.PHONY : src/engine/renderer/opengl_api.cpp.s
+
+src/engine/renderer/vulkan_api.o: src/engine/renderer/vulkan_api.cpp.o
+
+.PHONY : src/engine/renderer/vulkan_api.o
+
+# target to build an object file
+src/engine/renderer/vulkan_api.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o
+.PHONY : src/engine/renderer/vulkan_api.cpp.o
+
+src/engine/renderer/vulkan_api.i: src/engine/renderer/vulkan_api.cpp.i
+
+.PHONY : src/engine/renderer/vulkan_api.i
+
+# target to preprocess a source file
+src/engine/renderer/vulkan_api.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.i
+.PHONY : src/engine/renderer/vulkan_api.cpp.i
+
+src/engine/renderer/vulkan_api.s: src/engine/renderer/vulkan_api.cpp.s
+
+.PHONY : src/engine/renderer/vulkan_api.s
+
+# target to generate assembly for a file
+src/engine/renderer/vulkan_api.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.s
+.PHONY : src/engine/renderer/vulkan_api.cpp.s
+
+src/engine/scene/particle/particle.o: src/engine/scene/particle/particle.cpp.o
+
+.PHONY : src/engine/scene/particle/particle.o
+
+# target to build an object file
+src/engine/scene/particle/particle.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.o
+.PHONY : src/engine/scene/particle/particle.cpp.o
+
+src/engine/scene/particle/particle.i: src/engine/scene/particle/particle.cpp.i
+
+.PHONY : src/engine/scene/particle/particle.i
+
+# target to preprocess a source file
+src/engine/scene/particle/particle.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.i
+.PHONY : src/engine/scene/particle/particle.cpp.i
+
+src/engine/scene/particle/particle.s: src/engine/scene/particle/particle.cpp.s
+
+.PHONY : src/engine/scene/particle/particle.s
+
+# target to generate assembly for a file
+src/engine/scene/particle/particle.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.s
+.PHONY : src/engine/scene/particle/particle.cpp.s
 
 src/engine/scene/scene.o: src/engine/scene/scene.cpp.o
 
@@ -436,6 +490,87 @@ src/engine/scene/scene.s: src/engine/scene/scene.cpp.s
 src/engine/scene/scene.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.s
 .PHONY : src/engine/scene/scene.cpp.s
+
+src/engine/scene/scenes/scene_2d_viewport.o: src/engine/scene/scenes/scene_2d_viewport.cpp.o
+
+.PHONY : src/engine/scene/scenes/scene_2d_viewport.o
+
+# target to build an object file
+src/engine/scene/scenes/scene_2d_viewport.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o
+.PHONY : src/engine/scene/scenes/scene_2d_viewport.cpp.o
+
+src/engine/scene/scenes/scene_2d_viewport.i: src/engine/scene/scenes/scene_2d_viewport.cpp.i
+
+.PHONY : src/engine/scene/scenes/scene_2d_viewport.i
+
+# target to preprocess a source file
+src/engine/scene/scenes/scene_2d_viewport.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.i
+.PHONY : src/engine/scene/scenes/scene_2d_viewport.cpp.i
+
+src/engine/scene/scenes/scene_2d_viewport.s: src/engine/scene/scenes/scene_2d_viewport.cpp.s
+
+.PHONY : src/engine/scene/scenes/scene_2d_viewport.s
+
+# target to generate assembly for a file
+src/engine/scene/scenes/scene_2d_viewport.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.s
+.PHONY : src/engine/scene/scenes/scene_2d_viewport.cpp.s
+
+src/engine/scene/scenes/scene_outliner.o: src/engine/scene/scenes/scene_outliner.cpp.o
+
+.PHONY : src/engine/scene/scenes/scene_outliner.o
+
+# target to build an object file
+src/engine/scene/scenes/scene_outliner.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o
+.PHONY : src/engine/scene/scenes/scene_outliner.cpp.o
+
+src/engine/scene/scenes/scene_outliner.i: src/engine/scene/scenes/scene_outliner.cpp.i
+
+.PHONY : src/engine/scene/scenes/scene_outliner.i
+
+# target to preprocess a source file
+src/engine/scene/scenes/scene_outliner.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.i
+.PHONY : src/engine/scene/scenes/scene_outliner.cpp.i
+
+src/engine/scene/scenes/scene_outliner.s: src/engine/scene/scenes/scene_outliner.cpp.s
+
+.PHONY : src/engine/scene/scenes/scene_outliner.s
+
+# target to generate assembly for a file
+src/engine/scene/scenes/scene_outliner.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.s
+.PHONY : src/engine/scene/scenes/scene_outliner.cpp.s
+
+src/engine/scene/texture.o: src/engine/scene/texture.cpp.o
+
+.PHONY : src/engine/scene/texture.o
+
+# target to build an object file
+src/engine/scene/texture.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o
+.PHONY : src/engine/scene/texture.cpp.o
+
+src/engine/scene/texture.i: src/engine/scene/texture.cpp.i
+
+.PHONY : src/engine/scene/texture.i
+
+# target to preprocess a source file
+src/engine/scene/texture.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.i
+.PHONY : src/engine/scene/texture.cpp.i
+
+src/engine/scene/texture.s: src/engine/scene/texture.cpp.s
+
+.PHONY : src/engine/scene/texture.s
+
+# target to generate assembly for a file
+src/engine/scene/texture.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.s
+.PHONY : src/engine/scene/texture.cpp.s
 
 src/engine/utilities/ArrayUtils.o: src/engine/utilities/ArrayUtils.cpp.o
 
@@ -545,6 +680,33 @@ src/engine/utilities/StringUtils.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/StringUtils.cpp.s
 .PHONY : src/engine/utilities/StringUtils.cpp.s
 
+src/engine/utilities/TimeUtils.o: src/engine/utilities/TimeUtils.cpp.o
+
+.PHONY : src/engine/utilities/TimeUtils.o
+
+# target to build an object file
+src/engine/utilities/TimeUtils.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.o
+.PHONY : src/engine/utilities/TimeUtils.cpp.o
+
+src/engine/utilities/TimeUtils.i: src/engine/utilities/TimeUtils.cpp.i
+
+.PHONY : src/engine/utilities/TimeUtils.i
+
+# target to preprocess a source file
+src/engine/utilities/TimeUtils.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.i
+.PHONY : src/engine/utilities/TimeUtils.cpp.i
+
+src/engine/utilities/TimeUtils.s: src/engine/utilities/TimeUtils.cpp.s
+
+.PHONY : src/engine/utilities/TimeUtils.s
+
+# target to generate assembly for a file
+src/engine/utilities/TimeUtils.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.s
+.PHONY : src/engine/utilities/TimeUtils.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -581,12 +743,27 @@ help:
 	@echo "... src/engine/math/vectors.o"
 	@echo "... src/engine/math/vectors.i"
 	@echo "... src/engine/math/vectors.s"
-	@echo "... src/engine/renderer/OpenGLApi.o"
-	@echo "... src/engine/renderer/OpenGLApi.i"
-	@echo "... src/engine/renderer/OpenGLApi.s"
+	@echo "... src/engine/renderer/opengl_api.o"
+	@echo "... src/engine/renderer/opengl_api.i"
+	@echo "... src/engine/renderer/opengl_api.s"
+	@echo "... src/engine/renderer/vulkan_api.o"
+	@echo "... src/engine/renderer/vulkan_api.i"
+	@echo "... src/engine/renderer/vulkan_api.s"
+	@echo "... src/engine/scene/particle/particle.o"
+	@echo "... src/engine/scene/particle/particle.i"
+	@echo "... src/engine/scene/particle/particle.s"
 	@echo "... src/engine/scene/scene.o"
 	@echo "... src/engine/scene/scene.i"
 	@echo "... src/engine/scene/scene.s"
+	@echo "... src/engine/scene/scenes/scene_2d_viewport.o"
+	@echo "... src/engine/scene/scenes/scene_2d_viewport.i"
+	@echo "... src/engine/scene/scenes/scene_2d_viewport.s"
+	@echo "... src/engine/scene/scenes/scene_outliner.o"
+	@echo "... src/engine/scene/scenes/scene_outliner.i"
+	@echo "... src/engine/scene/scenes/scene_outliner.s"
+	@echo "... src/engine/scene/texture.o"
+	@echo "... src/engine/scene/texture.i"
+	@echo "... src/engine/scene/texture.s"
 	@echo "... src/engine/utilities/ArrayUtils.o"
 	@echo "... src/engine/utilities/ArrayUtils.i"
 	@echo "... src/engine/utilities/ArrayUtils.s"
@@ -599,6 +776,9 @@ help:
 	@echo "... src/engine/utilities/StringUtils.o"
 	@echo "... src/engine/utilities/StringUtils.i"
 	@echo "... src/engine/utilities/StringUtils.s"
+	@echo "... src/engine/utilities/TimeUtils.o"
+	@echo "... src/engine/utilities/TimeUtils.i"
+	@echo "... src/engine/utilities/TimeUtils.s"
 .PHONY : help
 
 

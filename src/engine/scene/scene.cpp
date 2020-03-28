@@ -1,102 +1,114 @@
 #include "scene.h"
-#include "../renderer/RendererApi.h"
+#include "../math/maths.h"
+#include "../EngineManager.h"
+#include "../renderer/renderer_api.h"
 
 #include <iostream> // remove
 
-extern IRendererApi* rendererApi;
+extern renderer_api* rendererApi;
 
-me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsigned int height, bool _3D, unsigned int shader)
+me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsigned int height)
 {
   me::scene::identifier = identifier;
   me::scene::x = x;
   me::scene::y = y;
   me::scene::width = width;
   me::scene::height = height;
-  me::scene::_3D = _3D;
-  me::scene::shader = shader;
 }
 
 void me::scene::setup()
 {
-  rendererApi->matrix(ME_MATRIX_PROJECTION);
-  rendererApi->viewport(0, 0, width, height);
-  float aspect = (float)width/(float)height;
-  me::scene::camera = new me::camera("camera", {0, 0, 0}, {0, 0, 0}, ME_CAMERA_PERSPECTIVE, aspect, 50, 0.1, 1000);
-  rendererApi->perspective(me::scene::camera->focalLength, me::scene::camera->aspectRatio, me::scene::camera->znear, me::scene::camera->zfar);
-  rendererApi->enable(ME_DEPTH_TEST);
-  rendererApi->enable(ME_CULL_FACE);
-  rendererApi->cullFace(ME_BACK);
-  rendererApi->matrix(ME_MATRIX_MODELVIEW);
-  rendererApi->useAlpha(true);
-  //rendererApi->shader(me::scene::shader);
 }
 
 void me::scene::onLoop()
 {
-  if (isPressed(ME_KEY_W))
-    me::scene::camera->position.z+=0.1D;
-  if (isPressed(ME_KEY_A))
-    me::scene::camera->position.x-=0.1D;
-  if (isPressed(ME_KEY_S))
-    me::scene::camera->position.z-=0.1D;
-  if (isPressed(ME_KEY_D))
-    me::scene::camera->position.x+=0.1D;
 }
-
-me::vec4f red(1.0F, 0.0F, 0.0F, 0.6F);
-me::vec4f blue(0.0F, 0.0F, 1.0F, 0.6F);
-me::vec4f gray(0.2F, 0.2F, 0.2F, 0.6F);
-me::vec3d fromX(-1000, 0, 0);
-me::vec3d toX(1000, 0, 0);
-me::vec3d fromZ(0, 0, -1000);
-me::vec3d toZ(0, 0, 1000);
-
-int gridSize = 2;
-int gridLength = 1000;
 
 void me::scene::onRender()
 {
-  rendererApi->loadIdentity();
-  rendererApi->translated(me::scene::camera->position);
-  rendererApi->rotated(me::scene::camera->rotation);
-  rendererApi->line(red, fromX, toX);
-  rendererApi->line(blue, fromZ, toZ);
-  for (int x = -gridLength; x < gridLength; x+=gridSize)
-  {
-    me::vec3d from(x, 0, -gridLength);
-    me::vec3d to(x, 0, gridLength);
-    rendererApi->line(gray, from, to);
-  }
-  for (int z = -gridLength; z < gridLength; z+=gridSize)
-  {
-    me::vec3d from(-gridLength, 0, z);
-    me::vec3d to(gridLength, 0, z);
-    rendererApi->line(gray, from, to);
-  }
   for (me::item* i : me::scene::items)
   {
-    if (i->type != ME_ITEM_TYPE_MESH)
-      continue;
-    mesh_item* item = (mesh_item*) i;
-    rendererApi->pushMatrix();
-    rendererApi->loadIdentity();
+    if (i->type == ME_ITEM_TYPE_MESH)
+    {
+      me::mesh_item* item = (mesh_item*) i;
+      me::mesh* mesh = me::getMesh(item->mesh);
+      rendererApi->push();
+      rendererApi->reset();
 
-    rendererApi->translated(me::scene::camera->position);
-    rendererApi->rotated(me::scene::camera->rotation);
-    rendererApi->translated(item->position->x, item->position->y, item->position->z);
+      /* camera */
+      rendererApi->translate(me::scene::camera->position.x, me::scene::camera->position.y, me::scene::camera->position.z, 0);
+      rendererApi->rotate(me::scene::camera->rotation.x, me::scene::camera->rotation.y, me::scene::camera->rotation.z, 0);
 
-    rendererApi->rotated(item->rotation->x, item->rotation->y, item->rotation->z);
-    rendererApi->scaled(item->scale->x, item->scale->y, item->scale->z);
+      rendererApi->translate(item->position.x, item->position.y, item->position.z, 0);
+      rendererApi->rotate(item->rotation.x, item->rotation.y, item->rotation.z, 0);
+      rendererApi->scale(item->scale.x, item->scale.y, item->scale.z, 0);
 
+      me::material* material = me::getMaterial(mesh->material);
 
-    rendererApi->enable(ME_TEXTURE_2D);
-    rendererApi->bind(ME_TEXTURE_2D, item->mesh->material->rgba->image->texId);
-    //std::cout << item->mesh->material->rgba->image << "\n";
-    rendererApi->renderMesh(item->mesh);
-    rendererApi->disable(ME_TEXTURE_2D);
-    rendererApi->popMatrix();
+      material->rgba->bind();
+      rendererApi->bindMesh(mesh);
+      rendererApi->mesh(mesh);
+      rendererApi->unbindMesh();
+      material->rgba->unbind();
+
+      rendererApi->pop();
+    }else if (i->type == ME_ITEM_TYPE_IMAGE)
+    {
+      image_item* item = (image_item*) i;
+      rendererApi->push();
+      rendererApi->reset();
+
+      /* camera */
+      rendererApi->translate(me::scene::camera->position.x, me::scene::camera->position.y, me::scene::camera->position.z, 0);
+      rendererApi->rotate(me::scene::camera->rotation.x, me::scene::camera->rotation.y, me::scene::camera->rotation.z, 0);
+
+      rendererApi->bindImage(me::getImage(item->image));
+      rendererApi->plane(item->position.x, item->position.y, item->scale.x, item->scale.y);
+      rendererApi->unbindImage();
+
+      rendererApi->pop();
+    }
+  }
+  for (me::particle_group* group : me::scene::particle_groups)
+  {
+    rendererApi->push();
+
+    me::mesh* mesh = me::getMesh(group->meshes.at((unsigned int) maths::rand() * group->meshes.size()));
+
+    me::material* material = me::getMaterial(mesh->material);
+    material->rgba->bind();
+    rendererApi->bindMesh(mesh);
+
+    for (unsigned int i = 0; i < group->particles.size(); i++)
+    {
+      me::particle* particle = group->particles.at(i);
+      double posX, posY, posZ;
+      double rotX, rotY, rotZ;
+
+      group->getParticlePos(particle, posX, posY, posZ);
+      group->getParticleRot(particle, rotX, rotY, rotZ);
+
+      rendererApi->reset();
+
+      /* camera */
+      rendererApi->translate(me::scene::camera->position.x, me::scene::camera->position.y, me::scene::camera->position.z, 0);
+      rendererApi->rotate(me::scene::camera->rotation.x, me::scene::camera->rotation.y, me::scene::camera->rotation.z, 0);
+
+      rendererApi->translate(posX, posY, posZ, 0);
+      rendererApi->rotate(rotX, rotY, rotZ, 0);
+      rendererApi->scale(1, 1, 1, 0);
+
+      rendererApi->mesh(mesh);
+
+      particle->update();
+      group->update(i, particle);
+    }
+    material->rgba->unbind();
+    rendererApi->unbindMesh();
+    rendererApi->pop();
   }
 }
+
 
 float rotationSensitivity = 0.25F;
 float moveSensitivity = 0.025F;
@@ -138,4 +150,9 @@ me::item* me::scene::getItem(std::string identifier)
       return item;
   }
   return nullptr;
+}
+
+void me::scene::registerParticleGroup(me::particle_group* particle_group)
+{
+  me::scene::particle_groups.push_back(particle_group);
 }

@@ -1,20 +1,23 @@
 #ifndef SCENE_H
   #define SCENE_H
 
-
 #include <vector>
 #include <map>
 #include <string>
+#include "../math/maths.h"
 #include "../math/vectors.h"
 #include "../MurderEngine.h"
+
 /* Only include these with scene.h */
-#include "texture.h"
-#include "shader.h"
-#include "material.h"
-#include "item.h"
-#include "camera.h"
-#include "light.h"
-#include "mesh.h"
+  #include "item.h"
+  #include "particle/particle.h"
+  #include "texture.h"
+  #include "shader.h"
+  #include "material.h"
+  #include "camera.h"
+  #include "light.h"
+  #include "mesh.h"
+/* ------------------------------ */
 
 namespace me {
 
@@ -28,32 +31,33 @@ namespace me {
 
   class scene : public me::IEngineEvent {
 
-  private:
+  protected:
 
     std::string identifier;
     int x, y;
     unsigned int width, height;
-    bool _3D;
-    unsigned int shader;
     me::camera* camera;
 
     std::vector<me::item*> items;
+    std::vector<me::particle_group*> particle_groups;
 
   public:
 
-    scene(std::string identifier, int x, int y, unsigned int width, unsigned int height, bool _3D, unsigned int shader);
+    scene(std::string identifier, int x, int y, unsigned int width, unsigned int height);
 
-    void onRender();
-    void onLoop();
+    virtual void onRender();
+    virtual void onLoop();
 
-    void onMouseInput(int action, double posX, double posY, int button);
-    void onKeyInput(int action, int key);
+    virtual void onMouseInput(int action, double posX, double posY, int button);
+    virtual void onKeyInput(int action, int key);
 
     virtual void setup();
 
-    virtual void registerItem(me::item* item);
-    virtual void unregisterItem(std::string identifier);
-    virtual me::item* getItem(std::string identifier);
+    void registerItem(me::item* item);
+    void unregisterItem(std::string identifier);
+    me::item* getItem(std::string identifier);
+
+    void registerParticleGroup(me::particle_group* particle_group);
 
   };
 

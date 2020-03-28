@@ -1,9 +1,8 @@
-#version FUCK YOU OPENGL
+#version 460
 
-in vec3 vertex_position;
+(layout = 0) in vec4 position;
 
 int main()
 {
-
-  gl_Position = vec4(vertex_position, 1.0);
+  gl_Position = position;
 }

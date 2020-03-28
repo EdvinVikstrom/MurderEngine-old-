@@ -1,6 +1,8 @@
 #ifndef MURDER_ENGINE
   #define MURDER_ENGINE
 
+#define ME_DEBUG
+
 #define ME_MOUSE_LEFT_BUTTON                            0
 #define ME_MOUSE_RIGHT_BUTTON                           1
 #define ME_MOUSE_MIDDLE_BUTTON                          2
@@ -50,6 +52,9 @@
 #define ME_MOUSE_MOVE                                   167
 #define ME_MOUSE_SCROLL                                 168
 
+#define ME_FINE                                         0
+#define ME_ERR                                          1
+
 namespace me {
 
   class IEngineEvent {
@@ -68,9 +73,10 @@ namespace me {
 
   int engine_register_event(IEngineEvent* event);
   int engine_init();
-  int engine_window(std::string title, unsigned int width, unsigned int height, bool vSync, bool fullscreen);
+  int engine_window(const std::string &title, unsigned int width, unsigned int height, bool vSync, bool fullscreen);
   int engine_loop();
-  int engine_setup_renderer_api(std::string apiName);
+  int engine_load_shaders(const std::string &shader_path);
+  int engine_setup_renderer_api(const std::string &apiName);
 
   void engine_window_size(unsigned int* width, unsigned int* height);
 

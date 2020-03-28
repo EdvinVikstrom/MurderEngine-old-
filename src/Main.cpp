@@ -1,35 +1,42 @@
 #include <iostream>
 #include <string>
 #include "engine/MurderEngine.h"
+#include "engine/EngineManager.h"
 #include "engine/scene/scene.h"
+#include "engine/scene/scenes/scene_2d_viewport.h"
+#include "engine/scene/scenes/scene_outliner.h"
 #include "engine/loaders/mesh_loader.h"
-#include "engine/loaders/shader_loader.h"
 
 int main()
 {
-  me::engine_init();
-  me::engine_window("Murder Engine", 1550, 770, true, false);
-  me::engine_setup_renderer_api("opengl");
-
+  if (me::engine_init() != ME_FINE) return 1;
+  if (me::engine_window("Murder Engine", 1550, 770, true, false) != ME_FINE) return 1;
+  if (me::engine_setup_renderer_api("opengl") != ME_FINE) return 1;
+  if (me::engine_load_shaders("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/shaders/shader.glsl") != ME_FINE) return 1;
+/*
   unsigned int vertexShader, fragmentShader;
   loader::loadShader("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/shaders/me_vertex_shader.glsl", vertexShader, ME_SHADER_TYPE_VERTEX);
   loader::loadShader("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/shaders/me_fragment_shader.glsl", fragmentShader, ME_SHADER_TYPE_FRAGMENT);
   unsigned int shader;
   loader::linkShaders(shader, new unsigned int[2]{vertexShader, fragmentShader}, 2);
-  me::scene* scene = new me::scene("testar ju bara en scene", 0, 0, 1550, 770, true, shader);
-  me::engine_register_event(scene);
+  */
+  me::scene_outliner* scene1 = new me::scene_outliner("en outliner", 0, 0, 350, 770);
+  me::scene_2d_viewport* scene2 = new me::scene_2d_viewport("en viewport", 0, 0, 1550, 770);
+  //me::engine_register_event(scene1);
+  me::engine_register_event(scene2);
 
   unsigned int itemCount;
-  std::vector<me::item*> items = me::loadMeshFromFile("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/test3.dae", itemCount);
+  std::vector<me::item*> items = me::loadMeshFromFile("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/rubrub.dae", itemCount);
   for (me::item* item : items)
   {
     if (item->type==ME_ITEM_TYPE_MESH)
-      me::loadMesh(((me::mesh_item*)item)->mesh, -1); //TODO: STATIC_USE at param[1]
+      me::loadMesh(me::getMesh(((me::mesh_item*)item)->mesh), -1); //TODO: STATIC_USE at param[1]
   }
 
-  scene->setup();
+  //scene1->setup();
+  scene2->setup();
   for (me::item* item : items)
-    scene->registerItem(item);
+    scene2->registerItem(item);
 
   /* Starts the engine */
   me::engine_loop();

@@ -1,8 +1,8 @@
 #ifndef CAMERA_H
   #define CAMERA_H
 
-#define ME_CAMERA_PERSPECTIVE              0x45
-#define ME_CAMERA_ORTHO                    0x47
+#define ME_CAMERA_PERSPECTIVE              45
+#define ME_CAMERA_2D_VIEW                  47
 
 namespace me {
 
@@ -32,8 +32,8 @@ namespace me {
   };
 
   struct camera_item : item {
-    me::camera* camera;
-    camera_item(std::string identifier, me::vec3d* position, me::vec3d* rotation, me::vec3d* scale, me::camera* camera) : item(ME_ITEM_TYPE_CAMERA, identifier, position, rotation, scale)
+    unsigned int camera;
+    camera_item(std::string identifier, me::vec3d position, me::vec3d rotation, me::vec3d scale, me::vec3d origin, unsigned int camera) : item(ME_ITEM_TYPE_CAMERA, identifier, position, rotation, scale, origin)
     {
       this->camera = camera;
     }

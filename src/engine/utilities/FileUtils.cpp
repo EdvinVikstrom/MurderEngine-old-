@@ -4,15 +4,15 @@
 #include "FileUtils.h"
 #include "Logger.h"
 
-extern me::log* ME_LOGGER;
+me::log* FILE_LOGGER = new me::log("FileReader", "\e[30m;1m[%N] %T #%M \e[0m");
 
-char* file_utils_read(const char* filepath, unsigned int& bufferLength)
+char* file_utils_read(const std::string &filepath, unsigned int& bufferLength)
 {
   std::streampos size;
   std::ifstream file(filepath, std::ios::in|std::ios::binary|std::ios::ate);
   if (file.is_open())
   {
-    ME_LOGGER->out("Reading file\n");
+    FILE_LOGGER->out(std::string("Reading file \"") + filepath + "\"\n");
 
     size = file.tellg();
     bufferLength = (unsigned int) size;
@@ -23,10 +23,10 @@ char* file_utils_read(const char* filepath, unsigned int& bufferLength)
     file.close();
     return data;
   }else
-  ME_LOGGER->err("Can't open\n");
+    FILE_LOGGER->out(std::string("Can't open file \"") + filepath + "\"\n");
   return nullptr;
 }
-void file_utils_write(const char* filepath, unsigned int bufferLength, unsigned char* buffer)
+void file_utils_write(const std::string &filepath, unsigned int bufferLength, unsigned char* buffer)
 {
 
 }

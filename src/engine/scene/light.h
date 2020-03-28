@@ -19,9 +19,9 @@ namespace me {
   };
 
   struct light_item : item {
-    me::light* light;
-    light_item(std::string identifier, me::vec3d* position, me::vec3d* rotation, me::vec3d* scale, me::light* light) :
-    item(ME_ITEM_TYPE_LIGHT, identifier, position, rotation, scale)
+    unsigned int light;
+    light_item(std::string identifier, me::vec3d position, me::vec3d rotation, me::vec3d scale, me::vec3d origin, unsigned int light) :
+    item(ME_ITEM_TYPE_LIGHT, identifier, position, rotation, scale, origin)
     {
       this->light = light;
     }

@@ -1,4 +1,4 @@
-#include <map>
+#include <vector>
 
 #include "EngineManager.h"
 
@@ -6,63 +6,49 @@ extern std::string RENDER_API;
 
 namespace me {
 
-  /* Texture/Material/Mesh/Shader logic */
+  static std::vector<me::image*> images;
+  static std::vector<me::material*> materials;
+  static std::vector<me::mesh*> meshes;
+  static std::vector<me::light*> lights;
+  static std::vector<me::camera*> cameras;
+  static std::vector<me::shader*> shaders;
 
-  static std::map<std::string, me::image*> images;
-  static std::map<std::string, me::texture*> textures;
-  static std::map<std::string, me::uvMap*> uvMaps;
-  static std::map<std::string, me::shader*> shaders;
-  static std::map<std::string, me::material*> materials;
-  static std::map<std::string, me::mesh*> meshes;
+  me::image* getImage(unsigned int id) { return images[id-1]; }
+  me::material* getMaterial(unsigned int id) { return materials[id-1]; }
+  me::mesh* getMesh(unsigned int id) { return meshes[id-1]; }
+  me::light* getLight(unsigned int id) { return lights[id-1]; }
+  me::camera* getCamera(unsigned int id) { return cameras[id-1]; }
+  me::shader* getShader(unsigned int id) { return shaders[id-1]; }
 
-  me::image* getImage(std::string id)
+  unsigned int registerImage(me::image* image)
   {
-    return images[id];
+    images.push_back(image);
+    return images.size();
   }
-  me::texture* getTexture(std::string id)
+  unsigned int registerMaterial(me::material* material)
   {
-    return textures[id];
+    materials.push_back(material);
+    return materials.size();
   }
-  me::uvMap* getUvMap(std::string id)
+  unsigned int registerMesh(me::mesh* mesh)
   {
-    return uvMaps[id];
+    meshes.push_back(mesh);
+    return meshes.size();
   }
-  me::material* getMaterial(std::string id)
+  unsigned int registerLight(me::light* light)
   {
-    return materials[id];
+    lights.push_back(light);
+    return lights.size();
   }
-  me::mesh* getMesh(std::string id)
+  unsigned int registerCamera(me::camera* camera)
   {
-    return meshes[id];
+    cameras.push_back(camera);
+    return cameras.size();
   }
-  me::shader* getShader(std::string id)
+  unsigned int registerShader(me::shader* shader)
   {
-    return shaders[id];
-  }
-
-  void registerImage(std::string id, me::image* image)
-  {
-    images[id] = image;
-  }
-  void registerTexture(std::string id, me::texture* texture)
-  {
-    textures[id] = texture;
-  }
-  void registerUvMap(std::string id, me::uvMap* uvMap)
-  {
-    uvMaps[id] = uvMap;
-  }
-  void registerMaterial(std::string id, me::material* material)
-  {
-    materials[id] = material;
-  }
-  void registerMesh(std::string id, me::mesh* mesh)
-  {
-    meshes[id] = mesh;
-  }
-  void registerShader(std::string id, me::shader* shader)
-  {
-    shaders[id] = shader;
+    shaders.push_back(shader);
+    return shaders.size();
   }
 
 };

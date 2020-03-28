@@ -5,19 +5,19 @@
 
 namespace me {
 
-  me::image* getImage(std::string id);
-  me::texture* getTexture(std::string id);
-  me::uvMap* getUvMap(std::string id);
-  me::material* getMaterial(std::string id);
-  me::mesh* getMesh(std::string id);
-  me::shader* getShader(std::string id);
+  me::image* getImage(unsigned int id);
+  me::material* getMaterial(unsigned int id);
+  me::mesh* getMesh(unsigned int id);
+  me::light* getLight(unsigned int id);
+  me::camera* getCamera(unsigned int id);
+  me::shader* getShader(unsigned int id);
 
-  void registerImage(std::string id, me::image* image);
-  void registerTexture(std::string id, me::texture* texture);
-  void registerUvMap(std::string id, me::uvMap* uvMap);
-  void registerMaterial(std::string id, me::material* material);
-  void registerMesh(std::string id, me::mesh* mesh);
-  void registerShader(std::string id, me::shader* shader);
+  unsigned int registerImage(me::image* image);
+  unsigned int registerMaterial(me::material* material);
+  unsigned int registerMesh(me::mesh* mesh);
+  unsigned int registerLight(me::light* light);
+  unsigned int registerCamera(me::camera* camera);
+  unsigned int registerShader(me::shader* shader);
 
 };
 

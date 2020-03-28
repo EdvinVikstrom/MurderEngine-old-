@@ -6,17 +6,37 @@
 
 #IncludeRegexTransform: 
 
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/EngineManager.h
+scene/scene.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
+
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
-cmath
--
-maths.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
 
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/opengl_api.cpp
+../scene/scene.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
+../utilities/Logger.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
+../MurderEngine.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
+../EngineManager.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/EngineManager.h
+opengl_api.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/opengl_api.h
+GL/glew.h
+-
+GL/glu.h
+-
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/opengl_api.h
+renderer_api.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/renderer_api.h
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/renderer_api.h
 ../scene/scene.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
 
@@ -32,13 +52,11 @@ maths.h
 ../utilities/ArrayUtils.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
 
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.cpp
-scene.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
-../renderer/RendererApi.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/RendererApi.h
-iostream
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/particle/particle.h
+vector
 -
+../../math/vectors.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
 
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
 vector
@@ -47,18 +65,22 @@ map
 -
 string
 -
+../math/maths.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
 ../math/vectors.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
 ../MurderEngine.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
+item.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/item.h
+particle/particle.h
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/particle/particle.h
 texture.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
 shader.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
 material.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/material.h
-item.h
-/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/item.h
 camera.h
 /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/camera.h
 light.h
@@ -75,4 +97,6 @@ functional
 -
 iostream
 -
+
+/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
 

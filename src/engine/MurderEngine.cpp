@@ -5,13 +5,21 @@
 
 #include "MurderEngine.h"
 #include "EngineManager.h"
-#include "renderer/RendererApi.h"
-#include "renderer/OpenGLApi.h"
+#include "renderer/renderer_api.h"
+#include "renderer/vulkan_api.h"
+#include "renderer/opengl_api.h"
+
+#include "loaders/shader_loader.h"
 
 #include "utilities/Logger.h"
 
-std::string RENDERER_API_NAME = "opengl";
-IRendererApi* rendererApi;
+std::string engine_name = "Murder Engine";
+unsigned int engine_version = 7;
+std::string app_name = "Murder Engine Interface";
+unsigned int app_version = 1;
+
+std::string RENDERER_API_NAME = "vulkan";
+renderer_api* rendererApi;
 
 std::string w_title;
 unsigned int w_width, w_height;
@@ -82,7 +90,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 
-int me::engine_window(std::string title, unsigned int width, unsigned int height, bool vSync, bool fullscreen)
+int me::engine_window(const std::string &title, unsigned int width, unsigned int height, bool vSync, bool fullscreen)
 {
   if (!glfwInit())
     ME_LOGGER->out("GLFW don't wanna Initialize\n");
@@ -114,19 +122,37 @@ int me::engine_loop()
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
+  rendererApi->terminate();
   glfwDestroyWindow(window);
   glfwTerminate();
   return 0;
 }
 
-int me::engine_setup_renderer_api(std::string apiName)
+int me::engine_load_shaders(const std::string &shader_path)
+{
+  unsigned int* shaders;
+  unsigned int shaderCount;
+  unsigned int program;
+  if (loader::loadShaders(shader_path, shaders, shaderCount) != ME_FINE)
+    return ME_ERR;
+  if (loader::linkShaders(program, shaders, shaderCount) != ME_FINE)
+    return ME_ERR;
+  rendererApi->useProgram(program);
+  return ME_FINE;
+}
+
+int me::engine_setup_renderer_api(const std::string &apiName)
 {
   if (apiName=="opengl")
-    rendererApi = new OpenGLApi();
-  else if (apiName=="vulkan") { }
+    rendererApi = new opengl_api;
+  else if (apiName=="vulkan")
+  {
+    rendererApi = new vulkan_api;
+  }
   RENDERER_API_NAME = apiName;
   ME_LOGGER->out("Initializing Renderer API ...\n");
-  rendererApi->initializeApi();
+  if (rendererApi->initializeApi() != ME_FINE)
+    return 1;
   ME_LOGGER->out(std::string("Renderer API initialized [" + RENDERER_API_NAME + "]\n"));
   return 0;
 }

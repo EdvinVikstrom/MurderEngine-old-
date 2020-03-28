@@ -1,9 +1,9 @@
 #ifndef TEXTURE_H
   #define TEXTURE_H
 
-#define ME_WCOLOR_TYPE_FLOAT                   0x32
-#define ME_WCOLOR_TYPE_RGBA                    0x128
-#define ME_WCOLOR_TYPE_IMAGE                   0x256
+#define ME_WCOLOR_TYPE_FLOAT                   32
+#define ME_WCOLOR_TYPE_RGBA                    128
+#define ME_WCOLOR_TYPE_IMAGE                   256
 
 namespace me {
 
@@ -29,16 +29,16 @@ namespace me {
   struct image {
     std::string identifier;
     unsigned int type;
-    unsigned int texId;
+    unsigned int imageId;
     unsigned int format;
     unsigned int width, height;
     unsigned char* pixels;
 
-    image(std::string identifier, unsigned int type, unsigned int texId, unsigned int format, unsigned int width, unsigned int height, unsigned char* pixels)
+    image(std::string identifier, unsigned int type, unsigned int imageId, unsigned int format, unsigned int width, unsigned int height, unsigned char* pixels)
     {
       this->identifier = identifier;
       this->type = type;
-      this->texId = texId;
+      this->imageId = imageId;
       this->format = format;
       this->width = width;
       this->height = height;
@@ -91,7 +91,17 @@ namespace me {
     }
     wcolor()
     {
-      
+
+    }
+    void bind();
+    void unbind();
+  };
+
+  struct image_item : item {
+    unsigned int image;
+    image_item(std::string identifier, me::vec3d position, me::vec3d rotation, me::vec3d scale, me::vec3d origin, unsigned int image) : item(ME_ITEM_TYPE_IMAGE, identifier, position, rotation, scale, origin)
+    {
+      this->image = image;
     }
   };
 

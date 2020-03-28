@@ -5,23 +5,24 @@
 
 namespace me {
 
-  struct vertex {
-    me::vec3f position;
-    me::vec3f normal;
-    me::vec2f texCoord;
-  };
-
   struct mesh {
     std::string identifier;
-    std::vector<vertex> vertices;
-    std::vector<unsigned int> indices;
-    me::material material;
+    unsigned int VAO, positionsVBO, normalsVBO, texCoordsVBO, EBO;
+    me::array<me::vec3f> positions;
+    me::array<me::vec3f> normals;
+    me::array<me::vec2f> texCoords;
+    me::array<float> vertices;
+    me::array<unsigned int> indices;
+    unsigned int material;
 
-    mesh(std::string identifier, std::vector<vertex> vertices, std::vector<unsigned int> indices, me::material material)
+    mesh(std::string identifier, unsigned int VAO, unsigned int positionsVBO, unsigned int normalsVBO, unsigned int texCoordsVBO, unsigned int EBO, unsigned int material)
     {
       this->identifier = identifier;
-      this->vertices = vertices;
-      this->indices = indices;
+      this->VAO = VAO;
+      this->positionsVBO = positionsVBO;
+      this->normalsVBO = normalsVBO;
+      this->texCoordsVBO = texCoordsVBO;
+      this->EBO = EBO;
       this->material = material;
     }
 
@@ -29,16 +30,18 @@ namespace me {
 
     ~mesh()
     {
-      vertices.clear();
-      indices.clear();
+      positions.unallocate_mem();
+      normals.unallocate_mem();
+      texCoords.unallocate_mem();
+      indices.unallocate_mem();
     }
 
   };
 
   struct mesh_item : item {
     unsigned int mesh;
-    mesh_item(std::string identifier, me::vec3d position, me::vec3d rotation, me::vec3d scale, unsigned int mesh) :
-    item(ME_ITEM_TYPE_MESH, identifier, position, rotation, scale)
+    mesh_item(std::string identifier, me::vec3d position, me::vec3d rotation, me::vec3d scale, me::vec3d origin, unsigned int mesh) :
+    item(ME_ITEM_TYPE_MESH, identifier, position, rotation, scale, origin)
     {
       this->mesh = mesh;
     }
