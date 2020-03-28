@@ -28,6 +28,7 @@ void me::scene::onRender()
 {
   for (me::item* i : me::scene::items)
   {
+    i->update();
     if (i->type == ME_ITEM_TYPE_MESH)
     {
       me::mesh_item* item = (mesh_item*) i;

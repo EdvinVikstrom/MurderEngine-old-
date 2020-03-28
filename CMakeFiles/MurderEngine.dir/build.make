@@ -295,9 +295,22 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.cpp -o CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.s
 
+CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
+CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.o: src/engine/scene/item.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/item.cpp
+
+CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/item.cpp > CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.i
+
+CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/item.cpp -o CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.s
+
 CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
 CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.o: src/engine/scene/particle/particle.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/particle/particle.cpp
 
 CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.i: cmake_force
@@ -310,7 +323,7 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.s: cmake_forc
 
 CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
 CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o: src/engine/scene/scenes/scene_2d_viewport.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scenes/scene_2d_viewport.cpp
 
 CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.i: cmake_force
@@ -323,7 +336,7 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.s: cma
 
 CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
 CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o: src/engine/scene/scenes/scene_outliner.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scenes/scene_outliner.cpp
 
 CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.i: cmake_force
@@ -336,7 +349,7 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.s: cmake_
 
 CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
 CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o: src/engine/renderer/vulkan_api.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/vulkan_api.cpp
 
 CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.i: cmake_force
@@ -349,7 +362,7 @@ CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.s: cmake_force
 
 CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
 CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o: src/engine/renderer/opengl_api.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/opengl_api.cpp
 
 CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.i: cmake_force
@@ -359,6 +372,19 @@ CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.i: cmake_force
 CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/renderer/opengl_api.cpp -o CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.s
+
+CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o: CMakeFiles/MurderEngine.dir/flags.make
+CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o: src/engine/simulation/rigidbody/rigidbody.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o -c /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.cpp
+
+CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.cpp > CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.i
+
+CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.cpp -o CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.s
 
 # Object files for target MurderEngine
 MurderEngine_OBJECTS = \
@@ -379,11 +405,13 @@ MurderEngine_OBJECTS = \
 "CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o" \
+"CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o" \
 "CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o" \
-"CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o"
+"CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o" \
+"CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o"
 
 # External object files for target MurderEngine
 MurderEngine_EXTERNAL_OBJECTS =
@@ -405,17 +433,19 @@ MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o
+MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o
+MurderEngine: CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o
 MurderEngine: CMakeFiles/MurderEngine.dir/build.make
 MurderEngine: /usr/lib/librt.so
 MurderEngine: /usr/lib/libm.so
 MurderEngine: /usr/lib/libX11.so
 MurderEngine: CMakeFiles/MurderEngine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Linking CXX executable MurderEngine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Linking CXX executable MurderEngine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MurderEngine.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -437,6 +437,33 @@ src/engine/renderer/vulkan_api.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.s
 .PHONY : src/engine/renderer/vulkan_api.cpp.s
 
+src/engine/scene/item.o: src/engine/scene/item.cpp.o
+
+.PHONY : src/engine/scene/item.o
+
+# target to build an object file
+src/engine/scene/item.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.o
+.PHONY : src/engine/scene/item.cpp.o
+
+src/engine/scene/item.i: src/engine/scene/item.cpp.i
+
+.PHONY : src/engine/scene/item.i
+
+# target to preprocess a source file
+src/engine/scene/item.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.i
+.PHONY : src/engine/scene/item.cpp.i
+
+src/engine/scene/item.s: src/engine/scene/item.cpp.s
+
+.PHONY : src/engine/scene/item.s
+
+# target to generate assembly for a file
+src/engine/scene/item.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.s
+.PHONY : src/engine/scene/item.cpp.s
+
 src/engine/scene/particle/particle.o: src/engine/scene/particle/particle.cpp.o
 
 .PHONY : src/engine/scene/particle/particle.o
@@ -571,6 +598,33 @@ src/engine/scene/texture.s: src/engine/scene/texture.cpp.s
 src/engine/scene/texture.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.s
 .PHONY : src/engine/scene/texture.cpp.s
+
+src/engine/simulation/rigidbody/rigidbody.o: src/engine/simulation/rigidbody/rigidbody.cpp.o
+
+.PHONY : src/engine/simulation/rigidbody/rigidbody.o
+
+# target to build an object file
+src/engine/simulation/rigidbody/rigidbody.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o
+.PHONY : src/engine/simulation/rigidbody/rigidbody.cpp.o
+
+src/engine/simulation/rigidbody/rigidbody.i: src/engine/simulation/rigidbody/rigidbody.cpp.i
+
+.PHONY : src/engine/simulation/rigidbody/rigidbody.i
+
+# target to preprocess a source file
+src/engine/simulation/rigidbody/rigidbody.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.i
+.PHONY : src/engine/simulation/rigidbody/rigidbody.cpp.i
+
+src/engine/simulation/rigidbody/rigidbody.s: src/engine/simulation/rigidbody/rigidbody.cpp.s
+
+.PHONY : src/engine/simulation/rigidbody/rigidbody.s
+
+# target to generate assembly for a file
+src/engine/simulation/rigidbody/rigidbody.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.s
+.PHONY : src/engine/simulation/rigidbody/rigidbody.cpp.s
 
 src/engine/utilities/ArrayUtils.o: src/engine/utilities/ArrayUtils.cpp.o
 
@@ -776,6 +830,9 @@ help:
 	@echo "... src/engine/renderer/vulkan_api.o"
 	@echo "... src/engine/renderer/vulkan_api.i"
 	@echo "... src/engine/renderer/vulkan_api.s"
+	@echo "... src/engine/scene/item.o"
+	@echo "... src/engine/scene/item.i"
+	@echo "... src/engine/scene/item.s"
 	@echo "... src/engine/scene/particle/particle.o"
 	@echo "... src/engine/scene/particle/particle.i"
 	@echo "... src/engine/scene/particle/particle.s"
@@ -791,6 +848,9 @@ help:
 	@echo "... src/engine/scene/texture.o"
 	@echo "... src/engine/scene/texture.i"
 	@echo "... src/engine/scene/texture.s"
+	@echo "... src/engine/simulation/rigidbody/rigidbody.o"
+	@echo "... src/engine/simulation/rigidbody/rigidbody.i"
+	@echo "... src/engine/simulation/rigidbody/rigidbody.s"
 	@echo "... src/engine/utilities/ArrayUtils.o"
 	@echo "... src/engine/utilities/ArrayUtils.i"
 	@echo "... src/engine/utilities/ArrayUtils.s"

@@ -19,6 +19,8 @@ CMakeFiles/MurderEngine.dir/src/Main.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scenes/scene_outliner.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/EngineManager.cpp
@@ -35,6 +37,7 @@ CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/EngineManager.h
@@ -55,6 +58,7 @@ CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/x86_64/include/vulkan/vulkan.hpp
@@ -75,6 +79,7 @@ CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/FileUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
@@ -95,6 +100,7 @@ CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/FileUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/external/rapidxml.hpp
@@ -117,6 +123,7 @@ CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/StringUtils.h
@@ -136,6 +143,7 @@ CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/FileUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
@@ -173,6 +181,7 @@ CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
 CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o
@@ -191,9 +200,15 @@ CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/x86_64/include/vulkan/vulkan.hpp
+CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.o
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/item.cpp
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/item.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/particle/particle.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/maths.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
@@ -215,6 +230,7 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/scene.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scene.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
@@ -232,6 +248,7 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scenes/scene_2d_viewport.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
@@ -248,6 +265,7 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/scenes/scene_outliner.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/MurderEngine.h
@@ -264,7 +282,13 @@ CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/shader.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.cpp
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/scene/texture.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
+CMakeFiles/MurderEngine.dir/src/engine/simulation/rigidbody/rigidbody.cpp.o
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.cpp
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/rigidbody/rigidbody.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/simulation/simulation.h
 CMakeFiles/MurderEngine.dir/src/engine/utilities/ArrayUtils.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.cpp
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
@@ -285,5 +309,6 @@ CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/TimeUtils.h
 CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/ArrayUtils.h
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/properties.cpp
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/properties.h

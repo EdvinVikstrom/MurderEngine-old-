@@ -1,11 +1,7 @@
 #include "properties.h"
 
-bool me::float_property::validValue(float value)
+bool me::float_property::validValue(me::data* value)
 {
-  return value >= range.x && value <= range.y;
-}
-
-std::vector<float> me::float_property::getValidValues()
-{
-  return validValues;
+  float a = value->asFloat();
+  return a >= range.x && a <= range.y;
 }

@@ -28,4 +28,25 @@ void me::vec2f::div(me::vec2f &vec)
   this->y = this->y / vec.y;
 }
 
+void me::vec2f::add(float fac)
+{
+  this->x = this->x + fac;
+  this->y = this->y + fac;
+}
+void me::vec2f::sub(float fac)
+{
+  this->x = this->x - fac;
+  this->y = this->y - fac;
+}
+void me::vec2f::mul(float fac)
+{
+  this->x = this->x * fac;
+  this->y = this->y * fac;
+}
+void me::vec2f::div(float fac)
+{
+  this->x = this->x / fac;
+  this->y = this->y / fac;
+}
+
 #endif

@@ -7,6 +7,8 @@
 #include "engine/scene/scenes/scene_outliner.h"
 #include "engine/loaders/mesh_loader.h"
 
+#include "engine/simulation/rigidbody/rigidbody.h"
+
 int main()
 {
   if (me::engine_init() != ME_FINE) return 1;
@@ -30,7 +32,12 @@ int main()
   for (me::item* item : items)
   {
     if (item->type==ME_ITEM_TYPE_MESH)
-      me::loadMesh(me::getMesh(((me::mesh_item*)item)->mesh), -1); //TODO: STATIC_USE at param[1]
+    {
+      me::loadMesh(me::getMesh(((me::mesh_item*)item)->mesh), -1); // TODO: STATIC_USE at param[1]
+      me::simulation* simulation = new me::rigidbody_simulation(ME_SIMULATION_MODE_ACTIVE, 0.2D, true, 1.0F, 0.0F);
+      simulation->applyForce({0, -0.1D, 0}, 0.5F);
+      item->simulations.push_back(simulation);
+    }
   }
 
   //scene1->setup();

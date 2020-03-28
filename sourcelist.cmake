@@ -16,11 +16,13 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/math/maths.cpp
   ${SOURCE_DIR}/engine/scene/scene.cpp
   ${SOURCE_DIR}/engine/scene/texture.cpp
+  ${SOURCE_DIR}/engine/scene/item.cpp
   ${SOURCE_DIR}/engine/scene/particle/particle.cpp
   ${SOURCE_DIR}/engine/scene/scenes/scene_2d_viewport.cpp
   ${SOURCE_DIR}/engine/scene/scenes/scene_outliner.cpp
   ${SOURCE_DIR}/engine/renderer/vulkan_api.cpp
   ${SOURCE_DIR}/engine/renderer/opengl_api.cpp
+  ${SOURCE_DIR}/engine/simulation/rigidbody/rigidbody.cpp
 )
 set(HEADERS ${HEADERS}
 )

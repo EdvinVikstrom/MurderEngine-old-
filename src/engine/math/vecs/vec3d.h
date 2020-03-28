@@ -10,18 +10,52 @@ me::vec3d::vec3d(double x, double y, double z)
 
 void me::vec3d::add(me::vec3d &vec)
 {
-  this->x+=vec.x;
-  this->y+=vec.y;
-  this->z+=vec.z;
+  this->x = this->x + vec.x;
+  this->y = this->y + vec.y;
+  this->z = this->z + vec.z;
 }
 void me::vec3d::sub(me::vec3d &vec)
 {
+  this->x = this->x - vec.x;
+  this->y = this->y - vec.y;
+  this->z = this->z - vec.z;
 }
 void me::vec3d::mul(me::vec3d &vec)
 {
+  this->x = this->x * vec.x;
+  this->y = this->y * vec.y;
+  this->z = this->z * vec.z;
 }
 void me::vec3d::div(me::vec3d &vec)
 {
+  this->x = this->x / vec.x;
+  this->y = this->y / vec.y;
+  this->z = this->z / vec.z;
+}
+
+void me::vec3d::add(double fac)
+{
+  this->x = this->x + fac;
+  this->y = this->y + fac;
+  this->z = this->z + fac;
+}
+void me::vec3d::sub(double fac)
+{
+  this->x = this->x - fac;
+  this->y = this->y - fac;
+  this->z = this->z - fac;
+}
+void me::vec3d::mul(double fac)
+{
+  this->x = this->x * fac;
+  this->y = this->y * fac;
+  this->z = this->z * fac;
+}
+void me::vec3d::div(double fac)
+{
+  this->x = this->x / fac;
+  this->y = this->y / fac;
+  this->z = this->z / fac;
 }
 
 #endif

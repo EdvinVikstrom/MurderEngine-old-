@@ -9,10 +9,10 @@ namespace me {
     vec2f() { }
     vec2f(float x, float y);
 
-    void add(me::vec2f &vec);
-    void sub(me::vec2f &vec);
-    void mul(me::vec2f &vec);
-    void div(me::vec2f &vec);
+    void add(me::vec2f &vec); void add(float fac);
+    void sub(me::vec2f &vec); void sub(float fac);
+    void mul(me::vec2f &vec); void mul(float fac);
+    void div(me::vec2f &vec); void div(float fac);
 
   };
   struct vec3f {
@@ -20,10 +20,10 @@ namespace me {
     vec3f() { }
     vec3f(float x, float y, float z);
 
-    void add(me::vec3f &vec);
-    void sub(me::vec3f &vec);
-    void mul(me::vec3f &vec);
-    void div(me::vec3f &vec);
+    void add(me::vec3f &vec); void add(float fac);
+    void sub(me::vec3f &vec); void sub(float fac);
+    void mul(me::vec3f &vec); void mul(float fac);
+    void div(me::vec3f &vec); void div(float fac);
 
   };
   struct vec4f {
@@ -31,10 +31,10 @@ namespace me {
     vec4f() { }
     vec4f(float x, float y, float z, float w);
 
-    void add(me::vec4f &vec);
-    void sub(me::vec4f &vec);
-    void mul(me::vec4f &vec);
-    void div(me::vec4f &vec);
+    void add(me::vec4f &vec); void add(float fac);
+    void sub(me::vec4f &vec); void sub(float fac);
+    void mul(me::vec4f &vec); void mul(float fac);
+    void div(me::vec4f &vec); void div(float fac);
 
   };
 
@@ -44,10 +44,10 @@ namespace me {
     vec2d() { }
     vec2d(double x, double y);
 
-    void add(me::vec2d &vec);
-    void sub(me::vec2d &vec);
-    void mul(me::vec2d &vec);
-    void div(me::vec2d &vec);
+    void add(me::vec2d &vec); void add(double fac);
+    void sub(me::vec2d &vec); void sub(double fac);
+    void mul(me::vec2d &vec); void mul(double fac);
+    void div(me::vec2d &vec); void div(double fac);
 
   };
   struct vec3d {
@@ -55,10 +55,10 @@ namespace me {
     vec3d() { }
     vec3d(double x, double y, double z);
 
-    void add(me::vec3d &vec);
-    void sub(me::vec3d &vec);
-    void mul(me::vec3d &vec);
-    void div(me::vec3d &vec);
+    void add(me::vec3d &vec); void add(double fac);
+    void sub(me::vec3d &vec); void sub(double fac);
+    void mul(me::vec3d &vec); void mul(double fac);
+    void div(me::vec3d &vec); void div(double fac);
 
   };
   struct vec4d {
@@ -66,10 +66,10 @@ namespace me {
     vec4d() { }
     vec4d(double x, double y, double z, double w);
 
-    void add(me::vec4d &vec);
-    void sub(me::vec4d &vec);
-    void mul(me::vec4d &vec);
-    void div(me::vec4d &vec);
+    void add(me::vec4d &vec); void add(double fac);
+    void sub(me::vec4d &vec); void sub(double fac);
+    void mul(me::vec4d &vec); void mul(double fac);
+    void div(me::vec4d &vec); void div(double fac);
 
   };
 
@@ -79,10 +79,10 @@ namespace me {
     vec2i() { }
     vec2i(int x, int y);
 
-    void add(me::vec2i &vec);
-    void sub(me::vec2i &vec);
-    void mul(me::vec2i &vec);
-    void div(me::vec2i &vec);
+    void add(me::vec2i &vec); void add(int fac);
+    void sub(me::vec2i &vec); void sub(int fac);
+    void mul(me::vec2i &vec); void mul(int fac);
+    void div(me::vec2i &vec); void div(int fac);
 
   };
   struct vec3i {
@@ -90,10 +90,10 @@ namespace me {
     vec3i() { }
     vec3i(int x, int y, int z);
 
-    void add(me::vec3i &vec);
-    void sub(me::vec3i &vec);
-    void mul(me::vec3i &vec);
-    void div(me::vec3i &vec);
+    void add(me::vec3i &vec); void add(int fac);
+    void sub(me::vec3i &vec); void sub(int fac);
+    void mul(me::vec3i &vec); void mul(int fac);
+    void div(me::vec3i &vec); void div(int fac);
 
   };
   struct vec4i {
@@ -101,10 +101,10 @@ namespace me {
     vec4i() { }
     vec4i(int x, int y, int z, int w);
 
-    void add(me::vec4i &vec);
-    void sub(me::vec4i &vec);
-    void mul(me::vec4i &vec);
-    void div(me::vec4i &vec);
+    void add(me::vec4i &vec); void add(int fac);
+    void sub(me::vec4i &vec); void sub(int fac);
+    void mul(me::vec4i &vec); void mul(int fac);
+    void div(me::vec4i &vec); void div(int fac);
 
   };
 

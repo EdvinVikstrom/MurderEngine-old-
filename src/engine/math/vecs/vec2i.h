@@ -9,17 +9,44 @@ me::vec2i::vec2i(int x, int y)
 
 void me::vec2i::add(me::vec2i &vec)
 {
-  this->x+=vec.x;
-  this->y+=vec.y;
+  this->x = this->x + vec.x;
+  this->y = this->y + vec.y;
 }
 void me::vec2i::sub(me::vec2i &vec)
 {
+  this->x = this->x - vec.x;
+  this->y = this->y - vec.y;
 }
 void me::vec2i::mul(me::vec2i &vec)
 {
+  this->x = this->x * vec.x;
+  this->y = this->y * vec.y;
 }
 void me::vec2i::div(me::vec2i &vec)
 {
+  this->x = this->x / vec.x;
+  this->y = this->y / vec.y;
+}
+
+void me::vec2i::add(int fac)
+{
+  this->x = this->x + fac;
+  this->y = this->y + fac;
+}
+void me::vec2i::sub(int fac)
+{
+  this->x = this->x - fac;
+  this->y = this->y - fac;
+}
+void me::vec2i::mul(int fac)
+{
+  this->x = this->x * fac;
+  this->y = this->y * fac;
+}
+void me::vec2i::div(int fac)
+{
+  this->x = this->x / fac;
+  this->y = this->y / fac;
 }
 
 #endif

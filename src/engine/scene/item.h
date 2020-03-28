@@ -6,6 +6,8 @@
 #define ME_ITEM_TYPE_CAMERA        47
 #define ME_ITEM_TYPE_IMAGE         48
 
+#include "../simulation/simulation.h"
+
 namespace me {
 
   struct item {
@@ -15,6 +17,7 @@ namespace me {
     me::vec3d rotation;
     me::vec3d scale;
     me::vec3d origin;
+    std::vector<simulation*> simulations;
 
     item(unsigned char type, std::string identifier, me::vec3d position, me::vec3d rotation, me::vec3d scale, me::vec3d origin)
     {
@@ -29,6 +32,8 @@ namespace me {
     item() { }
 
     ~item() { }
+
+    void update();
 
   };
 };
