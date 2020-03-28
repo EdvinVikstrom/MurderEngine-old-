@@ -283,3 +283,7 @@ CMakeFiles/MurderEngine.dir/src/engine/utilities/StringUtils.cpp.o
 CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.o
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/TimeUtils.cpp
  /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/TimeUtils.h
+CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.o
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/math/vectors.h
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/properties.cpp
+ /home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/properties.h

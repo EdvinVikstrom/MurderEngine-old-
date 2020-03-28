@@ -707,6 +707,33 @@ src/engine/utilities/TimeUtils.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.s
 .PHONY : src/engine/utilities/TimeUtils.cpp.s
 
+src/engine/utilities/properties.o: src/engine/utilities/properties.cpp.o
+
+.PHONY : src/engine/utilities/properties.o
+
+# target to build an object file
+src/engine/utilities/properties.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.o
+.PHONY : src/engine/utilities/properties.cpp.o
+
+src/engine/utilities/properties.i: src/engine/utilities/properties.cpp.i
+
+.PHONY : src/engine/utilities/properties.i
+
+# target to preprocess a source file
+src/engine/utilities/properties.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.i
+.PHONY : src/engine/utilities/properties.cpp.i
+
+src/engine/utilities/properties.s: src/engine/utilities/properties.cpp.s
+
+.PHONY : src/engine/utilities/properties.s
+
+# target to generate assembly for a file
+src/engine/utilities/properties.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.s
+.PHONY : src/engine/utilities/properties.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -779,6 +806,9 @@ help:
 	@echo "... src/engine/utilities/TimeUtils.o"
 	@echo "... src/engine/utilities/TimeUtils.i"
 	@echo "... src/engine/utilities/TimeUtils.s"
+	@echo "... src/engine/utilities/properties.o"
+	@echo "... src/engine/utilities/properties.i"
+	@echo "... src/engine/utilities/properties.s"
 .PHONY : help
 
 

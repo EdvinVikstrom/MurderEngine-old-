@@ -7,6 +7,7 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/utilities/StringUtils.cpp
   ${SOURCE_DIR}/engine/utilities/ArrayUtils.cpp
   ${SOURCE_DIR}/engine/utilities/TimeUtils.cpp
+  ${SOURCE_DIR}/engine/utilities/properties.cpp
   ${SOURCE_DIR}/engine/loaders/parsers/collada_parser.cpp
   ${SOURCE_DIR}/engine/loaders/ImageReader.cpp
   ${SOURCE_DIR}/engine/loaders/mesh_loader.cpp

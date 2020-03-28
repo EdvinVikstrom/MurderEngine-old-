@@ -283,3 +283,7 @@ CMakeFiles/MurderEngine.dir/src/engine/utilities/StringUtils.cpp.o: src/engine/u
 CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.o: src/engine/utilities/TimeUtils.cpp
 CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.o: src/engine/utilities/TimeUtils.h
 
+CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.o: src/engine/math/vectors.h
+CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.o: src/engine/utilities/properties.cpp
+CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.o: src/engine/utilities/properties.h
+

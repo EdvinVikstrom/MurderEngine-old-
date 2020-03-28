@@ -20,6 +20,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/MurderEngine.dir/src/engine/utilities/Logger.cpp.o"
   "CMakeFiles/MurderEngine.dir/src/engine/utilities/StringUtils.cpp.o"
   "CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.o"
+  "CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.o"
   "MurderEngine"
   "MurderEngine.pdb"
 )

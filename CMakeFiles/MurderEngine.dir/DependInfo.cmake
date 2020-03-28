@@ -25,6 +25,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/Logger.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/utilities/Logger.cpp.o"
   "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/StringUtils.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/utilities/StringUtils.cpp.o"
   "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/TimeUtils.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/utilities/TimeUtils.cpp.o"
+  "/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/utilities/properties.cpp" "/home/edvinskomputa/Dokument/OnePunchEngine/CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

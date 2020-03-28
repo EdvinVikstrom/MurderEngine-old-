@@ -12,7 +12,7 @@ int main()
   if (me::engine_init() != ME_FINE) return 1;
   if (me::engine_window("Murder Engine", 1550, 770, true, false) != ME_FINE) return 1;
   if (me::engine_setup_renderer_api("opengl") != ME_FINE) return 1;
-  if (me::engine_load_shaders("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/shaders/shader.glsl") != ME_FINE) return 1;
+  if (me::engine_load_shaders("src/res/shaders/shader.glsl") != ME_FINE) return 1;
 /*
   unsigned int vertexShader, fragmentShader;
   loader::loadShader("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/shaders/me_vertex_shader.glsl", vertexShader, ME_SHADER_TYPE_VERTEX);
@@ -26,7 +26,7 @@ int main()
   me::engine_register_event(scene2);
 
   unsigned int itemCount;
-  std::vector<me::item*> items = me::loadMeshFromFile("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/rubrub.dae", itemCount);
+  std::vector<me::item*> items = me::loadMeshFromFile("src/res/rubrub.dae", itemCount);
   for (me::item* item : items)
   {
     if (item->type==ME_ITEM_TYPE_MESH)
