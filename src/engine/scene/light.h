@@ -16,6 +16,10 @@ namespace me {
       this->rgba = rgba;
     }
     light() { }
+    ~light()
+    {
+      delete rgba;  
+    }
   };
 
   struct light_item : item {

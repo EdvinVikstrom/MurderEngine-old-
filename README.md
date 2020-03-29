@@ -5,9 +5,9 @@ Compileing
 -
 
   * linux:
+    `$ cmake <project dir>`
     `$ make`
-  * windows: 
+  * windows:
     `idk`
-  * mac os: 
+  * mac os:
     `idk`
-    

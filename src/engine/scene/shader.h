@@ -10,6 +10,10 @@ namespace me {
     std::string identifier;
     unsigned int programId;
     const char* source;
+    ~shader()
+    {
+      delete[] source; // ?
+    }
   };
 
 };

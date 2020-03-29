@@ -23,7 +23,12 @@ namespace me {
 
     ~material()
     {
-
+      delete rgba;
+      delete gloss;
+      delete metallic;
+      delete roughness;
+      delete emission;
+      delete ior;
     }
 
   };

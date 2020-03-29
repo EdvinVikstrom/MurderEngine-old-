@@ -34,8 +34,8 @@ int main()
     if (item->type==ME_ITEM_TYPE_MESH)
     {
       me::loadMesh(me::getMesh(((me::mesh_item*)item)->mesh), -1); // TODO: STATIC_USE at param[1]
-      me::simulation* simulation = new me::rigidbody_simulation(ME_SIMULATION_MODE_ACTIVE, 1.0D, true, 1.0F, 0.0F);
-      //simulation->applyForce({0, -0.5D, 0});
+      me::sim::simulation* simulation = new me::sim::rigidbody_simulation(ME_SIMULATION_MODE_ACTIVE, 1.0D, true, 1.0F, 0.0F);
+      me::registerSimulation(simulation);
       item->simulations.push_back(simulation);
     }
   }
@@ -47,5 +47,6 @@ int main()
 
   /* Starts the engine */
   me::engine_loop();
+  me::cleanup();
   return 0;
 }

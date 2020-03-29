@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <iostream>
+#include <vector>
 
 namespace me_utils {
 

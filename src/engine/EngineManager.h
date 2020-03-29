@@ -2,6 +2,7 @@
   #define MURDER_ENGINE_MATH
 
 #include "scene/scene.h"
+#include "simulation/simulation.h"
 
 namespace me {
 
@@ -12,12 +13,18 @@ namespace me {
   me::camera* getCamera(unsigned int id);
   me::shader* getShader(unsigned int id);
 
+  me::sim::simulation* getSimulation(unsigned int id);
+
   unsigned int registerImage(me::image* image);
   unsigned int registerMaterial(me::material* material);
   unsigned int registerMesh(me::mesh* mesh);
   unsigned int registerLight(me::light* light);
   unsigned int registerCamera(me::camera* camera);
   unsigned int registerShader(me::shader* shader);
+
+  unsigned int registerSimulation(me::sim::simulation* simulation);
+
+  void cleanup();
 
 };
 

@@ -3,9 +3,9 @@
 
 void me::item::update()
 {
-  for (me::simulation* simulation : simulations)
+  for (me::sim::simulation* simulation : simulations)
   {
-    simulation->applyGravity(&position, &rotation);
-    simulation->applyTo(&position, &rotation);
+    simulation->applyGravity(instance);
+    simulation->applyTo(instance);
   }
 }

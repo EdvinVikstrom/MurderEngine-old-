@@ -47,7 +47,7 @@ namespace me {
 
     ~image()
     {
-
+      delete[] pixels;
     }
 
   };
@@ -92,6 +92,11 @@ namespace me {
     wcolor()
     {
 
+    }
+    ~wcolor()
+    {
+      delete rgba;
+      // *do not delete image* look in EngineManager.h
     }
     void bind();
     void unbind();

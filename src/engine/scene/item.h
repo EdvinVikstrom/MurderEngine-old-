@@ -17,7 +17,8 @@ namespace me {
     me::vec3d rotation;
     me::vec3d scale;
     me::vec3d origin;
-    std::vector<simulation*> simulations;
+    me::sim::instance* instance;
+    std::vector<me::sim::simulation*> simulations;
 
     item(unsigned char type, std::string identifier, me::vec3d position, me::vec3d rotation, me::vec3d scale, me::vec3d origin)
     {
@@ -27,11 +28,16 @@ namespace me {
       this->rotation = rotation;
       this->scale = scale;
       this->origin = origin;
+      instance = new me::sim::instance(&position, &rotation, new me::vec3d(0, 0, 0), nullptr);
     }
 
     item() { }
 
-    ~item() { }
+    ~item()
+    {
+      delete instance;
+      simulations.clear();
+    }
 
     void update();
 
