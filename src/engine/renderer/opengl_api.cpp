@@ -6,7 +6,15 @@
 #include <GL/glew.h>
 #include <GL/glu.h>
 
-me::log* OPENGL_LOGGER = new me::log("OpenGL", "\e[36m[%N] %T #%M \e[0m");
+
+#include "../math/maths.h" // remove
+
+static me::log* OPENGL_LOGGER = new me::log("EngineManager",
+"\e[36m[%N] %T #%M \e[0m",
+"\e[36m[%N] %T\e[0m \e[33m#%M \e[0m",
+"\e[36m[%N] %T\e[0m \e[31m#%M \e[0m",
+"\e[34m[%N] %T #%M \e[0m"
+);
 
 unsigned int getParam(unsigned int i)
 {
@@ -44,15 +52,9 @@ int opengl_api::viewport(me::camera* camera, int x, int y, unsigned int width, u
   glMatrixMode(GL_PROJECTION);
   glViewport(x, y, width, height);
   if (camera->type==ME_CAMERA_PERSPECTIVE)
-  {
     gluPerspective(camera->focalLength, camera->aspectRatio, camera->znear, camera->zfar);
-    glEnable(GL_DEPTH_TEST);
-  }
   else if (camera->type==ME_CAMERA_2D_VIEW)
-  {
     glOrtho(0, width, height, 0, camera->znear, camera->zfar);
-    glDisable(GL_DEPTH_TEST);
-  }
   glMatrixMode(GL_MODELVIEW);
   return ME_FINE;
 }
@@ -64,14 +66,10 @@ int opengl_api::useProgram(unsigned int program)
 
 int opengl_api::push()
 {
-  glPushMatrix();
-  glPushAttrib(GL_CURRENT_BIT);
   return ME_FINE;
 }
 int opengl_api::pop()
 {
-  glPopMatrix();
-  glPopAttrib();
   return ME_FINE;
 }
 int opengl_api::clear()
@@ -128,19 +126,20 @@ int opengl_api::unbindMesh()
 }
 int opengl_api::mesh(me::mesh* mesh)
 {
- glDrawElements(GL_TRIANGLES, mesh->indices.count, GL_UNSIGNED_INT, nullptr);
+  glDrawElements(GL_TRIANGLES, mesh->indices.count, GL_UNSIGNED_INT, nullptr);
   return ME_FINE;
 }
+float f1 = 0;
+float f2 = 0;
+float f3 = 0;
 int opengl_api::bindImage(me::image* image)
 {
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, image->imageId);
+  //glBindTexture(GL_TEXTURE_2D, image->imageId);
   return ME_FINE;
 }
 int opengl_api::unbindImage()
 {
-  glBindTexture(GL_TEXTURE_2D, 0);
-  glDisable(GL_TEXTURE_2D);
+  //glBindTexture(GL_TEXTURE_2D, 0);
   return ME_FINE;
 }
 int opengl_api::plane(double posX, double posY, double scaleX, double scaleY)
@@ -158,7 +157,7 @@ int opengl_api::plane(double posX, double posY, double scaleX, double scaleY)
 }
 int opengl_api::color(float red, float green, float blue, float alpha)
 {
-  //glColor4f(red, green, blue, alpha);
+  glUniform4f(0, red, green, blue, alpha);
   return ME_FINE;
 }
 
@@ -170,6 +169,7 @@ int opengl_api::reset()
 int opengl_api::translate(double x, double y, double z, double w)
 {
   glTranslated(x, y, z);
+  glUniform4f(0, red, green, blue, alpha);
   return ME_FINE;
 }
 int opengl_api::rotate(double x, double y, double z, double w)

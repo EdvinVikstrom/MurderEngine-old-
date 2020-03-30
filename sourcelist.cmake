@@ -2,7 +2,7 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/Main.cpp
   ${SOURCE_DIR}/engine/EngineManager.cpp
   ${SOURCE_DIR}/engine/MurderEngine.cpp
-  ${SOURCE_DIR}/engine/utilities/FileUtils.cpp
+  ${SOURCE_DIR}/engine/kernel/io/file_reader.cpp
   ${SOURCE_DIR}/engine/utilities/Logger.cpp
   ${SOURCE_DIR}/engine/utilities/StringUtils.cpp
   ${SOURCE_DIR}/engine/utilities/ArrayUtils.cpp

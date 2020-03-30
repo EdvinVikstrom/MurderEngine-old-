@@ -10,7 +10,12 @@ extern unsigned int engine_version;
 extern std::string app_name;
 extern unsigned int app_version;
 
-me::log* VULKAN_LOGGER = new me::log("Vulkan", "\e[36m[%N] %T #%M \e[0m");
+static me::log* VULKAN_LOGGER = new me::log("Vulkan",
+"\e[32m[%N] %T #%M \e[0m",
+"\e[32m[%N] %T\e[0m \e[33m#%M \e[0m",
+"\e[31m[%N]\e[0m %T \e[31m#%M \e[0m",
+"\e[34m[%N] %T #%M \e[0m"
+);
 
 void vulkan_api::createInstance()
 {

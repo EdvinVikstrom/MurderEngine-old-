@@ -28,7 +28,12 @@ GLFWwindow* window;
 
 unsigned int fpsCount, fps;
 
-me::log* ME_LOGGER = new me::log("MurderEngine", "\e[32m[%N] %T #%M \e[0m");
+static me::log* ME_LOGGER = new me::log("MurderEngine",
+"\e[32m[%N] %T #%M \e[0m",
+"\e[32m[%N] %T\e[0m \e[33m#%M \e[0m",
+"\e[32m[%N] %T\e[0m \e[31m#%M \e[0m",
+"\e[34m[%N] %T #%M \e[0m"
+);
 
 std::vector<me::IEngineEvent*> events;
 std::map<int, bool> keysPressed; // buttons and keys
@@ -130,8 +135,8 @@ int me::engine_loop()
 
 int me::engine_load_shaders(const std::string &shader_path)
 {
-  unsigned int* shaders;
-  unsigned int shaderCount;
+  unsigned int shaderCount = 2;
+  unsigned int* shaders = new unsigned int[shaderCount];
   unsigned int program;
   if (loader::loadShaders(shader_path, shaders, shaderCount) != ME_FINE)
     return ME_ERR;

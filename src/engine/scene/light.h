@@ -3,12 +3,12 @@
 
 namespace me {
 
-  struct light {
+  struct light : mem_utils {
     std::string identifier;
     double power;
     double size;
-    me::vec4f* rgba;
-    light(std::string identifier, double power, double size, me::vec4f* rgba)
+    me::vec4f rgba;
+    light(std::string identifier, double power, double size, me::vec4f rgba)
     {
       this->identifier = identifier;
       this->power = power;
@@ -18,8 +18,17 @@ namespace me {
     light() { }
     ~light()
     {
-      delete rgba;  
+      //delete rgba;
     }
+
+    long mem_use() override
+    {
+      return identifier.size() +
+      sizeof(power) +
+      sizeof(size) +
+      sizeof(me::vec4f);
+    }
+
   };
 
   struct light_item : item {

@@ -5,7 +5,7 @@
 
 namespace loader {
 
-  int loadShaders(const std::string &filepath, unsigned int* shaders, unsigned int &shaderCount);
+  int loadShaders(const std::string &filepath, unsigned int* shaders, unsigned int shaderCount);
   int linkShaders(unsigned int& program, unsigned int* shaders, unsigned int shaderCount);
 
 };

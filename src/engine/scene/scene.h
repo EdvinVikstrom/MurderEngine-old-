@@ -7,6 +7,7 @@
 #include "../math/maths.h"
 #include "../math/vectors.h"
 #include "../MurderEngine.h"
+#include "../utilities/mem_utils.h"
 
 /* Only include these with scene.h */
   #include "item.h"

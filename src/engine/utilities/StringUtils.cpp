@@ -28,23 +28,6 @@ namespace utils {
     return array;
   }
 
-  bool endsWith(const std::string &string, const std::string &with)
-  {
-    if (with.empty())
-      return false;
-    unsigned int pos = with.size()-1;
-    for (int i = string.size()-1; i >= 0; i--)
-    {
-      char c = string.at(i);
-      if (c != with.at(pos))
-        return false;
-      if (pos==0)
-        return true;
-      pos--;
-    }
-    return false;
-  }
-
   std::vector<std::string> lines(const std::string &string)
   {
     std::vector<std::string> lines;

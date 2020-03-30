@@ -9,9 +9,14 @@
 
 extern std::string RENDERER_API_NAME;
 
-me::log* SHADER_LOGGER = new me::log("ShaderLoader", "\e[35m[%N] %T #%M \e[0m");
+static me::log* SHADER_LOGGER = new me::log("ShaderLoader",
+"\e[35m[%N] %T #%M \e[0m",
+"\e[35m[%N] %T\e[0m \e[33m#%M \e[0m",
+"\e[35m[%N] %T\e[0m \e[31m#%M \e[0m",
+"\e[34m[%N] %T #%M \e[0m"
+);
 
-int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsigned int &shaderCount)
+int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsigned int shaderCount)
 {
   unsigned int size;
   char* data = file_utils_read(filepath, size);
@@ -37,14 +42,12 @@ int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsi
       sources.at(sources.size()-1).second.append(line + "\n");
   }
   delete[] data;
-  shaderCount = sources.size();
-  shaders = new unsigned int[shaderCount];
   if (RENDERER_API_NAME=="opengl")
   {
     int numAttributes;
     glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &numAttributes);
     SHADER_LOGGER->out(std::string("Max attributes supported: ") + std::to_string(numAttributes) + "\n");
-    for (unsigned int i = 0; i < sources.size(); i++)
+    for (unsigned int i = 0; i < sources.size() && i < shaderCount; i++)
     {
       auto &source = sources.at(i);
       unsigned int shaderType = source.first;
@@ -61,6 +64,7 @@ int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsi
         shaderName = "Fragment";
       }
       shaders[i] = glCreateShader(shaderType);
+      std::cout << "real id: " << shaders[i] << "\n";
       const char *str = data.c_str();
       SHADER_LOGGER->out("  % Compiling " + shaderName + " shader\n");
       glShaderSource(shaders[i], 1, &str, nullptr);
@@ -88,7 +92,10 @@ int loader::linkShaders(unsigned int& program, unsigned int* shaders, unsigned i
 {
   program = glCreateProgram();
   for (unsigned int i = 0; i < shaderCount; i++)
+  {
+    std::cout << "shader id: " << shaders[0] << "\n";
     glAttachShader(program, shaders[i]);
+  }
   glLinkProgram(program);
   glValidateProgram(program);
   SHADER_LOGGER->out("Shaders Linked\n");

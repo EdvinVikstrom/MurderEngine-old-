@@ -1,0 +1,7 @@
+[0][0]: scaleX
+[1][1]: scaleY
+[2][2]: scaleZ
+
+[0][3]: posX
+[1][3]: posY
+[2][3]: posZ

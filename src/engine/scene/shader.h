@@ -6,7 +6,7 @@
 
 namespace me {
 
-  struct shader {
+  struct shader : mem_utils {
     std::string identifier;
     unsigned int programId;
     const char* source;
@@ -14,6 +14,14 @@ namespace me {
     {
       delete[] source; // ?
     }
+
+    long mem_use() override
+    {
+      return identifier.size() +
+      sizeof(unsigned int) +
+      sizeof(source);
+    }
+
   };
 
 };

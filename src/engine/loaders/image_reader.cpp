@@ -9,7 +9,12 @@
 #include "formats.h"
 #include "ImageReader.h"
 
-me::log* IMAGE_LOGGER = new me::log("ImageReader", "\e[30m;1m[%N] %T #%M \e[0m");
+static me::log* IMAGE_LOGGER = new me::log("ImageReader",
+"\e[30m[%N] %T #%M \e[0m",
+"\e[30m[%N] %T\e[0m \e[33m#%M \e[0m",
+"\e[30m[%N] %T\e[0m \e[31m#%M \e[0m",
+"\e[34m[%N] %T #%M \e[0m"
+);
 
 // helpers
 static unsigned int getImageFormat(unsigned short bitsPerPixel)

@@ -1,25 +1,25 @@
 #vertex
 #version 330 core
 
-layout(location = 0) in vec4 v_position;
-layout(location = 1) in vec4 v_normal;
-layout(location = 2) in vec4 v_texCoord;
+layout(location = 0) in vec4 position;
+
+uniform vec4 translate;
 
 void main()
 {
-  gl_Position = vec4(0, 0, 0, 0);
+  gl_Position = position;
 }
 
 #end
 #fragment
 #version 330 core
 
-layout(location = 0) out vec4 color;
-in vec4 vertex_color;
+layout(location = 0) out vec4 o_color;
+uniform vec4 color;
 
 void main()
 {
-  color = vec4(1.0F, 0.0F, 0.6F, 1.0F);
+  o_color = color;
 }
 
 #end

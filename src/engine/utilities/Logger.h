@@ -30,19 +30,28 @@
 namespace me {
 
   enum logMsgType {
-    INFO, WARNING, ERROR, DEBUG
+    INFO = 0,
+    WARNING = 1,
+    ERROR = 2,
+    DEBUG = 3
   };
 
   struct log {
     const char* prefix;
-    std::string pattern; // N: Log name, T: time, D: date, M: message type
-    log(const char* prefix, std::string pattern)
+    // N: Log name, T: time, D: date, M: message type
+    std::string out_pattern, warn_pattern, err_pattern, debug_pattern;
+    log(const char* prefix, std::string out_pattern, std::string warn_pattern, std::string err_pattern, std::string debug_pattern)
     {
       this->prefix = prefix;
-      this->pattern = pattern;
+      this->out_pattern = out_pattern;
+      this->warn_pattern = warn_pattern;
+      this->err_pattern = err_pattern;
+      this->debug_pattern = debug_pattern;
     }
     void out(std::string message);
+    void warn(std::string message);
     void err(std::string message);
+    void debug(std::string message);
   };
 
 };

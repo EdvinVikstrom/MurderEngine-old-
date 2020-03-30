@@ -4,6 +4,8 @@
 #include "TimeUtils.h"
 
 /* HELPERS */
+static const std::string TYPES[4] { "INFO", "WARN", "ERR", "DEBUG" };
+
 std::string decodePattern(me::log* log, std::string pattern, me::logMsgType type)
 {
   std::string decoded;
@@ -23,18 +25,35 @@ std::string decodePattern(me::log* log, std::string pattern, me::logMsgType type
     }else if (var && c=='D')
       decoded.append("2020/03/18");
     else if (var && c=='M')
-      decoded.append("INFO");
+      decoded.append(TYPES[type]);
     else if (c != '%')
       decoded+=c;
   }
   return decoded;
 }
 
+static bool show_info = true;
+static bool show_warn = true;
+static bool show_err = true;
+static bool show_debug = true;
+
 void me::log::out(std::string message)
 {
-  std::cout << decodePattern(this, me::log::pattern, me::logMsgType::INFO) << message;
+  if (show_info)
+    std::cout << decodePattern(this, me::log::out_pattern, me::logMsgType::INFO) << message;
+}
+void me::log::warn(std::string message)
+{
+  if (show_warn)
+    std::cout << decodePattern(this, me::log::warn_pattern, me::logMsgType::WARNING) << message;
 }
 void me::log::err(std::string message)
 {
-  std::cout << decodePattern(this, me::log::pattern, me::logMsgType::ERROR) << message;
+  if (show_err)
+    std::cout << decodePattern(this, me::log::err_pattern, me::logMsgType::ERROR) << message;
+}
+void me::log::debug(std::string message)
+{
+  if (show_debug)
+    std::cout << decodePattern(this, me::log::debug_pattern, me::logMsgType::DEBUG) << message;
 }

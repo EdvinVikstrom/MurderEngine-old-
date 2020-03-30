@@ -6,7 +6,7 @@
 
 namespace me {
 
-  struct camera {
+  struct camera : mem_utils {
     std::string identifier;
     me::vec3d position, rotation;
     unsigned int type; // TODO: Find the right name
@@ -28,6 +28,17 @@ namespace me {
     }
 
     camera() { }
+
+    long mem_use() override
+    {
+      return identifier.size() +
+      (sizeof(me::vec3d) * 2) +
+      sizeof(unsigned int) +
+      sizeof(float) +
+      sizeof(float) +
+      sizeof(double) +
+      sizeof(double);
+    }
 
   };
 

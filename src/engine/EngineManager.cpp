@@ -5,7 +5,12 @@
 
 extern std::string RENDER_API;
 
-static me::log* MANAGER_LOGGER = new me::log("EngineManager", "\e[32m[%N] %T #%M \e[0m");
+static me::log* MANAGER_LOGGER = new me::log("EngineManager",
+"\e[32m[%N] %T #%M \e[0m",
+"\e[32m[%N] %T\e[0m \e[33m#%M \e[0m",
+"\e[32m[%N] %T\e[0m \e[31m#%M \e[0m",
+"\e[34m[%N] %T #%M \e[0m"
+);
 
 static std::vector<me::image*> images;
 static std::vector<me::material*> materials;
@@ -66,46 +71,60 @@ void me::cleanup()
 {
   MANAGER_LOGGER->out("  % cleaning up\n");
   unsigned long mem = 0;
-  MANAGER_LOGGER->out("  - \e[3m images\n");
+  MANAGER_LOGGER->out("  - \e[3m images\e[0m\n");
   for (me::image* image : images)
   {
-    mem+=sizeof(image);
+    long use = image->mem_use();
+    mem+=use;
+    MANAGER_LOGGER->debug(std::string("  -- \e[3m image[") + image->identifier + "] | " + std::to_string(use) + "MiB\e[0m\n");
     delete image;
   }
   MANAGER_LOGGER->out("  - \e[3m materials\e[0m\n");
   for (me::material* material : materials)
   {
-    mem+=sizeof(material);
+    long use = material->mem_use();
+    mem+=use;
+    MANAGER_LOGGER->debug(std::string("  -- \e[3m material[") + material->identifier + "] | " + std::to_string(use) + "MiB\e[0m\n");
     delete material;
   }
   MANAGER_LOGGER->out("  - \e[3m meshes\e[0m\n");
   for (me::mesh* mesh : meshes)
   {
-    mem+=sizeof(mesh);
+    long use = mesh->mem_use();
+    mem+=use;
+    MANAGER_LOGGER->debug(std::string("  -- \e[3m image[") + mesh->identifier + "] | " + std::to_string(use) + "MiB\e[0m\n");
     delete mesh;
   }
   MANAGER_LOGGER->out("  - \e[3m lights\e[0m\n");
   for (me::light* light : lights)
   {
-    mem+=sizeof(light);
+    long use = light->mem_use();
+    mem+=use;
+    MANAGER_LOGGER->debug(std::string("  -- \e[3m light[") + light->identifier + "] | " + std::to_string(use) + "MiB\e[0m\n");
     delete light;
   }
   MANAGER_LOGGER->out("  - \e[3m cameras\e[0m\n");
   for (me::camera* camera : cameras)
   {
-    mem+=sizeof(camera);
+    long use = camera->mem_use();
+    mem+=use;
+    MANAGER_LOGGER->debug(std::string("  -- \e[3m camera[") + camera->identifier + "] | " + std::to_string(use) + "MiB\e[0m\n");
     delete camera;
   }
   MANAGER_LOGGER->out("  - \e[3m shaders\e[0m\n");
   for (me::shader* shader : shaders)
   {
-    mem+=sizeof(shader);
+    long use = shader->mem_use();
+    mem+=use;
+    MANAGER_LOGGER->debug(std::string("  -- \e[3m shader[") + shader->identifier + "] | " + std::to_string(use) + "MiB\e[0m\n");
     delete shader;
   }
   MANAGER_LOGGER->out("  - \e[3m simulations\e[0m\n");
   for (me::sim::simulation* simulation : simulations)
   {
-    mem+=sizeof(simulation);
+    long use = simulation->mem_use();
+    mem+=use;
+    MANAGER_LOGGER->debug(std::string("  -- \e[3m simulation[") + simulation->name + "] | " + std::to_string(use) + "MiB\e[0m\n");
     delete simulation;
   }
   images.clear();

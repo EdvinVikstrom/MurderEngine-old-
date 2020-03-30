@@ -63,8 +63,8 @@ void me::loadMesh(me::mesh* mesh, int usage)
 void me::processMeshFaces(me::mesh* mesh, unsigned int* faces, unsigned int faceCount, int vertexOffset, int normalOffset, int texCoordOffset)
 {
   mesh->indices.allocate_mem(faceCount);
-  for (unsigned int i = 0; i < faceCount; i++)
-    mesh->indices.values[i] = faces[i];
+  for (unsigned int i = 0; i < faceCount; i+=3)
+    mesh->indices.values[i/3] = faces[i];
   /*
   unsigned int positionSize = mesh->positions.count * 3;
   unsigned int normalSize = mesh->normals.count * 3;

@@ -26,18 +26,16 @@ namespace me {
 
   };
 
-  struct image {
+  struct image : mem_utils {
     std::string identifier;
-    unsigned int type;
     unsigned int imageId;
     unsigned int format;
     unsigned int width, height;
     unsigned char* pixels;
 
-    image(std::string identifier, unsigned int type, unsigned int imageId, unsigned int format, unsigned int width, unsigned int height, unsigned char* pixels)
+    image(std::string identifier, unsigned int imageId, unsigned int format, unsigned int width, unsigned int height, unsigned char* pixels)
     {
       this->identifier = identifier;
-      this->type = type;
       this->imageId = imageId;
       this->format = format;
       this->width = width;
@@ -45,13 +43,27 @@ namespace me {
       this->pixels = pixels;
     }
 
+    image() { }
+
     ~image()
     {
       delete[] pixels;
     }
 
+    long mem_use() override
+    {
+      return identifier.size() +
+      (sizeof(unsigned int) +
+      sizeof(unsigned int) +
+      sizeof(unsigned int) +
+      sizeof(unsigned int) +
+      sizeof(unsigned int)) +
+      sizeof(pixels);
+    }
+
   };
 
+  // please remove this
   struct texture {
     me::image* image;
     me::uvMap* uvMap;
@@ -69,17 +81,18 @@ namespace me {
 
   };
 
-  struct wcolor { // stands for wide-color. yes i know very stupid
+  struct wcolor : mem_utils { // stands for wide-color. yes i know very stupid
     unsigned int type;
     float v_float;
-    me::vec4f* rgba;
+    // we can save some memory if we make this a pointer
+    me::vec4f rgba;
     me::image* image;
     wcolor(me::image* image)
     {
       type = ME_WCOLOR_TYPE_IMAGE;
       this->image = image;
     }
-    wcolor(me::vec4f* rgba)
+    wcolor(me::vec4f rgba)
     {
       type = ME_WCOLOR_TYPE_RGBA;
       this->rgba = rgba;
@@ -95,11 +108,17 @@ namespace me {
     }
     ~wcolor()
     {
-      delete rgba;
       // *do not delete image* look in EngineManager.h
     }
     void bind();
     void unbind();
+    long mem_use() override
+    {
+      return sizeof(unsigned int) +
+      sizeof(float) +
+      (sizeof(me::vec4f)) +
+      (image != nullptr ? image->mem_use() : 0);
+    }
   };
 
   struct image_item : item {

@@ -5,7 +5,7 @@
 
 namespace me {
 
-  struct mesh {
+  struct mesh : mem_utils {
     std::string identifier;
     unsigned int VAO, positionsVBO, normalsVBO, texCoordsVBO, EBO;
     me::array<me::vec3f> positions;
@@ -30,10 +30,22 @@ namespace me {
 
     ~mesh()
     {
-      positions.unallocate_mem();
-      normals.unallocate_mem();
-      texCoords.unallocate_mem();
-      indices.unallocate_mem();
+    }
+
+    long mem_use() override
+    {
+      return identifier.size() +
+      (sizeof(unsigned int) +
+      sizeof(unsigned int) +
+      sizeof(unsigned int) +
+      sizeof(unsigned int) +
+      sizeof(unsigned int)) +
+      (positions.count * sizeof(me::vec3f)) +
+      (normals.count * sizeof(me::vec3f)) +
+      (texCoords.count * sizeof(me::vec2f)) +
+      (vertices.count * sizeof(float)) +
+      (indices.count * sizeof(unsigned int)) +
+      (sizeof(unsigned int));
     }
 
   };

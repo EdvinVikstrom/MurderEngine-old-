@@ -7,33 +7,25 @@
 #include "../../utilities/StringUtils.h"
 #include "../../utilities/ArrayUtils.h"
 #include "../../utilities/Logger.h"
+#include "../../../kernel/helpers/xml_helper.h"
 #include "collada_parser.h"
 
-me::log* COLLADA_LOGGER = new me::log("ColladaParser", "\e[33m[%N] %T #%M \e[0m");
+static me::log* COLLADA_LOGGER = new me::log("ColladaParser",
+"\e[33m[%N] %T #%M \e[0m",
+"\e[33m[%N] %T #%M \e[0m",
+"\e[33m[%N] %T\e[0m \e[31m#%M \e[0m",
+"\e[34m[%N] %T #%M \e[0m"
+);
 
 /* HELPERS */
 
 static std::map<std::string, std::string> sources;
 
-std::string getNodePath(rapidxml::xml_node<>* node)
+std::string getParamValue(std::map<std::string, me::element> &params, me::element &element)
 {
-  std::string path = std::string(node->name()) + " < ";
-  rapidxml::xml_node<>* parent = node->parent();
-  while(parent != 0)
-  {
-    path.append(std::string(parent->name()) + " < ");
-    parent = parent->parent();
-  }
-  return path;
-}
-
-std::string getParamValue(std::map<std::string, collada::param*> &params, collada::param* param)
-{
-  if (param->init_from.size() != 0)
-    return param->init_from;
-  else if (param->source.size() != 0)
-    return getParamValue(params, params[param->source]);
-  return "";
+  if (element.sid == "source")
+    return getParamValue(params, params[element->value]);
+  return element->value;
 }
 
 bool processEffectColors(rapidxml::xml_node<>* node, std::map<std::string, unsigned int> images, collada::effect* effect, me::wcolor* wcolor)
@@ -44,20 +36,15 @@ bool processEffectColors(rapidxml::xml_node<>* node, std::map<std::string, unsig
   if (color != 0)
   {
     std::string sid = color->first_attribute("sid")->value();
-    unsigned int argCount;
-    std::string* colorArgs = utils::split(color->value(), ' ', argCount);
-    if (argCount < 4)
-    {
-      COLLADA_LOGGER->err(std::string("[x < 4] too few arguments in 'color' at { ") + getNodePath(node) + " }\n");
-      return false;
-    }
+    std::vector<std::string> colorArgs = me_utils::splitStr(color->value(), ' ');
     wcolor->type = ME_WCOLOR_TYPE_RGBA;
-    wcolor->rgba = new me::vec4f(std::stof(colorArgs[0]), std::stof(colorArgs[1]), std::stof(colorArgs[2]), std::stof(colorArgs[3]));
-    delete[] colorArgs;
+    if (colorArgs.size()>=1) wcolor->rgba.x = std::stof(colorArgs.at(0));
+    if (colorArgs.size()>=2) wcolor->rgba.y = std::stof(colorArgs.at(1));
+    if (colorArgs.size()>=3) wcolor->rgba.z = std::stof(colorArgs.at(2));
+    if (colorArgs.size()>=4) wcolor->rgba.w = std::stof(colorArgs.at(3));
   }else if (texture != 0)
   {
     std::string tex = texture->first_attribute("texture")->value();
-    rapidxml::xml_attribute<>* uvMapAtt = texture->first_attribute("texcoord");
     wcolor->type = ME_WCOLOR_TYPE_IMAGE;
     wcolor->image = me::getImage(images[getParamValue(effect->params, effect->params[tex])]);
   }else if (v_float != 0)
@@ -68,9 +55,7 @@ bool processEffectColors(rapidxml::xml_node<>* node, std::map<std::string, unsig
   return true;
 }
 
-/* PARSER */
-
-bool collada::parse_mesh(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
+bool me::fformat::collada_reader::parse_mesh(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
 {
   rapidxml::xml_node<>* source = mesh_node->first_node("source");
   while(source != nullptr)
@@ -102,7 +87,7 @@ bool collada::parse_mesh(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
   return true;
 }
 
-bool collada::parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
+bool me::fformat::collada_reader::parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
 {
   rapidxml::xml_node<>* triangles_node = mesh_node->first_node("triangles");
   unsigned int faceCount = std::stoi(triangles_node->first_attribute("count")->value());
@@ -131,23 +116,18 @@ bool collada::parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
   return true;
 }
 
-bool collada::parse_effect(rapidxml::xml_node<>* effect_node, std::map<std::string, unsigned int> images, collada::effect* effect)
+bool me::fformat::collada_reader::parse_effect(rapidxml::xml_node<>* effect_node, std::map<std::string, unsigned int> images, collada::effect* effect)
 {
   rapidxml::xml_node<>* profile_common = effect_node->first_node("profile_COMMON");
   /* Params */
   rapidxml::xml_node<>* param_node = profile_common->first_node("newparam");
   while(param_node != 0)
   {
-    collada::param* param = new collada::param;
+    collada::param* param = new collada::param; // *params can have more than one element*
+    std::string sid = param_node->first_attribute("sid")->value();
     rapidxml::xml_node<>* node = param_node->first_node();
-    param->type = node->name();
-    rapidxml::xml_node<>* source_node = node->first_node("source");
-    rapidxml::xml_node<>* init_from_node = node->first_node("init_from");
-    if (source_node != 0)
-      param->source = source_node->value();
-    if (init_from_node != 0)
-      param->init_from = init_from_node->value();
-    effect->params[std::string(param_node->first_attribute("sid")->value())] = param;
+    me::element element = {node->name(), node->value()};
+    effect->params[sid] = element;
     param_node = param_node->next_sibling("newparam");
   }
   rapidxml::xml_node<>* technique = profile_common->first_node("technique");
@@ -177,7 +157,7 @@ bool collada::parse_effect(rapidxml::xml_node<>* effect_node, std::map<std::stri
   return true;
 }
 
-bool collada::parse_camera(rapidxml::xml_node<>* camera_node, me::camera* camera)
+bool me::fformat::collada_reader::parse_camera(rapidxml::xml_node<>* camera_node, me::camera* camera)
 {
   rapidxml::xml_node<>* optics = camera_node->first_node("optics");
   rapidxml::xml_node<>* technique_common = optics->first_node("technique_common");
@@ -193,7 +173,7 @@ bool collada::parse_camera(rapidxml::xml_node<>* camera_node, me::camera* camera
   return true;
 }
 
-bool collada::parse_light(rapidxml::xml_node<>* light_node, me::light* light)
+bool me::fformat::collada_reader::parse_light(rapidxml::xml_node<>* light_node, me::light* light)
 {
   rapidxml::xml_node<>* technique_common = light_node->first_node("technique_common");
   rapidxml::xml_node<>* point_node = technique_common->first_node("point");
@@ -224,7 +204,7 @@ bool collada::parse_light(rapidxml::xml_node<>* light_node, me::light* light)
   return true;
 }
 
-bool collada::parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string, unsigned int> &cameras, std::map<std::string, unsigned int> &lights, std::map<std::string, unsigned int> &images, std::map<std::string, collada::effect*> &effects, std::map<std::string, unsigned int> &materials, std::map<std::string, unsigned int> &meshes, std::vector<me::item*> &items)
+bool me::fformat::collada_reader::parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string, unsigned int> &cameras, std::map<std::string, unsigned int> &lights, std::map<std::string, unsigned int> &images, std::map<std::string, collada::effect*> &effects, std::map<std::string, unsigned int> &materials, std::map<std::string, unsigned int> &meshes, std::vector<me::item*> &items)
 {
   rapidxml::xml_node<>* node = scene_node->first_node("node");
   while(node != 0)
@@ -290,7 +270,7 @@ bool collada::parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string
 }
 
 /* order: textures, effects, materials, geometries */
-std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, unsigned int& itemCount)
+int me::fformat::collada_reader::read_mesh(const std::string &file_name, unsigned char* data, uint32_t data_size, me::mesh* mesh, std::vector<me::item*> &items)
 {
   rapidxml::xml_document<> doc;
   doc.parse<0>(data);
@@ -309,8 +289,6 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
   std::map<std::string, unsigned int> meshes;
   std::map<std::string, unsigned int> lights;
   std::map<std::string, unsigned int> cameras;
-
-  std::vector<me::item*> items;
 
   /* lights */
   COLLADA_LOGGER->out("Parsing lights:\n");
@@ -421,5 +399,5 @@ std::vector<me::item*> collada::loadColladaFile(char* data, unsigned int size, u
   parse_scene(scene_node, cameras, lights, images, effects, materials, meshes, items);
   itemCount = items.size();
   COLLADA_LOGGER->out(std::string("Loaded [") + std::to_string(itemCount) + "] object(s)\n");
-  return items;
+  return ME_FINE;
 }

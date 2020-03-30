@@ -1,5 +1,5 @@
-#ifndef VECTORS_H
-  #define VECTORS_H
+#ifndef ME_VECTORS_H
+  #define ME_VECTORS_H
 
 namespace me {
 

@@ -13,22 +13,21 @@ namespace me {
   struct item {
     unsigned char type;
     std::string identifier;
-    me::vec3d position;
-    me::vec3d rotation;
-    me::vec3d scale;
-    me::vec3d origin;
+    me::mat4x4f matrix;
     me::sim::instance* instance;
     std::vector<me::sim::simulation*> simulations;
 
-    item(unsigned char type, std::string identifier, me::vec3d position, me::vec3d rotation, me::vec3d scale, me::vec3d origin)
+    // other
+    me::vec3d velocity;
+
+    item(unsigned char type, std::string identifier, me::mat4x4f matrix)
     {
       this->type = type;
       this->identifier = identifier;
-      this->position = position;
-      this->rotation = rotation;
-      this->scale = scale;
-      this->origin = origin;
-      instance = new me::sim::instance(&position, &rotation, new me::vec3d(0, 0, 0), nullptr);
+      this->matrix = matrix;
+
+      velocity = me::vec3d(0, 0, 0);
+      instance = new me::sim::instance(&matrix, &velocity, nullptr);
     }
 
     item() { }
