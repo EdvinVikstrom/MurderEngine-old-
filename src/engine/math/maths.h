@@ -13,6 +13,11 @@ namespace maths {
 
   double rand();
 
+  inline bool inbox(double x, double y, double fx, double fy, double tx, double ty)
+  {
+    return x >= fx && x <= fx + tx && y >= fy && y <= fy + ty;
+  }
+
 // Trigonometric functions
 
   /* cos */

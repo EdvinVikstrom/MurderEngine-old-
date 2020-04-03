@@ -5,6 +5,7 @@
 #include "opengl_api.h"
 #include <GL/glew.h>
 #include <GL/glu.h>
+#include "../kernel/kernel.h"
 
 
 #include "../math/maths.h" // remove
@@ -43,17 +44,15 @@ int opengl_api::initializeApi()
     OPENGL_LOGGER->err("Failed to Initialize GLEW\n");
     return ME_ERR;
   }
-  glEnable(GL_CULL_FACE);
-  glCullFace(GL_BACK);
   return ME_FINE;
 }
 int opengl_api::viewport(me::camera* camera, int x, int y, unsigned int width, unsigned int height)
 {
-  glMatrixMode(GL_PROJECTION);
   glViewport(x, y, width, height);
-  if (camera->type==ME_CAMERA_PERSPECTIVE)
+  glMatrixMode(GL_PROJECTION);
+  if (camera->type==me::camera_type::PERSPECTIVE)
     gluPerspective(camera->focalLength, camera->aspectRatio, camera->znear, camera->zfar);
-  else if (camera->type==ME_CAMERA_2D_VIEW)
+  else if (camera->type==me::camera_type::ORTHOGRAPHIC)
     glOrtho(0, width, height, 0, camera->znear, camera->zfar);
   glMatrixMode(GL_MODELVIEW);
   return ME_FINE;
@@ -77,36 +76,6 @@ int opengl_api::clear()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   return ME_FINE;
 }
-int opengl_api::vertex(float x, float y, float z)
-{
-  glVertex3f(x, y, z);
-  return ME_FINE;
-}
-int opengl_api::renderStart(unsigned int type)
-{
-  glBegin(getParam(type));
-  return ME_FINE;
-}
-int opengl_api::renderEnd()
-{
-  glEnd();
-  return ME_FINE;
-}
-
-/*
-me::material* material = me::getMaterial(mesh->material);
-glEnable(GL_TEXTURE_2D);
-glBindTexture(GL_TEXTURE_2D, material->rgba->image->imageId);
-glBegin(GL_TRIANGLES);
-for (unsigned int i = 0; i < mesh->indices.count; i+=3)
-{
-  glTexCoord2f(mesh->vertices.values[mesh->indices.values[i+2]], mesh->vertices.values[mesh->indices.values[i+2]+1]);
-  glNormal3f(mesh->vertices.values[mesh->indices.values[i+1]], mesh->vertices.values[mesh->indices.values[i+1]+1], mesh->vertices.values[mesh->indices.values[i+1]+2]);
-  glVertex3f(mesh->vertices.values[mesh->indices.values[i]], mesh->vertices.values[mesh->indices.values[i]+1], mesh->vertices.values[mesh->indices.values[i]+2]);
-}
-glEnd();
-glDisable(GL_TEXTURE_2D);
-*/
 
 int opengl_api::bindMesh(me::mesh* mesh)
 {
@@ -114,6 +83,11 @@ int opengl_api::bindMesh(me::mesh* mesh)
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
   glEnableVertexAttribArray(2);
+  return ME_FINE;
+}
+int opengl_api::mesh(me::mesh* mesh)
+{
+  glDrawElements(GL_TRIANGLES, mesh->indices->count, GL_UNSIGNED_INT, nullptr);
   return ME_FINE;
 }
 int opengl_api::unbindMesh()
@@ -124,40 +98,8 @@ int opengl_api::unbindMesh()
   glBindVertexArray(0);
   return ME_FINE;
 }
-int opengl_api::mesh(me::mesh* mesh)
+int opengl_api::material(me::material* material)
 {
-  glDrawElements(GL_TRIANGLES, mesh->indices.count, GL_UNSIGNED_INT, nullptr);
-  return ME_FINE;
-}
-float f1 = 0;
-float f2 = 0;
-float f3 = 0;
-int opengl_api::bindImage(me::image* image)
-{
-  //glBindTexture(GL_TEXTURE_2D, image->imageId);
-  return ME_FINE;
-}
-int opengl_api::unbindImage()
-{
-  //glBindTexture(GL_TEXTURE_2D, 0);
-  return ME_FINE;
-}
-int opengl_api::plane(double posX, double posY, double scaleX, double scaleY)
-{
-  glBegin(GL_TRIANGLES);
-  glVertex2d(posX, posY);
-  glVertex2d(posX+scaleX, posY);
-  glVertex2d(posX, posY+scaleY);
-
-  glVertex2d(posX+scaleX, posY);
-  glVertex2d(posX+scaleX, posY+scaleY);
-  glVertex2d(posX, posY+scaleY);
-  glEnd();
-  return ME_FINE;
-}
-int opengl_api::color(float red, float green, float blue, float alpha)
-{
-  glUniform4f(0, red, green, blue, alpha);
   return ME_FINE;
 }
 
@@ -166,22 +108,11 @@ int opengl_api::reset()
   glLoadIdentity();
   return ME_FINE;
 }
-int opengl_api::translate(double x, double y, double z, double w)
+int opengl_api::transform(me::transform &transform)
 {
-  glTranslated(x, y, z);
-  glUniform4f(0, red, green, blue, alpha);
-  return ME_FINE;
-}
-int opengl_api::rotate(double x, double y, double z, double w)
-{
-  glRotated(x, 1, 0, 0);
-  glRotated(y, 0, 1, 0);
-  glRotated(z, 0, 0, 1);
-  return ME_FINE;
-}
-int opengl_api::scale(double x, double y, double z, double w)
-{
-  glScaled(x, y, z);
+  glUniform3f(0, transform.location.x, transform.location.y, transform.location.z);
+  glUniform3f(1, transform.rotation.x, transform.rotation.y, transform.rotation.z);
+  glUniform3f(2, transform.scale.x, transform.scale.y, transform.scale.z);
   return ME_FINE;
 }
 int opengl_api::modify(unsigned int p, float value)

@@ -10,37 +10,48 @@
 
 namespace me {
 
-  struct item {
-    unsigned char type;
+  enum item_type {
+    NONE,
+    MESH,
+    LIGHT,
+    CAMERA,
+    SPRITE
+  };
+
+  struct item : me::event::input_event {
     std::string identifier;
-    me::mat4x4f matrix;
-    me::sim::instance* instance;
-    std::vector<me::sim::simulation*> simulations;
+    me::item_type type;
+    me::transform transform;
+    me::mesh* mesh;
 
-    // other
-    me::vec3d velocity;
-
-    item(unsigned char type, std::string identifier, me::mat4x4f matrix)
+    item(std::string identifier, me::item_type type, me::transform transform, me::mesh* mesh)
     {
-      this->type = type;
       this->identifier = identifier;
-      this->matrix = matrix;
-
-      velocity = me::vec3d(0, 0, 0);
-      instance = new me::sim::instance(&matrix, &velocity, nullptr);
+      this->type = type;
+      this->transform = transform;
+      this->mesh = mesh;
     }
 
     item() { }
 
     ~item()
     {
-      delete instance;
-      simulations.clear();
     }
 
-    void update();
+    inline void update()
+    {
+
+    }
+    inline void render()
+    {
+
+    }
+
+    bool onMouseInput(int action, double posX, double posY, int button) override { return false; }
+    bool onKeyInput(int action, int key) override { return false; }
 
   };
+
 };
 
 #endif

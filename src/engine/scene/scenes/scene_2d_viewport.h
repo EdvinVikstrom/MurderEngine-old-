@@ -16,8 +16,8 @@ namespace me {
     void onRender() override;
     void onLoop() override;
 
-    void onMouseInput(int action, double posX, double posY, int button) override;
-    void onKeyInput(int action, int key) override;
+    bool onMouseInput(int action, double posX, double posY, int button) override;
+    bool onKeyInput(int action, int key) override;
 
   };
 

@@ -1,53 +1,54 @@
-#include "file_format.h"
 #include "image_reader.h"
 #include "mesh_reader.h"
 #include "../kernel/io/file_reader.h"
 
-// image
 #include "modules/bmp/bmp_reader.h"
-
-// mesh
+#include "modules/png/png_reader.h"
 #include "modules/collada/collada_reader.h"
+#include "modules/wavefront/obj_reader.h"
 
-void me::fformat::init()
-{
-  // image
-  formats.push_back(new bmp_reader);
-  // mesh
-  formats.push_back(new collada_reader);
-}
+static std::vector<me::fformat::file_format*> formats;
 
 me::image* me::fformat::read_image(const std::string &filepath)
 {
-  uint64_t data_size;
-  unsigned char* data = me::read_file(filepath, data_size);
-  me::image* image;
+  me::file_state file = me::read_file(filepath);
+  me::image* image = new me::image;
   for (me::fformat::file_format* format : formats)
   {
-    if (format->getFormatType() != me::fformat::format_type.IMAGE)
+    if (format->getFormatType() != me::fformat::format_type::IMAGE)
       continue;
-    if (format->recognized(filepath, data, data_size))
+    if (format->recognized(file))
     {
-      ((image_reader*)format)->read_file(filepath, data, data_size, image);
+      ((image_reader*)format)->read_file(file, image);
       break;
     }
   }
   return image;
 }
-std::vector<me::item*> me::fformat::read_mesh(const std::string &filepath)
+me::scene_packet* me::fformat::read_mesh(const std::string &filepath)
 {
-  uint64_t data_size;
-  unsigned char* data = me::read_file(filepath, data_size);
-  std::vector<me::item*> items;
+  me::file_state file = me::read_file(filepath);
+  me::scene_packet* packet = new me::scene_packet;
   for (me::fformat::file_format* format : formats)
   {
-    if (format->getFormatType() != me::fformat::format_type.IMAGE)
+    if (format->getFormatType() != me::fformat::format_type::MESH)
       continue;
-    if (format->recognized(filepath, data, data_size))
+    if (format->recognized(file))
     {
-      ((mesh_reader*)format)->read_file(filepath, data, data_size, items);
+      ((mesh_reader*)format)->read_file(file, packet);
       break;
     }
   }
-  return items;
+  return packet;
+}
+
+void me::fformat::init()
+{
+  formats.push_back(new bmp_reader);
+  formats.push_back(new collada_reader);
+  formats.push_back(new obj_reader);
+}
+void me::fformat::cleanup()
+{
+
 }

@@ -9,8 +9,7 @@
 #define ME_SIMULATION_COLLISION_CONVEX_HULL   0x3
 #define ME_SIMULATION_COLLISION_MESH          0x4
 
-#include "../math/vectors.h"
-#include "../math/matrix.h"
+#include "../math/transform.h"
 #include "../math/geometry.h"
 #include "../utilities/mem_utils.h"
 #include <string>
@@ -20,12 +19,12 @@ namespace me {
   namespace sim {
 
     struct instance {
-      me::mat4x4f* matrix;
+      me::transform* transform;
       me::vec3d* velocity;
       me::gmt::boundary* collisions;
-      instance(me::mat4x4f* matrix, me::vec3d* velocity, me::gmt::boundary* collisions)
+      instance(me::transform* transform, me::vec3d* velocity, me::gmt::boundary* collisions)
       {
-        this->matrix = matrix;
+        this->transform = transform;
         this->velocity = velocity;
         this->collisions = collisions;
       }

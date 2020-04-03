@@ -1,11 +1,11 @@
 #include <GL/glew.h>
 #include <string>
 #include <vector>
-#include "shader_loader.h"
+#include "shader_reader.h"
 #include "../MurderEngine.h"
-#include "../utilities/FileUtils.h"
 #include "../utilities/Logger.h"
 #include "../utilities/StringUtils.h"
+#include "../kernel/io/file_reader.h"
 
 extern std::string RENDERER_API_NAME;
 
@@ -18,9 +18,8 @@ static me::log* SHADER_LOGGER = new me::log("ShaderLoader",
 
 int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsigned int shaderCount)
 {
-  unsigned int size;
-  char* data = file_utils_read(filepath, size);
-  std::vector<std::string> lines = utils::lines(data);
+  me::file_state file = me::read_file(filepath);
+  std::vector<std::string> lines = me_utils::splitStr(std::string((char*)file.data), '\n');
   std::vector<std::pair<unsigned int, std::string>> sources;
   bool appending = false;
   for (std::string &line : lines)
@@ -41,7 +40,6 @@ int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsi
     if (appending)
       sources.at(sources.size()-1).second.append(line + "\n");
   }
-  delete[] data;
   if (RENDERER_API_NAME=="opengl")
   {
     int numAttributes;
@@ -64,7 +62,6 @@ int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsi
         shaderName = "Fragment";
       }
       shaders[i] = glCreateShader(shaderType);
-      std::cout << "real id: " << shaders[i] << "\n";
       const char *str = data.c_str();
       SHADER_LOGGER->out("  % Compiling " + shaderName + " shader\n");
       glShaderSource(shaders[i], 1, &str, nullptr);
@@ -92,10 +89,7 @@ int loader::linkShaders(unsigned int& program, unsigned int* shaders, unsigned i
 {
   program = glCreateProgram();
   for (unsigned int i = 0; i < shaderCount; i++)
-  {
-    std::cout << "shader id: " << shaders[0] << "\n";
     glAttachShader(program, shaders[i]);
-  }
   glLinkProgram(program);
   glValidateProgram(program);
   SHADER_LOGGER->out("Shaders Linked\n");

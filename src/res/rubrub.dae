@@ -102,7 +102,7 @@
   </library_effects>
   <library_images>
     <image id="colors_of_doom_bmp" name="colors_of_doom_bmp">
-      <init_from>/home/edvinskomputa/Dokument/OnePunchEngine/src/res/colors of doom.bmp</init_from>
+      <init_from>/home/edvinskomputa/Dokument/OnePunchEngine/src/res/untitled.bmp</init_from>
     </image>
   </library_images>
   <library_materials>

@@ -17,9 +17,9 @@ namespace me {
     };
 
     enum bmp_compression_type {
-      BI_RGB = 0;
-      BI_RLE8 = 1;
-      BI_RLE4 = 2;
+      BI_RGB = 0,
+      BI_RLE8 = 1,
+      BI_RLE4 = 2
     };
 
     struct bmp_header {
@@ -29,7 +29,7 @@ namespace me {
         uint32_t file_size;        // size of file in bytes | offset: 2
         uint32_t reserved;         // unused | offset: 6
         uint32_t data_offset;      // beginning of the bitmap data | offset: 10
-      }, head;
+      } file;
 
       struct info_header {
         uint32_t size;             // size of the header | offset: 14
@@ -43,7 +43,7 @@ namespace me {
         uint32_t y_pixel_per_m;    // y pixel per meter | offset: 42
         uint32_t colors_used;      // number of used colors | offset: 46
         uint32_t important_colors; // number of important colors [0: all] | offset: 50
-      }, info;
+      } info;
 
     };
 
@@ -51,8 +51,8 @@ namespace me {
 
     public:
 
-      int read_image(const std::string &file_name, unsigned char* data, uint32_t data_size, me::image* image) override;
-      bool recognized(const std::string &file_name, unsigned char* data, uint32_t data_size) override;
+      int read_image(me::file_state &file, me::image* image) override;
+      bool recognized(me::file_state &file) override;
       std::vector<std::string> get_file_exts() override;
 
     };

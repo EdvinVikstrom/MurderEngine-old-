@@ -221,113 +221,248 @@ src/engine/MurderEngine.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.s
 .PHONY : src/engine/MurderEngine.cpp.s
 
-src/engine/loaders/ImageReader.o: src/engine/loaders/ImageReader.cpp.o
+src/engine/kernel/io/file_reader.o: src/engine/kernel/io/file_reader.cpp.o
 
-.PHONY : src/engine/loaders/ImageReader.o
-
-# target to build an object file
-src/engine/loaders/ImageReader.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.o
-.PHONY : src/engine/loaders/ImageReader.cpp.o
-
-src/engine/loaders/ImageReader.i: src/engine/loaders/ImageReader.cpp.i
-
-.PHONY : src/engine/loaders/ImageReader.i
-
-# target to preprocess a source file
-src/engine/loaders/ImageReader.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.i
-.PHONY : src/engine/loaders/ImageReader.cpp.i
-
-src/engine/loaders/ImageReader.s: src/engine/loaders/ImageReader.cpp.s
-
-.PHONY : src/engine/loaders/ImageReader.s
-
-# target to generate assembly for a file
-src/engine/loaders/ImageReader.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/ImageReader.cpp.s
-.PHONY : src/engine/loaders/ImageReader.cpp.s
-
-src/engine/loaders/mesh_loader.o: src/engine/loaders/mesh_loader.cpp.o
-
-.PHONY : src/engine/loaders/mesh_loader.o
+.PHONY : src/engine/kernel/io/file_reader.o
 
 # target to build an object file
-src/engine/loaders/mesh_loader.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.o
-.PHONY : src/engine/loaders/mesh_loader.cpp.o
+src/engine/kernel/io/file_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/kernel/io/file_reader.cpp.o
+.PHONY : src/engine/kernel/io/file_reader.cpp.o
 
-src/engine/loaders/mesh_loader.i: src/engine/loaders/mesh_loader.cpp.i
+src/engine/kernel/io/file_reader.i: src/engine/kernel/io/file_reader.cpp.i
 
-.PHONY : src/engine/loaders/mesh_loader.i
+.PHONY : src/engine/kernel/io/file_reader.i
 
 # target to preprocess a source file
-src/engine/loaders/mesh_loader.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.i
-.PHONY : src/engine/loaders/mesh_loader.cpp.i
+src/engine/kernel/io/file_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/kernel/io/file_reader.cpp.i
+.PHONY : src/engine/kernel/io/file_reader.cpp.i
 
-src/engine/loaders/mesh_loader.s: src/engine/loaders/mesh_loader.cpp.s
+src/engine/kernel/io/file_reader.s: src/engine/kernel/io/file_reader.cpp.s
 
-.PHONY : src/engine/loaders/mesh_loader.s
+.PHONY : src/engine/kernel/io/file_reader.s
 
 # target to generate assembly for a file
-src/engine/loaders/mesh_loader.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_loader.cpp.s
-.PHONY : src/engine/loaders/mesh_loader.cpp.s
+src/engine/kernel/io/file_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/kernel/io/file_reader.cpp.s
+.PHONY : src/engine/kernel/io/file_reader.cpp.s
 
-src/engine/loaders/parsers/collada_parser.o: src/engine/loaders/parsers/collada_parser.cpp.o
+src/engine/loaders/file_format.o: src/engine/loaders/file_format.cpp.o
 
-.PHONY : src/engine/loaders/parsers/collada_parser.o
+.PHONY : src/engine/loaders/file_format.o
 
 # target to build an object file
-src/engine/loaders/parsers/collada_parser.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.o
-.PHONY : src/engine/loaders/parsers/collada_parser.cpp.o
+src/engine/loaders/file_format.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/file_format.cpp.o
+.PHONY : src/engine/loaders/file_format.cpp.o
 
-src/engine/loaders/parsers/collada_parser.i: src/engine/loaders/parsers/collada_parser.cpp.i
+src/engine/loaders/file_format.i: src/engine/loaders/file_format.cpp.i
 
-.PHONY : src/engine/loaders/parsers/collada_parser.i
+.PHONY : src/engine/loaders/file_format.i
 
 # target to preprocess a source file
-src/engine/loaders/parsers/collada_parser.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.i
-.PHONY : src/engine/loaders/parsers/collada_parser.cpp.i
+src/engine/loaders/file_format.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/file_format.cpp.i
+.PHONY : src/engine/loaders/file_format.cpp.i
 
-src/engine/loaders/parsers/collada_parser.s: src/engine/loaders/parsers/collada_parser.cpp.s
+src/engine/loaders/file_format.s: src/engine/loaders/file_format.cpp.s
 
-.PHONY : src/engine/loaders/parsers/collada_parser.s
+.PHONY : src/engine/loaders/file_format.s
 
 # target to generate assembly for a file
-src/engine/loaders/parsers/collada_parser.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/parsers/collada_parser.cpp.s
-.PHONY : src/engine/loaders/parsers/collada_parser.cpp.s
+src/engine/loaders/file_format.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/file_format.cpp.s
+.PHONY : src/engine/loaders/file_format.cpp.s
 
-src/engine/loaders/shader_loader.o: src/engine/loaders/shader_loader.cpp.o
+src/engine/loaders/image_reader.o: src/engine/loaders/image_reader.cpp.o
 
-.PHONY : src/engine/loaders/shader_loader.o
+.PHONY : src/engine/loaders/image_reader.o
 
 # target to build an object file
-src/engine/loaders/shader_loader.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.o
-.PHONY : src/engine/loaders/shader_loader.cpp.o
+src/engine/loaders/image_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/image_reader.cpp.o
+.PHONY : src/engine/loaders/image_reader.cpp.o
 
-src/engine/loaders/shader_loader.i: src/engine/loaders/shader_loader.cpp.i
+src/engine/loaders/image_reader.i: src/engine/loaders/image_reader.cpp.i
 
-.PHONY : src/engine/loaders/shader_loader.i
+.PHONY : src/engine/loaders/image_reader.i
 
 # target to preprocess a source file
-src/engine/loaders/shader_loader.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.i
-.PHONY : src/engine/loaders/shader_loader.cpp.i
+src/engine/loaders/image_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/image_reader.cpp.i
+.PHONY : src/engine/loaders/image_reader.cpp.i
 
-src/engine/loaders/shader_loader.s: src/engine/loaders/shader_loader.cpp.s
+src/engine/loaders/image_reader.s: src/engine/loaders/image_reader.cpp.s
 
-.PHONY : src/engine/loaders/shader_loader.s
+.PHONY : src/engine/loaders/image_reader.s
 
 # target to generate assembly for a file
-src/engine/loaders/shader_loader.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_loader.cpp.s
-.PHONY : src/engine/loaders/shader_loader.cpp.s
+src/engine/loaders/image_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/image_reader.cpp.s
+.PHONY : src/engine/loaders/image_reader.cpp.s
+
+src/engine/loaders/mesh_reader.o: src/engine/loaders/mesh_reader.cpp.o
+
+.PHONY : src/engine/loaders/mesh_reader.o
+
+# target to build an object file
+src/engine/loaders/mesh_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_reader.cpp.o
+.PHONY : src/engine/loaders/mesh_reader.cpp.o
+
+src/engine/loaders/mesh_reader.i: src/engine/loaders/mesh_reader.cpp.i
+
+.PHONY : src/engine/loaders/mesh_reader.i
+
+# target to preprocess a source file
+src/engine/loaders/mesh_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_reader.cpp.i
+.PHONY : src/engine/loaders/mesh_reader.cpp.i
+
+src/engine/loaders/mesh_reader.s: src/engine/loaders/mesh_reader.cpp.s
+
+.PHONY : src/engine/loaders/mesh_reader.s
+
+# target to generate assembly for a file
+src/engine/loaders/mesh_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/mesh_reader.cpp.s
+.PHONY : src/engine/loaders/mesh_reader.cpp.s
+
+src/engine/loaders/modules/bmp/bmp_reader.o: src/engine/loaders/modules/bmp/bmp_reader.cpp.o
+
+.PHONY : src/engine/loaders/modules/bmp/bmp_reader.o
+
+# target to build an object file
+src/engine/loaders/modules/bmp/bmp_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/bmp/bmp_reader.cpp.o
+.PHONY : src/engine/loaders/modules/bmp/bmp_reader.cpp.o
+
+src/engine/loaders/modules/bmp/bmp_reader.i: src/engine/loaders/modules/bmp/bmp_reader.cpp.i
+
+.PHONY : src/engine/loaders/modules/bmp/bmp_reader.i
+
+# target to preprocess a source file
+src/engine/loaders/modules/bmp/bmp_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/bmp/bmp_reader.cpp.i
+.PHONY : src/engine/loaders/modules/bmp/bmp_reader.cpp.i
+
+src/engine/loaders/modules/bmp/bmp_reader.s: src/engine/loaders/modules/bmp/bmp_reader.cpp.s
+
+.PHONY : src/engine/loaders/modules/bmp/bmp_reader.s
+
+# target to generate assembly for a file
+src/engine/loaders/modules/bmp/bmp_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/bmp/bmp_reader.cpp.s
+.PHONY : src/engine/loaders/modules/bmp/bmp_reader.cpp.s
+
+src/engine/loaders/modules/collada/collada_reader.o: src/engine/loaders/modules/collada/collada_reader.cpp.o
+
+.PHONY : src/engine/loaders/modules/collada/collada_reader.o
+
+# target to build an object file
+src/engine/loaders/modules/collada/collada_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/collada/collada_reader.cpp.o
+.PHONY : src/engine/loaders/modules/collada/collada_reader.cpp.o
+
+src/engine/loaders/modules/collada/collada_reader.i: src/engine/loaders/modules/collada/collada_reader.cpp.i
+
+.PHONY : src/engine/loaders/modules/collada/collada_reader.i
+
+# target to preprocess a source file
+src/engine/loaders/modules/collada/collada_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/collada/collada_reader.cpp.i
+.PHONY : src/engine/loaders/modules/collada/collada_reader.cpp.i
+
+src/engine/loaders/modules/collada/collada_reader.s: src/engine/loaders/modules/collada/collada_reader.cpp.s
+
+.PHONY : src/engine/loaders/modules/collada/collada_reader.s
+
+# target to generate assembly for a file
+src/engine/loaders/modules/collada/collada_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/collada/collada_reader.cpp.s
+.PHONY : src/engine/loaders/modules/collada/collada_reader.cpp.s
+
+src/engine/loaders/modules/png/png_reader.o: src/engine/loaders/modules/png/png_reader.cpp.o
+
+.PHONY : src/engine/loaders/modules/png/png_reader.o
+
+# target to build an object file
+src/engine/loaders/modules/png/png_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/png/png_reader.cpp.o
+.PHONY : src/engine/loaders/modules/png/png_reader.cpp.o
+
+src/engine/loaders/modules/png/png_reader.i: src/engine/loaders/modules/png/png_reader.cpp.i
+
+.PHONY : src/engine/loaders/modules/png/png_reader.i
+
+# target to preprocess a source file
+src/engine/loaders/modules/png/png_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/png/png_reader.cpp.i
+.PHONY : src/engine/loaders/modules/png/png_reader.cpp.i
+
+src/engine/loaders/modules/png/png_reader.s: src/engine/loaders/modules/png/png_reader.cpp.s
+
+.PHONY : src/engine/loaders/modules/png/png_reader.s
+
+# target to generate assembly for a file
+src/engine/loaders/modules/png/png_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/png/png_reader.cpp.s
+.PHONY : src/engine/loaders/modules/png/png_reader.cpp.s
+
+src/engine/loaders/modules/wavefront/obj_reader.o: src/engine/loaders/modules/wavefront/obj_reader.cpp.o
+
+.PHONY : src/engine/loaders/modules/wavefront/obj_reader.o
+
+# target to build an object file
+src/engine/loaders/modules/wavefront/obj_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/wavefront/obj_reader.cpp.o
+.PHONY : src/engine/loaders/modules/wavefront/obj_reader.cpp.o
+
+src/engine/loaders/modules/wavefront/obj_reader.i: src/engine/loaders/modules/wavefront/obj_reader.cpp.i
+
+.PHONY : src/engine/loaders/modules/wavefront/obj_reader.i
+
+# target to preprocess a source file
+src/engine/loaders/modules/wavefront/obj_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/wavefront/obj_reader.cpp.i
+.PHONY : src/engine/loaders/modules/wavefront/obj_reader.cpp.i
+
+src/engine/loaders/modules/wavefront/obj_reader.s: src/engine/loaders/modules/wavefront/obj_reader.cpp.s
+
+.PHONY : src/engine/loaders/modules/wavefront/obj_reader.s
+
+# target to generate assembly for a file
+src/engine/loaders/modules/wavefront/obj_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/wavefront/obj_reader.cpp.s
+.PHONY : src/engine/loaders/modules/wavefront/obj_reader.cpp.s
+
+src/engine/loaders/shader_reader.o: src/engine/loaders/shader_reader.cpp.o
+
+.PHONY : src/engine/loaders/shader_reader.o
+
+# target to build an object file
+src/engine/loaders/shader_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_reader.cpp.o
+.PHONY : src/engine/loaders/shader_reader.cpp.o
+
+src/engine/loaders/shader_reader.i: src/engine/loaders/shader_reader.cpp.i
+
+.PHONY : src/engine/loaders/shader_reader.i
+
+# target to preprocess a source file
+src/engine/loaders/shader_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_reader.cpp.i
+.PHONY : src/engine/loaders/shader_reader.cpp.i
+
+src/engine/loaders/shader_reader.s: src/engine/loaders/shader_reader.cpp.s
+
+.PHONY : src/engine/loaders/shader_reader.s
+
+# target to generate assembly for a file
+src/engine/loaders/shader_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_reader.cpp.s
+.PHONY : src/engine/loaders/shader_reader.cpp.s
 
 src/engine/math/maths.o: src/engine/math/maths.cpp.o
 
@@ -383,6 +518,33 @@ src/engine/math/vectors.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.s
 .PHONY : src/engine/math/vectors.cpp.s
 
+src/engine/renderer/modules/item_renderer.o: src/engine/renderer/modules/item_renderer.cpp.o
+
+.PHONY : src/engine/renderer/modules/item_renderer.o
+
+# target to build an object file
+src/engine/renderer/modules/item_renderer.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/modules/item_renderer.cpp.o
+.PHONY : src/engine/renderer/modules/item_renderer.cpp.o
+
+src/engine/renderer/modules/item_renderer.i: src/engine/renderer/modules/item_renderer.cpp.i
+
+.PHONY : src/engine/renderer/modules/item_renderer.i
+
+# target to preprocess a source file
+src/engine/renderer/modules/item_renderer.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/modules/item_renderer.cpp.i
+.PHONY : src/engine/renderer/modules/item_renderer.cpp.i
+
+src/engine/renderer/modules/item_renderer.s: src/engine/renderer/modules/item_renderer.cpp.s
+
+.PHONY : src/engine/renderer/modules/item_renderer.s
+
+# target to generate assembly for a file
+src/engine/renderer/modules/item_renderer.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/modules/item_renderer.cpp.s
+.PHONY : src/engine/renderer/modules/item_renderer.cpp.s
+
 src/engine/renderer/opengl_api.o: src/engine/renderer/opengl_api.cpp.o
 
 .PHONY : src/engine/renderer/opengl_api.o
@@ -436,33 +598,6 @@ src/engine/renderer/vulkan_api.s: src/engine/renderer/vulkan_api.cpp.s
 src/engine/renderer/vulkan_api.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/vulkan_api.cpp.s
 .PHONY : src/engine/renderer/vulkan_api.cpp.s
-
-src/engine/scene/item.o: src/engine/scene/item.cpp.o
-
-.PHONY : src/engine/scene/item.o
-
-# target to build an object file
-src/engine/scene/item.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.o
-.PHONY : src/engine/scene/item.cpp.o
-
-src/engine/scene/item.i: src/engine/scene/item.cpp.i
-
-.PHONY : src/engine/scene/item.i
-
-# target to preprocess a source file
-src/engine/scene/item.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.i
-.PHONY : src/engine/scene/item.cpp.i
-
-src/engine/scene/item.s: src/engine/scene/item.cpp.s
-
-.PHONY : src/engine/scene/item.s
-
-# target to generate assembly for a file
-src/engine/scene/item.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/item.cpp.s
-.PHONY : src/engine/scene/item.cpp.s
 
 src/engine/scene/particle/particle.o: src/engine/scene/particle/particle.cpp.o
 
@@ -572,33 +707,6 @@ src/engine/scene/scenes/scene_outliner.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.s
 .PHONY : src/engine/scene/scenes/scene_outliner.cpp.s
 
-src/engine/scene/texture.o: src/engine/scene/texture.cpp.o
-
-.PHONY : src/engine/scene/texture.o
-
-# target to build an object file
-src/engine/scene/texture.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.o
-.PHONY : src/engine/scene/texture.cpp.o
-
-src/engine/scene/texture.i: src/engine/scene/texture.cpp.i
-
-.PHONY : src/engine/scene/texture.i
-
-# target to preprocess a source file
-src/engine/scene/texture.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.i
-.PHONY : src/engine/scene/texture.cpp.i
-
-src/engine/scene/texture.s: src/engine/scene/texture.cpp.s
-
-.PHONY : src/engine/scene/texture.s
-
-# target to generate assembly for a file
-src/engine/scene/texture.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/texture.cpp.s
-.PHONY : src/engine/scene/texture.cpp.s
-
 src/engine/simulation/rigidbody/rigidbody.o: src/engine/simulation/rigidbody/rigidbody.cpp.o
 
 .PHONY : src/engine/simulation/rigidbody/rigidbody.o
@@ -653,33 +761,6 @@ src/engine/utilities/ArrayUtils.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/ArrayUtils.cpp.s
 .PHONY : src/engine/utilities/ArrayUtils.cpp.s
 
-src/engine/utilities/FileUtils.o: src/engine/utilities/FileUtils.cpp.o
-
-.PHONY : src/engine/utilities/FileUtils.o
-
-# target to build an object file
-src/engine/utilities/FileUtils.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/FileUtils.cpp.o
-.PHONY : src/engine/utilities/FileUtils.cpp.o
-
-src/engine/utilities/FileUtils.i: src/engine/utilities/FileUtils.cpp.i
-
-.PHONY : src/engine/utilities/FileUtils.i
-
-# target to preprocess a source file
-src/engine/utilities/FileUtils.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/FileUtils.cpp.i
-.PHONY : src/engine/utilities/FileUtils.cpp.i
-
-src/engine/utilities/FileUtils.s: src/engine/utilities/FileUtils.cpp.s
-
-.PHONY : src/engine/utilities/FileUtils.s
-
-# target to generate assembly for a file
-src/engine/utilities/FileUtils.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/FileUtils.cpp.s
-.PHONY : src/engine/utilities/FileUtils.cpp.s
-
 src/engine/utilities/Logger.o: src/engine/utilities/Logger.cpp.o
 
 .PHONY : src/engine/utilities/Logger.o
@@ -706,33 +787,6 @@ src/engine/utilities/Logger.s: src/engine/utilities/Logger.cpp.s
 src/engine/utilities/Logger.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/Logger.cpp.s
 .PHONY : src/engine/utilities/Logger.cpp.s
-
-src/engine/utilities/StringUtils.o: src/engine/utilities/StringUtils.cpp.o
-
-.PHONY : src/engine/utilities/StringUtils.o
-
-# target to build an object file
-src/engine/utilities/StringUtils.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/StringUtils.cpp.o
-.PHONY : src/engine/utilities/StringUtils.cpp.o
-
-src/engine/utilities/StringUtils.i: src/engine/utilities/StringUtils.cpp.i
-
-.PHONY : src/engine/utilities/StringUtils.i
-
-# target to preprocess a source file
-src/engine/utilities/StringUtils.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/StringUtils.cpp.i
-.PHONY : src/engine/utilities/StringUtils.cpp.i
-
-src/engine/utilities/StringUtils.s: src/engine/utilities/StringUtils.cpp.s
-
-.PHONY : src/engine/utilities/StringUtils.s
-
-# target to generate assembly for a file
-src/engine/utilities/StringUtils.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/StringUtils.cpp.s
-.PHONY : src/engine/utilities/StringUtils.cpp.s
 
 src/engine/utilities/TimeUtils.o: src/engine/utilities/TimeUtils.cpp.o
 
@@ -806,33 +860,48 @@ help:
 	@echo "... src/engine/MurderEngine.o"
 	@echo "... src/engine/MurderEngine.i"
 	@echo "... src/engine/MurderEngine.s"
-	@echo "... src/engine/loaders/ImageReader.o"
-	@echo "... src/engine/loaders/ImageReader.i"
-	@echo "... src/engine/loaders/ImageReader.s"
-	@echo "... src/engine/loaders/mesh_loader.o"
-	@echo "... src/engine/loaders/mesh_loader.i"
-	@echo "... src/engine/loaders/mesh_loader.s"
-	@echo "... src/engine/loaders/parsers/collada_parser.o"
-	@echo "... src/engine/loaders/parsers/collada_parser.i"
-	@echo "... src/engine/loaders/parsers/collada_parser.s"
-	@echo "... src/engine/loaders/shader_loader.o"
-	@echo "... src/engine/loaders/shader_loader.i"
-	@echo "... src/engine/loaders/shader_loader.s"
+	@echo "... src/engine/kernel/io/file_reader.o"
+	@echo "... src/engine/kernel/io/file_reader.i"
+	@echo "... src/engine/kernel/io/file_reader.s"
+	@echo "... src/engine/loaders/file_format.o"
+	@echo "... src/engine/loaders/file_format.i"
+	@echo "... src/engine/loaders/file_format.s"
+	@echo "... src/engine/loaders/image_reader.o"
+	@echo "... src/engine/loaders/image_reader.i"
+	@echo "... src/engine/loaders/image_reader.s"
+	@echo "... src/engine/loaders/mesh_reader.o"
+	@echo "... src/engine/loaders/mesh_reader.i"
+	@echo "... src/engine/loaders/mesh_reader.s"
+	@echo "... src/engine/loaders/modules/bmp/bmp_reader.o"
+	@echo "... src/engine/loaders/modules/bmp/bmp_reader.i"
+	@echo "... src/engine/loaders/modules/bmp/bmp_reader.s"
+	@echo "... src/engine/loaders/modules/collada/collada_reader.o"
+	@echo "... src/engine/loaders/modules/collada/collada_reader.i"
+	@echo "... src/engine/loaders/modules/collada/collada_reader.s"
+	@echo "... src/engine/loaders/modules/png/png_reader.o"
+	@echo "... src/engine/loaders/modules/png/png_reader.i"
+	@echo "... src/engine/loaders/modules/png/png_reader.s"
+	@echo "... src/engine/loaders/modules/wavefront/obj_reader.o"
+	@echo "... src/engine/loaders/modules/wavefront/obj_reader.i"
+	@echo "... src/engine/loaders/modules/wavefront/obj_reader.s"
+	@echo "... src/engine/loaders/shader_reader.o"
+	@echo "... src/engine/loaders/shader_reader.i"
+	@echo "... src/engine/loaders/shader_reader.s"
 	@echo "... src/engine/math/maths.o"
 	@echo "... src/engine/math/maths.i"
 	@echo "... src/engine/math/maths.s"
 	@echo "... src/engine/math/vectors.o"
 	@echo "... src/engine/math/vectors.i"
 	@echo "... src/engine/math/vectors.s"
+	@echo "... src/engine/renderer/modules/item_renderer.o"
+	@echo "... src/engine/renderer/modules/item_renderer.i"
+	@echo "... src/engine/renderer/modules/item_renderer.s"
 	@echo "... src/engine/renderer/opengl_api.o"
 	@echo "... src/engine/renderer/opengl_api.i"
 	@echo "... src/engine/renderer/opengl_api.s"
 	@echo "... src/engine/renderer/vulkan_api.o"
 	@echo "... src/engine/renderer/vulkan_api.i"
 	@echo "... src/engine/renderer/vulkan_api.s"
-	@echo "... src/engine/scene/item.o"
-	@echo "... src/engine/scene/item.i"
-	@echo "... src/engine/scene/item.s"
 	@echo "... src/engine/scene/particle/particle.o"
 	@echo "... src/engine/scene/particle/particle.i"
 	@echo "... src/engine/scene/particle/particle.s"
@@ -845,24 +914,15 @@ help:
 	@echo "... src/engine/scene/scenes/scene_outliner.o"
 	@echo "... src/engine/scene/scenes/scene_outliner.i"
 	@echo "... src/engine/scene/scenes/scene_outliner.s"
-	@echo "... src/engine/scene/texture.o"
-	@echo "... src/engine/scene/texture.i"
-	@echo "... src/engine/scene/texture.s"
 	@echo "... src/engine/simulation/rigidbody/rigidbody.o"
 	@echo "... src/engine/simulation/rigidbody/rigidbody.i"
 	@echo "... src/engine/simulation/rigidbody/rigidbody.s"
 	@echo "... src/engine/utilities/ArrayUtils.o"
 	@echo "... src/engine/utilities/ArrayUtils.i"
 	@echo "... src/engine/utilities/ArrayUtils.s"
-	@echo "... src/engine/utilities/FileUtils.o"
-	@echo "... src/engine/utilities/FileUtils.i"
-	@echo "... src/engine/utilities/FileUtils.s"
 	@echo "... src/engine/utilities/Logger.o"
 	@echo "... src/engine/utilities/Logger.i"
 	@echo "... src/engine/utilities/Logger.s"
-	@echo "... src/engine/utilities/StringUtils.o"
-	@echo "... src/engine/utilities/StringUtils.i"
-	@echo "... src/engine/utilities/StringUtils.s"
 	@echo "... src/engine/utilities/TimeUtils.o"
 	@echo "... src/engine/utilities/TimeUtils.i"
 	@echo "... src/engine/utilities/TimeUtils.s"

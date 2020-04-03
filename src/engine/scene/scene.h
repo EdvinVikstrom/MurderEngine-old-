@@ -1,36 +1,34 @@
 #ifndef SCENE_H
   #define SCENE_H
 
-#include <vector>
-#include <map>
-#include <string>
-#include "../math/maths.h"
-#include "../math/vectors.h"
-#include "../MurderEngine.h"
-#include "../utilities/mem_utils.h"
+#include "../kernel/common/common.h"
+
+#include "../events/engine_event.h"
+#include "../events/input_event.h"
 
 /* Only include these with scene.h */
-  #include "item.h"
   #include "particle/particle.h"
   #include "texture.h"
-  #include "shader.h"
   #include "material.h"
   #include "camera.h"
   #include "light.h"
   #include "mesh.h"
+  #include "item.h"
+  #include "ui/ui_element.h"
 /* ------------------------------ */
 
 namespace me {
 
-  struct scene_content {
-    std::map<std::string, camera*> cameras;
-    std::map<std::string, material*> materials;
-    std::map<std::string, texture*> textures;
-    std::map<std::string, mesh*> meshes;
-    std::map<std::string, light*> lights;
+  struct scene_packet {
+    std::map<std::string, me::mesh*> meshes;
+    std::map<std::string, me::camera*> cameras;
+    std::map<std::string, me::light*> lights;
+    std::map<std::string, me::wcolor*> images;
+    std::map<std::string, me::material*> materials;
+    std::vector<me::item*> items;
   };
 
-  class scene : public me::IEngineEvent {
+  class scene : public me::event::engine_event, public me::event::input_event {
 
   protected:
 
@@ -49,16 +47,13 @@ namespace me {
     virtual void onRender();
     virtual void onLoop();
 
-    virtual void onMouseInput(int action, double posX, double posY, int button);
-    virtual void onKeyInput(int action, int key);
+    virtual bool onMouseInput(int action, double posX, double posY, int button);
+    virtual bool onKeyInput(int action, int key);
 
     virtual void setup();
 
     void registerItem(me::item* item);
     void unregisterItem(std::string identifier);
-    me::item* getItem(std::string identifier);
-
-    void registerParticleGroup(me::particle_group* particle_group);
 
   };
 

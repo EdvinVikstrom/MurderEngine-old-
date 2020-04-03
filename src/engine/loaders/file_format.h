@@ -2,6 +2,7 @@
   #define FILE_FORMAT_H
 
 #include "../kernel/kernel.h"
+#include "../kernel/io/file_state.h"
 #include "../scene/scene.h"
 #include <vector>
 
@@ -29,7 +30,7 @@ namespace me {
         this->type = type;
       }
 
-      virtual bool recognized(const std::string &file_name, unsigned char* data, uint32_t data_size) = 0;
+      virtual bool recognized(me::file_state &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 
       inline me::fformat::format_type getFormatType()
@@ -39,12 +40,11 @@ namespace me {
 
     };
 
-    std::vector<file_format*> formats;
+    me::image* read_image(const std::string &filepath);
+    me::scene_packet* read_mesh(const std::string &filepath);
 
     void init();
-
-    me::image* read_image(const std::string &filepath);
-    std::vector<me::item*> read_mesh(const std::string &filepath);
+    void cleanup();
 
   };
 

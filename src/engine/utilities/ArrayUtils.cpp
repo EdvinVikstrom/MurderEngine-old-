@@ -7,11 +7,9 @@
 
 void me_utils::processStringArray(const std::string &strArray, const std::function<void(unsigned int, std::string)>& event)
 {
-  unsigned int size;
-  std::string* args = utils::split(strArray, ' ', size);
-  for (int i = 0; i < size; i++)
-    event(i, args[i]);
-  delete[] args;
+  std::vector<std::string> args = me_utils::splitStr(strArray, ' ');
+  for (int i = 0; i < args.size(); i++)
+    event(i, args.at(i));
 }
 
 template<typename T>

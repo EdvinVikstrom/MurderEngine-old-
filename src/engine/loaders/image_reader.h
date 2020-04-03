@@ -1,20 +1,12 @@
 #ifndef IMAGE_READER_H
   #define IMAGE_READER_H
 
-#define ME_TEX_FORMAT_RGBA8                  0x1238
-#define ME_TEX_FORMAT_RGBA16                 0x12316
-#define ME_TEX_FORMAT_RGBA24                 0x12324
-#define ME_TEX_FORMAT_RGBA32                 0x12332
-#define ME_TEX_FORMAT_RGB8                   0x128
-#define ME_TEX_FORMAT_RGB16                  0x1216
-#define ME_TEX_FORMAT_RGB24                  0x1224
-#define ME_TEX_FORMAT_RGB32                  0x1232
-#define ME_TEX_FORMAT_GRAY4                  0x18
-#define ME_TEX_FORMAT_GRAY8                  0x18
-#define ME_TEX_FORMAT_GRAY16                 0x116
-#define ME_TEX_FORMAT_GRAY24                 0x124
-#define ME_TEX_FORMAT_GRAY32                 0x132
-#define ME_TEX_FORMAT_BINARY                 0x11
+#define ME_TEX_FORMAT_RGB                  87
+#define ME_TEX_FORMAT_RGBA                 93
+#define ME_TEX_FORMAT_BINARY               74
+#define ME_TEX_FORMAT_GRAY                 75
+
+#include "file_format.h"
 
 namespace me {
 
@@ -24,22 +16,23 @@ namespace me {
 
     public:
 
-      image_reader() : file_format(me::fformat::format_type.IMAGE) { }
+      image_reader() : file_format(me::fformat::format_type::IMAGE) { }
 
-      virtual int read_image(const std::string &file_name, unsigned char* data, uint32_t data_size, me::image* image) = 0;
-      inline int read_file(const std::string &file_name, unsigned char* data, uint32_t data_size, me::image* image) override
+      virtual int read_image(me::file_state &file, me::image* image) = 0;
+      inline int read_file(me::file_state &file, me::image* image)
       {
-        image = new me::image;
-        int result = read_image(file_name, data, data_size, image);
+        int result = read_image(file, image);
         if (result != ME_FINE)
           return result;
         return ME_FINE;
       }
 
-      virtual bool recognized(const std::string &file_name, unsigned char* data, uint32_t data_size) = 0;
+      virtual bool recognized(me::file_state &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 
     };
+
+    unsigned int load_image(me::image* image);
 
   };
 

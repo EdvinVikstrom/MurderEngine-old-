@@ -10,6 +10,7 @@
 namespace me {
 
   struct element {
+    std::string type;
     std::string identifier;
     std::string value;
   };

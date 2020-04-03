@@ -15,6 +15,11 @@ namespace me {
     vec2f* div(me::vec2f &vec); vec2f* div(float fac);
     vec2f* mag(float mag);
 
+    inline bool in_bounds(const me::vec2f &position, const me::vec2f &scale)
+    {
+      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y;
+    }
+
   };
   struct vec3f {
     float x, y, z;
@@ -26,6 +31,11 @@ namespace me {
     vec3f* mul(me::vec3f &vec); vec3f* mul(float fac);
     vec3f* div(me::vec3f &vec); vec3f* div(float fac);
     vec3f* mag(float mag);
+
+    inline bool in_bounds(const me::vec3f &position, const me::vec3f &scale)
+    {
+      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y && z >= position.z && z <= position.z + scale.z;
+    }
 
   };
   struct vec4f {
@@ -53,6 +63,11 @@ namespace me {
     vec2d* div(me::vec2d &vec); vec2d* div(double fac);
     vec2d* mag(double mag);
 
+    inline bool in_bounds(const me::vec2d &position, const me::vec2d &scale)
+    {
+      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y;
+    }
+
   };
   struct vec3d {
     double x, y, z;
@@ -64,6 +79,11 @@ namespace me {
     vec3d* mul(me::vec3d &vec); vec3d* mul(double fac);
     vec3d* div(me::vec3d &vec); vec3d* div(double fac);
     vec3d* mag(double mag);
+
+    inline bool in_bounds(const me::vec3d &position, const me::vec3d &scale)
+    {
+      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y && z >= position.z && z <= position.z + scale.z;
+    }
 
   };
   struct vec4d {
@@ -90,6 +110,11 @@ namespace me {
     vec2i* mul(me::vec2i &vec); vec2i* mul(int fac);
     vec2i* div(me::vec2i &vec); vec2i* div(int fac);
 
+    inline bool in_bounds(const me::vec2i &position, const me::vec2i &scale)
+    {
+      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y;
+    }
+
   };
   struct vec3i {
     int x, y, z;
@@ -100,6 +125,11 @@ namespace me {
     vec3i* sub(me::vec3i &vec); vec3i* sub(int fac);
     vec3i* mul(me::vec3i &vec); vec3i* mul(int fac);
     vec3i* div(me::vec3i &vec); vec3i* div(int fac);
+
+    inline bool in_bounds(const me::vec3i &position, const me::vec3i &scale)
+    {
+      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y && z >= position.z && z <= position.z + scale.z;
+    }
 
   };
   struct vec4i {

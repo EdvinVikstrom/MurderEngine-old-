@@ -3,13 +3,14 @@
 #include <map>
 #include <string>
 
+#include "kernel/kernel.h"
 #include "MurderEngine.h"
 #include "EngineManager.h"
 #include "renderer/renderer_api.h"
 #include "renderer/vulkan_api.h"
 #include "renderer/opengl_api.h"
 
-#include "loaders/shader_loader.h"
+#include "loaders/shader_reader.h"
 
 #include "utilities/Logger.h"
 
@@ -35,20 +36,27 @@ static me::log* ME_LOGGER = new me::log("MurderEngine",
 "\e[34m[%N] %T #%M \e[0m"
 );
 
-std::vector<me::IEngineEvent*> events;
+std::vector<me::event::engine_event*> engine_events;
+std::vector<me::event::input_event*> input_events;
 std::map<int, bool> keysPressed; // buttons and keys
 double cursorPosX, cursorPosY;
 
-bool me::IEngineEvent::isPressed(int key)
+bool me::event::input_event::isPressed(int key)
 {
   if (keysPressed.count(key))
     return keysPressed[key];
   return false;
 }
 
-int me::engine_register_event(IEngineEvent* event)
+int me::engine_register_engine_event(me::event::engine_event* event)
 {
-  events.push_back(event);
+  engine_events.push_back(event);
+  return 0;
+}
+
+int me::engine_register_input_event(me::event::input_event* event)
+{
+  input_events.push_back(event);
   return 0;
 }
 
@@ -62,7 +70,7 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
 {
   double offsetX = xpos-cursorPosX;
   double offsetY = ypos-cursorPosY;
-  for (me::IEngineEvent* event : events)
+  for (me::event::input_event* event : input_events)
     event->onMouseInput(ME_MOUSE_MOVE, offsetX, offsetY, 0);
   cursorPosX = xpos;
   cursorPosY = ypos;
@@ -70,7 +78,7 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
 
 static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-  for (me::IEngineEvent* event : events)
+  for (me::event::input_event* event : input_events)
     event->onMouseInput(ME_MOUSE_SCROLL, xoffset, yoffset, 0);
 }
 
@@ -80,7 +88,7 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
     keysPressed[button] = true;
   else if (action==GLFW_RELEASE)
     keysPressed[button] = false;
-  for (me::IEngineEvent* event : events)
+  for (me::event::input_event* event : input_events)
     event->onMouseInput(action==GLFW_PRESS?ME_PRESS:(action==GLFW_RELEASE?ME_RELEASE:0), cursorPosX, cursorPosY, button);
 }
 
@@ -90,7 +98,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     keysPressed[key] = true;
   else if (action==GLFW_RELEASE)
     keysPressed[key] = false;
-  for (me::IEngineEvent* event : events)
+  for (me::event::input_event* event : input_events)
     event->onKeyInput(action==GLFW_PRESS?ME_PRESS:(action==GLFW_RELEASE?ME_RELEASE:0), key);
 }
 
@@ -120,9 +128,9 @@ int me::engine_loop()
   while(!glfwWindowShouldClose(window))
   {
     rendererApi->clear();
-    for (me::IEngineEvent* event : events)
+    for (me::event::engine_event* event : engine_events)
       event->onLoop();
-    for (me::IEngineEvent* event : events)
+    for (me::event::engine_event* event : engine_events)
       event->onRender();
     glfwSwapBuffers(window);
     glfwPollEvents();

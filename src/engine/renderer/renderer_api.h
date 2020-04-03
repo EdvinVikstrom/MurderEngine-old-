@@ -45,21 +45,13 @@ public:
   virtual int push() = 0;
   virtual int pop() = 0;
   virtual int clear() = 0;
-  virtual int vertex(float x, float y, float z) = 0;
-  virtual int renderStart(unsigned int type) = 0;
-  virtual int renderEnd() = 0;
   virtual int bindMesh(me::mesh* mesh) = 0;
-  virtual int unbindMesh() = 0;
   virtual int mesh(me::mesh* mesh) = 0;
-  virtual int bindImage(me::image* image) = 0;
-  virtual int unbindImage() = 0;
-  virtual int plane(double posX, double posY, double scaleX, double scaleY) = 0;
-  virtual int color(float red, float green, float blue, float alpha) = 0;
+  virtual int unbindMesh() = 0;
+  virtual int material(me::material* material) = 0;
 
   virtual int reset() = 0;
-  virtual int translate(double x, double y, double z, double w) = 0;
-  virtual int rotate(double x, double y, double z, double w) = 0;
-  virtual int scale(double x, double y, double z, double w) = 0;
+  virtual int transform(me::transform &transform) = 0;
   virtual int modify(unsigned int p, float value) = 0;
 
   virtual int terminate() = 0;

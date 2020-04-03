@@ -1,6 +1,8 @@
 #ifndef MESH_LOADER_H
   #define MESH_LOADER_H
 
+#include "file_format.h"
+
 namespace me {
 
   namespace fformat {
@@ -9,27 +11,26 @@ namespace me {
 
     public:
 
-      mesh_reader() : file_format(me::fformat::format_type.MESH) { }
+      mesh_reader() : file_format(me::fformat::format_type::MESH) { }
 
-      virtual int read_mesh(const std::string &file_name, unsigned char* data, uint32_t data_size, me::mesh* mesh, std::vector<me::item*> &items) = 0;
-      inline int read_file(const std::string &file_name, unsigned char* data, uint32_t data_size, std::vector<me::item*> &items) override
+      virtual int read_mesh(me::file_state &file, scene_packet* scene) = 0;
+      inline int read_file(me::file_state &file, scene_packet* scene)
       {
-        int result = read_mesh(file_name, data, data_size, mesh, items);
+        int result = read_mesh(file, scene);
         if (result != ME_FINE)
           return result;
         return ME_FINE;
       }
 
-      virtual bool recognized(const std::string &file_name, unsigned char* data, uint32_t data_size) = 0;
+      virtual bool recognized(me::file_state &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 
-    }
+    };
+
+    void load_mesh(me::mesh* mesh, int usage);
 
   };
 
-  void loadMesh(me::mesh* mesh, int usage);
-  void processMeshFaces(me::mesh* mesh, unsigned int* faces, unsigned int faceCount, int vertexOffset, int normalOffset, int texCoordOffset);
-  std::vector<me::item*> loadMeshFromFile(const char* filepath, unsigned int& itemCount);
 
 };
 

@@ -4,6 +4,7 @@
 #include "../MurderEngine.h"
 #include "../scene/scene.h"
 #include "../utilities/Logger.h"
+#include "../kernel/kernel.h"
 
 extern std::string engine_name;
 extern unsigned int engine_version;
@@ -95,18 +96,6 @@ int vulkan_api::clear()
 {
   return ME_FINE;
 }
-int vulkan_api::vertex(float x, float y, float z)
-{
-  return ME_FINE;
-}
-int vulkan_api::renderStart(unsigned int type)
-{
-  return ME_FINE;
-}
-int vulkan_api::renderEnd()
-{
-  return ME_FINE;
-}
 int vulkan_api::bindMesh(me::mesh* mesh)
 {
   return ME_FINE;
@@ -119,19 +108,7 @@ int vulkan_api::mesh(me::mesh* mesh)
 {
   return ME_FINE;
 }
-int vulkan_api::bindImage(me::image* image)
-{
-  return ME_FINE;
-}
-int vulkan_api::unbindImage()
-{
-  return ME_FINE;
-}
-int vulkan_api::plane(double posX, double posY, double scaleX, double scaleY)
-{
-  return ME_FINE;
-}
-int vulkan_api::color(float red, float green, float blue, float alpha)
+int vulkan_api::material(me::material* material)
 {
   return ME_FINE;
 }
@@ -140,15 +117,7 @@ int vulkan_api::reset()
 {
   return ME_FINE;
 }
-int vulkan_api::translate(double x, double y, double z, double w)
-{
-  return ME_FINE;
-}
-int vulkan_api::rotate(double x, double y, double z, double w)
-{
-  return ME_FINE;
-}
-int vulkan_api::scale(double x, double y, double z, double w)
+int vulkan_api::transform(me::transform &transform)
 {
   return ME_FINE;
 }

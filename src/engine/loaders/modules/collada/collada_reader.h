@@ -2,17 +2,37 @@
   #define COLLADA_READER_H
 
 #include "../../../../external/rapidxml.hpp"
+#include "../../mesh_reader.h"
 
 namespace me {
 
   namespace fformat {
 
-    class collada_reader {
+    class collada_reader : public mesh_reader {
 
     public:
 
+      struct param {
+        std::string sid;
+        std::string type;
+        std::string path;
+        std::string value;
+
+        param(std::string sid, std::string type, std::string path, std::string value)
+        {
+          this->sid = sid;
+          this->type = type;
+          this->path = path;
+          this->value = value;
+        }
+
+        param() { }
+
+      };
+
       struct effect {
-        std::map<std::string, me::element> params;
+        std::string identifier;
+        std::map<std::string, param> params;
         wcolor
         *emission,
         *ambient,
@@ -22,21 +42,24 @@ namespace me {
         *reflective,
         *reflectivity,
         *transparent,
-        *transparency;
+        *transparency,
+        *ior;
       };
 
-      bool parse_mesh(rapidxml::xml_node<>* mesh_node, me::mesh* mesh);
-      bool parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh);
-      bool parse_effect(rapidxml::xml_node<>* effect_node, std::map<std::string, unsigned int> images, collada::effect* effect);
-      bool parse_camera(rapidxml::xml_node<>* camera_node, me::camera* camera);
-      bool parse_light(rapidxml::xml_node<>* light_node, me::light* light);
-      bool parse_scene(rapidxml::xml_node<>* scene_node, std::map<std::string, unsigned int> &cameras, std::map<std::string, unsigned int> &lights, std::map<std::string, unsigned int> &images, std::map<std::string, collada::effect*> &effects, std::map<std::string, unsigned int> &materials, std::map<std::string, unsigned int> &meshes, std::vector<me::item*> &items);
+      struct packet {
+        me::scene_packet* scene;
+        std::map<std::string, effect*> effects;
+      };
 
-      int read_mesh(const std::string &file_name, unsigned char* data, uint32_t data_size, me::mesh* mesh, std::vector<me::item*> &items) override;
-      bool recognized(const std::string &file_name, unsigned char* data, uint32_t data_size) override;
+      int read_collada(me::file_state &file, packet* packet);
+      int read_mesh(me::file_state &file, me::scene_packet* scene) override
+      {
+        return read_collada(file, new packet{scene});
+      }
+      bool recognized(me::file_state &file) override;
       std::vector<std::string> get_file_exts() override;
 
-    }
+    };
 
   };
 

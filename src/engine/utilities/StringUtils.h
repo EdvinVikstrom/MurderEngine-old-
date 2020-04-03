@@ -5,13 +5,14 @@
 
 namespace me_utils {
 
-  inline std::vector<std::string> splitStr(const std::string &string, char delimeter)
+  inline std::vector<std::string> splitStr(char* string, char delimeter)
   {
     std::vector<std::string> strings;
     strings.emplace_back("");
-    for (unsigned int i = 0; i < string.size(); i++)
+    unsigned int i = 0;
+    while(string[i] != 0)
     {
-      char c = strings.at(i);
+      char c = string[i];
       if (c==delimeter)
       {
         strings.emplace_back("");
@@ -20,6 +21,10 @@ namespace me_utils {
       strings.at(strings.size()-1)+=c;
     }
     return strings;
+  }
+  inline std::vector<std::string> splitStr(const std::string &string, char delimeter)
+  {
+    return splitStr(string.c_str(), delimeter);
   }
   inline bool strStartsWith(const std::string &string, const std::string& with)
   {
@@ -39,7 +44,6 @@ namespace me_utils {
     }
     return with.size() > 0;
   }
-  std::vector<std::string> lines(const std::string &string);
 
 };
 
