@@ -17,7 +17,7 @@ int me::fformat::png_reader::read_image(me::file_state &file, me::image* image)
 
 bool me::fformat::png_reader::recognized(me::file_state &file)
 {
-  return me_utils::strEndsWith(file.filepath, ".png") || (
+  return strEndsWith(file.filepath.c_str(), ".png") || (
     file.data[0] == 137 &&
     file.data[1] == 80 &&
     file.data[2] == 78 &&

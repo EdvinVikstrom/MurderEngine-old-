@@ -34,42 +34,42 @@ me::mesh* me::getMesh(unsigned int id) { return meshes[id-1]; }
 me::camera* me::getCamera(unsigned int id) { return cameras[id-1]; }
 me::light* me::getLight(unsigned int id) { return lights[id-1]; }
 
-unsigned int me::getImageLink(std::string identifier) { return imageLinks[identifier]; }
-unsigned int me::getMaterialLink(std::string identifier) { return materialLinks[identifier]; }
-unsigned int me::getMeshLink(std::string identifier) { return meshLinks[identifier]; }
-unsigned int me::getCameraLink(std::string identifier) { return cameraLinks[identifier]; }
-unsigned int me::getLightLink(std::string identifier) { return lightLinks[identifier]; }
+unsigned int me::getImageLink(std::string identifier) { return imageLinks[identifier.c_str()]; }
+unsigned int me::getMaterialLink(std::string identifier) { return materialLinks[identifier.c_str()]; }
+unsigned int me::getMeshLink(std::string identifier) { return meshLinks[identifier.c_str()]; }
+unsigned int me::getCameraLink(std::string identifier) { return cameraLinks[identifier.c_str()]; }
+unsigned int me::getLightLink(std::string identifier) { return lightLinks[identifier.c_str()]; }
 
 unsigned int me::registerImage(me::image* image)
 {
   image->imageId = me::fformat::load_image(image);
   images.push_back(image);
-  imageLinks[image->identifier] = images.size();
+  imageLinks[image->identifier.c_str()] = images.size();
   return images.size();
 }
 unsigned int me::registerMaterial(me::material* material)
 {
   materials.push_back(material);
-  materialLinks[material->identifier] = materials.size();
+  materialLinks[material->identifier.c_str()] = materials.size();
   return materials.size();
 }
 unsigned int me::registerMesh(me::mesh* mesh)
 {
   me::fformat::load_mesh(mesh, -1); // TODO: useage
   meshes.push_back(mesh);
-  meshLinks[mesh->identifier] = meshes.size();
+  meshLinks[mesh->identifier.c_str()] = meshes.size();
   return meshes.size();
 }
 unsigned int me::registerCamera(me::camera* camera)
 {
   cameras.push_back(camera);
-  cameraLinks[camera->identifier] = cameras.size();
+  cameraLinks[camera->identifier.c_str()] = cameras.size();
   return cameras.size();
 }
 unsigned int me::registerLight(me::light* light)
 {
   lights.push_back(light);
-  lightLinks[light->identifier] = lights.size();
+  lightLinks[light->identifier.c_str()] = lights.size();
   return lights.size();
 }
 

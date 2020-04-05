@@ -1,7 +1,7 @@
 #ifndef GEOMETRY_H
   #define GEOMETRY_H
 
-#include "../utilities/ArrayUtils.h"
+#include "../kernel/array_utils.h"
 #include "vectors.h"
 
 namespace me {
@@ -9,7 +9,7 @@ namespace me {
   namespace gmt {
 
     struct shape {
-      me::array<me::vec3f> points;
+      array<me::vec3f> points;
     };
 
     struct boundary {

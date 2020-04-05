@@ -1,13 +1,13 @@
 #ifndef MESH_H
   #define MESH_H
 
-#include "../utilities/ArrayUtils.h"
+#include "../kernel/array_utils.h"
 
 namespace me {
 
   struct mesh {
     std::string identifier;
-    unsigned int VAO, positionsVBO, normalsVBO, texCoordsVBO, EBO;
+    unsigned int VAO, positionsVBO, normalsVBO, texCoordsVBO, materialsVBO, EBO;
     me::array<me::vec3f*>* positions;
     me::array<me::vec3f*>* normals;
     me::array<me::vec2f*>* texCoords;

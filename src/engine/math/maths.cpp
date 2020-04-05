@@ -96,15 +96,15 @@ float maths::atanf(float angle)
 }
 
 /* atan2 */
-long double maths::atan2l(long double angle)
+long double maths::atan2l(long double y, long double x)
 {
 
 }
-double maths::atan2d(double angle)
+double maths::atan2d(double y, double x)
 {
-
+  return atan2(y, x);
 }
-float maths::atan2f(float angle)
+float maths::atan2f(float y, float x)
 {
 
 }
@@ -537,9 +537,9 @@ long double maths::sqrtl(long double a)
 {
 
 }
-double maths::sqrtl(double a)
+double maths::sqrtd(double a)
 {
-
+  return sqrt(a);
 }
 
 /* cbrt */

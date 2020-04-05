@@ -23,9 +23,12 @@ namespace me {
     std::map<std::string, me::mesh*> meshes;
     std::map<std::string, me::camera*> cameras;
     std::map<std::string, me::light*> lights;
-    std::map<std::string, me::wcolor*> images;
+    std::map<std::string, me::image*> images;
     std::map<std::string, me::material*> materials;
     std::vector<me::item*> items;
+
+    void register_all();
+
   };
 
   class scene : public me::event::engine_event, public me::event::input_event {

@@ -1,6 +1,8 @@
 #ifndef FILE_STATE_H
   #define FILE_STATE_H
 
+#include "../kernel.h"
+
 namespace me {
 
   enum file_access {
@@ -11,7 +13,7 @@ namespace me {
 
   struct file_state {
     std::string filepath;
-    me::file_access access;
+    file_access access;
     long created, modified;
 
     unsigned char* data;
@@ -35,16 +37,6 @@ namespace me {
     ~file_state()
     {
       delete[] data;
-    }
-
-    std::string folder()
-    {
-      int flast = filepath.rfind("/");
-      int blast = filepath.rfind("\\");
-      int last = flast > blast ? flast : blast;
-      if (last < 1)
-        return filepath;
-      return filepath.substr(0, last);
     }
 
   };

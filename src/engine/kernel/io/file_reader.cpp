@@ -10,7 +10,7 @@ me::file_state me::read_file(const std::string &filepath)
   unsigned char* buffer = new unsigned char[file_size];
   fread(buffer, file_size, 1, file);
   fclose(file);
-  return me::file_state(filepath, me::file_access::ALL, 0, 0, buffer, file_size);
+  return me::file_state(filepath, file_access::ALL, 0, 0, buffer, file_size);
 }
 
 void me::write_file(const std::string &filepath, unsigned char* data, uint64_t off, uint64_t len)

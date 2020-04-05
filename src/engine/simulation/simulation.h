@@ -12,7 +12,7 @@
 #include "../math/transform.h"
 #include "../math/geometry.h"
 #include "../utilities/mem_utils.h"
-#include <string>
+#include "../kernel/kernel.h"
 
 namespace me {
 

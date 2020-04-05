@@ -9,7 +9,7 @@ int read_blender(me::file_state &file, me::scene_packet* scene)
 
 bool recognized(me::file_state &file)
 {
-  return me_utils::strEndsWith(".blend") || me_utils::strEndsWith(".blend1") || (
+  return strEndsWith(file.filepath, ".blend") || strEndsWith(file.filepath, ".blend1") || (
     file.data[0] == 'B' &&
     file.data[1] == 'L' &&
     file.data[2] == 'E' &&

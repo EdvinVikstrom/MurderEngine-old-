@@ -60,6 +60,8 @@ namespace me {
       virtual bool onKeyInput(int action, int key) = 0;
 
       bool isPressed(int key);
+      double mouseX();
+      double mouseY();
 
     };
 

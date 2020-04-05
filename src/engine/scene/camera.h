@@ -5,7 +5,9 @@ namespace me {
 
   enum camera_type {
     PERSPECTIVE,
-    ORTHOGRAPHIC
+    ORTHOGRAPHIC,
+    VIEW_2D,
+    ENC_VIEW_2D
   };
 
   struct camera {
@@ -14,8 +16,10 @@ namespace me {
     float focalLength;
     float aspectRatio;
     double znear, zfar;
+    unsigned int width, height;
+    me::transform transform;
 
-    camera(std::string identifier, camera_type type, float focalLength, float aspectRatio, double znear, double zfar)
+    camera(std::string identifier, camera_type type, float focalLength, float aspectRatio, double znear, double zfar, unsigned int width, unsigned int height, me::transform &transform)
     {
       this->identifier = identifier;
       this->type = type;
@@ -23,6 +27,9 @@ namespace me {
       this->aspectRatio = aspectRatio;
       this->znear = znear;
       this->zfar = zfar;
+      this->width = width;
+      this->height = height;
+      this->transform = transform;
     }
 
     camera() { }

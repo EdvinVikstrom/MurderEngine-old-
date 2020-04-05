@@ -12,5 +12,7 @@ link_directories(${SOURCE_DIR}/external/vulkan/x86_64/lib)
 link_directories(/usr/lib/)
 
 include(sourcelist.cmake)
-add_executable(MurderEngine ${HEADERS} ${SOURCES})
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_executable(MurderEngine ${SOURCES})
+set_property(TARGET MurderEngine PROPERTY CXX_STANDARD 17)
 target_link_libraries(MurderEngine glfw GLEW GL GLU vulkan)

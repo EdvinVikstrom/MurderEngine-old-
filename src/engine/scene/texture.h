@@ -7,9 +7,9 @@
 namespace me {
 
   enum wcolor_type {
-    IMAGE = 0,
-    RGBA = 1,
-    FLOAT = 2
+    IMAGE = 43,
+    RGBA = 44,
+    FLOAT = 45
   };
 
   struct image {
@@ -69,8 +69,6 @@ namespace me {
     {
       // *do not delete image* look in EngineManager.h
     }
-    void bind();
-    void unbind();
   };
 
 };

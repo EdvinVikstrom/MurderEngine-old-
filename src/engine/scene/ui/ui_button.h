@@ -10,12 +10,12 @@ typedef void (*button_callback)();
 namespace me {
 
   namespace ui {
-/*
+
     struct ui_button : ui_element {
 
       button_callback callback;
 
-      ui_button(std::string identifier, me::transform transform, me::wcolor color, button_callback callback) : ui_element(identifier, transform, color)
+      ui_button(std::string identifier, me::transform transform, me::mesh* mesh, me::wcolor* texture, button_callback callback) : ui_element(identifier, transform, mesh, texture)
       {
         this->callback = callback;
       }
@@ -36,7 +36,6 @@ namespace me {
       }
 
     };
-    */
 
   };
 

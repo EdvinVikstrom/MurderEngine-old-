@@ -1,51 +1,66 @@
 #ifndef STRING_UTILS_H
   #define STRING_UTILS_H
 
-#include <vector>
+#include <stdbool.h>
+#include <string.h>
 
-namespace me_utils {
+extern "C" {
 
-  inline std::vector<std::string> splitStr(char* string, char delimeter)
+  inline unsigned int totalSplits(char* data, unsigned int length, char delimeter)
   {
-    std::vector<std::string> strings;
-    strings.emplace_back("");
-    unsigned int i = 0;
-    while(string[i] != 0)
+    unsigned int splits = 1;
+    for (unsigned int i = 0; i < length; i++)
     {
-      char c = string[i];
+      char &c = data[i];
+      if (c==delimeter)
+        splits++;
+    }
+    return splits;
+  }
+
+  inline char** splitStr(char* data, unsigned int length, unsigned int splits, char delimeter)
+  {
+    char** array = (char**) malloc(splits * sizeof(char*));
+    unsigned int start = 0;
+    unsigned int index = 0;
+    for (unsigned int i = 0; i < length; i++)
+    {
+      char &c = data[i];
       if (c==delimeter)
       {
-        strings.emplace_back("");
+        data[i] = 0;
+        array[index] = &data[start];
+        start = i + 1;
+        index++;
         continue;
       }
-      strings.at(strings.size()-1)+=c;
     }
-    return strings;
+    array[splits-1] = &data[start];
+    return array;
   }
-  inline std::vector<std::string> splitStr(const std::string &string, char delimeter)
+  inline bool strStartsWith(const char* string, const char* with)
   {
-    return splitStr(string.c_str(), delimeter);
-  }
-  inline bool strStartsWith(const std::string &string, const std::string& with)
-  {
-    for (unsigned int i = 0; i < string.size() && i < with.size(); i++)
+    unsigned int len1 = strlen(string);
+    unsigned int len2 = strlen(with);
+    for (unsigned int i = 0; i < len1 && i < len2; i++)
     {
-      if (with.at(i) != string.at(i))
+      if (with[i] != string[i])
         return false;
     }
-    return with.size() > 0;
+    return len2 > 0;
   }
-  inline bool strEndsWith(const std::string &string, const std::string& with)
+  inline bool strEndsWith(const char* string, const char* with)
   {
-    for (unsigned int i = 0; i < string.size() && i < with.size(); i++)
+    unsigned int len1 = strlen(string);
+    unsigned int len2 = strlen(with);
+    for (unsigned int i = 0; i < len1 && i < len2; i++)
     {
-      if (with.at(with.size()-1 - i) != string.at(string.size()-1 - i))
+      if (with[len2-1 - i] != string[len1-1 - i])
         return false;
     }
-    return with.size() > 0;
+    return len2 > 0;
   }
 
 };
-
 
 #endif

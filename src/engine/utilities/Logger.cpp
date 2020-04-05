@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string>
+#include "../kernel/kernel.h"
 #include "Logger.h"
 #include "TimeUtils.h"
 
@@ -40,20 +40,20 @@ static bool show_debug = true;
 void me::log::out(std::string message)
 {
   if (show_info)
-    std::cout << decodePattern(this, me::log::out_pattern, me::logMsgType::INFO) << message;
+    std::cout << decodePattern(this, me::log::out_pattern, me::logMsgType::INFO).c_str() << message.c_str();
 }
 void me::log::warn(std::string message)
 {
   if (show_warn)
-    std::cout << decodePattern(this, me::log::warn_pattern, me::logMsgType::WARNING) << message;
+    std::cout << decodePattern(this, me::log::warn_pattern, me::logMsgType::WARNING).c_str() << message.c_str();
 }
 void me::log::err(std::string message)
 {
   if (show_err)
-    std::cout << decodePattern(this, me::log::err_pattern, me::logMsgType::ERROR) << message;
+    std::cout << decodePattern(this, me::log::err_pattern, me::logMsgType::ERROR).c_str() << message.c_str();
 }
 void me::log::debug(std::string message)
 {
   if (show_debug)
-    std::cout << decodePattern(this, me::log::debug_pattern, me::logMsgType::DEBUG) << message;
+    std::cout << decodePattern(this, me::log::debug_pattern, me::logMsgType::DEBUG).c_str() << message.c_str();
 }

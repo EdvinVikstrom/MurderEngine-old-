@@ -17,10 +17,18 @@ public:
   int bindMesh(me::mesh* mesh);
   int mesh(me::mesh* mesh);
   int unbindMesh();
-  int material(me::material* material);
+  int bindMaterial(me::material* material);
+  int unbindMaterial();
+  int bindTexture(me::wcolor* texture);
+  int unbindTexture();
+
+  int quad(double fx, double fy, double tx, double ty);
 
   int reset();
   int transform(me::transform &transform);
+  int translate(double x, double y, double z);
+  int rotate(double x, double y, double z);
+  int scale(double x, double y, double z);
   int modify(unsigned int p, float value);
 
   int terminate();

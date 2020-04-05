@@ -35,7 +35,7 @@ bool processEffectColors(rapidxml::xml_node<>* node, me::fformat::collada_reader
   if (color != 0)
   {
     std::string sid = color->first_attribute("sid")->value();
-    std::vector<std::string> colorArgs = me_utils::splitStr(color->value(), ' ');
+    std::vector<std::string> colorArgs = splitStr(color->value(), ' ');
     // TODO: combine color args to integer
     wcolor->type = me::wcolor_type::RGBA;
     wcolor->value = 0;
@@ -67,15 +67,15 @@ bool me::fformat::collada_reader::parse_mesh(rapidxml::xml_node<>* mesh_node, me
     });
 
     std::string sourceId = source->first_attribute("id")->value();
-    if (me_utils::strEndsWith(sourceId, "positions"))
+    if (strEndsWith(sourceId, "positions"))
     {
       mesh->positions.allocate_mem(count/3);
       me::toVec3f(array, &mesh->positions.values[0], count);
-    }else if (me_utils::strEndsWith(sourceId, "normals"))
+    }else if (strEndsWith(sourceId, "normals"))
     {
       mesh->normals.allocate_mem(count/3);
       me::toVec3f(array, &mesh->normals.values[0], count);
-    }else if (me_utils::strEndsWith(sourceId, "map-0"))
+    }else if (strEndsWith(sourceId, "map-0"))
     {
       mesh->texCoords.allocate_mem(count/2);
       me::toVec2f(array, &mesh->texCoords.values[0], count);
@@ -88,7 +88,7 @@ bool me::fformat::collada_reader::parse_mesh(rapidxml::xml_node<>* mesh_node, me
 bool me::fformat::collada_reader::parse_faces(rapidxml::xml_node<>* mesh_node, me::mesh* mesh)
 {
   rapidxml::xml_node<>* triangles_node = mesh_node->first_node("triangles");
-  std::vector<std::string> faceArgs = me_utils::splitStr(triangles_node->first_node("p")->value(), ' ');
+  std::vector<std::string> faceArgs = splitStr(triangles_node->first_node("p")->value(), ' ');
   mesh->indices.allocate_mem(faceArgs.size());
   for (int i = 0; i < faceArgs.size(); i++)
     mesh->indices.values[i] = std::stoi(faceArgs.at(i));
@@ -185,7 +185,7 @@ bool me::fformat::collada_reader::parse_light(rapidxml::xml_node<>* light_node, 
   rapidxml::xml_node<>* directional_node = technique_common->first_node("directional");
   if (point_node != 0)
   {
-    std::vector<std::string> colorArgs = me_utils::splitStr(point_node->first_node("color")->value(), ' ');
+    std::vector<std::string> colorArgs = splitStr(point_node->first_node("color")->value(), ' ');
     float alpha = 1.0F;
     if (colorArgs.size() < 3)
     {
@@ -223,7 +223,7 @@ bool me::fformat::collada_reader::parse_scene(rapidxml::xml_node<>* scene_node, 
     me::vec3d origin(0, 0, 0);
     if (matrix_node != 0)
     {
-      std::vector<std::string> matrixArgs = me_utils::splitStr(matrix_node->value(), ' ');
+      std::vector<std::string> matrixArgs = splitStr(matrix_node->value(), ' ');
       double matrix[matrixArgs.size()];
       for (int i = 0; i < matrixArgs.size(); i++)
         matrix[i] = std::stod(matrixArgs.at(i));
@@ -384,14 +384,14 @@ int me::fformat::collada_reader::read_mesh(const std::string &file_name, unsigne
 
 bool me::fformat::collada_reader::recognized(const std::string &file_name, unsigned char* data, uint32_t data_size)
 {
-  if (me_utils::strStartsWith(file_name, "<?xml"))
+  if (strStartsWith(file_name, "<?xml"))
   {
     rapidxml::xml_document<> doc;
     doc.parse<0>((char*)data); // TODO: will maybe produce errors. "data" does not contain the full document bc memory.
     if (std::string(doc.first_node()->name())=="COLLADA")
       return true;
   }
-  return me_utils::strEndsWith(file_name, ".dae") || me_utils::strEndsWith(file_name, ".collada");
+  return strEndsWith(file_name, ".dae") || strEndsWith(file_name, ".collada");
 }
 
 std::vector<std::string> me::fformat::collada_reader::get_file_exts()

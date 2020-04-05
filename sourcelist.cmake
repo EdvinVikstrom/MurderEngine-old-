@@ -3,12 +3,12 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/EngineManager.cpp
   ${SOURCE_DIR}/engine/MurderEngine.cpp
   ${SOURCE_DIR}/engine/kernel/io/file_reader.cpp
+  ${SOURCE_DIR}/engine/kernel/array_utils.c
+  ${SOURCE_DIR}/engine/kernel/string.cpp
   ${SOURCE_DIR}/engine/utilities/Logger.cpp
-  ${SOURCE_DIR}/engine/utilities/ArrayUtils.cpp
   ${SOURCE_DIR}/engine/utilities/TimeUtils.cpp
   ${SOURCE_DIR}/engine/utilities/properties.cpp
   ${SOURCE_DIR}/engine/loaders/modules/collada/collada_reader.cpp
-  ${SOURCE_DIR}/engine/loaders/modules/wavefront/obj_reader.cpp
   ${SOURCE_DIR}/engine/loaders/modules/bmp/bmp_reader.cpp
   ${SOURCE_DIR}/engine/loaders/modules/png/png_reader.cpp
   ${SOURCE_DIR}/engine/loaders/file_format.cpp
@@ -21,10 +21,11 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/scene/particle/particle.cpp
   ${SOURCE_DIR}/engine/scene/scenes/scene_2d_viewport.cpp
   ${SOURCE_DIR}/engine/scene/scenes/scene_outliner.cpp
-  ${SOURCE_DIR}/engine/renderer/vulkan_api.cpp
   ${SOURCE_DIR}/engine/renderer/opengl_api.cpp
+  ${SOURCE_DIR}/engine/renderer/me_renderer.cpp
   ${SOURCE_DIR}/engine/renderer/modules/item_renderer.cpp
   ${SOURCE_DIR}/engine/simulation/rigidbody/rigidbody.cpp
 )
 set(HEADERS ${HEADERS}
+  ${SOURCE_DIR}/kernel/kernel.h
 )

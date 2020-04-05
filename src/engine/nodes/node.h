@@ -1,7 +1,7 @@
 #ifndef NODE_H
   #define NODE_H
 
-#include <string>
+#include "../kernel/kernel.h"
 #include <map>
 
 namespace me {

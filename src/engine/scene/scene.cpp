@@ -6,6 +6,14 @@
 
 extern renderer_api* rendererApi;
 
+void me::scene_packet::register_all()
+{
+  for (auto const &[key, value] : meshes)
+    me::registerMesh(value);
+  for (auto const &[key, value] : images)
+    me::registerImage(value);
+}
+
 me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsigned int height)
 {
   me::scene::identifier = identifier;
@@ -17,7 +25,6 @@ me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsig
 
 void me::scene::setup()
 {
-  rendererApi->viewport(me::scene::camera, x, y, width, height);
 }
 
 void me::scene::onLoop()
@@ -26,20 +33,33 @@ void me::scene::onLoop()
 
 void me::scene::onRender()
 {
-  rendererApi->reset();
   for (me::item* i : me::scene::items)
   {
+    rendererApi->reset();
     i->update();
+    i->render();
+    rendererApi->rotate(scene::camera->transform.rotation.x, scene::camera->transform.rotation.y, scene::camera->transform.rotation.z);
+    rendererApi->translate(scene::camera->transform.location.x, scene::camera->transform.location.y, scene::camera->transform.location.z);
     me::renderer::render_item(i);
   }
 }
 
 bool me::scene::onMouseInput(int action, double posX, double posY, int button)
 {
+  for (me::item* i : me::scene::items)
+  {
+    if (i->onMouseInput(action, posX, posY, button))
+      return true;
+  }
   return false;
 }
 bool me::scene::onKeyInput(int action, int key)
 {
+  for (me::item* i : me::scene::items)
+  {
+    if (i->onKeyInput(action, key))
+      return true;
+  }
   return false;
 }
 

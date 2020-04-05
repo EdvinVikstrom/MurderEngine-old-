@@ -1,11 +1,13 @@
 #include <GL/glew.h>
-#include <string>
+#include "../kernel/kernel.h"
 #include <vector>
 #include "shader_reader.h"
 #include "../MurderEngine.h"
 #include "../utilities/Logger.h"
 #include "../utilities/StringUtils.h"
 #include "../kernel/io/file_reader.h"
+
+#include <iostream> // remove
 
 extern std::string RENDERER_API_NAME;
 
@@ -19,10 +21,11 @@ static me::log* SHADER_LOGGER = new me::log("ShaderLoader",
 int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsigned int shaderCount)
 {
   me::file_state file = me::read_file(filepath);
-  std::vector<std::string> lines = me_utils::splitStr(std::string((char*)file.data), '\n');
+  std::string file_str = (char*) file.data;
+  std::vector<std::string> lines = me::split_str(file_str, '\n');
   std::vector<std::pair<unsigned int, std::string>> sources;
   bool appending = false;
-  for (std::string &line : lines)
+  for (std::string line : lines)
   {
     if (line=="#vertex" || line=="#fragment")
     {
@@ -63,7 +66,7 @@ int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsi
       }
       shaders[i] = glCreateShader(shaderType);
       const char *str = data.c_str();
-      SHADER_LOGGER->out("  % Compiling " + shaderName + " shader\n");
+      SHADER_LOGGER->out(std::string("  % Compiling ") + shaderName + " shader\n");
       glShaderSource(shaders[i], 1, &str, nullptr);
       glCompileShader(shaders[i]);
 

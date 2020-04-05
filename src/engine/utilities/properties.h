@@ -14,11 +14,11 @@
 #define ME_DATA_TYPE_LONG_DOUBLE              0xB
 #define ME_DATA_TYPE_BOOLEAN                  0xC
 
-#include <string>
+#include "../kernel/kernel.h"
 #include <vector>
 #include <map>
 #include "../math/vectors.h"
-#include "ArrayUtils.h"
+#include "../kernel/array_utils.h"
 
 namespace me {
 

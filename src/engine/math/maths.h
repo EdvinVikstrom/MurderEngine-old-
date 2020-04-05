@@ -51,9 +51,9 @@ namespace maths {
   float atanf(float angle);
 
   /* atan2 */
-  long double atan2l(long double angle);
-  double atan2d(double angle);
-  float atan2f(float angle);
+  long double atan2l(long double y, long double x);
+  double atan2d(double y, double x);
+  float atan2f(float y, float x);
 
   /* cos from sin */
   long double cosfsinl(long double sin, long double angle);
@@ -213,7 +213,7 @@ namespace maths {
 
   /* sqrt */
   long double sqrtl(long double a);
-  double sqrtl(double a);
+  double sqrtd(double a);
 
   /* cbrt */
   long double cbrtl(long double a);

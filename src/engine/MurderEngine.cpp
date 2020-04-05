@@ -1,13 +1,10 @@
 #include "GLFW/glfw3.h"
 #include <vector>
 #include <map>
-#include <string>
 
-#include "kernel/kernel.h"
 #include "MurderEngine.h"
 #include "EngineManager.h"
 #include "renderer/renderer_api.h"
-#include "renderer/vulkan_api.h"
 #include "renderer/opengl_api.h"
 
 #include "loaders/shader_reader.h"
@@ -46,6 +43,14 @@ bool me::event::input_event::isPressed(int key)
   if (keysPressed.count(key))
     return keysPressed[key];
   return false;
+}
+double me::event::input_event::mouseX()
+{
+  return cursorPosX;
+}
+double me::event::input_event::mouseY()
+{
+  return cursorPosY;
 }
 
 int me::engine_register_engine_event(me::event::engine_event* event)
@@ -160,13 +165,12 @@ int me::engine_setup_renderer_api(const std::string &apiName)
     rendererApi = new opengl_api;
   else if (apiName=="vulkan")
   {
-    rendererApi = new vulkan_api;
   }
   RENDERER_API_NAME = apiName;
   ME_LOGGER->out("Initializing Renderer API ...\n");
   if (rendererApi->initializeApi() != ME_FINE)
     return 1;
-  ME_LOGGER->out(std::string("Renderer API initialized [" + RENDERER_API_NAME + "]\n"));
+  ME_LOGGER->out(std::string("Renderer API initialized [") + RENDERER_API_NAME + "]\n");
   return 0;
 }
 

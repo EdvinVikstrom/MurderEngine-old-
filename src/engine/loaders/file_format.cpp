@@ -5,7 +5,6 @@
 #include "modules/bmp/bmp_reader.h"
 #include "modules/png/png_reader.h"
 #include "modules/collada/collada_reader.h"
-#include "modules/wavefront/obj_reader.h"
 
 static std::vector<me::fformat::file_format*> formats;
 
@@ -46,7 +45,6 @@ void me::fformat::init()
 {
   formats.push_back(new bmp_reader);
   formats.push_back(new collada_reader);
-  formats.push_back(new obj_reader);
 }
 void me::fformat::cleanup()
 {

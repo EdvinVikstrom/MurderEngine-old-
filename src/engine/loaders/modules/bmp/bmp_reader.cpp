@@ -57,7 +57,7 @@ int me::fformat::bmp_reader::read_image(me::file_state &file, me::image* image)
 
 bool me::fformat::bmp_reader::recognized(me::file_state &file)
 {
-  return me_utils::strEndsWith(file.filepath, ".bmp") || (file.data[0]=='b' && file.data[1]=='m');
+  return strEndsWith(file.filepath.c_str(), ".bmp") || (file.data[0]=='b' && file.data[1]=='m');
 }
 
 std::vector<std::string> me::fformat::bmp_reader::get_file_exts()

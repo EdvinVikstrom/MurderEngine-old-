@@ -48,10 +48,18 @@ public:
   virtual int bindMesh(me::mesh* mesh) = 0;
   virtual int mesh(me::mesh* mesh) = 0;
   virtual int unbindMesh() = 0;
-  virtual int material(me::material* material) = 0;
+  virtual int bindMaterial(me::material* material) = 0;
+  virtual int unbindMaterial() = 0;
+  virtual int bindTexture(me::wcolor* texture) = 0;
+  virtual int unbindTexture() = 0;
+
+  virtual int quad(double fx, double fy, double tx, double ty) = 0;
 
   virtual int reset() = 0;
   virtual int transform(me::transform &transform) = 0;
+  virtual int translate(double x, double y, double z) = 0;
+  virtual int rotate(double x, double y, double z) = 0;
+  virtual int scale(double x, double y, double z) = 0;
   virtual int modify(unsigned int p, float value) = 0;
 
   virtual int terminate() = 0;

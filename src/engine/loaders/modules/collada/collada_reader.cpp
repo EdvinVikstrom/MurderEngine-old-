@@ -20,23 +20,24 @@ static std::string get_texture_path(std::string &url, std::map<std::string, me::
   return params[url].value;
 }
 
-static bool process_node_value(rapidxml::xml_node<>* value_node, me::wcolor* color, me::fformat::collada_reader::effect* effect, me::fformat::collada_reader::packet* packet)
+static me::wcolor* process_node_value(rapidxml::xml_node<>* node, me::fformat::collada_reader::effect* effect, me::fformat::collada_reader::packet* packet)
 {
+  rapidxml::xml_node<>* value_node = node->first_node();
   std::string node_name = value_node->name();
   if (node_name == "color")
   {
     std::string color_str = value_node->value();
-    std::vector<std::string> args = me_utils::splitStr(color_str, ' ');
-    me::vec4f* vec = new me::vec4f(std::stof(args.at(0)), std::stof(args.at(1)), std::stof(args.at(2)), std::stof(args.at(3)));
-    color = new me::wcolor(me::wcolor_type::RGBA, vec);
+    char** args = me::splitf_str((char*)color_str.c_str(), color_str.size(), 4, ' ');
+    me::vec4f* vec = new me::vec4f(std::stof(args[0]), std::stof(args[1]), std::stof(args[2]), std::stof(args[3]));
+    return new me::wcolor(me::wcolor_type::RGBA, vec);
   }else if (node_name == "texture")
   {
     std::string texture = value_node->first_attribute("texture")->value();
     std::string tex_path = get_texture_path(texture, effect->params);
-    color = packet->scene->images[tex_path];
+    return new me::wcolor(me::wcolor_type::IMAGE, packet->scene->images[tex_path]);
   }else if (node_name == "float")
-    color = new me::wcolor(me::wcolor_type::FLOAT, new float(std::stof(value_node->value())));
-  return true;
+    return new me::wcolor(me::wcolor_type::FLOAT, new float(std::stof(value_node->value())));
+  return nullptr;
 }
 
 static bool parse_camera_node(me::file_state &file, rapidxml::xml_node<>* camera_node, me::fformat::collada_reader::packet* packet)
@@ -57,14 +58,28 @@ static bool parse_camera_node(me::file_state &file, rapidxml::xml_node<>* camera
     float aspect_ratio = std::stof(perspective_node->first_node("aspect_ratio")->value());
     double znear = std::stod(perspective_node->first_node("znear")->value());
     double zfar = std::stod(perspective_node->first_node("zfar")->value());
-    packet->scene->cameras[identifier] = new me::camera(identifier, me::camera_type::PERSPECTIVE, fov, aspect_ratio, znear, zfar);
+    me::camera* camera = new me::camera;
+    camera->identifier = identifier;
+    camera->type = me::camera_type::ORTHOGRAPHIC;
+    camera->focalLength = fov;
+    camera->aspectRatio = aspect_ratio;
+    camera->znear = znear;
+    camera->zfar = zfar;
+    packet->scene->cameras[identifier] = camera;
   }else if (orthographic_node != nullptr)
   {
     float xmag = std::stof(orthographic_node->first_node("xmag")->value());
     float aspect_ratio = std::stof(orthographic_node->first_node("aspect_ratio")->value());
     double znear = std::stod(orthographic_node->first_node("znear")->value());
     double zfar = std::stod(orthographic_node->first_node("zfar")->value());
-    packet->scene->cameras[identifier] = new me::camera(identifier, me::camera_type::ORTHOGRAPHIC, xmag, aspect_ratio, znear, zfar);
+    me::camera* camera = new me::camera;
+    camera->identifier = identifier;
+    camera->type = me::camera_type::ORTHOGRAPHIC;
+    camera->focalLength = xmag;
+    camera->aspectRatio = aspect_ratio;
+    camera->znear = znear;
+    camera->zfar = zfar;
+    packet->scene->cameras[identifier] = camera;
   }
   return true;
 }
@@ -84,10 +99,10 @@ static bool parse_light_node(me::file_state &file, rapidxml::xml_node<>* light_n
   if (point_node != nullptr)
   {
     std::string color_str = point_node->first_node("color")->value();
-    std::vector<std::string> color_str_args = me_utils::splitStr(color_str, ' ');
-    double red = std::stod(color_str_args.at(0));
-    double green = std::stod(color_str_args.at(1));
-    double blue = std::stod(color_str_args.at(2));
+    char** color_str_args = me::splitf_str((char*)color_str.c_str(), color_str.size(), 3, ' ');
+    double red = std::stod(color_str_args[0]);
+    double green = std::stod(color_str_args[1]);
+    double blue = std::stod(color_str_args[2]);
     me::vec3d color(red, green, blue);
     float constant_attenuation = std::stof(point_node->first_node("constant_attenuation")->value());
     float linear_attenuation = std::stof(point_node->first_node("linear_attenuation")->value());
@@ -145,16 +160,16 @@ static bool parse_effect_node(me::file_state &file, rapidxml::xml_node<>* effect
       rapidxml::xml_node<>* transparent_node = shader_node->first_node("transparent");
       rapidxml::xml_node<>* transparency_node = shader_node->first_node("transparency");
       rapidxml::xml_node<>* ior_node = shader_node->first_node("index_of_refraction");
-      if (emission_node != nullptr) process_node_value(emission_node, effect->emission, effect, packet);
-      if (ambient_node != nullptr) process_node_value(ambient_node, effect->ambient, effect, packet);
-      if (diffuse_node != nullptr) process_node_value(diffuse_node, effect->diffuse, effect, packet);
-      if (specular_node != nullptr) process_node_value(specular_node, effect->specular, effect, packet);
-      if (shininess_node != nullptr) process_node_value(shininess_node, effect->shininess, effect, packet);
-      if (reflective_node != nullptr) process_node_value(reflective_node, effect->reflective, effect, packet);
-      if (reflectivity_node != nullptr) process_node_value(reflectivity_node, effect->reflectivity, effect, packet);
-      if (transparent_node != nullptr) process_node_value(transparent_node, effect->transparent, effect, packet);
-      if (transparency_node != nullptr) process_node_value(transparency_node, effect->transparency, effect, packet);
-      if (ior_node != nullptr) process_node_value(ior_node, effect->ior, effect, packet);
+      if (emission_node != nullptr) effect->emission = process_node_value(emission_node, effect, packet);
+      if (ambient_node != nullptr) effect->ambient = process_node_value(ambient_node, effect, packet);
+      if (diffuse_node != nullptr) effect->diffuse = process_node_value(diffuse_node, effect, packet);
+      if (specular_node != nullptr) effect->specular = process_node_value(specular_node, effect, packet);
+      if (shininess_node != nullptr) effect->shininess = process_node_value(shininess_node, effect, packet);
+      if (reflective_node != nullptr) effect->reflective = process_node_value(reflective_node, effect, packet);
+      if (reflectivity_node != nullptr) effect->reflectivity = process_node_value(reflectivity_node, effect, packet);
+      if (transparent_node != nullptr) effect->transparent = process_node_value(transparent_node, effect, packet);
+      if (transparency_node != nullptr) effect->transparency = process_node_value(transparency_node, effect, packet);
+      if (ior_node != nullptr) effect->ior = process_node_value(ior_node, effect, packet);
     }
   }
   packet->effects[identifier] = effect;
@@ -169,9 +184,9 @@ static bool parse_image_node(me::file_state &file, rapidxml::xml_node<>* image_n
   {
     std::string path = init_from_node->value();
     bool abs_path = me::is_abs_path(path);
-    std::string filepath = abs_path ? path : (file.folder() + "/" + path);
+    std::string filepath = abs_path ? path : (me::to_folder_path(file.filepath) + "/" + path);
     me::image* image = me::fformat::read_image(filepath);
-    packet->scene->images[identifier] = new me::wcolor(me::wcolor_type::IMAGE, image);
+    packet->scene->images[identifier] = image;
   }
   return true;
 }
@@ -187,6 +202,7 @@ static bool parse_material_node(me::file_state &file, rapidxml::xml_node<>* mate
     std::string url = instance_effect_node->first_attribute("url")->value();
     url = url.substr(1);
     me::fformat::collada_reader::effect* effect = packet->effects[url];
+    material->rgba = effect->diffuse;
     // TODO:
   }
   packet->scene->materials[identifier] = material;
@@ -206,28 +222,40 @@ static bool parse_geometry_node(me::file_state &file, rapidxml::xml_node<>* geom
     std::string source_id = source_node->first_attribute("id")->value();
     uint32_t count = std::stoi(float_array_node->first_attribute("count")->value());
     std::string raw_array = float_array_node->value();
-    std::vector<std::string> splitted_array = me_utils::splitStr(raw_array, ' ');
-    if (me_utils::strEndsWith(source_id, "positions"))
+    unsigned int array_size = count;
+    char** splitted_array = me::splitf_str((char*)raw_array.c_str(), raw_array.size(), array_size, ' ');
+    if (strEndsWith(source_id.c_str(), "positions"))
     {
       mesh->positions = new me::array<me::vec3f*>;
       mesh->positions->allocate_mem(count/3);
-      for (uint32_t i = 0; i < splitted_array.size(); i+=3)
-        mesh->positions->values[i/3] = new me::vec3f(std::stof(splitted_array.at(i)), std::stof(splitted_array.at(i+1)), std::stof(splitted_array.at(i+2)));
-    }else if (me_utils::strEndsWith(source_id, "normals"))
+      for (uint32_t i = 0; i < array_size; i+=3)
+        mesh->positions->values[i/3] = new me::vec3f(std::stof(splitted_array[i]), std::stof(splitted_array[i+1]), std::stof(splitted_array[i+2]));
+    }else if (strEndsWith(source_id.c_str(), "normals"))
     {
       mesh->normals = new me::array<me::vec3f*>;
       mesh->normals->allocate_mem(count/3);
-      for (uint32_t i = 0; i < splitted_array.size(); i+=3)
-        mesh->normals->values[i/3] = new me::vec3f(std::stof(splitted_array.at(i)), std::stof(splitted_array.at(i+1)), std::stof(splitted_array.at(i+2)));
-    }else if (me_utils::strEndsWith(source_id, "map-0"))
+      for (uint32_t i = 0; i < array_size; i+=3)
+        mesh->normals->values[i/3] = new me::vec3f(std::stof(splitted_array[i]), std::stof(splitted_array[i+1]), std::stof(splitted_array[i+2]));
+    }else if (strEndsWith(source_id.c_str(), "map-0"))
     {
       mesh->texCoords = new me::array<me::vec2f*>;
-      mesh->texCoords->allocate_mem(count/3);
-      for (uint32_t i = 0; i < splitted_array.size(); i+=2)
-        mesh->texCoords->values[i/3] = new me::vec2f(std::stof(splitted_array.at(i)), std::stof(splitted_array.at(i+1)));
+      mesh->texCoords->allocate_mem(count/2);
+      for (uint32_t i = 0; i < array_size; i+=2)
+        mesh->texCoords->values[i/2] = new me::vec2f(std::stof(splitted_array[i]), std::stof(splitted_array[i+1]));
     }
+    // TODO: delete the splitted array
     source_node = source_node->next_sibling("source");
   }
+  rapidxml::xml_node<>* triangles_node = mesh_node->first_node("triangles");
+  rapidxml::xml_node<>* faces_node = triangles_node->first_node("p");
+  unsigned int face_count = std::stoi(triangles_node->first_attribute("count")->value());
+  std::string raw_face_array = faces_node->value();
+  unsigned int array_size = face_count*9;
+  char** faces = me::splitf_str((char*)raw_face_array.c_str(), raw_face_array.size(), array_size, ' ');
+  mesh->indices = new me::array<unsigned int*>;
+  mesh->indices->allocate_mem(array_size);
+  for (unsigned int i = 0; i < array_size; i++)
+    mesh->indices->values[i] = new unsigned int(std::stoi(faces[i]));
   packet->scene->meshes[identifier] = mesh;
   return true;
 }
@@ -243,7 +271,24 @@ static bool parse_visual_scene_node(me::file_state &file, rapidxml::xml_node<>* 
     rapidxml::xml_node<>* instance_camera_node = node->first_node("instance_camera");
     rapidxml::xml_node<>* instance_light_node = node->first_node("instance_light");
     rapidxml::xml_node<>* instance_geometry_node = node->first_node("instance_geometry");
-    me::transform transform;
+    std::string matrix_str = matrix_node->value();
+    char** matrix_args = me::splitf_str((char*)matrix_str.c_str(), matrix_str.size(), 4*4, ' ');
+    float** matrix = new float*[4]{
+      new float[4],
+      new float[4],
+      new float[4],
+      new float[4]
+    };
+    unsigned int index = 0;
+    for (unsigned char i = 0; i < 4; i++)
+    {
+      for (unsigned char j = 0; j < 4; j++)
+      {
+        matrix[i][j] = std::stof(matrix_args[index]);
+        index++;
+      }
+    }
+    me::transform transform(matrix, 4, 4);
     while(matrix_node != nullptr)
     {
       std::string sid = matrix_node->first_attribute("sid")->value();
@@ -267,6 +312,16 @@ static bool parse_visual_scene_node(me::file_state &file, rapidxml::xml_node<>* 
         packet->scene->meshes[url]->materials->push_back(packet->scene->materials[target]);
       }
       packet->scene->items.push_back(new me::item(identifier, me::item_type::MESH, transform, packet->scene->meshes[url]));
+    }else if (instance_camera_node != nullptr)
+    {
+      std::string url = instance_camera_node->first_attribute("url")->value();
+      url = url.substr(1);
+      packet->scene->cameras[url]->transform = transform;
+    }else if (instance_light_node != nullptr)
+    {
+      std::string url = instance_light_node->first_attribute("url")->value();
+      url = url.substr(1);
+      packet->scene->lights[url]->transform = transform;
     }
     node = node->next_sibling("node");
   }
@@ -364,14 +419,14 @@ int me::fformat::collada_reader::read_collada(me::file_state &file, me::fformat:
 
 bool me::fformat::collada_reader::recognized(me::file_state &file)
 {
-  if (me_utils::strStartsWith(file.filepath, "<?xml"))
+  if (strStartsWith(file.filepath.c_str(), "<?xml"))
   {
     rapidxml::xml_document<> doc;
     doc.parse<0>((char*)file.data); // TODO: will maybe produce errors. "data" does not contain the full document bc memory.
     if (std::string(doc.first_node()->name())=="COLLADA")
       return true;
   }
-  return me_utils::strEndsWith(file.filepath, ".dae") || me_utils::strEndsWith(file.filepath, ".collada");
+  return strEndsWith(file.filepath.c_str(), ".dae") || strEndsWith(file.filepath.c_str(), ".collada");
 }
 
 std::vector<std::string> me::fformat::collada_reader::get_file_exts()

@@ -7,6 +7,9 @@
 #define ME_ITEM_TYPE_IMAGE         48
 
 #include "../simulation/simulation.h"
+#include "../renderer/renderer_api.h"
+
+extern renderer_api* rendererApi;
 
 namespace me {
 
@@ -38,13 +41,15 @@ namespace me {
     {
     }
 
-    inline void update()
+    virtual void update() { }
+    virtual void render()
     {
-
-    }
-    inline void render()
-    {
-
+      rendererApi->transform(transform);
+      rendererApi->bindMaterial(mesh->materials->at(0));
+      rendererApi->bindMesh(mesh);
+      rendererApi->mesh(mesh);
+      rendererApi->unbindMesh();
+      rendererApi->unbindMaterial();
     }
 
     bool onMouseInput(int action, double posX, double posY, int button) override { return false; }
