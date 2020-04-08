@@ -36,11 +36,7 @@ void me::scene::onRender()
   for (me::item* i : me::scene::items)
   {
     rendererApi->reset();
-    i->update();
-    i->render();
-    rendererApi->rotate(scene::camera->transform.rotation.x, scene::camera->transform.rotation.y, scene::camera->transform.rotation.z);
-    rendererApi->translate(scene::camera->transform.location.x, scene::camera->transform.location.y, scene::camera->transform.location.z);
-    me::renderer::render_item(i);
+    i->render(camera);
   }
 }
 

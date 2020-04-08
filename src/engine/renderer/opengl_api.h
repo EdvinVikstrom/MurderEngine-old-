@@ -22,13 +22,9 @@ public:
   int bindTexture(me::wcolor* texture);
   int unbindTexture();
 
-  int quad(double fx, double fy, double tx, double ty);
-
   int reset();
-  int transform(me::transform &transform);
-  int translate(double x, double y, double z);
-  int rotate(double x, double y, double z);
-  int scale(double x, double y, double z);
+  int vec3f(int location, float x, float y, float z);
+  int matrix4(int location, float* matrix);
   int modify(unsigned int p, float value);
 
   int terminate();

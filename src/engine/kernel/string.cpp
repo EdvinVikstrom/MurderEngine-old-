@@ -49,7 +49,8 @@ std::vector<std::string> me::split_str(std::string &str, char delimeter)
     }
     end++;
   }
-  strings.emplace_back(&str.at(start));
+  if (start < str.size())
+    strings.emplace_back(&str.at(start));
   return strings;
 }
 
@@ -70,7 +71,7 @@ std::string me::to_folder_path(const std::string &str)
 /* very fast functions */
 char** me::splitf_str(char* data, unsigned int length, unsigned int splits, char delimeter)
 {
-  char** array = (char**) malloc(splits * sizeof(char*));
+  char** array = new char*[splits];
   unsigned int start = 0;
   unsigned int index = 0;
   for (unsigned int i = 0; i < length; i++)

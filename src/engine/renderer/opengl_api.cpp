@@ -2,6 +2,7 @@
 #include "../utilities/Logger.h"
 #include "../MurderEngine.h"
 #include "../EngineManager.h"
+#include "../math/matrix.h"
 #include "opengl_api.h"
 #include <GL/glew.h>
 #include <GL/glu.h>
@@ -44,6 +45,7 @@ int opengl_api::initializeApi()
     OPENGL_LOGGER->err("Failed to Initialize GLEW\n");
     return ME_ERR;
   }
+  glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
   return ME_FINE;
@@ -85,40 +87,25 @@ int opengl_api::clear()
 
 int opengl_api::bindMesh(me::mesh* mesh)
 {
-  /*
   glBindVertexArray(mesh->VAO);
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
   glEnableVertexAttribArray(2);
-  if (mesh->materials != nullptr && mesh->materials->size() > 1) glEnableVertexAttribArray(3); /* see <mesh_reader.cpp> */
   return ME_FINE;
 }
 int opengl_api::mesh(me::mesh* mesh)
 {
-  glTranslated(0, 0, -16);
-  glBegin(GL_TRIANGLES);
-  for (unsigned int i = 0; i < mesh->indices->count; i+=3)
-  {
-    unsigned int posIndex = *mesh->indices->values[i];
-    unsigned int norIndex = *mesh->indices->values[i+1];
-    unsigned int texIndex = *mesh->indices->values[i+2];
-    glTexCoord2f(mesh->texCoords->values[texIndex]->x, mesh->texCoords->values[texIndex]->y);
-    glNormal3f(mesh->normals->values[norIndex]->x, mesh->normals->values[norIndex]->y, mesh->normals->values[norIndex]->z);
-    glVertex3f(mesh->positions->values[posIndex]->x, mesh->positions->values[posIndex]->y, mesh->positions->values[posIndex]->z);
-  }
-  glEnd();
-  //glDrawElements(GL_TRIANGLES, mesh->indices->count, GL_UNSIGNED_INT, nullptr);
+  bindMaterial(mesh->indices.at(0)->material);
+  glDrawElements(GL_TRIANGLES, mesh->indices.at(0)->indices.size(), GL_UNSIGNED_INT, nullptr);
+  unbindMaterial();
   return ME_FINE;
 }
 int opengl_api::unbindMesh()
 {
-  /*
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
-  glDisableVertexAttribArray(3);
   glBindVertexArray(0);
-  */
   return ME_FINE;
 }
 int opengl_api::bindMaterial(me::material* material)
@@ -137,7 +124,9 @@ int opengl_api::bindTexture(me::wcolor* texture)
   if (texture->type==me::wcolor_type::IMAGE)
   {
     glEnable(GL_TEXTURE_2D);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture->v_image->imageId);
+    glUniform1i(3, 0);
   }else if (texture->type==me::wcolor_type::RGBA)
     glColor4f(texture->v_rgba->x, texture->v_rgba->y, texture->v_rgba->z, texture->v_rgba->w);
   return ME_FINE;
@@ -148,53 +137,19 @@ int opengl_api::unbindTexture()
   return ME_FINE;
 }
 
-int opengl_api::quad(double fx, double fy, double tx, double ty)
-{
-  glBegin(GL_TRIANGLES);
-  glTexCoord2f(0, 0);
-  glVertex2d(fx, fy);
-  glTexCoord2f(1, 0);
-  glVertex2d(tx, fy);
-  glTexCoord2f(0, 1);
-  glVertex2d(fx, ty);
-
-  glTexCoord2f(1, 0);
-  glVertex2d(tx, fy);
-  glTexCoord2f(1, 1);
-  glVertex2d(tx, ty);
-  glTexCoord2f(0, 1);
-  glVertex2d(fx, ty);
-  glEnd();
-  return ME_FINE;
-}
-
 int opengl_api::reset()
 {
   glLoadIdentity();
   return ME_FINE;
 }
-int opengl_api::transform(me::transform &transform)
+int opengl_api::vec3f(int location, float x, float y, float z)
 {
-  glUniform3f(0, transform.location.x, transform.location.y, transform.location.z);
-  glUniform3f(1, transform.rotation.x, transform.rotation.y, transform.rotation.z);
-  glUniform3f(2, transform.scale.x, transform.scale.y, transform.scale.z);
+  glUniform3f(location, x, y, z);
   return ME_FINE;
 }
-int opengl_api::translate(double x, double y, double z)
+int opengl_api::matrix4(int location, float* matrix)
 {
-  glTranslated(x, y, z);
-  return ME_FINE;
-}
-int opengl_api::rotate(double x, double y, double z)
-{
-  glRotated(x, 1, 0, 0);
-  glRotated(y, 0, 1, 0);
-  glRotated(z, 0, 0, 1);
-  return ME_FINE;
-}
-int opengl_api::scale(double x, double y, double z)
-{
-  glScaled(x, y, z);
+  glUniformMatrix4fv(location, 1, GL_FALSE, matrix);
   return ME_FINE;
 }
 int opengl_api::modify(unsigned int p, float value)

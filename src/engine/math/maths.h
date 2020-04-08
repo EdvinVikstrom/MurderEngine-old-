@@ -1,231 +1,263 @@
 #ifndef MATHS_H
   #define MATHS_H
 
-#define PI     3.141592653589793D
-#define H_PI   1.570796326794896D
-#define TAU    6.283185307179586D
+#define PI            3.141592653589793D
+#define H_PI          1.570796326794896D
+#define TAU           6.283185307179586D
 
-#define LPI    3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862L
-#define LH_PI  1.57079632679489661923132169163975144209858469968755291048747229615390820314310449931L
-#define LTAU   6.28318530717958647692528676655900576839433879875021164194988918461563281257241799724L
+#define LPI           3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862L
+#define LH_PI         1.57079632679489661923132169163975144209858469968755291048747229615390820314310449931L
+#define LTAU          6.28318530717958647692528676655900576839433879875021164194988918461563281257241799724L
 
-namespace maths {
+#define TO_RADIANS    0.017453292519943295D
+#define TO_DEGREES    57.29577951308232D
 
-  double rand();
+namespace me {
 
-  inline bool inbox(double x, double y, double fx, double fy, double tx, double ty)
-  {
-    return x >= fx && x <= fx + tx && y >= fy && y <= fy + ty;
-  }
+  namespace maths {
 
-// Trigonometric functions
+      double rand();
 
-  /* cos */
-  long double cosl(long double angle);
-  double cosd(double angle);
-  float cosf(float angle);
+      inline bool inbox(double x, double y, double fx, double fy, double tx, double ty)
+      {
+        return x >= fx && x <= fx + tx && y >= fy && y <= fy + ty;
+      }
 
-  /* sin */
-  long double sinl(long double angle);
-  double sind(double angle);
-  float sinf(float angle);
+    // Trigonometric functions
 
-  /* tan */
-  long double tanl(long double angle);
-  double tand(double angle);
-  float tanf(float angle);
+      /* cos */
+      long double cos(long double angle);
+      double cos(double angle);
+      float cos(float angle);
 
-  /* acos */
-  long double acosl(long double angle);
-  double acosd(double angle);
-  float acosf(float angle);
+      /* sin */
+      long double sin(long double angle);
+      double sin(double angle);
+      float sin(float angle);
 
-  /* asin */
-  long double asinl(long double angle);
-  double asind(double angle);
-  float asinf(float angle);
+      /* tan */
+      long double tan(long double angle);
+      double tan(double angle);
+      float tan(float angle);
 
-  /* atan */
-  long double atanl(long double angle);
-  double atand(double angle);
-  float atanf(float angle);
+      /* acos */
+      long double acos(long double angle);
+      double acos(double angle);
+      float acos(float angle);
 
-  /* atan2 */
-  long double atan2l(long double y, long double x);
-  double atan2d(double y, double x);
-  float atan2f(float y, float x);
+      /* asin */
+      long double asin(long double angle);
+      double asin(double angle);
+      float asin(float angle);
 
-  /* cos from sin */
-  long double cosfsinl(long double sin, long double angle);
-  double cosfsind(double sin, double angle);
-  float cosfsinf(float sin, float angle);
+      /* atan */
+      long double atan(long double angle);
+      double atan(double angle);
+      float atan(float angle);
 
-// Hyperbolic functions
+      /* atan2 */
+      long double atan2(long double y, long double x);
+      double atan2(double y, double x);
+      float atan2(float y, float x);
 
-  /* sinh */
-  long double sinhl(long double angle);
-  double sinhd(double angle);
-  float sinhf(float angle);
+      /* cos from sin */
+      long double cosfsin(long double sin, long double angle);
+      double cosfsin(double sin, double angle);
+      float cosfsin(float sin, float angle);
 
-  /* cosh */
-  long double coshl(long double angle);
-  double coshd(double angle);
-  float coshf(float angle);
+    // Hyperbolic functions
 
-  /* tanh */
-  long double tanhl(long double angle);
-  double tanhd(double angle);
-  float tanhf(float angle);
+      /* sinh */
+      long double sinh(long double angle);
+      double sinh(double angle);
+      float sinh(float angle);
 
-  /* asinh */
-  long double asinhl(long double angle);
-  double asinhd(double angle);
-  float asinhf(float angle);
+      /* cosh */
+      long double cosh(long double angle);
+      double cosh(double angle);
+      float cosh(float angle);
 
-  /* acosh */
-  long double acoshl(long double angle);
-  double acoshd(double angle);
-  float acoshf(float angle);
+      /* tanh */
+      long double tanh(long double angle);
+      double tanh(double angle);
+      float tanh(float angle);
 
-  /* atanh */
-  long double atanhl(long double angle);
-  double atanhd(double angle);
-  float atanhf(float angle);
+      /* asinh */
+      long double asinh(long double angle);
+      double asinh(double angle);
+      float asinh(float angle);
 
-// rounding
+      /* acosh */
+      long double acosh(long double angle);
+      double acosh(double angle);
+      float acosh(float angle);
 
-  /* ceil */
-  long double ceill(long double a);
-  double ceild(double a);
-  float ceilf(float a);
+      /* atanh */
+      long double atanh(long double angle);
+      double atanh(double angle);
+      float atanh(float angle);
 
-  /* floor */
-  long double floorl(long double a);
-  double floord(double a);
-  float floorf(float a);
+    // rounding
 
-  /* trunc */
-  long double truncl(long double a);
-  double truncd(double a);
-  float truncf(float a);
+      /* ceil */
+      long double ceil(long double a);
+      double ceil(double a);
+      float ceil(float a);
 
-  /* round */
-  long double roundl(long double a);
-  double roundd(double a);
-  float roundf(float a);
+      /* floor */
+      long double floor(long double a);
+      double floor(double a);
+      float floor(float a);
 
-  /* nearbyint */
-  long double nearbyintl(long double a);
-  double nearbyintd(double a);
-  float nearbyintf(float a);
+      /* trunc */
+      long double trunc(long double a);
+      double trunc(double a);
+      float trunc(float a);
 
-  /* rint */
-  long double rintl(long double a);
-  double rintd(double a);
-  float rintf(float a);
+      /* round */
+      long double round(long double a);
+      double round(double a);
+      float round(float a);
 
-/* Manipulation functions  */
+      /* nearbyint */
+      long double nearbyint(long double a);
+      double nearbyint(double a);
+      float nearbyint(float a);
 
-  /* frexp */
-  long double frexpl(long double a, int* exp);
-  double frexpd(double a, int* exp);
-  float frexpf(float a, int* exp);
+      /* rint */
+      long double rint(long double a);
+      double rint(double a);
+      float rint(float a);
 
-  /* ldexp */
-  long double ldexpl(long double a, int exp);
-  double ldexpd(double a, int exp);
-  float ldexpf(float a, int exp);
+    /* Manipulation functions  */
 
-  /* modfl */
-  long double modfl(long double a, long double* iptr);
-  double modfd(double a, double* iptr);
-  float modff(float a, float* iptr);
+      /* frexp */
+      long double frexp(long double a, int* exp);
+      double frexp(double a, int* exp);
+      float frexp(float a, int* exp);
 
-  /* scalbn */
-  long double scalbnl(long double a, int exp);
-  double scalbnd(double a, int exp);
-  float scalbnf(float a, int exp);
+      /* ldexp */
+      long double ldexp(long double a, int exp);
+      double ldexp(double a, int exp);
+      float ldexp(float a, int exp);
 
-  /* nextafter */
-  long double nextafterl(long double from, long double to);
-  double nextafterd(double from, double to);
-  float nextafterf(float from, float to);
+      /* modfl */
+      long double modf(long double a, long double* iptr);
+      double modf(double a, double* iptr);
+      float modf(float a, float* iptr);
 
-  /* nexttoward */
-  long double nexttowardl(long double from, long double to);
-  double nexttowardd(double from, long double to);
-  float nexttowardf(float from, long double to);
+      /* scalbn */
+      long double scalbn(long double a, int exp);
+      double scalbn(double a, int exp);
+      float scalbn(float a, int exp);
 
-  /* copysign */
-  long double copysignl(long double a, long double b);
-  double copysignd(double a, double b);
-  float copysignf(float a, float b);
+      /* nextafter */
+      long double nextafter(long double from, long double to);
+      double nextafter(double from, double to);
+      float nextafter(float from, float to);
 
-// ööö
+      /* nexttoward */
+      long double nexttoward(long double from, long double to);
+      double nexttoward(double from, long double to);
+      float nexttoward(float from, long double to);
 
-  /* absolute */
-  long double absl(long double a);
-  double absd(double a);
-  float absf(float a);
-  int absi(int a);
-  long absl(long a);
+      /* copysign */
+      long double copysign(long double a, long double b);
+      double copysign(double a, double b);
+      float copysign(float a, float b);
 
-  /* max */
-  long double maxl(long double a, long double b);
-  double maxd(double a, double b);
-  float maxf(float a, float b);
-  int maxi(int a, int b);
-  long maxl(long a, long b);
+    // ööö
 
-  /* min */
-  long double minl(long double a, long double b);
-  double mind(double a, double b);
-  float minf(float a, float b);
-  int mini(int a, int b);
-  long minl(long a, long b);
+      /* absolute */
+      long double abs(long double a);
+      double abs(double a);
+      float abs(float a);
+      int abs(int a);
+      long absl(long a);
 
-// Exponential functions
+      /* max */
+      long double max(long double a, long double b);
+      double max(double a, double b);
+      float max(float a, float b);
+      int max(int a, int b);
+      long maxl(long a, long b);
 
-  /* exp */
-  long double expl(long double a);
-  double expd(double a);
+      /* min */
+      long double min(long double a, long double b);
+      double min(double a, double b);
+      float min(float a, float b);
+      int min(int a, int b);
+      long minl(long a, long b);
 
-  long double exp2l(long double a);
-  double exp2d(double a);
+    // Exponential functions
 
-  long double expm1l(long double a);
-  double expm1d(double a);
+      /* exp */
+      long double exp(long double a);
+      double exp(double a);
 
-  /* log */
-  long double logl(long double a);
-  double logd(double a);
+      long double exp2(long double a);
+      double exp2(double a);
 
-  long double log2l(long double a);
-  double log2d(double a);
+      long double expm1(long double a);
+      double expm1(double a);
 
-  long double log10l(long double a);
-  double log10d(double a);
+      /* log */
+      long double log(long double a);
+      double log(double a);
 
-  long double log1pl(long double a);
-  double log1pd(double a);
+      long double log2(long double a);
+      double log2(double a);
 
-// Power functions
+      long double log10(long double a);
+      double log10(double a);
 
-  /* sqrt */
-  long double sqrtl(long double a);
-  double sqrtd(double a);
+      long double log1p(long double a);
+      double log1p(double a);
 
-  /* cbrt */
-  long double cbrtl(long double a);
-  double cbrtl(double a);
+    // Power functions
 
-  /* hypot */
-  long double hypotl(long double a, long double b);
-  double hypotd(double a, double b);
+      /* sqrt */
+      long double sqrt(long double a);
+      double sqrt(double a);
 
-  /* pow */
-  long double powl(long double a, long double b);
-  double powd(double a, double b);
+      /* cbrt */
+      long double cbrt(long double a);
+      double cbrtl(double a);
+
+      /* hypot */
+      long double hypot(long double a, long double b);
+      double hypot(double a, double b);
+
+      /* pow */
+      long double pow(long double a, long double b);
+      double pow(double a, double b);
+
+      inline bool infinite(float f)
+      {
+        return f == 1.0F / 0.0 || f == -1.0F / 0.0;
+      }
+
+      inline double to_radians(double degrees)
+      {
+        return degrees * TO_RADIANS;
+      }
+
+      inline double to_degrees(double radians)
+      {
+        return radians * TO_DEGREES;
+      }
+
+      inline float to_radians(float degrees)
+      {
+        return degrees * (float) TO_RADIANS;
+      }
+
+      inline float to_degrees(float radians)
+      {
+        return radians * (float) TO_DEGREES;
+      }
+
+  };
 
 };
 

@@ -518,33 +518,6 @@ src/engine/math/maths.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/maths.cpp.s
 .PHONY : src/engine/math/maths.cpp.s
 
-src/engine/math/vectors.o: src/engine/math/vectors.cpp.o
-
-.PHONY : src/engine/math/vectors.o
-
-# target to build an object file
-src/engine/math/vectors.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.o
-.PHONY : src/engine/math/vectors.cpp.o
-
-src/engine/math/vectors.i: src/engine/math/vectors.cpp.i
-
-.PHONY : src/engine/math/vectors.i
-
-# target to preprocess a source file
-src/engine/math/vectors.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.i
-.PHONY : src/engine/math/vectors.cpp.i
-
-src/engine/math/vectors.s: src/engine/math/vectors.cpp.s
-
-.PHONY : src/engine/math/vectors.s
-
-# target to generate assembly for a file
-src/engine/math/vectors.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/vectors.cpp.s
-.PHONY : src/engine/math/vectors.cpp.s
-
 src/engine/renderer/me_renderer.o: src/engine/renderer/me_renderer.cpp.o
 
 .PHONY : src/engine/renderer/me_renderer.o
@@ -893,9 +866,6 @@ help:
 	@echo "... src/engine/math/maths.o"
 	@echo "... src/engine/math/maths.i"
 	@echo "... src/engine/math/maths.s"
-	@echo "... src/engine/math/vectors.o"
-	@echo "... src/engine/math/vectors.i"
-	@echo "... src/engine/math/vectors.s"
 	@echo "... src/engine/renderer/me_renderer.o"
 	@echo "... src/engine/renderer/me_renderer.i"
 	@echo "... src/engine/renderer/me_renderer.s"

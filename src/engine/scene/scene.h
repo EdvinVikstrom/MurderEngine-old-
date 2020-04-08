@@ -14,7 +14,6 @@
   #include "light.h"
   #include "mesh.h"
   #include "item.h"
-  #include "ui/ui_element.h"
 /* ------------------------------ */
 
 namespace me {

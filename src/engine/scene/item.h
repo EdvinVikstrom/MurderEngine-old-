@@ -24,14 +24,14 @@ namespace me {
   struct item : me::event::input_event {
     std::string identifier;
     me::item_type type;
-    me::transform transform;
+    me::maths::mat4 transform_matrix;
     me::mesh* mesh;
 
-    item(std::string identifier, me::item_type type, me::transform transform, me::mesh* mesh)
+    item(std::string identifier, me::item_type type, me::maths::mat4 transform_matrix, me::mesh* mesh)
     {
       this->identifier = identifier;
       this->type = type;
-      this->transform = transform;
+      this->transform_matrix = transform_matrix;
       this->mesh = mesh;
     }
 
@@ -42,14 +42,14 @@ namespace me {
     }
 
     virtual void update() { }
-    virtual void render()
+    inline void render(me::camera* camera)
     {
-      rendererApi->transform(transform);
-      rendererApi->bindMaterial(mesh->materials->at(0));
       rendererApi->bindMesh(mesh);
+      rendererApi->matrix4(0, camera->projection_matrix.array);
+      rendererApi->matrix4(1, camera->view_matrix.array);
+      rendererApi->matrix4(2, transform_matrix.array);
       rendererApi->mesh(mesh);
       rendererApi->unbindMesh();
-      rendererApi->unbindMaterial();
     }
 
     bool onMouseInput(int action, double posX, double posY, int button) override { return false; }

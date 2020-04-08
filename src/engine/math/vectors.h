@@ -1,173 +1,541 @@
 #ifndef ME_VECTORS_H
   #define ME_VECTORS_H
 
+#include "maths.h"
+
 namespace me {
 
-  /* float */
-  struct vec2f {
+  enum vec_type {
+    VEC2, VEC3, VEC4,
+  };
+
+  template<typename T>
+  struct vector {
+
+    vector() { }
+
+    virtual int axis() = 0;
+    virtual T& at(unsigned int index) = 0;
+
+    inline T& operator[](unsigned int index)
+    {
+      return at(index);
+    }
+
+    inline vector<T>& add(vector<T> &vec)
+    {
+      for (unsigned int i = 0; i < maths::max(axis(), vec.axis()); i++)
+        at(i % axis())+=vec[i % vec.axis()];
+      return *this;
+    }
+    inline vector<T>& add(T value)
+    {
+      for (unsigned int i = 0; i < axis(); i++)
+        at(i)+=value;
+      return *this;
+    }
+    inline vector<T>& sub(vector<T> &vec)
+    {
+      for (unsigned int i = 0; i < maths::max(axis(), vec.axis()); i++)
+        at(i % axis())-=vec[i % vec.axis()];
+      return *this;
+    }
+    inline vector<T>& sub(T value)
+    {
+      for (unsigned int i = 0; i < axis(); i++)
+        at(i)-=value;
+      return *this;
+    }
+    inline vector<T>& mul(vector<T> &vec)
+    {
+      for (unsigned int i = 0; i < maths::max(axis(), vec.axis()); i++)
+        at(i % axis())*=vec[i % vec.axis()];
+      return *this;
+    }
+    inline vector<T>& mul(T value)
+    {
+      for (unsigned int i = 0; i < axis(); i++)
+        at(i)*=value;
+      return *this;
+    }
+    inline vector<T>& div(T value)
+    {
+      for (unsigned int i = 0; i < axis(); i++)
+        at(i)/=value;
+      return *this;
+    }
+    inline vector<T>& div(vector<T> &vec)
+    {
+      for (unsigned int i = 0; i < maths::max(axis(), vec.axis()); i++)
+        at(i % axis())/=vec[i % vec.axis()];
+      return *this;
+    }
+
+    virtual T lengthSquared() { return T(0); }
+    virtual T length() { return T(0); };
+    virtual vector<T>& normalize() { return *this; };
+
+    inline vector<T>& operator+(vector &vec)
+    {
+      return add(vec);
+    }
+    inline vector<T>& operator+(T value)
+    {
+      return add(value);
+    }
+    inline vector<T>& operator-(vector &vec)
+    {
+      return sub(vec);
+    }
+    inline vector<T>& operator-(T value)
+    {
+      return sub(value);
+    }
+    inline vector<T>& operator*(vector &vec)
+    {
+      return mul(vec);
+    }
+    inline vector<T>& operator*(T value)
+    {
+      return mul(value);
+    }
+    inline vector<T>& operator/(vector &vec)
+    {
+      return div(vec);
+    }
+    inline vector<T>& operator/(T value)
+    {
+      return div(value);
+    }
+
+  };
+
+  static float deff = 0.0F;
+  static double defd = 0.0D;
+  static int defi = 0;
+
+  struct vec2f : vector<float> {
     float x, y;
-    vec2f() { }
-    vec2f(float x, float y);
-
-    vec2f* add(me::vec2f &vec); vec2f* add(float fac);
-    vec2f* sub(me::vec2f &vec); vec2f* sub(float fac);
-    vec2f* mul(me::vec2f &vec); vec2f* mul(float fac);
-    vec2f* div(me::vec2f &vec); vec2f* div(float fac);
-    vec2f* mag(float mag);
-
-    inline bool in_bounds(const me::vec2f &position, const me::vec2f &scale)
+    vec2f()
     {
-      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y;
+      this->x = 0.0F;
+      this->y = 0.0F;
     }
-
+    vec2f(float x, float y) : vector()
+    {
+      this->x = x;
+      this->y = y;
+    }
+    vec2f(float value) : vector()
+    {
+      vec2f(value, value);
+    }
+    vec2f(vector<float> &vec) : vector()
+    {
+      this->x = vec.at(0);
+      this->y = vec.at(1);
+    }
+    int axis() override
+    {
+      return 2;
+    }
+    float& at(unsigned int index) override
+    {
+      if (index==0) return x;
+      else if (index==1) return y;
+      return deff;
+    }
+    float lengthSquared() override
+    {
+      return x * x + y * y;
+    }
+    float length() override
+    {
+      return me::maths::sqrt(lengthSquared());
+    }
+    vector<float>& normalize() override
+    {
+      float len = 1.0F / length();
+      x = x * len;
+      y = y * len;
+      return *this;
+    }
   };
-  struct vec3f {
+  struct vec3f : vector<float> {
     float x, y, z;
-    vec3f() { }
-    vec3f(float x, float y, float z);
-
-    vec3f* add(me::vec3f &vec); vec3f* add(float fac);
-    vec3f* sub(me::vec3f &vec); vec3f* sub(float fac);
-    vec3f* mul(me::vec3f &vec); vec3f* mul(float fac);
-    vec3f* div(me::vec3f &vec); vec3f* div(float fac);
-    vec3f* mag(float mag);
-
-    inline bool in_bounds(const me::vec3f &position, const me::vec3f &scale)
+    vec3f()
     {
-      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y && z >= position.z && z <= position.z + scale.z;
+      this->x = 0.0F;
+      this->y = 0.0F;
+      this->z = 0.0F;
     }
-
+    vec3f(float x, float y, float z) : vector()
+    {
+      this->x = x;
+      this->y = y;
+      this->z = z;
+    }
+    vec3f(float value) : vector()
+    {
+      vec3f(value, value, value);
+    }
+    vec3f(vector<float> &vec) : vector()
+    {
+      this->x = vec.at(0);
+      this->y = vec.at(1);
+      this->z = vec.at(2);
+    }
+    int axis() override
+    {
+      return 3;
+    }
+    float& at(unsigned int index) override
+    {
+      if (index==0) return x;
+      else if (index==1) return y;
+      else if (index==2) return z;
+      return deff;
+    }
+    float lengthSquared() override
+    {
+      return x * x + y * y + z * z;
+    }
+    float length() override
+    {
+      return me::maths::sqrt(lengthSquared());
+    }
+    vector<float>& normalize() override
+    {
+      float len = 1.0F / length();
+      x = x * len;
+      y = y * len;
+      z = z * len;
+      return *this;
+    }
   };
-  struct vec4f {
+  struct vec4f : vector<float> {
     float x, y, z, w;
-    vec4f() { }
-    vec4f(float x, float y, float z, float w);
-
-    vec4f* add(me::vec4f &vec); vec4f* add(float fac);
-    vec4f* sub(me::vec4f &vec); vec4f* sub(float fac);
-    vec4f* mul(me::vec4f &vec); vec4f* mul(float fac);
-    vec4f* div(me::vec4f &vec); vec4f* div(float fac);
-    vec4f* mag(float mag);
-
+    vec4f()
+    {
+      this->x = 0.0F;
+      this->y = 0.0F;
+      this->z = 0.0F;
+      this->w = 0.0F;
+    }
+    vec4f(float x, float y, float z, float w) : vector()
+    {
+      this->x = x;
+      this->y = y;
+      this->z = z;
+      this->w = w;
+    }
+    vec4f(float value) : vector()
+    {
+      vec4f(value, value, value, value);
+    }
+    vec4f(vector<float> &vec) : vector()
+    {
+      this->x = vec.at(0);
+      this->y = vec.at(1);
+      this->z = vec.at(2);
+      this->w = vec.at(3);
+    }
+    int axis() override
+    {
+      return 4;
+    }
+    float& at(unsigned int index) override
+    {
+      if (index==0) return x;
+      else if (index==1) return y;
+      else if (index==2) return z;
+      else if (index==3) return w;
+      return deff;
+    }
+    float lengthSquared() override
+    {
+      return x * x + y * y + z * z + w * w;
+    }
+    float length() override
+    {
+      return me::maths::sqrt(lengthSquared());
+    }
+    vector<float>& normalize() override
+    {
+      float len = 1.0F / length();
+      x = x * len;
+      y = y * len;
+      z = z * len;
+      w = w * len;
+      return *this;
+    }
   };
 
-  /* double */
-  struct vec2d {
+  struct vec2d : vector<double> {
     double x, y;
-    vec2d() { }
-    vec2d(double x, double y);
-
-    vec2d* add(me::vec2d &vec); vec2d* add(double fac);
-    vec2d* sub(me::vec2d &vec); vec2d* sub(double fac);
-    vec2d* mul(me::vec2d &vec); vec2d* mul(double fac);
-    vec2d* div(me::vec2d &vec); vec2d* div(double fac);
-    vec2d* mag(double mag);
-
-    inline bool in_bounds(const me::vec2d &position, const me::vec2d &scale)
+    vec2d()
     {
-      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y;
+      this->x = 0.0D;
+      this->y = 0.0D;
     }
-
+    vec2d(double x, double y) : vector()
+    {
+      this->x = x;
+      this->y = y;
+    }
+    vec2d(double value) : vector()
+    {
+      vec2d(value, value);
+    }
+    vec2d(vector<double> &vec) : vector()
+    {
+      this->x = vec.at(0);
+      this->y = vec.at(1);
+    }
+    int axis() override
+    {
+      return 2;
+    }
+    double& at(unsigned int index) override
+    {
+      if (index==0) return x;
+      else if (index==1) return y;
+      return defd;
+    }
+    double lengthSquared() override
+    {
+      return x * x + y * y;
+    }
+    double length() override
+    {
+      return me::maths::sqrt(lengthSquared());
+    }
+    vector<double>& normalize() override
+    {
+      double len = 1.0D / length();
+      x = x * len;
+      y = y * len;
+      return *this;
+    }
   };
-  struct vec3d {
+  struct vec3d : vector<double> {
     double x, y, z;
-    vec3d() { }
-    vec3d(double x, double y, double z);
-
-    vec3d* add(me::vec3d &vec); vec3d* add(double fac);
-    vec3d* sub(me::vec3d &vec); vec3d* sub(double fac);
-    vec3d* mul(me::vec3d &vec); vec3d* mul(double fac);
-    vec3d* div(me::vec3d &vec); vec3d* div(double fac);
-    vec3d* mag(double mag);
-
-    inline bool in_bounds(const me::vec3d &position, const me::vec3d &scale)
+    vec3d()
     {
-      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y && z >= position.z && z <= position.z + scale.z;
+      this->x = 0.0D;
+      this->y = 0.0D;
+      this->z = 0.0D;
     }
-
+    vec3d(double x, double y, double z) : vector()
+    {
+      this->x = x;
+      this->y = y;
+      this->z = z;
+    }
+    vec3d(double value) : vector()
+    {
+      vec3d(value, value, value);
+    }
+    vec3d(vector<double> &vec) : vector()
+    {
+      this->x = vec.at(0);
+      this->y = vec.at(1);
+      this->z = vec.at(2);
+    }
+    int axis() override
+    {
+      return 3;
+    }
+    double& at(unsigned int index) override
+    {
+      if (index==0) return x;
+      else if (index==1) return y;
+      else if (index==2) return z;
+      return defd;
+    }
+    double lengthSquared() override
+    {
+      return x * x + y * y + z * z;
+    }
+    double length() override
+    {
+      return me::maths::sqrt(lengthSquared());
+    }
+    vector<double>& normalize() override
+    {
+      double len = 1.0D / length();
+      x = x * len;
+      y = y * len;
+      z = z * len;
+      return *this;
+    }
   };
-  struct vec4d {
+  struct vec4d : vector<double> {
     double x, y, z, w;
-    vec4d() { }
-    vec4d(double x, double y, double z, double w);
-
-    vec4d* add(me::vec4d &vec); vec4d* add(double fac);
-    vec4d* sub(me::vec4d &vec); vec4d* sub(double fac);
-    vec4d* mul(me::vec4d &vec); vec4d* mul(double fac);
-    vec4d* div(me::vec4d &vec); vec4d* div(double fac);
-    vec4d* mag(double mag);
-
+    vec4d()
+    {
+      this->x = 0.0D;
+      this->y = 0.0D;
+      this->z = 0.0D;
+      this->w = 0.0D;
+    }
+    vec4d(double x, double y, double z, double w) : vector()
+    {
+      this->x = x;
+      this->y = y;
+      this->z = z;
+      this->w = w;
+    }
+    vec4d(double value) : vector()
+    {
+      vec4d(value, value, value, value);
+    }
+    vec4d(vector<double> &vec) : vector()
+    {
+      this->x = vec.at(0);
+      this->y = vec.at(1);
+      this->z = vec.at(2);
+      this->w = vec.at(3);
+    }
+    int axis() override
+    {
+      return 4;
+    }
+    double& at(unsigned int index) override
+    {
+      if (index==0) return x;
+      else if (index==1) return y;
+      else if (index==2) return z;
+      else if (index==3) return w;
+      return defd;
+    }
+    double lengthSquared() override
+    {
+      return x * x + y * y + z * z + w * w;
+    }
+    double length() override
+    {
+      return me::maths::sqrt(lengthSquared());
+    }
+    vector<double>& normalize() override
+    {
+      double len = 1.0D / length();
+      x = x * len;
+      y = y * len;
+      z = z * len;
+      w = w * len;
+      return *this;
+    }
   };
 
-  /* double */
-  struct vec2i {
+  struct vec2i : vector<int> {
     int x, y;
-    vec2i() { }
-    vec2i(int x, int y);
-
-    vec2i* add(me::vec2i &vec); vec2i* add(int fac);
-    vec2i* sub(me::vec2i &vec); vec2i* sub(int fac);
-    vec2i* mul(me::vec2i &vec); vec2i* mul(int fac);
-    vec2i* div(me::vec2i &vec); vec2i* div(int fac);
-
-    inline bool in_bounds(const me::vec2i &position, const me::vec2i &scale)
+    vec2i()
     {
-      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y;
+      this->x = 0;
+      this->y = 0;
     }
-
+    vec2i(int x, int y) : vector()
+    {
+      this->x = x;
+      this->y = y;
+    }
+    vec2i(int value) : vector()
+    {
+      vec2i(value, value);
+    }
+    vec2i(vector<int> &vec) : vector()
+    {
+      this->x = vec.at(0);
+      this->y = vec.at(1);
+    }
+    int axis() override
+    {
+      return 2;
+    }
+    int& at(unsigned int index) override
+    {
+      if (index==0) return x;
+      else if (index==1) return y;
+      return defi;
+    }
   };
-  struct vec3i {
+  struct vec3i : vector<int> {
     int x, y, z;
-    vec3i() { }
-    vec3i(int x, int y, int z);
-
-    vec3i* add(me::vec3i &vec); vec3i* add(int fac);
-    vec3i* sub(me::vec3i &vec); vec3i* sub(int fac);
-    vec3i* mul(me::vec3i &vec); vec3i* mul(int fac);
-    vec3i* div(me::vec3i &vec); vec3i* div(int fac);
-
-    inline bool in_bounds(const me::vec3i &position, const me::vec3i &scale)
+    vec3i()
     {
-      return x >= position.x && x <= position.x + scale.x && y >= position.y && y <= position.y + scale.y && z >= position.z && z <= position.z + scale.z;
+      this->x = 0;
+      this->y = 0;
+      this->z = 0;
     }
-
+    vec3i(int x, int y, int z) : vector()
+    {
+      this->x = x;
+      this->y = y;
+      this->z = z;
+    }
+    vec3i(int value) : vector()
+    {
+      vec3i(value, value, value);
+    }
+    vec3i(vector<int> &vec) : vector()
+    {
+      this->x = vec.at(0);
+      this->y = vec.at(1);
+      this->z = vec.at(2);
+    }
+    int axis() override
+    {
+      return 3;
+    }
+    int& at(unsigned int index) override
+    {
+      if (index==0) return x;
+      else if (index==1) return y;
+      else if (index==2) return z;
+      return defi;
+    }
   };
-  struct vec4i {
+  struct vec4i : vector<int> {
     int x, y, z, w;
-    vec4i() { }
-    vec4i(int x, int y, int z, int w);
-
-    vec4i* add(me::vec4i &vec); vec4i* add(int fac);
-    vec4i* sub(me::vec4i &vec); vec4i* sub(int fac);
-    vec4i* mul(me::vec4i &vec); vec4i* mul(int fac);
-    vec4i* div(me::vec4i &vec); vec4i* div(int fac);
-
+    vec4i()
+    {
+      this->x = 0;
+      this->y = 0;
+      this->z = 0;
+      this->w = 0;
+    }
+    vec4i(int x, int y, int z, int w) : vector()
+    {
+      this->x = x;
+      this->y = y;
+      this->z = z;
+      this->w = w;
+    }
+    vec4i(int value) : vector()
+    {
+      vec4i(value, value, value, value);
+    }
+    vec4i(vector<int> &vec) : vector()
+    {
+      this->x = vec.at(0);
+      this->y = vec.at(1);
+      this->z = vec.at(2);
+      this->w = vec.at(3);
+    }
+    int axis() override
+    {
+      return 4;
+    }
+    int& at(unsigned int index) override
+    {
+      if (index==0) return x;
+      else if (index==1) return y;
+      else if (index==2) return z;
+      else if (index==3) return w;
+      return defi;
+    }
   };
-
-  /* utilities */
-  void toVec2f(float* array, me::vec2f* dest, unsigned int count);
-  void toVec3f(float* array, me::vec3f* dest, unsigned int count);
-  void toVec4f(float* array, me::vec4f* dest, unsigned int count);
-
-  void toVec2d(double* array, me::vec2d* dest, unsigned int count);
-  void toVec3d(double* array, me::vec3d* dest, unsigned int count);
-  void toVec4d(double* array, me::vec4d* dest, unsigned int count);
-
-  void toVec2i(int* array, me::vec2i* dest, unsigned int count);
-  void toVec3i(int* array, me::vec3i* dest, unsigned int count);
-  void toVec4i(int* array, me::vec4i* dest, unsigned int count);
-
-  void randomVec2f(float length, me::vec2f &vec);
-  void randomVec3f(float length, me::vec3f &vec);
-  void randomVec4f(float length, me::vec4f &vec);
-
-  void randomVec2d(double length, me::vec2d &vec);
-  void randomVec3d(double length, me::vec3d &vec);
-  void randomVec4d(double length, me::vec4d &vec);
-
-  void randomVec2i(int length, me::vec2i &vec);
-  void randomVec3i(int length, me::vec3i &vec);
-  void randomVec4i(int length, me::vec4i &vec);
 
 };
 

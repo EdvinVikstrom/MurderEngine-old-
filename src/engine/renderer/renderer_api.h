@@ -53,13 +53,9 @@ public:
   virtual int bindTexture(me::wcolor* texture) = 0;
   virtual int unbindTexture() = 0;
 
-  virtual int quad(double fx, double fy, double tx, double ty) = 0;
-
   virtual int reset() = 0;
-  virtual int transform(me::transform &transform) = 0;
-  virtual int translate(double x, double y, double z) = 0;
-  virtual int rotate(double x, double y, double z) = 0;
-  virtual int scale(double x, double y, double z) = 0;
+  virtual int vec3f(int location, float x, float y, float z) = 0;
+  virtual int matrix4(int location, float* matrix) = 0;
   virtual int modify(unsigned int p, float value) = 0;
 
   virtual int terminate() = 0;

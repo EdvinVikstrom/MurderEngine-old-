@@ -216,46 +216,74 @@ static bool parse_geometry_node(me::file_state &file, rapidxml::xml_node<>* geom
   rapidxml::xml_node<>* source_node = mesh_node->first_node("source");
   me::mesh* mesh = new me::mesh;
   mesh->identifier = identifier;
+
+  std::map<std::string, me::float_array*> float_arrays;
   while(source_node != nullptr)
   {
     rapidxml::xml_node<>* float_array_node = source_node->first_node("float_array");
-    std::string source_id = source_node->first_attribute("id")->value();
-    uint32_t count = std::stoi(float_array_node->first_attribute("count")->value());
+    rapidxml::xml_node<>* technique_common_node = source_node->first_node("technique_common");
+
+    if (float_array_node == nullptr || technique_common_node == nullptr)
+      break;
+    uint32_t array_size = std::stoi(float_array_node->first_attribute("count")->value());
     std::string raw_array = float_array_node->value();
-    unsigned int array_size = count;
+
     char** splitted_array = me::splitf_str((char*)raw_array.c_str(), raw_array.size(), array_size, ' ');
-    if (strEndsWith(source_id.c_str(), "positions"))
-    {
-      mesh->positions = new me::array<me::vec3f*>;
-      mesh->positions->allocate_mem(count/3);
-      for (uint32_t i = 0; i < array_size; i+=3)
-        mesh->positions->values[i/3] = new me::vec3f(std::stof(splitted_array[i]), std::stof(splitted_array[i+1]), std::stof(splitted_array[i+2]));
-    }else if (strEndsWith(source_id.c_str(), "normals"))
-    {
-      mesh->normals = new me::array<me::vec3f*>;
-      mesh->normals->allocate_mem(count/3);
-      for (uint32_t i = 0; i < array_size; i+=3)
-        mesh->normals->values[i/3] = new me::vec3f(std::stof(splitted_array[i]), std::stof(splitted_array[i+1]), std::stof(splitted_array[i+2]));
-    }else if (strEndsWith(source_id.c_str(), "map-0"))
-    {
-      mesh->texCoords = new me::array<me::vec2f*>;
-      mesh->texCoords->allocate_mem(count/2);
-      for (uint32_t i = 0; i < array_size; i+=2)
-        mesh->texCoords->values[i/2] = new me::vec2f(std::stof(splitted_array[i]), std::stof(splitted_array[i+1]));
-    }
-    // TODO: delete the splitted array
+
+    me::float_array* float_array = new me::float_array;
+    float_array->identifier = source_node->first_attribute("id")->value();
+    float_array->floats.reserve(array_size);
+
+    for (uint32_t i = 0; i < array_size; i++)
+      float_array->floats.emplace_back(std::stof(splitted_array[i]));
+    rapidxml::xml_node<>* accessor_node = technique_common_node->first_node("accessor");
+    unsigned int stride = std::stoi(accessor_node->first_attribute("stride")->value());
+    float_array->stride = stride;
+    float_arrays[float_array->identifier] = float_array;
     source_node = source_node->next_sibling("source");
   }
+  rapidxml::xml_node<>* vertices_node = mesh_node->first_node("vertices");
+  if (vertices_node != nullptr)
+  {
+    rapidxml::xml_node<>* input_node = vertices_node->first_node("input");
+    std::string id = vertices_node->first_attribute("id")->value();
+    std::string source = input_node->first_attribute("source")->value();
+    source = source.substr(1);
+    float_arrays[source]->identifier = id;
+    float_arrays[id] = float_arrays[source];
+  }
   rapidxml::xml_node<>* triangles_node = mesh_node->first_node("triangles");
-  rapidxml::xml_node<>* faces_node = triangles_node->first_node("p");
-  unsigned int face_count = std::stoi(triangles_node->first_attribute("count")->value());
-  std::string raw_face_array = faces_node->value();
-  unsigned int array_size = face_count*9;
-  char** faces = me::splitf_str((char*)raw_face_array.c_str(), raw_face_array.size(), array_size, ' ');
-  mesh->indices = new me::array<unsigned int*>;
-  mesh->indices->allocate_mem(array_size);
-  for (unsigned int i = 0; i < array_size; i++)
-    mesh->indices->values[i] = new unsigned int(std::stoi(faces[i]));
+  while(triangles_node != nullptr)
+  {
+    rapidxml::xml_node<>* input_node = triangles_node->first_node("input");
+    unsigned int size_mul = 0;
+    while(input_node != nullptr)
+    {
+      std::string semantic = input_node->first_attribute("semantic")->value();
+      std::string source = input_node->first_attribute("source")->value();
+      source = source.substr(1);
+      if (semantic=="VERTEX") { float_arrays[source]->to_vec3f(mesh->positions); size_mul+=3; }
+      else if (semantic=="NORMAL") { float_arrays[source]->to_vec3f(mesh->normals); size_mul+=3; }
+      else if (semantic=="TEXCOORD") { float_arrays[source]->to_vec2f(mesh->texCoords); size_mul+=3; }
+      else if (semantic=="COLOR") { float_arrays[source]->to_vec4f(mesh->colors); size_mul+=3; }
+      mesh->offset++;
+      input_node = input_node->next_sibling("input");
+    }
+    rapidxml::xml_node<>* faces_node = triangles_node->first_node("p");
+    unsigned int face_count = std::stoi(triangles_node->first_attribute("count")->value());
+    std::string material_url = triangles_node->first_attribute("material")->value();
+    std::string raw_face_array = faces_node->value();
+
+    unsigned int array_size = face_count*size_mul;
+    char** faces = me::splitf_str((char*)raw_face_array.c_str(), raw_face_array.size(), array_size, ' ');
+    me::index_array* index_array = new me::index_array;
+    index_array->material = packet->scene->materials[material_url];
+    index_array->indices.reserve(array_size);
+    for (unsigned int i = 0; i < array_size; i+=3)
+      index_array->indices.emplace_back(std::stoi(faces[i]));
+    mesh->indices.push_back(index_array);
+    triangles_node = triangles_node->next_sibling("triangles");
+  }
   packet->scene->meshes[identifier] = mesh;
   return true;
 }
@@ -267,62 +295,46 @@ static bool parse_visual_scene_node(me::file_state &file, rapidxml::xml_node<>* 
   while(node != nullptr)
   {
     std::string identifier = node->first_attribute("id")->value();
+    me::item* item = new me::item;
+    item->identifier = identifier;
+
     rapidxml::xml_node<>* matrix_node = node->first_node("matrix");
     rapidxml::xml_node<>* instance_camera_node = node->first_node("instance_camera");
     rapidxml::xml_node<>* instance_light_node = node->first_node("instance_light");
     rapidxml::xml_node<>* instance_geometry_node = node->first_node("instance_geometry");
-    std::string matrix_str = matrix_node->value();
-    char** matrix_args = me::splitf_str((char*)matrix_str.c_str(), matrix_str.size(), 4*4, ' ');
-    float** matrix = new float*[4]{
-      new float[4],
-      new float[4],
-      new float[4],
-      new float[4]
-    };
-    unsigned int index = 0;
-    for (unsigned char i = 0; i < 4; i++)
-    {
-      for (unsigned char j = 0; j < 4; j++)
-      {
-        matrix[i][j] = std::stof(matrix_args[index]);
-        index++;
-      }
-    }
-    me::transform transform(matrix, 4, 4);
+    float* transform_matrix = new float[4 * 4];
     while(matrix_node != nullptr)
     {
       std::string sid = matrix_node->first_attribute("sid")->value();
-      std::string matrix = matrix_node->value();
-      if (sid=="transform") { } // TODO:
+      std::string matrix_str = matrix_node->value();
+      char** matrix_args = me::splitf_str((char*)matrix_str.c_str(), matrix_str.size(), 4*4, ' ');
+      float* matrix = new float[4 * 4];
+      for (unsigned char i = 0; i < 16; i++)
+        matrix[i] = std::stof(matrix_args[i]);
+      if (sid=="transform") { transform_matrix = matrix; }
       matrix_node = matrix_node->next_sibling("matrix");
     }
+    item->transform_matrix = transform_matrix;
     if (instance_geometry_node != nullptr)
     {
       std::string url = instance_geometry_node->first_attribute("url")->value();
       url = url.substr(1);
-      rapidxml::xml_node<>* bind_material_node = instance_geometry_node->first_node("bind_material");
-      if (bind_material_node != nullptr)
-      {
-        rapidxml::xml_node<>* technique_common_node = bind_material_node->first_node("technique_common");
-        rapidxml::xml_node<>* instance_material_node = technique_common_node->first_node("instance_material");
-        std::string target = instance_material_node != nullptr ? instance_material_node->first_attribute("target")->value() : "#####";
-        target = target.substr(1); /* we don't like the "#" */
-        if (packet->scene->meshes[url]->materials == nullptr)
-          packet->scene->meshes[url]->materials = new std::vector<me::material*>;
-        packet->scene->meshes[url]->materials->push_back(packet->scene->materials[target]);
-      }
-      packet->scene->items.push_back(new me::item(identifier, me::item_type::MESH, transform, packet->scene->meshes[url]));
+      me::mesh* mesh = packet->scene->meshes[url];
+      item->type = me::item_type::MESH;
+      item->mesh = mesh;
     }else if (instance_camera_node != nullptr)
     {
       std::string url = instance_camera_node->first_attribute("url")->value();
       url = url.substr(1);
-      packet->scene->cameras[url]->transform = transform;
+      packet->scene->cameras[url]->view_matrix = transform_matrix;
+      item->type = me::item_type::CAMERA;
     }else if (instance_light_node != nullptr)
     {
       std::string url = instance_light_node->first_attribute("url")->value();
       url = url.substr(1);
-      packet->scene->lights[url]->transform = transform;
+      item->type = me::item_type::LIGHT;
     }
+    packet->scene->items.push_back(item);
     node = node->next_sibling("node");
   }
   return true;

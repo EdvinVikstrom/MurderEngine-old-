@@ -4,7 +4,7 @@
 
 static bool fast_math = true; // TODO:
 
-double maths::rand()
+double me::maths::rand()
 {
   return ((double) std::rand() / RAND_MAX);
 }
@@ -12,199 +12,199 @@ double maths::rand()
 // Trigonometric functions
 
 /* cos */
-long double maths::cosl(long double angle)
+long double me::maths::cos(long double angle)
 {
-  return cosl(angle);
+  return ::cosl(angle);
 }
-double maths::cosd(double angle)
+double me::maths::cos(double angle)
 {
-  return cos(angle);
+  return ::cos(angle);
 }
-float maths::cosf(float angle)
+float me::maths::cos(float angle)
 {
-  return cosf(angle);
+  return ::cosf(angle);
 }
 
 /* sin */
-long double maths::sinl(long double angle)
+long double me::maths::sin(long double angle)
 {
-  return sinl(angle);
+  return ::sinl(angle);
 }
-double maths::sind(double angle)
+double me::maths::sin(double angle)
 {
-  return sin(angle);
+  return ::sin(angle);
 }
-float maths::sinf(float angle)
+float me::maths::sin(float angle)
 {
-  return sinf(angle);
+  return ::sinf(angle);
 }
 
 /* tan */
-long double maths::tanl(long double angle)
+long double me::maths::tan(long double angle)
 {
-  return tanl(angle);
+  return ::tanl(angle);
 }
-double maths::tand(double angle)
+double me::maths::tan(double angle)
 {
-  return tan(angle);
+  return ::tan(angle);
 }
-float maths::tanf(float angle)
+float me::maths::tan(float angle)
 {
-  return tanf(angle);
+  return ::tanf(angle);
 }
 
 /* acos */
-long double maths::acosl(long double angle)
+long double me::maths::acos(long double angle)
 {
 
 }
-double maths::acosd(double angle)
+double me::maths::acos(double angle)
 {
 
 }
-float maths::acosf(float angle)
+float me::maths::acos(float angle)
 {
 
 }
 
 /* asin */
-long double maths::asinl(long double angle)
+long double me::maths::asin(long double angle)
 {
 
 }
-double maths::asind(double angle)
+double me::maths::asin(double angle)
 {
 
 }
-float maths::asinf(float angle)
+float me::maths::asin(float angle)
 {
 
 }
 
 /* atan */
-long double maths::atanl(long double angle)
+long double me::maths::atan(long double angle)
 {
 
 }
-double maths::atand(double angle)
+double me::maths::atan(double angle)
 {
 
 }
-float maths::atanf(float angle)
+float me::maths::atan(float angle)
 {
 
 }
 
 /* atan2 */
-long double maths::atan2l(long double y, long double x)
+long double me::maths::atan2(long double y, long double x)
 {
 
 }
-double maths::atan2d(double y, double x)
+double me::maths::atan2(double y, double x)
 {
-  return atan2(y, x);
+  return ::atan2(y, x);
 }
-float maths::atan2f(float y, float x)
+float me::maths::atan2(float y, float x)
 {
 
 }
 
 /* cos from sin */
-long double maths::cosfsinl(long double sin, long double angle)
+long double me::maths::cosfsin(long double sin, long double angle)
 {
-  return maths::sinl(angle + H_PI);
+  return me::maths::sin(angle + H_PI);
 }
-double maths::cosfsind(double sin, double angle)
+double me::maths::cosfsin(double sin, double angle)
 {
-  return maths::sind(angle + H_PI);
+  return me::maths::sin(angle + H_PI);
 }
-float maths::cosfsinf(float sin, float angle)
+float me::maths::cosfsin(float sin, float angle)
 {
-  return maths::sinf(angle + H_PI);
+  return me::maths::sin(angle + H_PI);
 }
 
 // Hyperbolic functions
 
 /* sinh */
-long double maths::sinhl(long double angle)
+long double me::maths::sinh(long double angle)
 {
 
 }
-double maths::sinhd(double angle)
+double me::maths::sinh(double angle)
 {
 
 }
-float maths::sinhf(float angle)
+float me::maths::sinh(float angle)
 {
 
 }
 
 /* cosh */
-long double maths::coshl(long double angle)
+long double me::maths::cosh(long double angle)
 {
 
 }
-double maths::coshd(double angle)
+double me::maths::cosh(double angle)
 {
 
 }
-float maths::coshf(float angle)
+float me::maths::cosh(float angle)
 {
 
 }
 
 /* tanh */
-long double maths::tanhl(long double angle)
+long double me::maths::tanh(long double angle)
 {
 
 }
-double maths::tanhd(double angle)
+double me::maths::tanh(double angle)
 {
 
 }
-float maths::tanhf(float angle)
+float me::maths::tanh(float angle)
 {
 
 }
 
 /* asinh */
-long double maths::asinhl(long double angle)
+long double me::maths::asinh(long double angle)
 {
 
 }
-double maths::asinhd(double angle)
+double me::maths::asinh(double angle)
 {
 
 }
-float maths::asinhf(float angle)
+float me::maths::asinh(float angle)
 {
 
 }
 
 /* acosh */
-long double maths::acoshl(long double angle)
+long double me::maths::acosh(long double angle)
 {
 
 }
-double maths::acoshd(double angle)
+double me::maths::acosh(double angle)
 {
 
 }
-float maths::acoshf(float angle)
+float me::maths::acosh(float angle)
 {
 
 }
 
 /* atanh */
-long double maths::atanhl(long double angle)
+long double me::maths::atanh(long double angle)
 {
 
 }
-double maths::atanhd(double angle)
+double me::maths::atanh(double angle)
 {
 
 }
-float maths::atanhf(float angle)
+float me::maths::atanh(float angle)
 {
 
 }
@@ -212,85 +212,85 @@ float maths::atanhf(float angle)
 // rounding
 
 /* ceil */
-long double maths::ceill(long double a)
+long double me::maths::ceil(long double a)
 {
 
 }
-double maths::ceild(double a)
+double me::maths::ceil(double a)
 {
 
 }
-float maths::ceilf(float a)
+float me::maths::ceil(float a)
 {
 
 }
 
 /* floor */
-long double maths::floorl(long double a)
+long double me::maths::floor(long double a)
 {
 
 }
-double maths::floord(double a)
+double me::maths::floor(double a)
 {
 
 }
-float maths::floorf(float a)
+float me::maths::floor(float a)
 {
 
 }
 
 /* trunc */
-long double maths::truncl(long double a)
+long double me::maths::trunc(long double a)
 {
 
 }
-double maths::truncd(double a)
+double me::maths::trunc(double a)
 {
 
 }
-float maths::truncf(float a)
+float me::maths::trunc(float a)
 {
 
 }
 
 /* round */
-long double maths::roundl(long double a)
+long double me::maths::round(long double a)
 {
 
 }
-double maths::roundd(double a)
+double me::maths::round(double a)
 {
 
 }
-float maths::roundf(float a)
+float me::maths::round(float a)
 {
 
 }
 
 /* nearbyint */
-long double maths::nearbyintl(long double a)
+long double me::maths::nearbyint(long double a)
 {
 
 }
-double maths::nearbyintd(double a)
+double me::maths::nearbyint(double a)
 {
 
 }
-float maths::nearbyintf(float a)
+float me::maths::nearbyint(float a)
 {
 
 }
 
 /* rint */
-long double maths::rintl(long double a)
+long double me::maths::rint(long double a)
 {
 
 }
-double maths::rintd(double a)
+double me::maths::rint(double a)
 {
 
 }
-float maths::rintf(float a)
+float me::maths::rint(float a)
 {
 
 }
@@ -298,99 +298,99 @@ float maths::rintf(float a)
 /* Manipulation functions  */
 
 /* frexp */
-long double maths::frexpl(long double a, int* exp)
+long double me::maths::frexp(long double a, int* exp)
 {
 
 }
-double maths::frexpd(double a, int* exp)
+double me::maths::frexp(double a, int* exp)
 {
 
 }
-float maths::frexpf(float a, int* exp)
+float me::maths::frexp(float a, int* exp)
 {
 
 }
 
 /* ldexp */
-long double maths::ldexpl(long double a, int exp)
+long double me::maths::ldexp(long double a, int exp)
 {
 
 }
-double maths::ldexpd(double a, int exp)
+double me::maths::ldexp(double a, int exp)
 {
 
 }
-float maths::ldexpf(float a, int exp)
+float me::maths::ldexp(float a, int exp)
 {
 
 }
 
 /* modfl */
-long double maths::modfl(long double a, long double* iptr)
+long double me::maths::modf(long double a, long double* iptr)
 {
 
 }
-double maths::modfd(double a, double* iptr)
+double me::maths::modf(double a, double* iptr)
 {
 
 }
-float maths::modff(float a, float* iptr)
+float me::maths::modf(float a, float* iptr)
 {
 
 }
 
 /* scalbn */
-long double maths::scalbnl(long double a, int exp)
+long double me::maths::scalbn(long double a, int exp)
 {
 
 }
-double maths::scalbnd(double a, int exp)
+double me::maths::scalbn(double a, int exp)
 {
 
 }
-float maths::scalbnf(float a, int exp)
+float me::maths::scalbn(float a, int exp)
 {
 
 }
 
 /* nextafter */
-long double maths::nextafterl(long double from, long double to)
+long double me::maths::nextafter(long double from, long double to)
 {
 
 }
-double maths::nextafterd(double from, double to)
+double me::maths::nextafter(double from, double to)
 {
 
 }
-float maths::nextafterf(float from, float to)
+float me::maths::nextafter(float from, float to)
 {
 
 }
 
 /* nexttoward */
-long double maths::nexttowardl(long double from, long double to)
+long double me::maths::nexttoward(long double from, long double to)
 {
 
 }
-double maths::nexttowardd(double from, long double to)
+double me::maths::nexttoward(double from, long double to)
 {
 
 }
-float maths::nexttowardf(float from, long double to)
+float me::maths::nexttoward(float from, long double to)
 {
 
 }
 
 /* copysign */
-long double maths::copysignl(long double a, long double b)
+long double me::maths::copysign(long double a, long double b)
 {
 
 }
-double maths::copysignd(double a, double b)
+double me::maths::copysign(double a, double b)
 {
 
 }
-float maths::copysignf(float a, float b)
+float me::maths::copysign(float a, float b)
 {
 
 }
@@ -398,67 +398,67 @@ float maths::copysignf(float a, float b)
 // ööö
 
 /* absolute */
-long double maths::absl(long double a)
+long double me::maths::abs(long double a)
 {
   return a < 0 ? -a : a;
 }
-double maths::absd(double a)
+double me::maths::abs(double a)
 {
   return a < 0 ? -a : a;
 }
-float maths::absf(float a)
+float me::maths::abs(float a)
 {
   return a < 0 ? -a : a;
 }
-int maths::absi(int a)
+int me::maths::abs(int a)
 {
   return a < 0 ? -a : a;
 }
-long maths::absl(long a)
+long me::maths::absl(long a)
 {
   return a < 0 ? -a : a;
 }
 
 /* max */
-long double maths::maxl(long double a, long double b)
+long double me::maths::max(long double a, long double b)
 {
   return a >= b ? a : b;
 }
-double maths::maxd(double a, double b)
+double me::maths::max(double a, double b)
 {
   return a >= b ? a : b;
 }
-float maths::maxf(float a, float b)
+float me::maths::max(float a, float b)
 {
   return a >= b ? a : b;
 }
-int maths::maxi(int a, int b)
+int me::maths::max(int a, int b)
 {
   return a >= b ? a : b;
 }
-long maths::maxl(long a, long b)
+long me::maths::maxl(long a, long b)
 {
   return a >= b ? a : b;
 }
 
 /* min */
-long double maths::minl(long double a, long double b)
+long double me::maths::min(long double a, long double b)
 {
   return a <= b ? a : b;
 }
-double maths::mind(double a, double b)
+double me::maths::min(double a, double b)
 {
   return a <= b ? a : b;
 }
-float maths::minf(float a, float b)
+float me::maths::min(float a, float b)
 {
   return a <= b ? a : b;
 }
-int maths::mini(int a, int b)
+int me::maths::min(int a, int b)
 {
   return a <= b ? a : b;
 }
-long maths::minl(long a, long b)
+long me::maths::minl(long a, long b)
 {
   return a <= b ? a : b;
 }
@@ -466,66 +466,66 @@ long maths::minl(long a, long b)
 // Exponential functions
 
 /* exp */
-long double maths::expl(long double a)
+long double me::maths::exp(long double a)
 {
 
 }
-double maths::expd(double a)
-{
-
-}
-
-long double maths::exp2l(long double a)
-{
-
-}
-double maths::exp2d(double a)
+double me::maths::exp(double a)
 {
 
 }
 
-long double maths::expm1l(long double a)
+long double me::maths::exp2(long double a)
 {
 
 }
-double maths::expm1d(double a)
+double me::maths::exp2(double a)
+{
+
+}
+
+long double me::maths::expm1(long double a)
+{
+
+}
+double me::maths::expm1(double a)
 {
 
 }
 
 /* log */
-long double maths::logl(long double a)
+long double me::maths::log(long double a)
 {
 
 }
-double maths::logd(double a)
-{
-
-}
-
-long double maths::log2l(long double a)
-{
-
-}
-double maths::log2d(double a)
+double me::maths::log(double a)
 {
 
 }
 
-long double maths::log10l(long double a)
+long double me::maths::log2(long double a)
 {
 
 }
-double maths::log10d(double a)
+double me::maths::log2(double a)
 {
 
 }
 
-long double maths::log1pl(long double a)
+long double me::maths::log10(long double a)
 {
 
 }
-double maths::log1pd(double a)
+double me::maths::log10(double a)
+{
+
+}
+
+long double me::maths::log1p(long double a)
+{
+
+}
+double me::maths::log1p(double a)
 {
 
 }
@@ -533,41 +533,41 @@ double maths::log1pd(double a)
 // Power functions
 
 /* sqrt */
-long double maths::sqrtl(long double a)
+long double me::maths::sqrt(long double a)
 {
 
 }
-double maths::sqrtd(double a)
+double me::maths::sqrt(double a)
 {
-  return sqrt(a);
+  return ::sqrt(a);
 }
 
 /* cbrt */
-long double maths::cbrtl(long double a)
+long double me::maths::cbrt(long double a)
 {
 
 }
-double maths::cbrtl(double a)
+double me::maths::cbrtl(double a)
 {
 
 }
 
 /* hypot */
-long double maths::hypotl(long double a, long double b)
+long double me::maths::hypot(long double a, long double b)
 {
 
 }
-double maths::hypotd(double a, double b)
+double me::maths::hypot(double a, double b)
 {
 
 }
 
 /* pow */
-long double maths::powl(long double a, long double b)
+long double me::maths::pow(long double a, long double b)
 {
-  return pow(a, b);
+  return ::pow(a, b);
 }
-double maths::powd(double a, double b)
+double me::maths::pow(double a, double b)
 {
-  return pow(a, b);
+  return ::pow(a, b);
 }

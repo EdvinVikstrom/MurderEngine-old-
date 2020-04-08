@@ -50,8 +50,12 @@ int me::fformat::bmp_reader::read_image(me::file_state &file, me::image* image)
     image->depth = 24;
   }
   image->pixels = new unsigned char[image_size];
-  for (unsigned int i = 0; i < image_size; i++)
-    image->pixels[i] = file.data[header.file.data_offset+i];
+  for (unsigned int i = 0; i < image_size; i+=3)
+  {
+    image->pixels[i + 2] = file.data[header.file.data_offset+i];
+    image->pixels[i + 1] = file.data[header.file.data_offset+i + 1];
+    image->pixels[i] = file.data[header.file.data_offset+i + 2];
+  }
   return ME_FINE;
 }
 
