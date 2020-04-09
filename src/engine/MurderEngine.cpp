@@ -170,7 +170,13 @@ int me::engine_setup_renderer_api(const std::string &apiName)
   ME_LOGGER->out("Initializing Renderer API ...\n");
   if (rendererApi->initializeApi() != ME_FINE)
     return 1;
+  me::device_info info = rendererApi->getDeviceInfo();
+  ME_LOGGER->out("<--- [Device Info] --->\n");
   ME_LOGGER->out(std::string("Renderer API initialized [") + RENDERER_API_NAME + "]\n");
+  ME_LOGGER->out(std::string("-- Company: ") + info.company + "\n");
+  ME_LOGGER->out(std::string("-- Model: ") + info.model + "\n");
+  ME_LOGGER->out(std::string("-- Version: ") + info.version + "\n");
+  ME_LOGGER->out(std::string("-- GLSL Version: ") + info.sl_version + "\n");
   return 0;
 }
 

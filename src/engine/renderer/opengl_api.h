@@ -10,6 +10,7 @@ public:
   int initializeApi();
   int viewport(me::camera* camera, int x, int y, unsigned int width, unsigned int height);
   int useProgram(unsigned int program);
+  me::device_info getDeviceInfo();
 
   int push();
   int pop();
@@ -23,7 +24,7 @@ public:
   int unbindTexture();
 
   int reset();
-  int vec3f(int location, float x, float y, float z);
+  int vec3(int location, float x, float y, float z);
   int matrix4(int location, float* matrix);
   int modify(unsigned int p, float value);
 

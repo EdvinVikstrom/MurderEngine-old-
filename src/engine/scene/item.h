@@ -41,15 +41,18 @@ namespace me {
     {
     }
 
+    float rot = 0;
     virtual void update() { }
     inline void render(me::camera* camera)
     {
+      //me::maths::rotate(transform_matrix, 0, rot, 0);
       rendererApi->bindMesh(mesh);
       rendererApi->matrix4(0, camera->projection_matrix.array);
       rendererApi->matrix4(1, camera->view_matrix.array);
       rendererApi->matrix4(2, transform_matrix.array);
       rendererApi->mesh(mesh);
       rendererApi->unbindMesh();
+      rot+=0.01F;
     }
 
     bool onMouseInput(int action, double posX, double posY, int button) override { return false; }

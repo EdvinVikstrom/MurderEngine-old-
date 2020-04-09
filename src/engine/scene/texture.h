@@ -44,14 +44,14 @@ namespace me {
     /* TODO: std::atomic */
     wcolor_type type;
     me::image* v_image;
-    me::vec4f* v_rgba;
+    me::vec4* v_rgba;
     float* v_float;
     wcolor(wcolor_type type, me::image* v_image)
     {
       this->type = type;
       this->v_image = v_image;
     }
-    wcolor(wcolor_type type, me::vec4f* v_rgba)
+    wcolor(wcolor_type type, me::vec4* v_rgba)
     {
       this->type = type;
       this->v_rgba = v_rgba;

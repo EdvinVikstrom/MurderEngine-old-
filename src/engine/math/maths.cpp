@@ -384,15 +384,28 @@ float me::maths::nexttoward(float from, long double to)
 /* copysign */
 long double me::maths::copysign(long double a, long double b)
 {
-
+  return ::copysignl(a, b);
 }
 double me::maths::copysign(double a, double b)
 {
-
+  return ::copysign(a, b);
 }
 float me::maths::copysign(float a, float b)
 {
+  return ::copysignf(a, b);
+}
 
+long double me::maths::sign(long double a)
+{
+  return a != 0.0L && !isnan(a) ? copysign(1.0L, a) : a;
+}
+double me::maths::sign(double a)
+{
+  return a != 0.0D && !isnan(a) ? copysign(1.0D, a) : a;
+}
+float me::maths::sign(float a)
+{
+  return a != 0.0F && !isnan(a) ? copysign(1.0F, a) : a;
 }
 
 // ööö

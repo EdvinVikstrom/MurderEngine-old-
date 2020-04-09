@@ -47,6 +47,13 @@ namespace me {
 
     camera() { }
 
+    void update_matrix()
+    {
+      me::maths::identify(view_matrix);
+      me::maths::rotate(view_matrix, transform.rotation.x, transform.rotation.y, transform.rotation.z);
+      me::maths::translate(view_matrix, transform.location.x, transform.location.y, transform.location.z);
+    }
+
   };
 
 };

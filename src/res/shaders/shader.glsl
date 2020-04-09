@@ -13,7 +13,7 @@ out vec2 v_texCoord;
 
 void main()
 {
-  gl_Position = position * projection_mat * view_mat * model_mat;
+  gl_Position = projection_mat * view_mat * model_mat * position;
   v_texCoord = texCoord;
 }
 
@@ -30,6 +30,7 @@ void main()
 {
   vec4 tex_color = texture(active_tex, v_texCoord);
   o_color = tex_color;
+  //o_color = vec4(0.4F, 0.7F, 0.8F, 1.0F);
 }
 
 #end

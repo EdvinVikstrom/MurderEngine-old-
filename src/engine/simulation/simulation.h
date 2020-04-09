@@ -20,9 +20,9 @@ namespace me {
 
     struct instance {
       me::transform* transform;
-      me::vec3d* velocity;
+      me::vec3* velocity;
       me::gmt::boundary* collisions;
-      instance(me::transform* transform, me::vec3d* velocity, me::gmt::boundary* collisions)
+      instance(me::transform* transform, me::vec3* velocity, me::gmt::boundary* collisions)
       {
         this->transform = transform;
         this->velocity = velocity;
@@ -45,7 +45,7 @@ namespace me {
 
       }
       virtual void applyTo(me::sim::instance* instance) = 0;
-      virtual void applyForce(me::sim::instance* instance, me::vec3d &force) = 0;
+      virtual void applyForce(me::sim::instance* instance, me::vec3 &force) = 0;
       virtual void applyGravity(me::sim::instance* instance) = 0;
 
       long mem_use() override

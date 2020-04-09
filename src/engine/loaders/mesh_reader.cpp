@@ -30,9 +30,9 @@ void me::fformat::load_mesh(me::mesh* mesh, int usage)
     glBindVertexArray(mesh->VAO);
 
     /* positions */
-    attach_array_buffer(mesh->positionsVBO, mesh->positions.size() * sizeof(me::vec3f), &mesh->positions[0], GL_STATIC_DRAW);
-    attach_array_buffer(mesh->normalsVBO, mesh->normals.size() * sizeof(me::vec3f), &mesh->normals[0], GL_STATIC_DRAW);
-    attach_array_buffer(mesh->texCoordsVBO, mesh->texCoords.size() * sizeof(me::vec2f), &mesh->texCoords[0], GL_STATIC_DRAW);
+    attach_array_buffer(mesh->positionsVBO, mesh->positions.size() * sizeof(me::vec3), &mesh->positions[0], GL_STATIC_DRAW);
+    attach_array_buffer(mesh->normalsVBO, mesh->normals.size() * sizeof(me::vec3), &mesh->normals[0], GL_STATIC_DRAW);
+    attach_array_buffer(mesh->texCoordsVBO, mesh->texCoords.size() * sizeof(me::vec2), &mesh->texCoords[0], GL_STATIC_DRAW);
 
     /* indices */
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);

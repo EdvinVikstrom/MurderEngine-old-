@@ -19,8 +19,8 @@ namespace me {
 
     public:
 
-      int read_image(me::file_state &file, me::image* image) override;
-      bool recognized(me::file_state &file) override;
+      int read_image(me::fileattr &file, me::image* image) override;
+      bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
 
     };

@@ -42,6 +42,12 @@ namespace me {
         return rows * columns;
       }
 
+      inline void set(mat &mat)
+      {
+        for (unsigned int i = 0; i < me::maths::min(size(), mat.size()); i++)
+          array[i] = mat[i];
+      }
+
       inline void m00(float f) { array[0] = f; }
       inline void m01(float f) { array[1] = f; }
       inline void m02(float f) { array[2] = f; }
@@ -58,6 +64,23 @@ namespace me {
       inline void m31(float f) { array[13] = f; }
       inline void m32(float f) { array[14] = f; }
       inline void m33(float f) { array[15] = f; }
+
+      inline float& m00() { return array[0]; }
+      inline float& m01() { return array[0]; }
+      inline float& m02() { return array[0]; }
+      inline float& m03() { return array[0]; }
+      inline float& m10() { return array[0]; }
+      inline float& m11() { return array[0]; }
+      inline float& m12() { return array[0]; }
+      inline float& m13() { return array[0]; }
+      inline float& m20() { return array[0]; }
+      inline float& m21() { return array[0]; }
+      inline float& m22() { return array[0]; }
+      inline float& m23() { return array[0]; }
+      inline float& m30() { return array[0]; }
+      inline float& m31() { return array[0]; }
+      inline float& m32() { return array[0]; }
+      inline float& m33() { return array[0]; }
 
       virtual float& at(unsigned int row, unsigned int col) = 0;
       virtual float& operator[](unsigned int index) = 0;
@@ -140,18 +163,26 @@ namespace me {
       matrix[15] = 1;
     }
 
+    /*
+    float y_scale = (1.0F / me::maths::tan(fov / 2.0F)) * aspect;
+    float x_scale = y_scale / aspect;
+    float frustum_length = zfar - znear;
+
+    matrix.m00(x_scale);
+    matrix.m11(y_scale);
+    matrix.m22(-((zfar + znear) / frustum_length));
+    matrix.m23(-1.0F);
+    matrix.m32(-((2.0F * znear * zfar) / frustum_length));
+    matrix.m33(0.0F);
+    */
     inline void perspective(mat &matrix, float fov, float aspect, float znear, float zfar)
     {
-      float y_scale = (1.0F / me::maths::tan(fov / 2.0F)) * aspect;
-      float x_scale = y_scale / aspect;
-      float frustum_length = zfar - znear;
-
-      matrix.m00(x_scale);
-      matrix.m11(y_scale);
-      matrix.m22(-((zfar + znear) / frustum_length));
+      float hfov = me::maths::tan(fov / 2.0F);
+      matrix.m00(1.0F / (aspect * hfov));
+      matrix.m11(1.0F / (hfov));
+      matrix.m22(-(zfar + znear) / (zfar - znear));
       matrix.m23(-1.0F);
-      matrix.m32(-((2.0F * znear * zfar) / frustum_length));
-      matrix.m33(0.0F);
+      matrix.m32(-(2.0F * zfar * znear) / (zfar - znear));
     }
 
     inline void frustum(mat &matrix, float left, float right, float bottom, float top, float znear, float zfar)
@@ -168,14 +199,12 @@ namespace me {
 
     inline void orthographic(mat &matrix, float left, float right, float bottom, float top, float znear, float zfar)
     {
-      matrix[0] = 2 / (right - left);
-      matrix[5] = 2 / (top - bottom);
-      matrix[10] = -2 / (zfar - znear);
-      matrix[3] = right + left / (right - left);
-      matrix[7] = top + bottom / (top - bottom);
-      matrix[11] = zfar + znear / (zfar - znear);
-      matrix[15] = 1;
-
+      matrix.m00(2.0F / (right - left));
+      matrix.m00(2.0F / (top - bottom));
+      matrix.m00(1.0F / (zfar - znear));
+      matrix.m00(-(right + left) / (right - left));
+      matrix.m00(-(top + bottom) / (top - bottom));
+      matrix.m00(-znear / (zfar - znear));
     }
 
     inline void translate(mat &matrix, float x, float y, float z)
@@ -192,15 +221,37 @@ namespace me {
       matrix[10] = matrix[10] * z;
     }
 
-    inline void rotate(mat &matrix, float angle, me::vec3f vec)
+    inline void rotate(mat &matrix, float rotX, float rotY, float rotZ)
     {
-      float cos = me::maths::cos(angle);
-      float sin = me::maths::sin(angle);
-      // TODO: normalize x, y, z
-      me::vec3f axis(vec.normalize());
-      me::vec3f temp(axis * (1.0F - cos));
-      mat4 rotate;
-      //rotate.m00(cos + )
+      float sinX = me::maths::sin(rotX);
+      float cosX = me::maths::cos(rotX);
+      float sinY = me::maths::sin(rotY);
+      float cosY = me::maths::cos(rotY);
+      float sinZ = me::maths::sin(rotZ);
+      float cosZ = me::maths::cos(rotZ);
+      float n_sinX = -sinX;
+      float n_sinY = -sinY;
+      float n_sinZ = -sinZ;
+
+      float nm11 = cosX;
+      float nm12 = sinX;
+      float nm21 = n_sinX;
+      float nm22 = cosX;
+
+      float nm00 = cosY;
+      float nm01 = nm21 * n_sinY;
+      float nm02 = nm22 * n_sinY;
+
+      matrix.m20(sinY);
+      matrix.m21(nm21 * cosY);
+      matrix.m22(nm22 * cosY);
+
+      matrix.m00(nm00 * cosZ);
+      matrix.m01(nm01 * cosZ + nm11 * sinZ);
+      matrix.m02(nm02 * cosZ + nm12 * sinZ);
+      matrix.m10(nm00 * sinZ);
+      matrix.m11(nm01 * sinZ + nm11 * cosZ);
+      matrix.m12(nm02 * sinZ + nm12 * cosZ);
     }
 
     inline void rotationX(mat &matrix, float angle)
@@ -230,10 +281,10 @@ namespace me {
       float sin = me::maths::sin(angle);
       float cos = me::maths::cos(angle);
 
-      matrix[0] = cos;
-      matrix[1] = sin;
-      matrix[4] = -sin;
-      matrix[5] = cos;
+      matrix.m00(cos);
+      matrix.m01(sin);
+      matrix.m10(-sin);
+      matrix.m11(cos);
     }
 
     inline void print_matrix(float* matrix)

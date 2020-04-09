@@ -7,8 +7,8 @@ namespace me {
     std::string identifier;
     double power;
     double size;
-    me::vec4f rgba;
-    light(std::string identifier, double power, double size, me::vec4f rgba)
+    me::vec4 rgba;
+    light(std::string identifier, double power, double size, me::vec4 rgba)
     {
       this->identifier = identifier;
       this->power = power;

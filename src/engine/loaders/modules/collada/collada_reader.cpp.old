@@ -70,15 +70,15 @@ bool me::fformat::collada_reader::parse_mesh(rapidxml::xml_node<>* mesh_node, me
     if (strEndsWith(sourceId, "positions"))
     {
       mesh->positions.allocate_mem(count/3);
-      me::toVec3f(array, &mesh->positions.values[0], count);
+      me::tovec3(array, &mesh->positions.values[0], count);
     }else if (strEndsWith(sourceId, "normals"))
     {
       mesh->normals.allocate_mem(count/3);
-      me::toVec3f(array, &mesh->normals.values[0], count);
+      me::tovec3(array, &mesh->normals.values[0], count);
     }else if (strEndsWith(sourceId, "map-0"))
     {
       mesh->texCoords.allocate_mem(count/2);
-      me::toVec2f(array, &mesh->texCoords.values[0], count);
+      me::tovec2(array, &mesh->texCoords.values[0], count);
     }
     source = source->next_sibling("source");
   }
@@ -194,7 +194,7 @@ bool me::fformat::collada_reader::parse_light(rapidxml::xml_node<>* light_node, 
     }
     if (colorArgs.size() > 3)
       alpha = std::stof(colorArgs[3]);
-    me::vec4f* color = new me::vec4f(
+    me::vec4* color = new me::vec4(
       std::stof(colorArgs[0]),
       std::stof(colorArgs[1]),
       std::stof(colorArgs[2]),
@@ -217,10 +217,10 @@ bool me::fformat::collada_reader::parse_scene(rapidxml::xml_node<>* scene_node, 
     rapidxml::xml_node<>* geometry_node = node->first_node("instance_geometry");
     rapidxml::xml_node<>* light_node = node->first_node("instance_light");
     rapidxml::xml_node<>* camera_node = node->first_node("instance_camera");
-    me::vec3d position(0, 0, 0);
-    me::vec3d rotation(0, 0, 0);
-    me::vec3d scale(0, 0, 0);
-    me::vec3d origin(0, 0, 0);
+    me::vec3 position(0, 0, 0);
+    me::vec3 rotation(0, 0, 0);
+    me::vec3 scale(0, 0, 0);
+    me::vec3 origin(0, 0, 0);
     if (matrix_node != 0)
     {
       std::vector<std::string> matrixArgs = splitStr(matrix_node->value(), ' ');

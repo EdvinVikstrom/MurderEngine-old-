@@ -70,6 +70,14 @@ int opengl_api::useProgram(unsigned int program)
   glUseProgram(program);
   return ME_FINE;
 }
+me::device_info opengl_api::getDeviceInfo()
+{
+  std::string company = std::string((const char*)glGetString(GL_VENDOR));
+  std::string model = std::string((const char*)glGetString(GL_RENDERER));
+  std::string version = std::string((const char*)glGetString(GL_VERSION));
+  std::string sl_version = std::string((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+  return { company, model, version, sl_version };
+}
 
 int opengl_api::push()
 {
@@ -142,7 +150,7 @@ int opengl_api::reset()
   glLoadIdentity();
   return ME_FINE;
 }
-int opengl_api::vec3f(int location, float x, float y, float z)
+int opengl_api::vec3(int location, float x, float y, float z)
 {
   glUniform3f(location, x, y, z);
   return ME_FINE;

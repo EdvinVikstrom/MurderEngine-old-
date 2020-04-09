@@ -10,22 +10,22 @@ static me::log* PNG = new me::log("PNG",
 "\e[34m[%N] %T #%M \e[0m"
 );
 
-int me::fformat::png_reader::read_image(me::file_state &file, me::image* image)
+int me::fformat::png_reader::read_image(me::fileattr &file, me::image* image)
 {
   return ME_FINE;
 }
 
-bool me::fformat::png_reader::recognized(me::file_state &file)
+bool me::fformat::png_reader::recognized(me::fileattr &file)
 {
-  return strEndsWith(file.filepath.c_str(), ".png") || (
-    file.data[0] == 137 &&
-    file.data[1] == 80 &&
-    file.data[2] == 78 &&
-    file.data[3] == 71 &&
-    file.data[4] == 13 &&
-    file.data[5] == 10 &&
-    file.data[6] == 26 &&
-    file.data[7] == 10
+  return strEndsWith(file.filepath, ".png") || (
+    file.buffer->data[0] == 137 &&
+    file.buffer->data[1] == 80 &&
+    file.buffer->data[2] == 78 &&
+    file.buffer->data[3] == 71 &&
+    file.buffer->data[4] == 13 &&
+    file.buffer->data[5] == 10 &&
+    file.buffer->data[6] == 26 &&
+    file.buffer->data[7] == 10
   );
 }
 

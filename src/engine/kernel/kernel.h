@@ -19,6 +19,9 @@
 #endif
 
 #include <stdint.h>
-#include "string.h"
+
+#ifdef __cplusplus
+  #include "string.h"
+#endif
 
 #endif

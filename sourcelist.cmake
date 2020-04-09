@@ -16,6 +16,9 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/loaders/mesh_reader.cpp
   ${SOURCE_DIR}/engine/loaders/shader_reader.cpp
   ${SOURCE_DIR}/engine/math/maths.cpp
+  ${SOURCE_DIR}/engine/math/vector2.cpp
+  ${SOURCE_DIR}/engine/math/vector3.cpp
+  ${SOURCE_DIR}/engine/math/vector4.cpp
   ${SOURCE_DIR}/engine/scene/scene.cpp
   ${SOURCE_DIR}/engine/scene/particle/particle.cpp
   ${SOURCE_DIR}/engine/scene/scenes/scene_2d_viewport.cpp

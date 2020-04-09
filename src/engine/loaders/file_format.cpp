@@ -10,7 +10,7 @@ static std::vector<me::fformat::file_format*> formats;
 
 me::image* me::fformat::read_image(const std::string &filepath)
 {
-  me::file_state file = me::read_file(filepath);
+  me::fileattr &file = *me::read_file(filepath.c_str());
   me::image* image = new me::image;
   for (me::fformat::file_format* format : formats)
   {
@@ -26,7 +26,7 @@ me::image* me::fformat::read_image(const std::string &filepath)
 }
 me::scene_packet* me::fformat::read_mesh(const std::string &filepath)
 {
-  me::file_state file = me::read_file(filepath);
+  me::fileattr &file = *me::read_file(filepath.c_str());
   me::scene_packet* packet = new me::scene_packet;
   for (me::fformat::file_format* format : formats)
   {

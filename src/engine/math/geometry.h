@@ -9,7 +9,7 @@ namespace me {
   namespace gmt {
 
     struct shape {
-      array<me::vec3f> points;
+      array<me::vec3> points;
     };
 
     struct boundary {

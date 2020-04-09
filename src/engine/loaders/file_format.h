@@ -2,7 +2,7 @@
   #define FILE_FORMAT_H
 
 #include "../kernel/kernel.h"
-#include "../kernel/io/file_state.h"
+#include "../kernel/io/file_reader.h"
 #include "../scene/scene.h"
 #include <vector>
 
@@ -30,7 +30,7 @@ namespace me {
         this->type = type;
       }
 
-      virtual bool recognized(me::file_state &file) = 0;
+      virtual bool recognized(me::fileattr &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 
       inline me::fformat::format_type getFormatType()

@@ -193,8 +193,8 @@ namespace me {
   };
 
   struct float_property : property {
-    me::vec2f range;
-    float_property(std::string identifier, float value, me::vec2f range) : property(identifier, new data(value))
+    me::vec2 range;
+    float_property(std::string identifier, float value, me::vec2 range) : property(identifier, new data(value))
     {
       this->range = range;
     }

@@ -20,8 +20,8 @@ static me::log* SHADER_LOGGER = new me::log("ShaderLoader",
 
 int loader::loadShaders(const std::string &filepath, unsigned int* shaders, unsigned int shaderCount)
 {
-  me::file_state file = me::read_file(filepath);
-  std::string file_str = (char*) file.data;
+  me::fileattr &file = *me::read_file(filepath.c_str());
+  std::string file_str = (char*) file.buffer->data;
   std::vector<std::string> lines = me::split_str(file_str, '\n');
   std::vector<std::pair<unsigned int, std::string>> sources;
   bool appending = false;

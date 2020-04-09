@@ -34,6 +34,17 @@
 
 #include "../scene/scene.h"
 
+namespace me {
+
+  struct device_info {
+    std::string company;
+    std::string model;
+    std::string version;
+    std::string sl_version;
+  };
+
+};
+
 class renderer_api {
 
 public:
@@ -41,6 +52,7 @@ public:
   virtual int initializeApi() = 0;
   virtual int viewport(me::camera* camera, int x, int y, unsigned int width, unsigned int height) = 0;
   virtual int useProgram(unsigned int program) = 0;
+  virtual me::device_info getDeviceInfo() = 0;
 
   virtual int push() = 0;
   virtual int pop() = 0;
@@ -54,7 +66,7 @@ public:
   virtual int unbindTexture() = 0;
 
   virtual int reset() = 0;
-  virtual int vec3f(int location, float x, float y, float z) = 0;
+  virtual int vec3(int location, float x, float y, float z) = 0;
   virtual int matrix4(int location, float* matrix) = 0;
   virtual int modify(unsigned int p, float value) = 0;
 

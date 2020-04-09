@@ -17,10 +17,10 @@ namespace me {
       float bounciness; // range: 0.0F - 1.0F
 
       /* object data */
-      me::vec3d velocity;
-      me::vec3d acceleration;
+      me::vec3 velocity;
+      me::vec3 acceleration;
 
-      me::vec3d distance;
+      me::vec3 distance;
 
       rigidbody_simulation(unsigned char mode, double mass, bool dynamic, float friction, float bounciness) : simulation("RigidBody")
       {
@@ -32,7 +32,7 @@ namespace me {
       }
 
       void applyTo(me::sim::instance* instance) override;
-      void applyForce(me::sim::instance* instance, me::vec3d &force) override;
+      void applyForce(me::sim::instance* instance, me::vec3 &force) override;
       void applyGravity(me::sim::instance* instance) override;
 
     };

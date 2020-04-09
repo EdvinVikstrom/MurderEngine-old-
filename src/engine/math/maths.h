@@ -12,15 +12,56 @@
 #define TO_RADIANS    0.017453292519943295D
 #define TO_DEGREES    57.29577951308232D
 
+#define ME_TYPE_FLOAT
+
+#ifdef ME_TYPE_FLOAT
+  #define real_t float
+#elif ME_TYPE_DOUBLE
+  #define real_t double
+#endif
+
 namespace me {
 
   namespace maths {
 
       double rand();
 
-      inline bool inbox(double x, double y, double fx, double fy, double tx, double ty)
+      inline bool isnan(long double a)
       {
-        return x >= fx && x <= fx + tx && y >= fy && y <= fy + ty;
+        return a != a;
+      }
+      inline bool isnan(double a)
+      {
+        return a != a;
+      }
+      inline bool isnan(float a)
+      {
+        return a != a;
+      }
+
+      inline bool infinite(float f)
+      {
+        return f == 1.0F / 0.0 || f == -1.0F / 0.0;
+      }
+
+      inline double to_radians(double degrees)
+      {
+        return degrees * TO_RADIANS;
+      }
+
+      inline double to_degrees(double radians)
+      {
+        return radians * TO_DEGREES;
+      }
+
+      inline float to_radians(float degrees)
+      {
+        return degrees * (float) TO_RADIANS;
+      }
+
+      inline float to_degrees(float radians)
+      {
+        return radians * (float) TO_DEGREES;
       }
 
     // Trigonometric functions
@@ -166,6 +207,10 @@ namespace me {
       double copysign(double a, double b);
       float copysign(float a, float b);
 
+      long double sign(long double a);
+      double sign(double a);
+      float sign(float a);
+
     // ööö
 
       /* absolute */
@@ -231,31 +276,6 @@ namespace me {
       /* pow */
       long double pow(long double a, long double b);
       double pow(double a, double b);
-
-      inline bool infinite(float f)
-      {
-        return f == 1.0F / 0.0 || f == -1.0F / 0.0;
-      }
-
-      inline double to_radians(double degrees)
-      {
-        return degrees * TO_RADIANS;
-      }
-
-      inline double to_degrees(double radians)
-      {
-        return radians * TO_DEGREES;
-      }
-
-      inline float to_radians(float degrees)
-      {
-        return degrees * (float) TO_RADIANS;
-      }
-
-      inline float to_degrees(float radians)
-      {
-        return radians * (float) TO_DEGREES;
-      }
 
   };
 

@@ -29,15 +29,15 @@ namespace me {
 
   struct particle_group {
 
-    me::vec3d position;
-    me::vec3d velocity;
+    me::vec3 position;
+    me::vec3 velocity;
     double radius;
     unsigned char type;
     bool collisions;
     std::vector<unsigned int> meshes;
     std::vector<particle*> particles;
 
-    particle_group(me::vec3d position, me::vec3d velocity, double radius, unsigned char type, bool collisions)
+    particle_group(me::vec3 position, me::vec3 velocity, double radius, unsigned char type, bool collisions)
     {
       this->position = position;
       this->velocity = velocity;

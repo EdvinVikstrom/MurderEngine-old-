@@ -13,8 +13,8 @@ namespace me {
 
       mesh_reader() : file_format(me::fformat::format_type::MESH) { }
 
-      virtual int read_mesh(me::file_state &file, scene_packet* scene) = 0;
-      inline int read_file(me::file_state &file, scene_packet* scene)
+      virtual int read_mesh(me::fileattr &file, scene_packet* scene) = 0;
+      inline int read_file(me::fileattr &file, scene_packet* scene)
       {
         int result = read_mesh(file, scene);
         if (result != ME_FINE)
@@ -22,7 +22,7 @@ namespace me {
         return ME_FINE;
       }
 
-      virtual bool recognized(me::file_state &file) = 0;
+      virtual bool recognized(me::fileattr &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 
     };

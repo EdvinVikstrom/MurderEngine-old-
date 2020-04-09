@@ -1,19 +1,16 @@
 #include "rigidbody.h"
 #include "../../math/maths.h"
 
-static const me::vec3d CENTER(0, -12, 0);
+static const me::vec3 CENTER(0, -12, 0);
 
 void me::sim::rigidbody_simulation::applyTo(me::sim::instance* instance)
 {
-  instance->transform->location.add(velocity);
 }
 
-void me::sim::rigidbody_simulation::applyForce(me::sim::instance* instance, me::vec3d &force)
+void me::sim::rigidbody_simulation::applyForce(me::sim::instance* instance, me::vec3 &force)
 {
-  instance->velocity->add(force);
 }
 
 void me::sim::rigidbody_simulation::applyGravity(me::sim::instance* instance)
 {
-
 }

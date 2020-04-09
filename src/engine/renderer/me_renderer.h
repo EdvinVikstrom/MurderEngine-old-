@@ -7,7 +7,7 @@ namespace me {
 
   struct ray {
     double distance;
-    me::vec4f color;
+    me::vec4 color;
   };
 
   void render_scene(me::scene_packet* scene);

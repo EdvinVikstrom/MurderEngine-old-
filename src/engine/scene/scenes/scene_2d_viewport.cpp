@@ -44,13 +44,12 @@ bool me::scene_2d_viewport::onMouseInput(int action, double posX, double posY, i
   if (action==ME_MOUSE_SCROLL)
   {
     scene::camera->transform.location.z+=(posY*0.3F);
-    me::maths::translate(scene::camera->view_matrix, 0, 0, scene::camera->transform.location.z);
+    scene::camera->update_matrix();
   }else if (action==ME_MOUSE_MOVE && isPressed(ME_MOUSE_MIDDLE_BUTTON))
   {
     scene::camera->transform.rotation.x+=posY*0.0025F;
     scene::camera->transform.rotation.y+=posX*0.0025F;
-    me::maths::rotationX(scene::camera->view_matrix, scene::camera->transform.rotation.x);
-    me::maths::rotationY(scene::camera->view_matrix, scene::camera->transform.rotation.y);
+    scene::camera->update_matrix();
   }
   return scene::onMouseInput(action, posX, posY, button);
 }

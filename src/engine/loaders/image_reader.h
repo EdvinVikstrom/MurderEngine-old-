@@ -18,8 +18,8 @@ namespace me {
 
       image_reader() : file_format(me::fformat::format_type::IMAGE) { }
 
-      virtual int read_image(me::file_state &file, me::image* image) = 0;
-      inline int read_file(me::file_state &file, me::image* image)
+      virtual int read_image(me::fileattr &file, me::image* image) = 0;
+      inline int read_file(me::fileattr &file, me::image* image)
       {
         int result = read_image(file, image);
         if (result != ME_FINE)
@@ -27,7 +27,7 @@ namespace me {
         return ME_FINE;
       }
 
-      virtual bool recognized(me::file_state &file) = 0;
+      virtual bool recognized(me::fileattr &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 
     };

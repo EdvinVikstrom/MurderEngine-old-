@@ -10,10 +10,10 @@ namespace me {
 
   struct transform {
 
-    me::vec3d location, rotation, scale;
+    me::vec3 location, rotation, scale;
     float* matrix;
 
-    transform(me::vec3d location, me::vec3d rotation, me::vec3d scale)
+    transform(me::vec3 location, me::vec3 rotation, me::vec3 scale)
     {
       this->location = location;
       this->rotation = rotation;
