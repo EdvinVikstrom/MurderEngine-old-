@@ -8,6 +8,8 @@
 #define ME_FINE           0
 #define ME_ERR            1
 
+#define ME_DEBUG
+
 #ifdef ME_UINT_32_BIT
   #define _uint_t unsigned int
 #elif ME_UINT_16_BIT

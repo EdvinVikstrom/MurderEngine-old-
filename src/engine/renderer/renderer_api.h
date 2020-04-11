@@ -1,6 +1,8 @@
 #ifndef RENDERER_API
   #define RENDERER_API
 
+#include "shader_program.h"
+
 /* Render Shape Type Thing */
 #define ME_TRIANGLES                 0
 #define ME_QUADS                     1
@@ -43,34 +45,17 @@ namespace me {
     std::string sl_version;
   };
 
-};
+  struct frenderer {
 
-class renderer_api {
+    virtual int initializeApi(void *window) = 0;
+    virtual int useProgram(me::shader_program &program) = 0;
 
-public:
+    virtual me::device_info getDeviceInfo() = 0;
 
-  virtual int initializeApi() = 0;
-  virtual int viewport(me::camera* camera, int x, int y, unsigned int width, unsigned int height) = 0;
-  virtual int useProgram(unsigned int program) = 0;
-  virtual me::device_info getDeviceInfo() = 0;
+    virtual int clearFrame() = 0;
+    virtual int cleanup() = 0;
 
-  virtual int push() = 0;
-  virtual int pop() = 0;
-  virtual int clear() = 0;
-  virtual int bindMesh(me::mesh* mesh) = 0;
-  virtual int mesh(me::mesh* mesh) = 0;
-  virtual int unbindMesh() = 0;
-  virtual int bindMaterial(me::material* material) = 0;
-  virtual int unbindMaterial() = 0;
-  virtual int bindTexture(me::wcolor* texture) = 0;
-  virtual int unbindTexture() = 0;
-
-  virtual int reset() = 0;
-  virtual int vec3(int location, float x, float y, float z) = 0;
-  virtual int matrix4(int location, float* matrix) = 0;
-  virtual int modify(unsigned int p, float value) = 0;
-
-  virtual int terminate() = 0;
+  };
 
 };
 

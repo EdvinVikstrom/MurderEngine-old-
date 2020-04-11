@@ -5,8 +5,6 @@
 
 #include <iostream> // remove
 
-extern renderer_api* rendererApi;
-
 static void button_press()
 {
 
@@ -14,10 +12,10 @@ static void button_press()
 
 void me::scene_2d_viewport::setup()
 {
+  /*
   float aspect = (float)width/(float)height;
   me::transform cam_transform({0, 0, 0}, {0, 0, 0}, {0, 0, 0});
   scene::camera = new me::camera("camera", me::camera_type::PERSPECTIVE, me::maths::to_radians(50.0F), aspect, 0.1F, 100.0F, cam_transform);
-  //rendererApi->viewport(me::scene::camera, x, y, width, height);
   scene::setup();
 
   me::scene_packet* packet = me::fformat::read_mesh("/home/edvinskomputa/Dokument/OnePunchEngine/src/res/mega test of doom.dae");
@@ -28,6 +26,7 @@ void me::scene_2d_viewport::setup()
       continue;
     scene::registerItem(item);
   }
+  */
 }
 
 void me::scene_2d_viewport::onRender()

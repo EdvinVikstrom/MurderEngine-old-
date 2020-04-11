@@ -224,15 +224,23 @@ namespace me {
       long double max(long double a, long double b);
       double max(double a, double b);
       float max(float a, float b);
+      short max(short a, short b);
       int max(int a, int b);
-      long maxl(long a, long b);
+      long max(long a, long b);
+      unsigned short max(unsigned short a, unsigned short b);
+      unsigned int max(unsigned int a, unsigned int b);
+      unsigned long max(unsigned long a, unsigned long b);
 
       /* min */
       long double min(long double a, long double b);
       double min(double a, double b);
       float min(float a, float b);
+      short min(short a, short b);
       int min(int a, int b);
-      long minl(long a, long b);
+      long min(long a, long b);
+      unsigned short min(unsigned short a, unsigned short b);
+      unsigned int min(unsigned int a, unsigned int b);
+      unsigned long min(unsigned long a, unsigned long b);
 
     // Exponential functions
 

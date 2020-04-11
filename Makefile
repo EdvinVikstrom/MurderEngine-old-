@@ -464,33 +464,6 @@ src/engine/loaders/modules/png/png_reader.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/png/png_reader.cpp.s
 .PHONY : src/engine/loaders/modules/png/png_reader.cpp.s
 
-src/engine/loaders/shader_reader.o: src/engine/loaders/shader_reader.cpp.o
-
-.PHONY : src/engine/loaders/shader_reader.o
-
-# target to build an object file
-src/engine/loaders/shader_reader.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_reader.cpp.o
-.PHONY : src/engine/loaders/shader_reader.cpp.o
-
-src/engine/loaders/shader_reader.i: src/engine/loaders/shader_reader.cpp.i
-
-.PHONY : src/engine/loaders/shader_reader.i
-
-# target to preprocess a source file
-src/engine/loaders/shader_reader.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_reader.cpp.i
-.PHONY : src/engine/loaders/shader_reader.cpp.i
-
-src/engine/loaders/shader_reader.s: src/engine/loaders/shader_reader.cpp.s
-
-.PHONY : src/engine/loaders/shader_reader.s
-
-# target to generate assembly for a file
-src/engine/loaders/shader_reader.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/shader_reader.cpp.s
-.PHONY : src/engine/loaders/shader_reader.cpp.s
-
 src/engine/math/maths.o: src/engine/math/maths.cpp.o
 
 .PHONY : src/engine/math/maths.o
@@ -652,33 +625,6 @@ src/engine/renderer/modules/item_renderer.s: src/engine/renderer/modules/item_re
 src/engine/renderer/modules/item_renderer.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/modules/item_renderer.cpp.s
 .PHONY : src/engine/renderer/modules/item_renderer.cpp.s
-
-src/engine/renderer/opengl_api.o: src/engine/renderer/opengl_api.cpp.o
-
-.PHONY : src/engine/renderer/opengl_api.o
-
-# target to build an object file
-src/engine/renderer/opengl_api.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.o
-.PHONY : src/engine/renderer/opengl_api.cpp.o
-
-src/engine/renderer/opengl_api.i: src/engine/renderer/opengl_api.cpp.i
-
-.PHONY : src/engine/renderer/opengl_api.i
-
-# target to preprocess a source file
-src/engine/renderer/opengl_api.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.i
-.PHONY : src/engine/renderer/opengl_api.cpp.i
-
-src/engine/renderer/opengl_api.s: src/engine/renderer/opengl_api.cpp.s
-
-.PHONY : src/engine/renderer/opengl_api.s
-
-# target to generate assembly for a file
-src/engine/renderer/opengl_api.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/opengl_api.cpp.s
-.PHONY : src/engine/renderer/opengl_api.cpp.s
 
 src/engine/scene/particle/particle.o: src/engine/scene/particle/particle.cpp.o
 
@@ -896,6 +842,33 @@ src/engine/utilities/properties.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/utilities/properties.cpp.s
 .PHONY : src/engine/utilities/properties.cpp.s
 
+src/engine/vulkan/vulkan_api.o: src/engine/vulkan/vulkan_api.cpp.o
+
+.PHONY : src/engine/vulkan/vulkan_api.o
+
+# target to build an object file
+src/engine/vulkan/vulkan_api.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/vulkan/vulkan_api.cpp.o
+.PHONY : src/engine/vulkan/vulkan_api.cpp.o
+
+src/engine/vulkan/vulkan_api.i: src/engine/vulkan/vulkan_api.cpp.i
+
+.PHONY : src/engine/vulkan/vulkan_api.i
+
+# target to preprocess a source file
+src/engine/vulkan/vulkan_api.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/vulkan/vulkan_api.cpp.i
+.PHONY : src/engine/vulkan/vulkan_api.cpp.i
+
+src/engine/vulkan/vulkan_api.s: src/engine/vulkan/vulkan_api.cpp.s
+
+.PHONY : src/engine/vulkan/vulkan_api.s
+
+# target to generate assembly for a file
+src/engine/vulkan/vulkan_api.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/vulkan/vulkan_api.cpp.s
+.PHONY : src/engine/vulkan/vulkan_api.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -941,9 +914,6 @@ help:
 	@echo "... src/engine/loaders/modules/png/png_reader.o"
 	@echo "... src/engine/loaders/modules/png/png_reader.i"
 	@echo "... src/engine/loaders/modules/png/png_reader.s"
-	@echo "... src/engine/loaders/shader_reader.o"
-	@echo "... src/engine/loaders/shader_reader.i"
-	@echo "... src/engine/loaders/shader_reader.s"
 	@echo "... src/engine/math/maths.o"
 	@echo "... src/engine/math/maths.i"
 	@echo "... src/engine/math/maths.s"
@@ -962,9 +932,6 @@ help:
 	@echo "... src/engine/renderer/modules/item_renderer.o"
 	@echo "... src/engine/renderer/modules/item_renderer.i"
 	@echo "... src/engine/renderer/modules/item_renderer.s"
-	@echo "... src/engine/renderer/opengl_api.o"
-	@echo "... src/engine/renderer/opengl_api.i"
-	@echo "... src/engine/renderer/opengl_api.s"
 	@echo "... src/engine/scene/particle/particle.o"
 	@echo "... src/engine/scene/particle/particle.i"
 	@echo "... src/engine/scene/particle/particle.s"
@@ -989,6 +956,9 @@ help:
 	@echo "... src/engine/utilities/properties.o"
 	@echo "... src/engine/utilities/properties.i"
 	@echo "... src/engine/utilities/properties.s"
+	@echo "... src/engine/vulkan/vulkan_api.o"
+	@echo "... src/engine/vulkan/vulkan_api.i"
+	@echo "... src/engine/vulkan/vulkan_api.s"
 .PHONY : help
 
 

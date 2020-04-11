@@ -445,11 +445,27 @@ float me::maths::max(float a, float b)
 {
   return a >= b ? a : b;
 }
+short me::maths::max(short a, short b)
+{
+  return a >= b ? a : b;
+}
 int me::maths::max(int a, int b)
 {
   return a >= b ? a : b;
 }
-long me::maths::maxl(long a, long b)
+long me::maths::max(long a, long b)
+{
+  return a >= b ? a : b;
+}
+unsigned short me::maths::max(unsigned short a, unsigned short b)
+{
+  return a >= b ? a : b;
+}
+unsigned int me::maths::max(unsigned int a, unsigned int b)
+{
+  return a >= b ? a : b;
+}
+unsigned long me::maths::max(unsigned long a, unsigned long b)
 {
   return a >= b ? a : b;
 }
@@ -467,11 +483,27 @@ float me::maths::min(float a, float b)
 {
   return a <= b ? a : b;
 }
+short me::maths::min(short a, short b)
+{
+  return a <= b ? a : b;
+}
 int me::maths::min(int a, int b)
 {
   return a <= b ? a : b;
 }
-long me::maths::minl(long a, long b)
+long me::maths::min(long a, long b)
+{
+  return a <= b ? a : b;
+}
+unsigned short me::maths::min(unsigned short a, unsigned short b)
+{
+  return a <= b ? a : b;
+}
+unsigned int me::maths::min(unsigned int a, unsigned int b)
+{
+  return a <= b ? a : b;
+}
+unsigned long me::maths::min(unsigned long a, unsigned long b)
 {
   return a <= b ? a : b;
 }

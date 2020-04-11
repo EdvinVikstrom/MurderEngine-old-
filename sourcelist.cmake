@@ -14,7 +14,6 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/loaders/file_format.cpp
   ${SOURCE_DIR}/engine/loaders/image_reader.cpp
   ${SOURCE_DIR}/engine/loaders/mesh_reader.cpp
-  ${SOURCE_DIR}/engine/loaders/shader_reader.cpp
   ${SOURCE_DIR}/engine/math/maths.cpp
   ${SOURCE_DIR}/engine/math/vector2.cpp
   ${SOURCE_DIR}/engine/math/vector3.cpp
@@ -23,7 +22,7 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/scene/particle/particle.cpp
   ${SOURCE_DIR}/engine/scene/scenes/scene_2d_viewport.cpp
   ${SOURCE_DIR}/engine/scene/scenes/scene_outliner.cpp
-  ${SOURCE_DIR}/engine/renderer/opengl_api.cpp
+  ${SOURCE_DIR}/engine/vulkan/vulkan_api.cpp
   ${SOURCE_DIR}/engine/renderer/me_renderer.cpp
   ${SOURCE_DIR}/engine/renderer/modules/item_renderer.cpp
   ${SOURCE_DIR}/engine/simulation/rigidbody/rigidbody.cpp

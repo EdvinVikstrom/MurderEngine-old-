@@ -4,8 +4,6 @@
 #include "../renderer/renderer_api.h"
 #include "../renderer/modules/item_renderer.h"
 
-extern renderer_api* rendererApi;
-
 void me::scene_packet::register_all()
 {
   for (auto const &[key, value] : meshes)
@@ -34,10 +32,7 @@ void me::scene::onLoop()
 void me::scene::onRender()
 {
   for (me::item* i : me::scene::items)
-  {
-    rendererApi->reset();
     i->render(camera);
-  }
 }
 
 bool me::scene::onMouseInput(int action, double posX, double posY, int button)

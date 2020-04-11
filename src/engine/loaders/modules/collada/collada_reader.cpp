@@ -278,9 +278,21 @@ static bool parse_geometry_node(me::fileattr &file, rapidxml::xml_node<>* geomet
     char** faces = me::splitf_str((char*)raw_face_array.c_str(), raw_face_array.size(), array_size, ' ');
     me::index_array* index_array = new me::index_array;
     index_array->material = packet->scene->materials[material_url];
+
     index_array->indices.reserve(array_size);
-    for (unsigned int i = 0; i < array_size; i++)
+    index_array->positionIndices.reserve(array_size / 3);
+    index_array->normalIndices.reserve(array_size / 3);
+    index_array->texCoordIndices.reserve(array_size / 3);
+
+    for (unsigned int i = 0; i < array_size; i+=mesh->offset)
       index_array->indices.emplace_back(std::stoi(faces[i]));
+
+    for (unsigned int i = 0; i < array_size; i+=mesh->offset)
+    {
+      index_array->positionIndices.emplace_back(std::stoi(faces[i]));
+      index_array->normalIndices.emplace_back(std::stoi(faces[i+1]));
+      index_array->texCoordIndices.emplace_back(std::stoi(faces[i+2]));
+    }
     mesh->indices.push_back(index_array);
     triangles_node = triangles_node->next_sibling("triangles");
   }

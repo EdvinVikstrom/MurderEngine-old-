@@ -1,8 +1,6 @@
 #ifndef MURDER_ENGINE
   #define MURDER_ENGINE
 
-#define ME_DEBUG
-
 #include "kernel/kernel.h"
 #include "events/engine_event.h"
 #include "events/input_event.h"

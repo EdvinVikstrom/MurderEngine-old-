@@ -23,11 +23,6 @@ int me::fformat::bmp_reader::read_image(me::fileattr &file, me::image* image)
   header.info.colors_used = buffer._uint32();
   header.info.important_colors = buffer._uint32();
 
-  std::cout << header.file.signature << "\n";
-  std::cout << header.file.data_offset << "\n";
-  std::cout << header.info.width << "\n";
-  std::cout << header.info.height << "\n";
-
   image->identifier = file.filepath;
   image->width = header.info.width;
   image->height = header.info.height;

@@ -1,13 +1,13 @@
-#include "GLFW/glfw3.h"
+/* GLFW */
+#include "../external/glfw/include/GLFW/glfw3.h"
+
 #include <vector>
 #include <map>
 
 #include "MurderEngine.h"
 #include "EngineManager.h"
 #include "renderer/renderer_api.h"
-#include "renderer/opengl_api.h"
-
-#include "loaders/shader_reader.h"
+#include "vulkan/vulkan_api.h"
 
 #include "utilities/Logger.h"
 
@@ -17,7 +17,7 @@ std::string app_name = "Murder Engine Interface";
 unsigned int app_version = 1;
 
 std::string RENDERER_API_NAME = "vulkan";
-renderer_api* rendererApi;
+me::frenderer* renderer;
 
 std::string w_title;
 unsigned int w_width, w_height;
@@ -117,12 +117,12 @@ int me::engine_window(const std::string &title, unsigned int width, unsigned int
   w_height = height;
   w_vSync = vSync;
   w_fullscreen = fullscreen;
+  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   window = glfwCreateWindow(width, height, title.c_str(), fullscreen?glfwGetPrimaryMonitor():NULL, NULL);
   glfwSetCursorPosCallback(window, cursor_position_callback);
   glfwSetScrollCallback(window, scroll_callback);
   glfwSetMouseButtonCallback(window, mouse_button_callback);
   glfwSetKeyCallback(window, key_callback);
-  glfwMakeContextCurrent(window);
   glfwShowWindow(window);
   glfwSwapInterval(vSync?1:0);
   return 0;
@@ -132,7 +132,7 @@ int me::engine_loop()
 {
   while(!glfwWindowShouldClose(window))
   {
-    rendererApi->clear();
+    renderer->clearFrame();
     for (me::event::engine_event* event : engine_events)
       event->onLoop();
     for (me::event::engine_event* event : engine_events)
@@ -140,7 +140,7 @@ int me::engine_loop()
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
-  rendererApi->terminate();
+  renderer->cleanup();
   glfwDestroyWindow(window);
   glfwTerminate();
   return 0;
@@ -148,29 +148,21 @@ int me::engine_loop()
 
 int me::engine_load_shaders(const std::string &shader_path)
 {
-  unsigned int shaderCount = 2;
-  unsigned int* shaders = new unsigned int[shaderCount];
-  unsigned int program;
-  if (loader::loadShaders(shader_path, shaders, shaderCount) != ME_FINE)
-    return ME_ERR;
-  if (loader::linkShaders(program, shaders, shaderCount) != ME_FINE)
-    return ME_ERR;
-  rendererApi->useProgram(program);
   return ME_FINE;
 }
 
 int me::engine_setup_renderer_api(const std::string &apiName)
 {
-  if (apiName=="opengl")
-    rendererApi = new opengl_api;
+  if (apiName=="opengl") { } // who uses opengl? =P
   else if (apiName=="vulkan")
   {
+    renderer = new me::vulkan_api;
   }
   RENDERER_API_NAME = apiName;
   ME_LOGGER->out("Initializing Renderer API ...\n");
-  if (rendererApi->initializeApi() != ME_FINE)
+  if (renderer->initializeApi(window) != ME_FINE)
     return 1;
-  me::device_info info = rendererApi->getDeviceInfo();
+  me::device_info info = renderer->getDeviceInfo();
   ME_LOGGER->out("<--- [Device Info] --->\n");
   ME_LOGGER->out(std::string("Renderer API initialized [") + RENDERER_API_NAME + "]\n");
   ME_LOGGER->out(std::string("-- Company: ") + info.company + "\n");

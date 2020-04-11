@@ -1,6 +1,5 @@
 #include "scene_outliner.h"
 
-extern renderer_api* rendererApi;
 
 void me::scene_outliner::setup()
 {
