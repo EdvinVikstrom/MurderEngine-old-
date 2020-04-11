@@ -1,8 +1,6 @@
 #include "scene.h"
 #include "../math/maths.h"
 #include "../EngineManager.h"
-#include "../renderer/renderer_api.h"
-#include "../renderer/modules/item_renderer.h"
 
 void me::scene_packet::register_all()
 {

@@ -47,11 +47,12 @@ namespace me {
 
   struct frenderer {
 
-    virtual int initializeApi(void *window, me::shader_program* program) = 0;
+    virtual int initializeApi() = 0;
     virtual int useProgram(me::shader_program &program) = 0;
 
     virtual me::device_info getDeviceInfo() = 0;
 
+    virtual int renderFrame(unsigned long current_frame, bool &framebuffer_resized) = 0;
     virtual int clearFrame() = 0;
     virtual int cleanup() = 0;
 

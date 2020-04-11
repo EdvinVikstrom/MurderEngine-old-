@@ -1,6 +1,5 @@
 #include "scene_outliner.h"
 
-
 void me::scene_outliner::setup()
 {
   scene::setup();

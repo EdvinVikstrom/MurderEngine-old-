@@ -1,0 +1,131 @@
+#ifndef VULKAN_RENDERING_H
+  #define VULKAN_RENDERING_H
+
+int me::vulkan_api::setup_framebuffers()
+{
+  swap_chain_framebuffers.resize(swap_chain_image_views.size());
+  for (uint32_t i = 0; i < swap_chain_image_views.size(); i++)
+  {
+    VkImageView attachments[] = {
+      swap_chain_image_views[i]
+    };
+    VkFramebufferCreateInfo create_info = {};
+    create_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+    create_info.renderPass = render_pass;
+    create_info.attachmentCount = 1;
+    create_info.pAttachments = attachments;
+    create_info.width = swap_chain_extent.width;
+    create_info.height = swap_chain_extent.height;
+    create_info.layers = 1;
+    VkResult result = vkCreateFramebuffer(device, &create_info, nullptr, &swap_chain_framebuffers[i]);
+    if (result != VK_SUCCESS)
+    {
+      std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to create framebuffer\n" << LOG_ANSI_RESET;
+      return ME_ERR;
+    }
+  }
+  return ME_FINE;
+}
+
+int me::vulkan_api::setup_command_pool()
+{
+  QueueFamilyIndices queueFamilyIndices = find_queue_families(physical_device);
+  VkCommandPoolCreateInfo create_info = {};
+  create_info.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+  create_info.queueFamilyIndex = queueFamilyIndices.graphics_family.value();
+  create_info.flags = 0;
+  VkResult result = vkCreateCommandPool(device, &create_info, nullptr, &command_pool);
+  if (result != VK_SUCCESS)
+  {
+    std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to create command pool\n" << LOG_ANSI_RESET;
+    return ME_ERR;
+  }
+  return ME_FINE;
+}
+
+int me::vulkan_api::setup_command_buffers()
+{
+  command_buffers.resize(swap_chain_framebuffers.size());
+  VkCommandBufferAllocateInfo alloc_info = {};
+  alloc_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+  alloc_info.commandPool = command_pool;
+  alloc_info.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+  alloc_info.commandBufferCount = (uint32_t) command_buffers.size();
+  VkResult result = vkAllocateCommandBuffers(device, &alloc_info, command_buffers.data());
+  if (result != VK_SUCCESS)
+  {
+    std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to allocate buffers\n" << LOG_ANSI_RESET;
+    return ME_ERR;
+  }
+  for (uint32_t i = 0; i < command_buffers.size(); i++)
+  {
+    VkCommandBufferBeginInfo begin_info = {};
+    begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    begin_info.flags = 0;
+    begin_info.pInheritanceInfo = nullptr;
+    result = vkBeginCommandBuffer(command_buffers[i], &begin_info);
+    if (result != VK_SUCCESS)
+    {
+      std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to record command buffer\n" << LOG_ANSI_RESET;
+      return ME_ERR;
+    }
+    VkRenderPassBeginInfo render_pass_info = {};
+    render_pass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+    render_pass_info.renderPass = render_pass;
+    render_pass_info.framebuffer = swap_chain_framebuffers[i];
+    render_pass_info.renderArea.offset = {0, 0};
+    render_pass_info.renderArea.extent = swap_chain_extent;
+    VkClearValue clear_color = {0.0F, 0.0F, 0.0F, 1.0F};
+    render_pass_info.clearValueCount = 1;
+    render_pass_info.pClearValues = &clear_color;
+    vkCmdBeginRenderPass(command_buffers[i], &render_pass_info, VK_SUBPASS_CONTENTS_INLINE);
+    vkCmdBindPipeline(command_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline);
+    VkBuffer vertex_buffers[meshes.size()];
+    for (uint32_t i = 0; i < meshes.size(); i++)
+      vertex_buffers[i] = meshes.at(i)->vertex_buffer;
+    VkDeviceSize offsets[meshes.size()];
+    for (uint32_t i = 0; i < meshes.size(); i++)
+      offsets[i] = 0;
+    vkCmdBindVertexBuffers(command_buffers[i], 0, 1, vertex_buffers, offsets);
+    for (vmesh* mesh : meshes)
+    vkCmdDraw(command_buffers[i], static_cast<uint32_t>(mesh->vertices.size()), 1, 0, 0);
+    vkCmdEndRenderPass(command_buffers[i]);
+    result = vkEndCommandBuffer(command_buffers[i]);
+    if (result != VK_SUCCESS)
+    {
+      std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to end command buffer record\n" << LOG_ANSI_RESET;
+      return ME_ERR;
+    }
+  }
+  return ME_FINE;
+}
+
+int me::vulkan_api::setup_synced_objects()
+{
+  image_available_semaphores.resize(max_frames_in_flight);
+  render_finished_semaphores.resize(max_frames_in_flight);
+  in_flight_fences.resize(max_frames_in_flight);
+  images_in_flight.resize(swap_chain_images.size(), VK_NULL_HANDLE);
+
+  VkSemaphoreCreateInfo semaphore_info = {};
+  semaphore_info.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+
+  VkFenceCreateInfo fence_info = {};
+  fence_info.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+  fence_info.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+  for (uint32_t i = 0; i < max_frames_in_flight; i++)
+  {
+    VkResult result1 = vkCreateSemaphore(device, &semaphore_info, nullptr, &image_available_semaphores[i]);
+    VkResult result2 = vkCreateSemaphore(device, &semaphore_info, nullptr, &render_finished_semaphores[i]);
+    VkResult result3 = vkCreateFence(device, &fence_info, nullptr, &in_flight_fences[i]);
+    if (result1 != VK_SUCCESS || result2 != VK_SUCCESS || result3 != VK_SUCCESS)
+    {
+      std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to synchronization objects\n" << LOG_ANSI_RESET;
+      return ME_ERR;
+    }
+  }
+  return ME_FINE;
+}
+
+#endif

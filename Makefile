@@ -626,33 +626,6 @@ src/engine/renderer/me_renderer.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/me_renderer.cpp.s
 .PHONY : src/engine/renderer/me_renderer.cpp.s
 
-src/engine/renderer/modules/item_renderer.o: src/engine/renderer/modules/item_renderer.cpp.o
-
-.PHONY : src/engine/renderer/modules/item_renderer.o
-
-# target to build an object file
-src/engine/renderer/modules/item_renderer.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/modules/item_renderer.cpp.o
-.PHONY : src/engine/renderer/modules/item_renderer.cpp.o
-
-src/engine/renderer/modules/item_renderer.i: src/engine/renderer/modules/item_renderer.cpp.i
-
-.PHONY : src/engine/renderer/modules/item_renderer.i
-
-# target to preprocess a source file
-src/engine/renderer/modules/item_renderer.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/modules/item_renderer.cpp.i
-.PHONY : src/engine/renderer/modules/item_renderer.cpp.i
-
-src/engine/renderer/modules/item_renderer.s: src/engine/renderer/modules/item_renderer.cpp.s
-
-.PHONY : src/engine/renderer/modules/item_renderer.s
-
-# target to generate assembly for a file
-src/engine/renderer/modules/item_renderer.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/renderer/modules/item_renderer.cpp.s
-.PHONY : src/engine/renderer/modules/item_renderer.cpp.s
-
 src/engine/scene/particle/particle.o: src/engine/scene/particle/particle.cpp.o
 
 .PHONY : src/engine/scene/particle/particle.o
@@ -959,9 +932,6 @@ help:
 	@echo "... src/engine/renderer/me_renderer.o"
 	@echo "... src/engine/renderer/me_renderer.i"
 	@echo "... src/engine/renderer/me_renderer.s"
-	@echo "... src/engine/renderer/modules/item_renderer.o"
-	@echo "... src/engine/renderer/modules/item_renderer.i"
-	@echo "... src/engine/renderer/modules/item_renderer.s"
 	@echo "... src/engine/scene/particle/particle.o"
 	@echo "... src/engine/scene/particle/particle.i"
 	@echo "... src/engine/scene/particle/particle.s"

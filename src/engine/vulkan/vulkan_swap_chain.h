@@ -46,22 +46,25 @@ VkPresentModeKHR me::vulkan_api::choose_swap_present_mode(const std::vector<VkPr
   return VK_PRESENT_MODE_FIFO_KHR;
 }
 
-VkExtent2D me::vulkan_api::choose_swap_extent(const VkSurfaceCapabilitiesKHR &capabilities)
+VkExtent2D me::vulkan_api::choose_swap_extent(GLFWwindow* window, const VkSurfaceCapabilitiesKHR &capabilities)
 {
   if (capabilities.currentExtent.width != UINT32_MAX)
     return capabilities.currentExtent;
-  VkExtent2D actual_extent = {window_width, window_height};
+  int width, height;
+  glfwGetFramebufferSize(window, &width, &height);
+
+  VkExtent2D actual_extent = {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
   actual_extent.width = me::maths::max(capabilities.minImageExtent.width, me::maths::min(capabilities.maxImageExtent.width, actual_extent.width));
   actual_extent.height = me::maths::max(capabilities.minImageExtent.height, me::maths::min(capabilities.maxImageExtent.height, actual_extent.height));
   return actual_extent;
 }
 
-int me::vulkan_api::setup_swap_chain()
+int me::vulkan_api::setup_swap_chain(GLFWwindow* window)
 {
   SwapChainSupportDetails swap_chain_support = query_swap_chain_support(physical_device);
   VkSurfaceFormatKHR surface_format = choose_swap_surface_format(swap_chain_support.formats);
   VkPresentModeKHR present_mode = choose_swap_present_mode(swap_chain_support.present_modes);
-  VkExtent2D extent = choose_swap_extent(swap_chain_support.capabilities);
+  VkExtent2D extent = choose_swap_extent(window, swap_chain_support.capabilities);
 
   uint32_t image_count = swap_chain_support.capabilities.minImageCount + 1;
   if (swap_chain_support.capabilities.maxImageCount > 0 && image_count > swap_chain_support.capabilities.maxImageCount)

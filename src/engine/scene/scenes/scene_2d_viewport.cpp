@@ -1,5 +1,4 @@
 #include "scene_2d_viewport.h"
-#include "../../renderer/renderer_api.h"
 #include "../../loaders/file_format.h"
 #include "../../EngineManager.h"
 

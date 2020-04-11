@@ -148,12 +148,22 @@ int me::vulkan_api::setup_render_pass()
   subpass.colorAttachmentCount = 1;
   subpass.pColorAttachments = &color_attachment_ref;
 
+  VkSubpassDependency dependency = {};
+  dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+  dependency.dstSubpass = 0;
+  dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+  dependency.srcAccessMask = 0;
+  dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+  dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
   VkRenderPassCreateInfo render_pass_info = {};
   render_pass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
   render_pass_info.attachmentCount = 1;
   render_pass_info.pAttachments = &color_attachment;
   render_pass_info.subpassCount = 1;
   render_pass_info.pSubpasses = &subpass;
+  render_pass_info.dependencyCount = 1;
+  render_pass_info.pDependencies = &dependency;
   VkResult result = vkCreateRenderPass(device, &render_pass_info, nullptr, &render_pass);
   if (result != VK_SUCCESS)
   {
@@ -185,12 +195,14 @@ int me::vulkan_api::setup_graphics_pipeline(me::shader_program* program)
     i++;
   }
 
+  auto binding_description = vvertex::get_binding_description();
+  auto attribute_descriptions = vvertex::get_attribute_descriptions();
   VkPipelineVertexInputStateCreateInfo vertex_input_info = {};
   vertex_input_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-  vertex_input_info.vertexBindingDescriptionCount = 0;
-  vertex_input_info.pVertexBindingDescriptions = nullptr;
-  vertex_input_info.vertexAttributeDescriptionCount = 0;
-  vertex_input_info.pVertexAttributeDescriptions = nullptr;
+  vertex_input_info.vertexBindingDescriptionCount = 1;
+  vertex_input_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(attribute_descriptions.size());
+  vertex_input_info.pVertexBindingDescriptions = &binding_description;
+  vertex_input_info.pVertexAttributeDescriptions = attribute_descriptions.data();
 
   VkPipelineInputAssemblyStateCreateInfo input_assembly = {};
   input_assembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -253,6 +265,47 @@ int me::vulkan_api::setup_graphics_pipeline(me::shader_program* program)
 
   for (auto const &[key, value] : shader_modules)
     vkDestroyShaderModule(device, value, nullptr);
+  return ME_FINE;
+}
+
+int me::vulkan_api::setup_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer &buffer, VkDeviceMemory &buffer_mem)
+{
+  VkBufferCreateInfo buffer_info = {};
+  buffer_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+  buffer_info.size = size;
+  buffer_info.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+  buffer_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+  VkResult result = vkCreateBuffer(device, &buffer_info, nullptr, &buffer);
+  if (result != VK_SUCCESS)
+  {
+    std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to create vertex buffer\n" << LOG_ANSI_RESET;
+    return ME_ERR;
+  }
+  VkMemoryRequirements mem_requirements;
+  vkGetBufferMemoryRequirements(device, buffer, &mem_requirements);
+  VkMemoryAllocateInfo alloc_info = {};
+  alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+  alloc_info.allocationSize = mem_requirements.size;
+  alloc_info.memoryTypeIndex = find_memory_type(mem_requirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+  result = vkAllocateMemory(device, &alloc_info, nullptr, &buffer_mem);
+  if (result != VK_SUCCESS)
+  {
+    std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to allocate memory for the vertex buffer\n" << LOG_ANSI_RESET;
+    return ME_ERR;
+  }
+  vkBindBufferMemory(device, buffer, buffer_mem, 0);
+  return ME_FINE;
+}
+
+int me::vulkan_api::setup_vertex_buffer(me::vulkan_api::vmesh &mesh)
+{
+  VkDeviceSize buffer_size = sizeof(vvertex) * mesh.vertices.size();
+  setup_buffer(buffer_size, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, mesh.vertex_buffer, mesh.vertex_buffer_mem);
+  void* data;
+  vkMapMemory(device, mesh.vertex_buffer_mem, 0, buffer_size, 0, &data);
+  memcpy(data, mesh.vertices.data(), (size_t) buffer_size);
+  vkUnmapMemory(device, mesh.vertex_buffer_mem);
+  meshes.push_back(&mesh);
   return ME_FINE;
 }
 

@@ -7,7 +7,6 @@
 #define ME_ITEM_TYPE_IMAGE         48
 
 #include "../simulation/simulation.h"
-#include "../renderer/renderer_api.h"
 
 namespace me {
 

@@ -25,7 +25,6 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/scene/scenes/scene_outliner.cpp
   ${SOURCE_DIR}/engine/vulkan/vulkan_api.cpp
   ${SOURCE_DIR}/engine/renderer/me_renderer.cpp
-  ${SOURCE_DIR}/engine/renderer/modules/item_renderer.cpp
   ${SOURCE_DIR}/engine/simulation/rigidbody/rigidbody.cpp
 )
 set(HEADERS ${HEADERS}

@@ -126,4 +126,17 @@ bool me::vulkan_api::device_extension_supported(VkPhysicalDevice device)
   return required_extensions.empty();
 }
 
+uint32_t me::vulkan_api::find_memory_type(uint32_t type_filter, VkMemoryPropertyFlags properties)
+{
+  VkPhysicalDeviceMemoryProperties mem_properties;
+  vkGetPhysicalDeviceMemoryProperties(physical_device, &mem_properties);
+  for (uint32_t i = 0; i < mem_properties.memoryTypeCount; i++)
+  {
+    if ((type_filter & (1 << i)) && (mem_properties.memoryTypes[i].propertyFlags & properties) == properties)
+      return i;
+  }
+  std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to find memory type\n" << LOG_ANSI_RESET;
+  return 0;
+}
+
 #endif
