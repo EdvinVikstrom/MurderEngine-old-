@@ -13,7 +13,7 @@ namespace me {
   int engine_window(const std::string &title, unsigned int width, unsigned int height, bool vSync, bool fullscreen);
   int engine_loop();
   int engine_load_shaders(const std::string &shader_path);
-  int engine_setup_renderer_api(const std::string &apiName);
+  int engine_setup_renderer_api(const std::string &apiName, const std::string &shader_filepath);
 
   void engine_window_size(unsigned int* width, unsigned int* height);
 

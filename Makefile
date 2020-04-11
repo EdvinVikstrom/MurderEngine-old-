@@ -437,6 +437,33 @@ src/engine/loaders/modules/collada/collada_reader.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/collada/collada_reader.cpp.s
 .PHONY : src/engine/loaders/modules/collada/collada_reader.cpp.s
 
+src/engine/loaders/modules/glsl/glsl_reader.o: src/engine/loaders/modules/glsl/glsl_reader.cpp.o
+
+.PHONY : src/engine/loaders/modules/glsl/glsl_reader.o
+
+# target to build an object file
+src/engine/loaders/modules/glsl/glsl_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/glsl/glsl_reader.cpp.o
+.PHONY : src/engine/loaders/modules/glsl/glsl_reader.cpp.o
+
+src/engine/loaders/modules/glsl/glsl_reader.i: src/engine/loaders/modules/glsl/glsl_reader.cpp.i
+
+.PHONY : src/engine/loaders/modules/glsl/glsl_reader.i
+
+# target to preprocess a source file
+src/engine/loaders/modules/glsl/glsl_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/glsl/glsl_reader.cpp.i
+.PHONY : src/engine/loaders/modules/glsl/glsl_reader.cpp.i
+
+src/engine/loaders/modules/glsl/glsl_reader.s: src/engine/loaders/modules/glsl/glsl_reader.cpp.s
+
+.PHONY : src/engine/loaders/modules/glsl/glsl_reader.s
+
+# target to generate assembly for a file
+src/engine/loaders/modules/glsl/glsl_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/glsl/glsl_reader.cpp.s
+.PHONY : src/engine/loaders/modules/glsl/glsl_reader.cpp.s
+
 src/engine/loaders/modules/png/png_reader.o: src/engine/loaders/modules/png/png_reader.cpp.o
 
 .PHONY : src/engine/loaders/modules/png/png_reader.o
@@ -911,6 +938,9 @@ help:
 	@echo "... src/engine/loaders/modules/collada/collada_reader.o"
 	@echo "... src/engine/loaders/modules/collada/collada_reader.i"
 	@echo "... src/engine/loaders/modules/collada/collada_reader.s"
+	@echo "... src/engine/loaders/modules/glsl/glsl_reader.o"
+	@echo "... src/engine/loaders/modules/glsl/glsl_reader.i"
+	@echo "... src/engine/loaders/modules/glsl/glsl_reader.s"
 	@echo "... src/engine/loaders/modules/png/png_reader.o"
 	@echo "... src/engine/loaders/modules/png/png_reader.i"
 	@echo "... src/engine/loaders/modules/png/png_reader.s"

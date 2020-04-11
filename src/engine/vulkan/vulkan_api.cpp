@@ -5,6 +5,7 @@
 #include "../kernel/log.h"
 #include "../math/maths.h"
 #include <vector>
+#include <map>
 #include <set>
 #include <cstring>
 #include <cstdint>
@@ -45,8 +46,9 @@ static std::vector<const char*> required_extensions()
 #include "vulkan_wsurface.h"
 #include "vulkan_swap_chain.h"
 #include "vulkan_image_views.h"
+#include "vulkan_graphics_pipeline.h"
 
-int me::vulkan_api::initializeApi(void *window)
+int me::vulkan_api::initializeApi(void *window, me::shader_program* program)
 {
   int result = ME_FINE;
 
@@ -90,6 +92,16 @@ int me::vulkan_api::initializeApi(void *window)
   if (result != ME_FINE) return result;
   std::cout << LOG_COLOR_GREEN << "[Vulkan]: Image Views Created!\n" << LOG_ANSI_RESET;
 
+  /* setup render passes */
+  result = setup_render_pass();
+  if (result != ME_FINE) return result;
+  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Render Pass Created!\n" << LOG_ANSI_RESET;
+
+  /* setup graphics pipeline */
+  result = setup_graphics_pipeline(program);
+  if (result != ME_FINE) return result;
+  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Graphics Pipeline Created!\n" << LOG_ANSI_RESET;
+
   return ME_FINE;
 }
 int me::vulkan_api::useProgram(me::shader_program &program)
@@ -109,6 +121,9 @@ int me::vulkan_api::clearFrame()
 int me::vulkan_api::cleanup()
 {
   destroy_DUMExt(instance, debug_messenger, nullptr);
+  vkDestroyPipeline(device, graphics_pipeline, nullptr);
+  vkDestroyPipelineLayout(device, pipeline_layout, nullptr);
+  vkDestroyRenderPass(device, render_pass, nullptr);
   for (auto image_view : swap_chain_image_views)
     vkDestroyImageView(device, image_view, nullptr);
   vkDestroySwapchainKHR(device, swap_chain, nullptr);

@@ -26,8 +26,8 @@ int main()
 {
   if (me::engine_init() != ME_FINE) return 1;
   if (me::engine_window("Murder Engine", 1550, 770, true, false) != ME_FINE) return 1;
-  if (me::engine_setup_renderer_api("vulkan") != ME_FINE) return 1;
-  if (me::engine_load_shaders("src/res/shaders/shader.glsl") != ME_FINE) return 1;
+  if (me::engine_setup_renderer_api("vulkan", "src/res/shaders/shader.glsl") != ME_FINE) return 1;
+  //if (me::engine_load_shaders("src/res/shaders/shader.glsl") != ME_FINE) return 1;
   me::init();
   sandbox();
   me::engine_loop();

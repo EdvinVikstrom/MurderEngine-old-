@@ -12,7 +12,7 @@
 namespace me {
 
   enum item_type {
-    NONE,
+    NAN,
     MESH,
     LIGHT,
     CAMERA,

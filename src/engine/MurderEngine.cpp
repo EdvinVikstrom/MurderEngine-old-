@@ -8,6 +8,7 @@
 #include "EngineManager.h"
 #include "renderer/renderer_api.h"
 #include "vulkan/vulkan_api.h"
+#include "loaders/modules/glsl/glsl_reader.h"
 
 #include "utilities/Logger.h"
 
@@ -18,6 +19,7 @@ unsigned int app_version = 1;
 
 std::string RENDERER_API_NAME = "vulkan";
 me::frenderer* renderer;
+me::shader_program* program;
 
 std::string w_title;
 unsigned int w_width, w_height;
@@ -151,7 +153,7 @@ int me::engine_load_shaders(const std::string &shader_path)
   return ME_FINE;
 }
 
-int me::engine_setup_renderer_api(const std::string &apiName)
+int me::engine_setup_renderer_api(const std::string &apiName, const std::string &shader_filepath)
 {
   if (apiName=="opengl") { } // who uses opengl? =P
   else if (apiName=="vulkan")
@@ -159,9 +161,13 @@ int me::engine_setup_renderer_api(const std::string &apiName)
     renderer = new me::vulkan_api;
   }
   RENDERER_API_NAME = apiName;
+  program = new me::shader_program;
+  ME_LOGGER->out("Loading shaders ...\n");
+  if (me::glsl_reader::read_shader_file(shader_filepath.c_str(), program) != ME_FINE)
+    return ME_ERR;
   ME_LOGGER->out("Initializing Renderer API ...\n");
-  if (renderer->initializeApi(window) != ME_FINE)
-    return 1;
+  if (renderer->initializeApi(window, program) != ME_FINE)
+    return ME_ERR;
   me::device_info info = renderer->getDeviceInfo();
   ME_LOGGER->out("<--- [Device Info] --->\n");
   ME_LOGGER->out(std::string("Renderer API initialized [") + RENDERER_API_NAME + "]\n");
@@ -169,7 +175,7 @@ int me::engine_setup_renderer_api(const std::string &apiName)
   ME_LOGGER->out(std::string("-- Model: ") + info.model + "\n");
   ME_LOGGER->out(std::string("-- Version: ") + info.version + "\n");
   ME_LOGGER->out(std::string("-- GLSL Version: ") + info.sl_version + "\n");
-  return 0;
+  return ME_FINE;
 }
 
 void me::engine_window_size(unsigned int* width, unsigned int* height)

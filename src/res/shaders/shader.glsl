@@ -1,36 +1,33 @@
 #vertex
 #version 460 core
 
-layout(location = 0) in vec4 position;
-layout(location = 1) in vec4 normal;
-layout(location = 2) in vec2 texCoord;
+vec2 positions[3] = vec2[](
+    vec2(0.0, -0.5),
+    vec2(0.5, 0.5),
+    vec2(-0.5, 0.5)
+);
 
-layout(location = 0) uniform mat4 projection_mat;
-layout(location = 1) uniform mat4 view_mat;
-layout(location = 2) uniform mat4 model_mat;
+vec3 colors[3] = vec3[](
+    vec3(1.0, 0.0, 0.0),
+    vec3(0.0, 1.0, 0.0),
+    vec3(0.0, 0.0, 1.0)
+);
 
-out vec2 v_texCoord;
+out vec3 fragColor;
 
 void main()
 {
-  gl_Position = projection_mat * view_mat * model_mat * position;
-  v_texCoord = texCoord;
+  gl_Position = vec4(positions[gl_VertexIndex], 0.0, 1.0);
+  fragColor = colors[gl_VertexIndex];
 }
 
-#end
 #fragment
 #version 460 core
 
-layout(location = 0) out vec4 o_color;
+layout(location = 0) out vec4 outColor;
 
-in vec2 v_texCoord;
-layout(location = 3) uniform sampler2D active_tex;
+in vec3 fragColor;
 
-void main()
-{
-  vec4 tex_color = texture(active_tex, v_texCoord);
-  o_color = tex_color;
-  //o_color = vec4(0.4F, 0.7F, 0.8F, 1.0F);
+void main() {
+  outColor = vec4(fragColor, 1.0F);
 }
-
-#end

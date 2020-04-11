@@ -11,6 +11,7 @@ set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/engine/loaders/modules/collada/collada_reader.cpp
   ${SOURCE_DIR}/engine/loaders/modules/bmp/bmp_reader.cpp
   ${SOURCE_DIR}/engine/loaders/modules/png/png_reader.cpp
+  ${SOURCE_DIR}/engine/loaders/modules/glsl/glsl_reader.cpp
   ${SOURCE_DIR}/engine/loaders/file_format.cpp
   ${SOURCE_DIR}/engine/loaders/image_reader.cpp
   ${SOURCE_DIR}/engine/loaders/mesh_reader.cpp
