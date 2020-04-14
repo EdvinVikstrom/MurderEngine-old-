@@ -1,13 +1,10 @@
 # MurderEngine
 An Open Source Game Engine
 
-Compileing
+Compiling
 -
 
-  * linux:
-    `$ cmake <project dir>`
+  * Linux:
+    
+    `$ cmake <project dir>` | 
     `$ make`
-  * windows:
-    `idk`
-  * mac os:
-    `idk`
