@@ -1,6 +1,5 @@
 #include "collada_reader.h"
 #include "../../../kernel/io/file_reader.h"
-#include "../../../scene/scene.h"
 #include "../../../utilities/StringUtils.h"
 #include "../../../utilities/Logger.h"
 #include "../../file_format.h"
@@ -12,6 +11,34 @@ static me::log* COLLADA = new me::log("Collada",
 "\e[33m[%N] %T\e[0m \e[31m#%M \e[0m",
 "\e[34m[%N] %T #%M \e[0m"
 );
+
+static void fix_matrix(me::maths::mat4 &matrix)
+{
+  float temp1 = matrix.at(0, 3);
+  float temp2 = matrix.at(1, 3);
+  float temp3 = matrix.at(2, 3);
+
+  matrix.m03(matrix.at(3, 0));
+  matrix.m13(matrix.at(3, 1));
+  matrix.m23(matrix.at(3, 2));
+
+  matrix.m30(temp1);
+  matrix.m31(temp2);
+  matrix.m32(temp3);
+}
+
+static int get_wcolor_location(const std::string &string)
+{
+  if (string=="diffuse")
+    return 0;
+  else if (string=="specular")
+    return 1;
+  else if (string=="emission")
+    return 2;
+  else if (string=="index_of_refraction")
+    return 3;
+  return -1;
+}
 
 static std::string get_texture_path(std::string &url, std::map<std::string, me::fformat::collada_reader::param> &params)
 {
@@ -28,15 +55,15 @@ static me::wcolor* process_node_value(rapidxml::xml_node<>* node, me::fformat::c
   {
     std::string color_str = value_node->value();
     char** args = me::splitf_str((char*)color_str.c_str(), color_str.size(), 4, ' ');
-    me::vec4* vec = new me::vec4(std::stof(args[0]), std::stof(args[1]), std::stof(args[2]), std::stof(args[3]));
-    return new me::wcolor(me::wcolor_type::RGBA, vec);
+    me::vec4 vec(std::stof(args[0]), std::stof(args[1]), std::stof(args[2]), std::stof(args[3]));
+    return new me::wcolor(vec);
   }else if (node_name == "texture")
   {
     std::string texture = value_node->first_attribute("texture")->value();
     std::string tex_path = get_texture_path(texture, effect->params);
-    return new me::wcolor(me::wcolor_type::IMAGE, packet->scene->images[tex_path]);
+    return new me::wcolor(packet->scene->images[tex_path]);
   }else if (node_name == "float")
-    return new me::wcolor(me::wcolor_type::FLOAT, new float(std::stof(value_node->value())));
+    return new me::wcolor(std::stof(value_node->value()));
   return nullptr;
 }
 
@@ -103,7 +130,9 @@ static bool parse_light_node(me::fileattr &file, rapidxml::xml_node<>* light_nod
     double red = std::stod(color_str_args[0]);
     double green = std::stod(color_str_args[1]);
     double blue = std::stod(color_str_args[2]);
-    me::vec3 color(red, green, blue);
+    double power = me::maths::max(me::maths::max(red, green), blue);
+    light->rgba = me::vec3(red, green, blue);
+    light->power = power;
     float constant_attenuation = std::stof(point_node->first_node("constant_attenuation")->value());
     float linear_attenuation = std::stof(point_node->first_node("linear_attenuation")->value());
     float quadratic_attenuation = std::stof(point_node->first_node("quadratic_attenuation")->value());
@@ -185,8 +214,7 @@ static bool parse_image_node(me::fileattr &file, rapidxml::xml_node<>* image_nod
     std::string path = init_from_node->value();
     bool abs_path = me::is_abs_path(path);
     std::string filepath = abs_path ? path : (me::to_folder_path(file.filepath) + "/" + path);
-    me::image* image = me::fformat::read_image(filepath);
-    packet->scene->images[identifier] = image;
+    packet->scene->images[identifier] = new me::image(filepath);
   }
   return true;
 }
@@ -202,7 +230,7 @@ static bool parse_material_node(me::fileattr &file, rapidxml::xml_node<>* materi
     std::string url = instance_effect_node->first_attribute("url")->value();
     url = url.substr(1);
     me::fformat::collada_reader::effect* effect = packet->effects[url];
-    material->rgba = effect->diffuse;
+    material->diffuse = effect->diffuse;
     // TODO:
   }
   packet->scene->materials[identifier] = material;
@@ -253,6 +281,8 @@ static bool parse_geometry_node(me::fileattr &file, rapidxml::xml_node<>* geomet
     float_arrays[id] = float_arrays[source];
   }
   rapidxml::xml_node<>* triangles_node = mesh_node->first_node("triangles");
+  if (triangles_node != nullptr)
+    mesh->mode = me::Polygon::TRIANGLE;
   while(triangles_node != nullptr)
   {
     rapidxml::xml_node<>* input_node = triangles_node->first_node("input");
@@ -272,28 +302,16 @@ static bool parse_geometry_node(me::fileattr &file, rapidxml::xml_node<>* geomet
     rapidxml::xml_node<>* faces_node = triangles_node->first_node("p");
     unsigned int face_count = std::stoi(triangles_node->first_attribute("count")->value());
     std::string material_url = triangles_node->first_attribute("material")->value();
+    mesh->materials.push_back(packet->scene->materials[material_url]);
+
     std::string raw_face_array = faces_node->value();
 
     unsigned int array_size = face_count*size_mul;
     char** faces = me::splitf_str((char*)raw_face_array.c_str(), raw_face_array.size(), array_size, ' ');
-    me::index_array* index_array = new me::index_array;
-    index_array->material = packet->scene->materials[material_url];
 
-    index_array->indices.reserve(array_size);
-    index_array->positionIndices.reserve(array_size / 3);
-    index_array->normalIndices.reserve(array_size / 3);
-    index_array->texCoordIndices.reserve(array_size / 3);
-
-    for (unsigned int i = 0; i < array_size; i+=mesh->offset)
-      index_array->indices.emplace_back(std::stoi(faces[i]));
-
-    for (unsigned int i = 0; i < array_size; i+=mesh->offset)
-    {
-      index_array->positionIndices.emplace_back(std::stoi(faces[i]));
-      index_array->normalIndices.emplace_back(std::stoi(faces[i+1]));
-      index_array->texCoordIndices.emplace_back(std::stoi(faces[i+2]));
-    }
-    mesh->indices.push_back(index_array);
+    mesh->indices.reserve(array_size);
+    for (unsigned int i = 0; i < array_size; i++)
+      mesh->indices.emplace_back(std::stoi(faces[i]));
     triangles_node = triangles_node->next_sibling("triangles");
   }
   packet->scene->meshes[identifier] = mesh;
@@ -307,14 +325,11 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
   while(node != nullptr)
   {
     std::string identifier = node->first_attribute("id")->value();
-    me::item* item = new me::item;
-    item->identifier = identifier;
-
     rapidxml::xml_node<>* matrix_node = node->first_node("matrix");
     rapidxml::xml_node<>* instance_camera_node = node->first_node("instance_camera");
     rapidxml::xml_node<>* instance_light_node = node->first_node("instance_light");
     rapidxml::xml_node<>* instance_geometry_node = node->first_node("instance_geometry");
-    float* transform_matrix = new float[4 * 4];
+    me::maths::mat4 transform_matrix;
     while(matrix_node != nullptr)
     {
       std::string sid = matrix_node->first_attribute("sid")->value();
@@ -323,30 +338,38 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
       float* matrix = new float[4 * 4];
       for (unsigned char i = 0; i < 16; i++)
         matrix[i] = std::stof(matrix_args[i]);
-      if (sid=="transform") { transform_matrix = matrix; }
+      if (sid=="transform") { transform_matrix = me::maths::mat4(matrix); }
       matrix_node = matrix_node->next_sibling("matrix");
     }
-    item->transform_matrix = transform_matrix;
+    fix_matrix(transform_matrix);
     if (instance_geometry_node != nullptr)
     {
       std::string url = instance_geometry_node->first_attribute("url")->value();
       url = url.substr(1);
+
       me::mesh* mesh = packet->scene->meshes[url];
-      item->type = me::item_type::MESH;
-      item->mesh = mesh;
+      mesh->identifier = identifier;
+      mesh->model_matrix = transform_matrix;
+
     }else if (instance_camera_node != nullptr)
     {
       std::string url = instance_camera_node->first_attribute("url")->value();
       url = url.substr(1);
-      packet->scene->cameras[url]->view_matrix = transform_matrix;
-      item->type = me::item_type::CAMERA;
+
+      me::camera* camera = packet->scene->cameras[url];
+      camera->identifier = identifier;
+      camera->view_matrix = transform_matrix;
+
     }else if (instance_light_node != nullptr)
     {
       std::string url = instance_light_node->first_attribute("url")->value();
       url = url.substr(1);
-      item->type = me::item_type::LIGHT;
+
+      me::light* light = packet->scene->lights[url];
+      light->identifier = identifier;
+      light->model_matrix = transform_matrix;
+
     }
-    packet->scene->items.push_back(item);
     node = node->next_sibling("node");
   }
   return true;
@@ -354,6 +377,7 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
 
 int me::fformat::collada_reader::read_collada(me::fileattr &file, me::fformat::collada_reader::packet* packet)
 {
+  file.readFile();
   rapidxml::xml_document<> doc;
   doc.parse<0>((char*)file.buffer->data);
   COLLADA->out("Parsed XML data\n");
@@ -437,6 +461,8 @@ int me::fformat::collada_reader::read_collada(me::fileattr &file, me::fformat::c
       visual_scene_node = visual_scene_node->next_sibling("visual_scene");
     }
   }
+  for (auto const &[key, value] : packet->scene->meshes)
+    me::fformat::load_mesh(value, -1);
   COLLADA->out("scene loaded\n");
   return ME_FINE;
 }

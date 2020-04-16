@@ -4,14 +4,14 @@
 
 #include "modules/bmp/bmp_reader.h"
 #include "modules/png/png_reader.h"
+#include "modules/jpeg/jpeg_reader.h"
 #include "modules/collada/collada_reader.h"
 
 static std::vector<me::fformat::file_format*> formats;
 
-me::image* me::fformat::read_image(const std::string &filepath)
+void me::fformat::read_image(MeInstance* instance, const std::string &filepath, me::image* image)
 {
-  me::fileattr &file = *me::read_file(filepath.c_str());
-  me::image* image = new me::image;
+  me::fileattr &file = *me::read_file(image->source.empty() ? filepath.c_str() : image->source.c_str());
   for (me::fformat::file_format* format : formats)
   {
     if (format->getFormatType() != me::fformat::format_type::IMAGE)
@@ -22,12 +22,10 @@ me::image* me::fformat::read_image(const std::string &filepath)
       break;
     }
   }
-  return image;
 }
-me::scene_packet* me::fformat::read_mesh(const std::string &filepath)
+void me::fformat::read_mesh(MeInstance* instance, const std::string &filepath, me::scene_packet* packet)
 {
   me::fileattr &file = *me::read_file(filepath.c_str());
-  me::scene_packet* packet = new me::scene_packet;
   for (me::fformat::file_format* format : formats)
   {
     if (format->getFormatType() != me::fformat::format_type::MESH)
@@ -38,12 +36,21 @@ me::scene_packet* me::fformat::read_mesh(const std::string &filepath)
       break;
     }
   }
-  return packet;
+  /* read and load images to memory */
+  for (auto const &[key, value] : packet->images) { read_image(instance, "", value); instance->loadImage(value); }
+
+  /* load meshes to memory */
+  for (auto const &[key, value] : packet->meshes) instance->loadMesh(value);
+
+  /* load lights to memory */
+  for (auto const &[key, value] : packet->lights) instance->loadLight(value);
 }
 
 void me::fformat::init()
 {
   formats.push_back(new bmp_reader);
+  formats.push_back(new png_reader);
+  formats.push_back(new jpeg_reader);
   formats.push_back(new collada_reader);
 }
 void me::fformat::cleanup()

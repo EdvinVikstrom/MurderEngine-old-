@@ -1,14 +1,5 @@
 #include "scene.h"
 #include "../math/maths.h"
-#include "../EngineManager.h"
-
-void me::scene_packet::register_all()
-{
-  for (auto const &[key, value] : meshes)
-    me::registerMesh(value);
-  for (auto const &[key, value] : images)
-    me::registerImage(value);
-}
 
 me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsigned int height)
 {
@@ -19,44 +10,33 @@ me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsig
   me::scene::height = height;
 }
 
-void me::scene::setup()
+void me::scene::onPreInit(MeInstance* instance)
 {
 }
 
-void me::scene::onLoop()
+void me::scene::onInit(MeInstance* instance)
 {
 }
 
-void me::scene::onRender()
+void me::scene::onLoop(MeInstance* instance)
 {
-  for (me::item* i : me::scene::items)
-    i->render(camera);
 }
 
-bool me::scene::onMouseInput(int action, double posX, double posY, int button)
+void me::scene::onRender(MeRenderer* renderer)
 {
-  for (me::item* i : me::scene::items)
-  {
-    if (i->onMouseInput(action, posX, posY, button))
-      return true;
-  }
+  renderer->uniformMatrix4(0, camera->projection_matrix);
+  renderer->uniformMatrix4(1, camera->view_matrix);
+}
+
+bool me::scene::onMouseInput(MeInstance* instance, int action, double posX, double posY, int button)
+{
   return false;
 }
-bool me::scene::onKeyInput(int action, int key)
+bool me::scene::onKeyInput(MeInstance* instance, int action, int key)
 {
-  for (me::item* i : me::scene::items)
-  {
-    if (i->onKeyInput(action, key))
-      return true;
-  }
   return false;
 }
 
-void me::scene::registerItem(me::item* item)
+void me::scene::onDestroyed(MeInstance* instance)
 {
-  me::scene::items.push_back(item);
-}
-void me::scene::unregisterItem(std::string identifier)
-{
-  // TODO:
 }

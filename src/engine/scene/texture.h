@@ -1,34 +1,52 @@
 #ifndef TEXTURE_H
   #define TEXTURE_H
 
+#define ME_TEX_FORMAT_RGB                  3
+#define ME_TEX_FORMAT_RGBA                 4
+#define ME_TEX_FORMAT_BINARY               1
+#define ME_TEX_FORMAT_GRAY                 1
+
 #include <atomic>
 #include <cstdint>
+#include "metadata.h"
 
 namespace me {
 
   enum wcolor_type {
-    IMAGE = 43,
-    RGBA = 44,
-    FLOAT = 45
+    ME_WCOLOR_MAP = 0,
+    ME_WCOLOR_COLOR = 1,
+    ME_WCOLOR_FLOAT = 2
   };
 
   struct image {
+    std::string source;
     std::string identifier;
+    me::metadata* metadata;
     unsigned int imageId;
+    unsigned int bindId;
     unsigned int format;
     unsigned int depth;
     unsigned int width, height;
     unsigned char* pixels;
 
-    image(std::string identifier, unsigned int imageId, unsigned int format, unsigned int depth, unsigned int width, unsigned int height, unsigned char* pixels)
+    bool loaded = false;
+
+    image(std::string source, std::string identifier, me::metadata* metadata, unsigned int bindId, unsigned int format, unsigned int depth, unsigned int width, unsigned int height, unsigned char* pixels)
     {
+      this->source = source;
       this->identifier = identifier;
-      this->imageId = imageId;
+      this->metadata = metadata;
+      this->bindId = bindId;
       this->format = format;
       this->depth = depth;
       this->width = width;
       this->height = height;
       this->pixels = pixels;
+    }
+
+    image(std::string source)
+    {
+      this->source = source;
     }
 
     image() { }
@@ -41,34 +59,39 @@ namespace me {
   };
 
   struct wcolor { // stands for wide-color. yes i know very stupid
-    /* TODO: std::atomic */
-    wcolor_type type;
-    me::image* v_image;
-    me::vec4* v_rgba;
-    float* v_float;
-    wcolor(wcolor_type type, me::image* v_image)
+
+    int type = 0;
+
+    me::image* image;
+    me::vec4 color;
+    float f;
+
+    wcolor(me::image* image)
     {
-      this->type = type;
-      this->v_image = v_image;
+      type = 0;
+      this->image = image;
     }
-    wcolor(wcolor_type type, me::vec4* v_rgba)
+
+    wcolor(me::vec4 color)
     {
-      this->type = type;
-      this->v_rgba = v_rgba;
+      type = 1;
+      this->color = color;
     }
-    wcolor(wcolor_type type, float* v_float)
+
+    wcolor(float f)
     {
-      this->type = type;
-      this->v_float = v_float;
+      type = 2;
+      this->f = f;
     }
+
     wcolor()
     {
-
     }
+
     ~wcolor()
     {
-      // *do not delete image* look in EngineManager.h
     }
+
   };
 
 };

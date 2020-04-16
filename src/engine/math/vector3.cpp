@@ -41,14 +41,14 @@ bool me::vec3::equals(vec3 &vec)
   return me::vec3::x == vec.x && me::vec3::y == vec.y && me::vec3::z == vec.z;
 }
 
-me::vec3& me::vec3::operator+=(vec3 &vec)
+me::vec3& me::vec3::operator+=(vec3 vec)
 {
   me::vec3::x+=vec.x;
   me::vec3::y+=vec.y;
   me::vec3::z+=vec.z;
   return *this;
 }
-me::vec3 me::vec3::operator+(vec3 &vec) const
+me::vec3 me::vec3::operator+(vec3 vec) const
 {
   return vec3(me::vec3::x + vec.x, me::vec3::y + vec.y, me::vec3::z + vec.z);
 }
@@ -64,14 +64,14 @@ me::vec3 me::vec3::operator+(real_t value) const
   return vec3(me::vec3::x + value, me::vec3::y + value, me::vec3::z + value);
 }
 
-me::vec3& me::vec3::operator-=(vec3 &vec)
+me::vec3& me::vec3::operator-=(vec3 vec)
 {
   me::vec3::x-=vec.x;
   me::vec3::y-=vec.y;
   me::vec3::z-=vec.z;
   return *this;
 }
-me::vec3 me::vec3::operator-(vec3 &vec) const
+me::vec3 me::vec3::operator-(vec3 vec) const
 {
   return vec3(me::vec3::x - vec.x, me::vec3::y - vec.y, me::vec3::z - vec.z);
 }
@@ -87,14 +87,14 @@ me::vec3 me::vec3::operator-(real_t value) const
   return vec3(me::vec3::x - value, me::vec3::y - value, me::vec3::z - value);
 }
 
-me::vec3& me::vec3::operator*=(vec3 &vec)
+me::vec3& me::vec3::operator*=(vec3 vec)
 {
   me::vec3::x*=vec.x;
   me::vec3::y*=vec.y;
   me::vec3::z*=vec.z;
   return *this;
 }
-me::vec3 me::vec3::operator*(vec3 &vec) const
+me::vec3 me::vec3::operator*(vec3 vec) const
 {
   return vec3(me::vec3::x * vec.x, me::vec3::y * vec.y, me::vec3::z * vec.z);
 }
@@ -110,14 +110,14 @@ me::vec3 me::vec3::operator*(real_t value) const
   return vec3(me::vec3::x * value, me::vec3::y * value, me::vec3::z * value);
 }
 
-me::vec3& me::vec3::operator/=(vec3 &vec)
+me::vec3& me::vec3::operator/=(vec3 vec)
 {
   me::vec3::x/=vec.x;
   me::vec3::y/=vec.y;
   me::vec3::z/=vec.z;
   return *this;
 }
-me::vec3 me::vec3::operator/(vec3 &vec) const
+me::vec3 me::vec3::operator/(vec3 vec) const
 {
   return vec3(me::vec3::x / vec.x, me::vec3::y / vec.y, me::vec3::z / vec.z);
 }

@@ -18,9 +18,9 @@ bool me::str_ends(const std::string &str, const std::string &with)
 {
   if (str.size() < with.size())
     return false;
-  for (unsigned int i = with.size()-1; i >= 0; i--)
+  for (unsigned int i = 0; i < with.size(); i++)
   {
-    if (str.at(i) != with.at(i))
+    if (str.at(str.size() - i-1) != with.at(with.size() - i-1))
       return false;
   }
   return true;

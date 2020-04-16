@@ -11,8 +11,12 @@ include_directories(/usr/include/)
 link_directories(${SOURCE_DIR}/external/vulkan/x86_64/lib)
 link_directories(/usr/lib/)
 
+add_library(libpng SHARED IMPORTED)
+set_target_properties(libpng PROPERTIES IMPORTED_LOCATION src/external/libpng/libpng.so)
+link_directories(src/external/libpng)
+
 include(sourcelist.cmake)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(MurderEngine ${SOURCES})
 set_property(TARGET MurderEngine PROPERTY CXX_STANDARD 17)
-target_link_libraries(MurderEngine glfw vulkan)
+target_link_libraries(MurderEngine glfw GLEW GL GLU vulkan libpng)

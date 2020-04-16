@@ -1,9 +1,9 @@
 #include "bmp_reader.h"
 #include "../../../kernel/common/byte_buffer.h"
-#include "../../../utilities/StringUtils.h"
 
 int me::fformat::bmp_reader::read_image(me::fileattr &file, me::image* image)
 {
+  file.readFile();
   me::filebuff& buffer = *file.buffer;
   bmp_header header;
   header.file.signature = buffer._uint16();
@@ -61,7 +61,7 @@ int me::fformat::bmp_reader::read_image(me::fileattr &file, me::image* image)
 
 bool me::fformat::bmp_reader::recognized(me::fileattr &file)
 {
-  return strEndsWith(file.filepath, ".bmp") || (file.buffer->data[0]=='b' && file.buffer->data[1]=='m');
+  return me::str_ends(file.filepath, ".bmp") || (file.buffer->data[0]=='b' && file.buffer->data[1]=='m');
 }
 
 std::vector<std::string> me::fformat::bmp_reader::get_file_exts()

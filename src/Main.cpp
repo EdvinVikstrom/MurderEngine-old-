@@ -1,36 +1,49 @@
 #include <iostream>
 #include "engine/kernel/kernel.h"
 #include "engine/MurderEngine.h"
-#include "engine/EngineManager.h"
 
 /* sandbox stuff */
-#include "engine/scene/scene.h"
 #include "engine/scene/scenes/scene_2d_viewport.h"
-#include "engine/scene/scenes/scene_outliner.h"
-#include "engine/loaders/file_format.h"
-#include "engine/simulation/rigidbody/rigidbody.h"
+#include "engine/loaders/modules/glsl/glsl_reader.h"
+
+MeInstance instance;
+MeWindow window;
+MeCommandBuffer commandBuffer;
 
 static void sandbox()
 {
-  me::scene_outliner* scene1 = new me::scene_outliner("en outliner", 0, 0, 350, 770);
-  me::scene_2d_viewport* scene2 = new me::scene_2d_viewport("en viewport", 0, 0, 1550, 770);
-  //me::engine_register_engine_event(scene1);
-  //me::engine_register_input_event(scene1);
-  me::engine_register_engine_event(scene2);
-  me::engine_register_input_event(scene2);
-  //scene1->setup();
-  scene2->setup();
+  me::scene_2d_viewport* scene = new me::scene_2d_viewport("en viewport", 0, 0, 1550, 770);
+  meRegisterEvent(&instance, scene);
 }
 
 int main()
 {
-  if (me::engine_init() != ME_FINE) return 1;
-  if (me::engine_window("Murder Engine", 1550, 770, true, false) != ME_FINE) return 1;
-  if (me::engine_setup_renderer_api("vulkan", "src/res/shaders/shader.glsl") != ME_FINE) return 1;
-  //if (me::engine_load_shaders("src/res/shaders/shader.glsl") != ME_FINE) return 1;
-  me::init();
+  MeInstanceInfo instance_info = {};
+  instance_info.appName = "Sandbox";
+  instance_info.appVersion = 457;
+  meInitInstance(&instance_info, &instance);
   sandbox();
-  me::engine_loop();
-  me::cleanup();
+
+  MeWindowInfo window_info = {};
+  window_info.title = "Sandbox - MurderEngine";
+  window_info.width = 1550;
+  window_info.height = 770;
+  window_info.posX = 0;
+  window_info.posY = 0;
+  window_info.monitor = 0;
+  meInitWindow(&instance, &window_info, &window);
+  meInitCommandBuffer(&instance, &commandBuffer);
+  MeRendererInfo renderer_info = {};
+  MeShaderProgram* shaderProgram = new MeShaderProgram;
+  me::glsl_reader::read_shader_file("src/res/shaders/shader.glsl", shaderProgram);
+  renderer_info.api = ME_OPENGL;
+  renderer_info.shaderProgram = shaderProgram;
+  meInitRenderer(&instance, &renderer_info);
+  meRunLoop(&instance);
+
+  /* cleanup */
+  meDestroyRenderer(instance.renderer);
+  meDestroyWindow(&window);
+  meDestroyInstance(&instance);
   return 0;
 }

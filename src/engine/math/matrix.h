@@ -25,27 +25,31 @@ namespace me {
     ]
     */
 
-    struct mat {
-      char rows, columns;
-      int properties;
+    struct mat4 {
+
+      static const int ROWS = 4, COLUMNS = 4;
+
       float* array;
-      mat(char rows, char columns, int properties, float* array)
+
+      mat4(float* array)
       {
-        this->rows = rows;
-        this->columns = columns;
-        this->properties = properties;
         this->array = array;
+      }
+
+      mat4()
+      {
+        array = new float[ROWS * COLUMNS];
+        for (uint32_t i = 0; i < ROWS * COLUMNS; i++)
+          array[i] = 0.0F;
+        array[0] = 1.0F;
+        array[5] = 1.0F;
+        array[10] = 1.0F;
+        array[15] = 1.0F;
       }
 
       inline int size()
       {
-        return rows * columns;
-      }
-
-      inline void set(mat &mat)
-      {
-        for (unsigned int i = 0; i < me::maths::min(size(), mat.size()); i++)
-          array[i] = mat[i];
+        return ROWS * COLUMNS;
       }
 
       inline void m00(float f) { array[0] = f; }
@@ -82,78 +86,104 @@ namespace me {
       inline float& m32() { return array[0]; }
       inline float& m33() { return array[0]; }
 
-      virtual float& at(unsigned int row, unsigned int col) = 0;
-      virtual float& operator[](unsigned int index) = 0;
-      inline mat& operator+(mat &matrix)
+      inline void set(mat4 mat)
       {
-        for (unsigned int i = 0; i < me::maths::min(size(), matrix.size()); i++)
-          array[i]+=matrix[i];
-        return *this;
-      }
-      inline mat& operator+(float fac)
-      {
-        for (unsigned int i = 0; i < size(); i++)
-          array[i]+=fac;
-        return *this;
-      }
-      inline mat& operator-(mat &matrix)
-      {
-        for (unsigned int i = 0; i < me::maths::min(size(), matrix.size()); i++)
-          array[i]-=matrix[i];
-        return *this;
-      }
-      inline mat& operator-(float fac)
-      {
-        for (unsigned int i = 0; i < size(); i++)
-          array[i]-=fac;
-        return *this;
-      }
-      inline mat& operator*(mat &matrix)
-      {
-        for (unsigned int i = 0; i < me::maths::min(size(), matrix.size()); i++)
-          at(i / rows, i % columns)*=matrix.at(i % matrix.rows, i / matrix.columns);
-        return *this;
-      }
-      inline mat& operator*(float fac)
-      {
-        for (unsigned int i = 0; i < size(); i++)
-          array[i]*=fac;
-        return *this;
-      }
-      inline mat& operator/(mat &matrix)
-      {
-        for (unsigned int i = 0; i < me::maths::min(size(), matrix.size()); i++)
-          at(i / rows, i % columns)/=matrix.at(i % matrix.rows, i / matrix.columns);
-        return *this;
-      }
-      inline mat& operator/(float fac)
-      {
-        for (unsigned int i = 0; i < size(); i++)
-          array[i]/=fac;
-        return *this;
+        for (uint32_t i = 0; i < mat.size(); i++)
+          array[i] = mat[i];
       }
 
-    };
-
-    struct mat4 : mat {
-
-      mat4(int properties, float* array) : mat(4, 4, properties, array) { }
-      mat4(float* array) : mat(4, 4, 0, array) { }
-      mat4() : mat(4, 4, 0, new float[16]) { }
-
-      inline float& at(unsigned int row, unsigned int col) override
+      float& at(unsigned int row, unsigned int col)
       {
-        return array[(row*4) + col];
+        return array[(row*ROWS) + col];
       }
-
-      inline float& operator[](unsigned int index) override
+      float& operator[](unsigned int index)
       {
         return array[index];
       }
 
+      inline mat4& operator*=(mat4 &matrix)
+      {
+        for (unsigned int i = 0; i < ROWS; i++)
+        {
+          for (unsigned int j = 0; j < COLUMNS; j++)
+            at(i, j)*=matrix.at(j, i);
+        }
+        return *this;
+      }
+
+      inline mat4 operator+(mat4 &matrix)
+      {
+        mat4 m;
+        for (unsigned int i = 0; i < me::maths::min(size(), matrix.size()); i++)
+          m[i] = array[i]+=matrix[i];
+        return *this;
+      }
+      inline mat4 operator+(float fac)
+      {
+        mat4 m;
+        for (unsigned int i = 0; i < size(); i++)
+          m[i] = array[i] + fac;
+        return m;
+      }
+      inline mat4 operator-(mat4 &matrix)
+      {
+        mat4 m;
+        for (unsigned int i = 0; i < me::maths::min(size(), matrix.size()); i++)
+          m[i] = array[i] - matrix[i];
+        return m;
+      }
+      inline mat4 operator-(float fac)
+      {
+        mat4 m;
+        for (unsigned int i = 0; i < size(); i++)
+          m[i] = array[i] - fac;
+        return m;
+      }
+      inline mat4 operator*(mat4 &matrix)
+      {
+        mat4 m;
+        for (unsigned int i = 0; i < ROWS; i++)
+        {
+          for (unsigned int j = 0; j < COLUMNS; j++)
+            m.at(i, j) = at(i, j) * matrix.at(j, i);
+        }
+        return m;
+      }
+      inline mat4 operator*(float fac)
+      {
+        mat4 m;
+        for (unsigned int i = 0; i < size(); i++)
+          m[i] = array[i] * fac;
+        return m;
+      }
+      inline mat4 operator/(mat4 &matrix)
+      {
+        mat4 m;
+        for (unsigned int i = 0; i < me::maths::min(size(), matrix.size()); i++)
+          m[i] = array[i] / matrix[i];
+        return m;
+      }
+      inline mat4 operator/(float fac)
+      {
+        mat4 m;
+        for (unsigned int i = 0; i < size(); i++)
+          m[i] = array[i] / fac;
+        return m;
+      }
+      inline void operator|(mat4 &mat)
+      {
+        for (uint32_t i = 0; i < mat.size(); i++)
+          array[i] = mat[i];
+      }
+
+      inline float x() { return m30(); }
+      inline float y() { return m31(); }
+      inline float z() { return m32(); }
+      inline float w() { return m33(); }
+
     };
 
-    inline void identify(mat &matrix)
+    inline void identify(mat4 &matrix)
     {
       for (int i = 0; i < 16; i++)
         matrix[i] = 0;
@@ -175,7 +205,8 @@ namespace me {
     matrix.m32(-((2.0F * znear * zfar) / frustum_length));
     matrix.m33(0.0F);
     */
-    inline void perspective(mat &matrix, float fov, float aspect, float znear, float zfar)
+
+    inline void perspective(mat4 &matrix, float fov, float aspect, float znear, float zfar)
     {
       float hfov = me::maths::tan(fov / 2.0F);
       matrix.m00(1.0F / (aspect * hfov));
@@ -185,7 +216,7 @@ namespace me {
       matrix.m32(-(2.0F * zfar * znear) / (zfar - znear));
     }
 
-    inline void frustum(mat &matrix, float left, float right, float bottom, float top, float znear, float zfar)
+    inline void frustum(mat4 &matrix, float left, float right, float bottom, float top, float znear, float zfar)
     {
       matrix.m00((znear + znear) / (right - left));
       matrix.m11((znear + znear) / (top - bottom));
@@ -197,7 +228,7 @@ namespace me {
       matrix.m33(0.0F);
     }
 
-    inline void orthographic(mat &matrix, float left, float right, float bottom, float top, float znear, float zfar)
+    inline void orthographic(mat4 &matrix, float left, float right, float bottom, float top, float znear, float zfar)
     {
       matrix.m00(2.0F / (right - left));
       matrix.m00(2.0F / (top - bottom));
@@ -207,21 +238,40 @@ namespace me {
       matrix.m00(-znear / (zfar - znear));
     }
 
-    inline void translate(mat &matrix, float x, float y, float z)
+    inline void look(mat4 &matrix, me::vec3 eye, me::vec3 center, me::vec3 up)
+    {
+      me::vec3 f(me::normalize(center - eye));
+      me::vec3 s(me::normalize(me::cross(f, up)));
+      me::vec3 u(me::cross(s, f));
+      matrix.m00(s.x);
+      matrix.m10(s.y);
+      matrix.m20(s.z);
+      matrix.m01(u.x);
+      matrix.m11(u.y);
+      matrix.m21(u.z);
+      matrix.m02(-f.x);
+      matrix.m12(-f.y);
+      matrix.m22(-f.z);
+      matrix.m30(-me::dot(s, eye));
+      matrix.m31(-me::dot(u, eye));
+      matrix.m32(-me::dot(f, eye));
+    }
+
+    inline void translate(mat4 &matrix, float x, float y, float z)
     {
       matrix[12] = x;
       matrix[13] = y;
       matrix[14] = z;
     }
 
-    inline void scale(mat &matrix, float x, float y, float z)
+    inline void scale(mat4 &matrix, float x, float y, float z)
     {
       matrix[0] = matrix[0] * x;
       matrix[5] = matrix[5] * y;
       matrix[10] = matrix[10] * z;
     }
 
-    inline void rotate(mat &matrix, float rotX, float rotY, float rotZ)
+    inline void rotate(mat4 &matrix, float rotX, float rotY, float rotZ)
     {
       float sinX = me::maths::sin(rotX);
       float cosX = me::maths::cos(rotX);
@@ -254,7 +304,41 @@ namespace me {
       matrix.m12(nm02 * sinZ + nm12 * cosZ);
     }
 
-    inline void rotationX(mat &matrix, float angle)
+    inline void rotateTranslation(mat4 mat, me::vec4 quat)
+    {
+      float w2 = quat.w * quat.w, x2 = quat.x * quat.x;
+      float y2 = quat.y * quat.y, z2 = quat.z * quat.z;
+      float zw = quat.z * quat.w, dzw = zw + zw, xy = quat.x * quat.y, dxy = xy + xy;
+      float xz = quat.x * quat.z, dxz = xz + xz, yw = quat.y * quat.w, dyw = yw + yw;
+      float yz = quat.y * quat.z, dyz = yz + yz, xw = quat.x * quat.w, dxw = xw + xw;
+      float rm00 = w2 + x2 - z2 - y2;
+      float rm01 = dxy + dzw;
+      float rm02 = dxz - dyw;
+      float rm10 = -dzw + dxy;
+      float rm11 = y2 - z2 + w2 - x2;
+      float rm12 = dyz + dxw;
+      float rm20 = dyw + dxz;
+      float rm21 = dyz - dxw;
+      float rm22 = z2 - y2 - x2 + w2;
+      mat.m20(rm20);
+      mat.m21(rm21);
+      mat.m22(rm22);
+      mat.m23(0.0f);
+      mat.m00(rm00);
+      mat.m01(rm01);
+      mat.m02(rm02);
+      mat.m03(0.0f);
+      mat.m10(rm10);
+      mat.m11(rm11);
+      mat.m12(rm12);
+      mat.m13(0.0f);
+      mat.m30(mat.m30());
+      mat.m31(mat.m31());
+      mat.m32(mat.m32());
+      mat.m33(mat.m33());
+    }
+
+    inline void rotationX(mat4 &matrix, float angle)
     {
       float sin = me::maths::sin(angle);
       float cos = me::maths::cos(angle);
@@ -265,7 +349,7 @@ namespace me {
       matrix.m22(cos);
     }
 
-    inline void rotationY(mat &matrix, float angle)
+    inline void rotationY(mat4 &matrix, float angle)
     {
       float sin = me::maths::sin(angle);
       float cos = me::maths::cos(angle);
@@ -276,7 +360,7 @@ namespace me {
       matrix.m22(cos);
     }
 
-    inline void rotationZ(mat &matrix, float angle)
+    inline void rotationZ(mat4 &matrix, float angle)
     {
       float sin = me::maths::sin(angle);
       float cos = me::maths::cos(angle);

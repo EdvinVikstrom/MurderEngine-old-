@@ -5,8 +5,17 @@
   #define ME_UINT_32_BIT
 #endif
 
-#define ME_FINE           0
-#define ME_ERR            1
+enum MeResult {
+  ME_SUCCESS = 0,
+  ME_FINE = ME_SUCCESS,
+  ME_ERR = 1,
+  ME_NONE = 5
+};
+
+enum MeBool {
+  ME_TRUE = 1,
+  ME_FALSE = 0
+};
 
 #define ME_DEBUG
 

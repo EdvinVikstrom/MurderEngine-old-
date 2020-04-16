@@ -31,6 +31,11 @@ namespace me {
       #endif
     }
 
+    inline unsigned char* atPos(uint32_t size)
+    {
+      return &data[pos+=size];
+    }
+
     inline unsigned char read()
     {
       return data[pos++];
@@ -162,20 +167,25 @@ namespace me {
     const char* filepath;
     file_access access;
     long created, modified;
+    FILE* file;
     me::filebuff* buffer;
 
-    fileattr(const char* filepath, file_access access, long created, long modified, me::filebuff* buffer)
+    fileattr(const char* filepath, file_access access, long created, long modified, FILE* file, me::filebuff* buffer)
     {
       this->filepath = filepath;
       this->access = access;
       this->created = created;
       this->modified = modified;
+      this->file = file;
       this->buffer = buffer;
     }
 
     ~fileattr()
     {
     }
+
+    void readFile();
+    void closeFile();
 
   };
 

@@ -1,11 +1,6 @@
 #ifndef IMAGE_READER_H
   #define IMAGE_READER_H
 
-#define ME_TEX_FORMAT_RGB                  87
-#define ME_TEX_FORMAT_RGBA                 93
-#define ME_TEX_FORMAT_BINARY               74
-#define ME_TEX_FORMAT_GRAY                 75
-
 #include "file_format.h"
 
 namespace me {

@@ -19,12 +19,17 @@ namespace me {
     float focalLength;
     float aspectRatio;
     float znear, zfar;
-    me::transform transform;
+    me::vec3 position;
+    me::vec3 rotation;
+
+    me::maths::mat4 rotationX_matrix;
+    me::maths::mat4 rotationY_matrix;
+    me::maths::mat4 rotationZ_matrix;
 
     me::maths::mat4 view_matrix;
     me::maths::mat4 projection_matrix;
 
-    camera(std::string identifier, camera_type type, float focalLength, float aspectRatio, float znear, float zfar, me::transform transform)
+    camera(std::string identifier, camera_type type, float focalLength, float aspectRatio, float znear, float zfar, me::vec3 position, me::vec3 rotation)
     {
       this->identifier = identifier;
       this->type = type;
@@ -32,10 +37,15 @@ namespace me {
       this->aspectRatio = aspectRatio;
       this->znear = znear;
       this->zfar = zfar;
-      this->transform = transform;
+      this->position = position;
+      this->rotation = rotation;
+
+      me::maths::identify(rotationX_matrix);
+      me::maths::identify(rotationY_matrix);
+      me::maths::identify(rotationZ_matrix);
 
       me::maths::identify(view_matrix);
-      me::maths::translate(view_matrix, transform.location.x, transform.location.y, transform.location.z);
+      me::maths::translate(view_matrix, position.x, position.y, position.z);
       me::maths::identify(projection_matrix);
       if (type==camera_type::PERSPECTIVE)
         me::maths::perspective(projection_matrix, focalLength, aspectRatio, znear, zfar);
@@ -49,9 +59,23 @@ namespace me {
 
     void update_matrix()
     {
-      me::maths::identify(view_matrix);
-      me::maths::rotate(view_matrix, transform.rotation.x, transform.rotation.y, transform.rotation.z);
-      me::maths::translate(view_matrix, transform.location.x, transform.location.y, transform.location.z);
+      //me::maths::identify(view_matrix);
+      me::maths::rotate(view_matrix, -rotation.x, -rotation.y, -rotation.z);
+      me::maths::translate(view_matrix, -position.x, -position.y, -position.z);
+    }
+
+    void move(float x, float y, float z)
+    {
+      position.x+=x;
+      position.y+=y;
+      position.z+=z;
+    }
+
+    void rotate(float yaw, float pitch, float roll)
+    {
+      rotation.x+=pitch;
+      rotation.y+=yaw;
+      rotation.z+=roll;
     }
 
   };

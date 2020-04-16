@@ -18,7 +18,7 @@ namespace me {
     SPRITE
   };
 
-  struct item : me::event::input_event {
+  struct item {
     std::string identifier;
     me::item_type type;
     me::maths::mat4 transform_matrix;
@@ -43,8 +43,8 @@ namespace me {
     {
     }
 
-    bool onMouseInput(int action, double posX, double posY, int button) override { return false; }
-    bool onKeyInput(int action, int key) override { return false; }
+    bool onMouseInput(int action, double posX, double posY, int button) { return false; }
+    bool onKeyInput(int action, int key) { return false; }
 
   };
 

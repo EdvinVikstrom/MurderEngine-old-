@@ -2,22 +2,26 @@
 #include "../../../kernel/io/file_reader.h"
 #include <vector>
 
-int me::glsl_reader::read_shader_file(const char* filepath, me::shader_program* program)
+#include <iostream> // remove
+
+int me::glsl_reader::read_shader_file(const char* filepath, MeShaderProgram* program)
 {
   me::fileattr* file = me::read_file(filepath);
+  file->readFile();
   std::string data = (char*)file->buffer->data;
   std::vector<std::string> lines = me::split_str(data, '\n');
-  shader_type type = shader_type::NONE;
+  MeShaderType type = MeShaderType::UNKNOWN_SHADER;
   for (std::string &line : lines)
   {
-    if (line=="#vertex") { type = shader_type::VERTEX; continue; }
-    else if (line=="#tessellation") { type = shader_type::TESSELLATION; continue; }
-    else if (line=="#geometry") { type = shader_type::GEOMETRY; continue; }
-    else if (line=="#rasterization") { type = shader_type::RASTERIZATION; continue; }
-    else if (line=="#fragment") { type = shader_type::FRAGMENT; continue; }
-    else if (line=="#color_blending") { type = shader_type::COLOR_BLENDING; continue; }
-    else if (line=="#none") { type = shader_type::NONE; continue; }
-    if (type==shader_type::NONE) continue;
+    if (line=="#end") type = MeShaderType::UNKNOWN_SHADER;
+    if (line=="#vertex") { type = MeShaderType::VERTEX; continue; }
+    else if (line=="#tessellation") { type = MeShaderType::TESSELLATION; continue; }
+    else if (line=="#geometry") { type = MeShaderType::GEOMETRY; continue; }
+    else if (line=="#rasterization") { type = MeShaderType::RASTERIZATION; continue; }
+    else if (line=="#fragment") { type = MeShaderType::FRAGMENT; continue; }
+    else if (line=="#color_blending") { type = MeShaderType::COLOR_BLENDING; continue; }
+    else if (line=="#none") { type = MeShaderType::UNKNOWN_SHADER; continue; }
+    if (type==MeShaderType::UNKNOWN_SHADER) continue;
     if (program->shaders.count(type))
       program->shaders[type].append(line + "\n");
     else

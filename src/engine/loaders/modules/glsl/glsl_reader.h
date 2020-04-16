@@ -2,7 +2,7 @@
   #define GLSL_READER_H
 
 #include "../../../kernel/kernel.h"
-#include "../../../renderer/shader_program.h"
+#include "../../../MurderEngine.h"
 #include <string>
 #include <map>
 
@@ -10,7 +10,7 @@ namespace me {
 
   namespace glsl_reader {
 
-    int read_shader_file(const char* filepath, me::shader_program* program);
+    int read_shader_file(const char* filepath, MeShaderProgram* program);
 
   };
 

@@ -5,6 +5,13 @@
 
 namespace me {
 
+  enum Polygon {
+    POINT,
+    LINE,
+    TRIANGLE,
+    QUAD,
+  };
+
   struct float_array {
     std::string identifier;
     unsigned int stride;
@@ -31,25 +38,49 @@ namespace me {
 
   };
 
-  struct index_array {
-    std::vector<unsigned int> indices;
-    std::vector<unsigned int> positionIndices;
-    std::vector<unsigned int> normalIndices;
-    std::vector<unsigned int> texCoordIndices;
-    me::material* material;
+  struct vertex {
+    me::vec3 position;
+    me::vec3 normal;
+    me::vec2 texCoord;
+    me::vec4 color;
+
+    vertex(me::vec3 position, me::vec3 normal, me::vec2 texCoord, me::vec4 color)
+    {
+      this->position = position;
+      this->normal = normal;
+      this->texCoord = texCoord;
+      this->color = color;
+    }
+
+    vertex() { }
+
+    inline bool operator==(vertex &v)
+    {
+      return position==v.position && normal==v.normal && texCoord==v.texCoord && color==v.color;
+    }
   };
 
   struct mesh {
+
     std::string identifier;
-    unsigned int VAO,
-    positionsVBO, normalsVBO, texCoordsVBO,
-    positionsEBO, normalsEBO, texCoordsEBO;
+    unsigned int meshId;
+    unsigned int buffer;
+
+    Polygon mode;
+
     std::vector<me::vec3> positions;
     std::vector<me::vec3> normals;
     std::vector<me::vec2> texCoords;
     std::vector<me::vec4> colors;
+
+    std::vector<me::vertex> vertices;
+    std::vector<uint32_t> indices;
+
+    std::vector<me::material*> materials;
+    me::maths::mat4 model_matrix;
     unsigned int offset = 0;
-    std::vector<me::index_array*> indices;
+
+    bool loaded = false;
 
     mesh()
     {

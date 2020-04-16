@@ -32,6 +32,13 @@ namespace me {
       this->z = value;
     }
 
+    vec3(const me::vec3 &vec)
+    {
+      this->x = vec.x;
+      this->y = vec.y;
+      this->z = vec.z;
+    }
+
     vec3()
     {
       this->x = real_t(0);
@@ -47,23 +54,23 @@ namespace me {
 
     bool equals(vec3 &vec);
 
-    vec3& operator+=(vec3 &vec);
-    vec3 operator+(vec3 &vec) const;
+    vec3& operator+=(vec3 vec);
+    vec3 operator+(vec3 vec) const;
     vec3& operator+=(real_t value);
     vec3 operator+(real_t value) const;
 
-    vec3& operator-=(vec3 &vec);
-    vec3 operator-(vec3 &vec) const;
+    vec3& operator-=(vec3 vec);
+    vec3 operator-(vec3 vec) const;
     vec3& operator-=(real_t value);
     vec3 operator-(real_t value) const;
 
-    vec3& operator*=(vec3 &vec);
-    vec3 operator*(vec3 &vec) const;
+    vec3& operator*=(vec3 vec);
+    vec3 operator*(vec3 vec) const;
     vec3& operator*=(real_t value);
     vec3 operator*(real_t value) const;
 
-    vec3& operator/=(vec3 &vec);
-    vec3 operator/(vec3 &vec) const;
+    vec3& operator/=(vec3 vec);
+    vec3 operator/(vec3 vec) const;
     vec3& operator/=(real_t value);
     vec3 operator/(real_t value) const;
 

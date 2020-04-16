@@ -11,13 +11,15 @@ namespace me {
 
     scene_2d_viewport(std::string identifier, int x, int y, unsigned int width, unsigned int height) : scene(identifier, x, y, width, height) { }
 
-    void setup() override;
+    void onPreInit(MeInstance* instance) override;
+    void onInit(MeInstance* instance) override;
+    void onDestroyed(MeInstance* instance) override;
 
-    void onRender() override;
-    void onLoop() override;
+    void onRender(MeRenderer* renderer) override;
+    void onLoop(MeInstance* instance) override;
 
-    bool onMouseInput(int action, double posX, double posY, int button) override;
-    bool onKeyInput(int action, int key) override;
+    bool onMouseInput(MeInstance* instance, int action, double posX, double posY, int button) override;
+    bool onKeyInput(MeInstance* instance, int action, int key) override;
 
   };
 

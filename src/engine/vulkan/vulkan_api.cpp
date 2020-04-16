@@ -1,275 +1,127 @@
-#include "../MurderEngine.h"
 #include "vulkan_api.h"
-
-/* utilities */
-#include "../kernel/kernel.h"
-#include "../kernel/log.h"
-#include <vector>
-#include <map>
-#include <set>
-#include <array>
-#include <cstring>
-#include <cstdint>
-#include <iostream>
-
-#ifdef ME_DEBUG
-  const bool enable_validation_layers = true;
-#else
-  const bool enable_validation_layers = false;
-#endif
-
-const std::vector<const char*> validation_layers = {
-  "VK_LAYER_LUNARG_standard_validation"
-};
-
-const std::vector<const char*> device_extensions = {
-  VK_KHR_SWAPCHAIN_EXTENSION_NAME
-};
-
-static std::vector<const char*> required_extensions()
-{
-  uint32_t glfw_ext_count = 0;
-  const char** glfw_exts;
-  glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
-
-  std::vector<const char*> extensions(glfw_exts, glfw_exts + glfw_ext_count);
-  if (enable_validation_layers)
-    extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-  extensions.push_back("VK_KHR_xlib_surface");
-  return extensions;
-}
-
 #include "vulkan_utils.h"
 
-#include "vulkan_debug.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "vulkan_device.h"
-#include "vulkan_inst.h"
-#include "vulkan_wsurface.h"
-#include "vulkan_swap_chain.h"
-#include "vulkan_image_views.h"
 #include "vulkan_graphics_pipeline.h"
-#include "vulkan_rendering.h"
 
-int me::vulkan_api::cleanup_swap_chain()
+int me::vulkan_api::init_instance()
 {
-  for (auto framebuffer : swap_chain_framebuffers)
-    vkDestroyFramebuffer(device, framebuffer, nullptr);
-  vkFreeCommandBuffers(device, command_pool, static_cast<uint32_t>(command_buffers.size()), command_buffers.data());
-  vkDestroyPipeline(device, graphics_pipeline, nullptr);
-  vkDestroyPipelineLayout(device, pipeline_layout, nullptr);
-  vkDestroyRenderPass(device, render_pass, nullptr);
+  /* application info */
+  VkApplicationInfo app_info = {};
+  app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+  app_info.pNext = nullptr;
+  app_info.pApplicationName = "Murder Engine";
+  app_info.applicationVersion = VK_MAKE_VERSION(0, 2, 3);
+  app_info.pEngineName = "MurderEngine";
+  app_info.engineVersion = VK_MAKE_VERSION(0, 4, 7);
+  app_info.apiVersion = VK_API_VERSION_1_2;
 
-  for (auto image_view : swap_chain_image_views)
-    vkDestroyImageView(device, image_view, nullptr);
-  vkDestroySwapchainKHR(device, swap_chain, nullptr);
-  return ME_FINE;
-}
-
-int me::vulkan_api::update_swap_chain(GLFWwindow* window, me::shader_program* program)
-{
-  int width = 0, height = 0;
-  glfwGetFramebufferSize(window, &width, &height);
-  while(width == 0 || height == 0)
-  {
-    glfwGetFramebufferSize(window, &width, &height);
-    glfwWaitEvents();
-  }
-  vkDeviceWaitIdle(device);
-  cleanup_swap_chain();
-
-  setup_swap_chain(window);
-  setup_image_views();
-  setup_render_pass();
-  setup_graphics_pipeline(program);
-  setup_framebuffers();
-  setup_command_buffers();
-  return ME_FINE;
-}
-
-int me::vulkan_api::initializeApi()
-{
-  int result = ME_FINE;
-
-  GLFWwindow* window = (GLFWwindow*) me::get_param(ME_INST_WINDOW);
-  me::shader_program* program = (me::shader_program*) me::get_param(ME_INST_PROGRAM);
-  int width = 0, height = 0;
-  glfwGetWindowSize(window, &width, &height);
-  window_width = (uint32_t) (width < 0 ? 0 : width);
-  window_height = (uint32_t) (height < 0 ? 0 : height);
-
-  me::vulkan_api::vmesh* test_mesh = new me::vulkan_api::vmesh;
-  test_mesh->vertices = {
-    {{0.0F, -0.5F}, {1.0F, 0.0F, 1.0F}},
-    {{0.5F, 0.5F}, {1.0F, 1.0F, 0.0F}},
-    {{-0.5F, 0.5F}, {1.0F, 0.0F, 1.0F}}
-  };
+  /* instance info */
+  VkInstanceCreateInfo instance_info = {};
+  instance_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+  instance_info.pNext = nullptr;
+  instance_info.flags = 0;
+  instance_info.pApplicationInfo = &app_info;
+  instance_info.enabledLayerCount = 0;
+  instance_info.enabledExtensionCount = 0;
 
   /* create instance */
-  result = init_instance();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Instance Created!\n" << LOG_ANSI_RESET;
-
-  /* setup debug messenger */
-  result = setup_debug_messenger();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Debug Messenger Created!\n" << LOG_ANSI_RESET;
-
-  /* setup window surface */
-  result = setup_window_surface(window);
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Window Surface Created!\n" << LOG_ANSI_RESET;
-
-  /* setup physical device */
-  result = setup_physical_device();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Physical Device Created!\n" << LOG_ANSI_RESET;
-
-  /* setup logical device */
-  result = setup_logical_device();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Logical Device Created!\n" << LOG_ANSI_RESET;
-
-  /* setup swap chain */
-  result = setup_swap_chain(window);
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Swap Chain Created!\n" << LOG_ANSI_RESET;
-
-  /* setup image views */
-  result = setup_image_views();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Image Views Created!\n" << LOG_ANSI_RESET;
-
-  /* setup render passes */
-  result = setup_render_pass();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Render Pass Created!\n" << LOG_ANSI_RESET;
-
-  /* setup graphics pipeline */
-  result = setup_graphics_pipeline(program);
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Graphics Pipeline Created!\n" << LOG_ANSI_RESET;
-
-  /* setup frame buffers */
-  result = setup_framebuffers();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Frame Buffers Created!\n" << LOG_ANSI_RESET;
-
-  /* setup command pool */
-  result = setup_command_pool();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Command Pool Created!\n" << LOG_ANSI_RESET;
-
-  result = setup_vertex_buffer(*test_mesh);
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Vertex Buffer Created!\n" << LOG_ANSI_RESET;
-
-  /* setup command buffers */
-  result = setup_command_buffers();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Command Buffers Created!\n" << LOG_ANSI_RESET;
-
-  /* setup synced objects */
-  result = setup_synced_objects();
-  if (result != ME_FINE) return result;
-  std::cout << LOG_COLOR_GREEN << "[Vulkan]: Synced Objects Created!\n" << LOG_ANSI_RESET;
-  return ME_FINE;
-}
-int me::vulkan_api::useProgram(me::shader_program &program)
-{
-  return ME_FINE;
-}
-
-me::device_info me::vulkan_api::getDeviceInfo()
-{
-  return {"", "", "", ""};
-}
-
-int me::vulkan_api::renderFrame(unsigned long current_frame, bool &framebuffer_resized)
-{
-  GLFWwindow* window = (GLFWwindow*) me::get_param(ME_INST_WINDOW);
-  me::shader_program* program = (me::shader_program*) me::get_param(ME_INST_PROGRAM);
-  current_frame = (current_frame + 1) % max_frames_in_flight;
-  vkWaitForFences(device, 1, &in_flight_fences[current_frame], VK_TRUE, UINT64_MAX);
-  uint32_t image_index;
-  VkResult result = vkAcquireNextImageKHR(device, swap_chain, UINT64_MAX, image_available_semaphores[current_frame], VK_NULL_HANDLE, &image_index);
-  if (result == VK_ERROR_OUT_OF_DATE_KHR)
+  VkResult result = vkCreateInstance(&instance_info, nullptr, &instance);
+  if (result == VK_ERROR_INCOMPATIBLE_DRIVER)
   {
-    update_swap_chain(window, program);
-    return ME_FINE;
-  }else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
-  {
-    std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to acquire swap chain image\n" << LOG_ANSI_RESET;
+    printf("[Vulkan] [ERR]: can't find a compatible Vulkan ICD\n");
     return ME_ERR;
-  }
-  if (images_in_flight[image_index] != VK_NULL_HANDLE)
-    vkWaitForFences(device, 1, &images_in_flight[image_index], VK_TRUE, UINT64_MAX);
-  images_in_flight[image_index] = in_flight_fences[current_frame];
-
-  VkSubmitInfo submit_info = {};
-  submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-  VkSemaphore wait_semaphores[] = {image_available_semaphores[current_frame]};
-  VkPipelineStageFlags wait_stages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
-  submit_info.waitSemaphoreCount = 1;
-  submit_info.pWaitSemaphores = wait_semaphores;
-  submit_info.pWaitDstStageMask = wait_stages;
-  submit_info.commandBufferCount = 1;
-  submit_info.pCommandBuffers = &command_buffers[image_index];
-  VkSemaphore signal_semaphores[] = {render_finished_semaphores[current_frame]};
-  submit_info.signalSemaphoreCount = 1;
-  submit_info.pSignalSemaphores = signal_semaphores;
-
-  vkResetFences(device, 1, &in_flight_fences[current_frame]);
-  result = vkQueueSubmit(graphics_queue, 1, &submit_info, in_flight_fences[current_frame]);
-  if (result != VK_SUCCESS)
-  {
-    std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to submit draw command buffer\n" << LOG_ANSI_RESET;
-    return ME_ERR;
-  }
-  VkPresentInfoKHR present_info = {};
-  present_info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-  present_info.waitSemaphoreCount = 1;
-  present_info.pWaitSemaphores = signal_semaphores;
-  VkSwapchainKHR swap_chains[] = {swap_chain};
-  present_info.swapchainCount = 1;
-  present_info.pSwapchains = swap_chains;
-  present_info.pImageIndices = &image_index;
-  present_info.pResults = nullptr;
-  result = vkQueuePresentKHR(present_queue, &present_info);
-  if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
-  {
-    framebuffer_resized = false;
-    update_swap_chain(window, program);
   }else if (result != VK_SUCCESS)
   {
-    std::cout << LOG_COLOR_RED << "[Vulkan] [ERR]: failed to present swap chain image\n" << LOG_ANSI_RESET;
+    printf("[Vulkan] [ERR]: %s\n", vkErrStr(result));
     return ME_ERR;
   }
-  vkQueueWaitIdle(present_queue);
   return ME_FINE;
 }
-int me::vulkan_api::clearFrame()
+
+int me::vulkan_api::init_instance_extensions()
+{
+  instance_extensions.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
+  instance_extensions.push_back(VK_KHR_XLIB_SURFACE_EXTENSION_NAME);
+  return ME_FINE;
+}
+
+int me::vulkan_api::init_device_extensions()
+{
+  device_extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+  return ME_FINE;
+}
+
+int me::vulkan_api::initializeApi(MeInstance* instance)
+{
+  this->window = (GLFWwindow*)instance->window->window;
+  this->width = instance->window->info->width;
+  this->height = instance->window->info->height;
+
+  init_instance_extensions();
+  init_device_extensions();
+
+  init_instance();
+  init_enumerate_device();
+  init_surface();
+  init_device();
+  init_swapchain();
+  init_command_buffers();
+
+  return ME_FINE;
+}
+
+int me::vulkan_api::setupMeshRenderer(MeInstance* instance)
+{
+  return ME_FINE;
+}
+int me::vulkan_api::setupImageRenderer(MeInstance* instance)
+{
+  return ME_FINE;
+}
+int me::vulkan_api::loadMesh(me::mesh* mesh)
+{
+  return ME_FINE;
+}
+int me::vulkan_api::loadImage(me::image* image)
+{
+  return ME_FINE;
+}
+
+int me::vulkan_api::uniformMatrix4(int location, me::maths::mat4 matrix)
+{
+  return ME_FINE;
+}
+int me::vulkan_api::uniformVec2(int location, me::vec2 vec)
+{
+  return ME_FINE;
+}
+int me::vulkan_api::uniformVec3(int location, me::vec3 vec)
+{
+  return ME_FINE;
+}
+int me::vulkan_api::uniformVec4(int location, me::vec4 vec)
+{
+  return ME_FINE;
+}
+
+int me::vulkan_api::renderFrame(MeInstance* instance, unsigned long current_frame, bool &framebuffer_resized)
 {
   return ME_FINE;
 }
 int me::vulkan_api::cleanup()
 {
-  cleanup_swap_chain();
-  for (vmesh* mesh : meshes)
-  {
-    vkDestroyBuffer(device, mesh->vertex_buffer, nullptr);
-    vkFreeMemory(device, mesh->vertex_buffer_mem, nullptr);
-  }
-  for (uint32_t i = 0; i < max_frames_in_flight; i++)
-  {
-    vkDestroySemaphore(device, render_finished_semaphores[i], nullptr);
-    vkDestroySemaphore(device, image_available_semaphores[i], nullptr);
-    vkDestroyFence(device, in_flight_fences[i], nullptr);
-  }
+  VkCommandBuffer command_buffers[1] = {command_buffer};
+  vkFreeCommandBuffers(device, command_pool, 1, command_buffers);
   vkDestroyCommandPool(device, command_pool, nullptr);
+
+  // TODO: for (uint32_t i = 0; i < swapchain_image_count; i++)
+    // TODO: vkDestroyImageView(device, buffers[i].view, nullptr);
+  vkDestroySwapchainKHR(device, swapchain, nullptr);
   vkDestroyDevice(device, nullptr);
-  if (enable_validation_layers) // TODO: if ME_DEBUG not defined bad bad
-    destroy_DUMExt(instance, debug_messenger, nullptr);
-  vkDestroySurfaceKHR(instance, surface, nullptr);
   vkDestroyInstance(instance, nullptr);
   return ME_FINE;
 }

@@ -1,226 +1,222 @@
 #include "MurderEngine.h"
+#include "EngineInit.h"
 
 /* GLFW */
+#define GLFW_EXPOSE_NATIVE_X11
 #include "../external/glfw/include/GLFW/glfw3.h"
+#include "../external/glfw/include/GLFW/glfw3native.h"
 
 #include "vulkan/vulkan_api.h"
-#include "loaders/modules/glsl/glsl_reader.h"
+#include "opengl/opengl_api.h"
 
-#include "EngineManager.h"
-#include "renderer/renderer_api.h"
-
-#include "utilities/Logger.h"
-
-static me::log* ME_LOGGER = new me::log("MurderEngine",
-"\e[32m[%N] %T #%M \e[0m",
-"\e[32m[%N] %T\e[0m \e[33m#%M \e[0m",
-"\e[32m[%N] %T\e[0m \e[31m#%M \e[0m",
-"\e[34m[%N] %T #%M \e[0m"
-);
-
-std::string engine_name = "Murder Engine";
-unsigned int engine_version = 7;
-std::string app_name = "Murder Engine Interface";
-unsigned int app_version = 1;
-
-std::string RENDERER_API_NAME = "vulkan";
-me::frenderer* renderer;
-me::shader_program* program;
-
-std::string w_title;
-unsigned int w_width, w_height;
-bool w_vSync, w_fullscreen;
-GLFWwindow* window;
-
-unsigned int fpsCount, fps;
-unsigned long current_frame = 0;
-bool framebuffer_resized = false;
-
-std::vector<me::event::engine_event*> engine_events;
-std::vector<me::event::input_event*> input_events;
-std::map<int, bool> keysPressed; // buttons and keys
-double cursorPosX, cursorPosY;
-
-bool me::event::input_event::isPressed(int key)
+static void error_callback(int error, const char* description)
 {
-  if (keysPressed.count(key))
-    return keysPressed[key];
-  return false;
-}
-double me::event::input_event::mouseX()
-{
-  return cursorPosX;
-}
-double me::event::input_event::mouseY()
-{
-  return cursorPosY;
-}
-
-int me::engine_register_engine_event(me::event::engine_event* event)
-{
-  engine_events.push_back(event);
-  return 0;
-}
-
-int me::engine_register_input_event(me::event::input_event* event)
-{
-  input_events.push_back(event);
-  return 0;
-}
-
-int me::engine_init()
-{
-  ME_LOGGER->out("Initialize Engine!\n");
-  return 0;
+  std::cout << "[GLFW] [ERR-" << error << "]: " << description << "\n";
 }
 
 static void framebuffer_resize_callback(GLFWwindow* window, int width, int height)
 {
-  framebuffer_resized = true;
+  MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
+  instance->window->framebufferResized = true;
 }
 
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-  double offsetX = xpos-cursorPosX;
-  double offsetY = ypos-cursorPosY;
-  for (me::event::input_event* event : input_events)
-    event->onMouseInput(ME_MOUSE_MOVE, offsetX, offsetY, 0);
-  cursorPosX = xpos;
-  cursorPosY = ypos;
+  MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
+  for (MeEngineEvent* event : instance->events)
+    event->onMouseInput(instance, ME_MOUSE_MOVE, instance->window->cursorX - xpos, instance->window->cursorY - ypos, ME_KEY_NONE);
+  instance->window->cursorX = xpos;
+  instance->window->cursorY = ypos;
 }
 
 static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-  for (me::event::input_event* event : input_events)
-    event->onMouseInput(ME_MOUSE_SCROLL, xoffset, yoffset, 0);
+  MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
+  for (MeEngineEvent* event : instance->events)
+    event->onMouseInput(instance, ME_MOUSE_SCROLL, xoffset, yoffset, ME_KEY_NONE);
 }
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
+  MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   if (action==GLFW_PRESS)
-    keysPressed[button] = true;
-  else if (action==GLFW_RELEASE)
-    keysPressed[button] = false;
-  for (me::event::input_event* event : input_events)
-    event->onMouseInput(action==GLFW_PRESS?ME_PRESS:(action==GLFW_RELEASE?ME_RELEASE:0), cursorPosX, cursorPosY, button);
+    instance->window->pressedKeys[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = ME_TRUE;
+  if (action==GLFW_RELEASE)
+    instance->window->pressedKeys[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = ME_FALSE;
+  for (MeEngineEvent* event : instance->events)
+    event->onMouseInput(instance, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), instance->window->cursorX, instance->window->cursorY, button);
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+  MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   if (action==GLFW_PRESS)
-    keysPressed[key] = true;
-  else if (action==GLFW_RELEASE)
-    keysPressed[key] = false;
-  for (me::event::input_event* event : input_events)
-    event->onKeyInput(action==GLFW_PRESS?ME_PRESS:(action==GLFW_RELEASE?ME_RELEASE:0), key);
+    instance->window->pressedKeys[static_cast<MeKey>(key)] = ME_TRUE;
+  if (action==GLFW_RELEASE)
+    instance->window->pressedKeys[static_cast<MeKey>(key)] = ME_FALSE;
+  for (MeEngineEvent* event : instance->events)
+    event->onKeyInput(instance, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), key);
 }
 
-int me::engine_window(const std::string &title, unsigned int width, unsigned int height, bool vSync, bool fullscreen)
+bool MeEngineEvent::isPressed(MeInstance* instance, int key)
 {
+  if (!instance->window->pressedKeys.count(key))
+    return false;
+  return instance->window->pressedKeys[key];
+}
+
+MeResult MeCommand::execute(MeInstance* instance)
+{
+  return ME_SUCCESS;
+}
+
+void MeWindow::destroy()
+{
+  glfwDestroyWindow((GLFWwindow*)window);
+}
+MeBool MeWindow::shouldClose()
+{
+  return glfwWindowShouldClose((GLFWwindow*)window) ? ME_TRUE : ME_FALSE;
+}
+
+MeBool MeInstance::shouldExit()
+{
+  return window != nullptr ? window->shouldClose() : ME_FALSE;
+}
+
+MeResult meInitInstance(MeInstanceInfo* info, MeInstance* instance)
+{
+  instance->info = info;
+  return ME_SUCCESS;
+}
+MeResult meInitWindow(MeInstance* instance, MeWindowInfo* info, MeWindow* window)
+{
+  glfwSetErrorCallback(error_callback);
   if (!glfwInit())
-    ME_LOGGER->out("GLFW don't wanna Initialize\n");
-  w_title = title;
-  w_width = width;
-  w_height = height;
-  w_vSync = vSync;
-  w_fullscreen = fullscreen;
-  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-  window = glfwCreateWindow(width, height, title.c_str(), fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
-  glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
-  glfwSetCursorPosCallback(window, cursor_position_callback);
-  glfwSetScrollCallback(window, scroll_callback);
-  glfwSetMouseButtonCallback(window, mouse_button_callback);
-  glfwSetKeyCallback(window, key_callback);
-  glfwShowWindow(window);
-  glfwSwapInterval(vSync ? 1 : 0);
-  return ME_FINE;
-}
-
-int me::engine_loop()
-{
-  while(!glfwWindowShouldClose(window))
   {
-    renderer->clearFrame();
-    renderer->renderFrame(current_frame, framebuffer_resized);
-    for (me::event::engine_event* event : engine_events)
-      event->onLoop();
-    for (me::event::engine_event* event : engine_events)
-      event->onRender();
-    glfwSwapBuffers(window);
+    std::cout << "[GLFW] Failed to initialize\n";
+    return ME_ERR;
+  }
+  instance->window = window;
+  window->info = info;
+  window->window = glfwCreateWindow(info->width, info->height, info->title.c_str(), nullptr, nullptr);
+  glfwSetWindowUserPointer((GLFWwindow*)window->window, instance);
+
+  /* callbacks */
+  glfwSetFramebufferSizeCallback((GLFWwindow*)window->window, framebuffer_resize_callback);
+  glfwSetCursorPosCallback((GLFWwindow*)window->window, cursor_position_callback);
+  glfwSetScrollCallback((GLFWwindow*)window->window, scroll_callback);
+  glfwSetMouseButtonCallback((GLFWwindow*)window->window, mouse_button_callback);
+  glfwSetKeyCallback((GLFWwindow*)window->window, key_callback);
+
+  glfwMakeContextCurrent((GLFWwindow*)window->window);
+  glfwShowWindow((GLFWwindow*)window->window);
+  glfwSwapInterval(1);
+  return ME_SUCCESS;
+}
+MeResult meInitRenderer(MeInstance* instance, MeRendererInfo* info)
+{
+  switch(info->api)
+  {
+    case ME_VULKAN:
+      instance->renderer = new me::vulkan_api;
+    break;
+    case ME_OPENGL:
+      instance->renderer = new me::opengl_api;
+    break;
+  }
+  instance->renderer->info = info;
+  instance->renderer->initializeApi(instance);
+  return ME_SUCCESS;
+}
+MeResult meInitCommandBuffer(MeInstance* instance, MeCommandBuffer* commandBuffer)
+{
+  instance->commandBuffer = commandBuffer;
+  return ME_SUCCESS;
+}
+MeResult meRunLoop(MeInstance* instance)
+{
+  meInitEverything();
+  for (MeEngineEvent* event : instance->events)
+    event->onInit(instance);
+  while(instance->shouldExit() != ME_TRUE)
+  {
+    instance->renderer->renderFrame(instance, instance->currentFrame, instance->window->framebufferResized);
+    for (MeEngineEvent* event : instance->events)
+      event->onLoop(instance);
+    for (MeEngineEvent* event : instance->events)
+      event->onRender(instance->renderer);
+    glfwSwapBuffers((GLFWwindow*)instance->window->window);
     glfwPollEvents();
-    current_frame++;
+    instance->currentFrame++;
   }
-  renderer->cleanup();
-  glfwDestroyWindow(window);
-  glfwTerminate();
-  return ME_FINE;
+  return ME_SUCCESS;
 }
 
-int me::engine_load_shaders(const std::string &shader_path)
+MeResult meLoadShaders(const char* filepath, MeShaderProgram* shaderProgram)
 {
-  return ME_FINE;
+
+  return ME_SUCCESS;
 }
 
-int me::engine_setup_renderer_api(const std::string &apiName, const std::string &shader_filepath)
+MeResult meRegisterEvent(MeInstance* instance, MeEngineEvent* event)
 {
-  if (apiName=="opengl") { } // who uses opengl? =P
-  else if (apiName=="vulkan")
-  {
-    renderer = new me::vulkan_api;
-  }
-  RENDERER_API_NAME = apiName;
-  program = new me::shader_program;
-  ME_LOGGER->out("Loading shaders ...\n");
-  if (me::glsl_reader::read_shader_file(shader_filepath.c_str(), program) != ME_FINE)
-    return ME_ERR;
-  ME_LOGGER->out("Initializing Renderer API ...\n");
-  if (renderer->initializeApi() != ME_FINE)
-    return ME_ERR;
-  me::device_info info = renderer->getDeviceInfo();
-  ME_LOGGER->out("<--- [Device Info] --->\n");
-  ME_LOGGER->out(std::string("Renderer API initialized [") + RENDERER_API_NAME + "]\n");
-  ME_LOGGER->out(std::string("-- Company: ") + info.company + "\n");
-  ME_LOGGER->out(std::string("-- Model: ") + info.model + "\n");
-  ME_LOGGER->out(std::string("-- Version: ") + info.version + "\n");
-  ME_LOGGER->out(std::string("-- GLSL Version: ") + info.sl_version + "\n");
-  return ME_FINE;
+  instance->events.push_back(event);
+  return ME_SUCCESS;
 }
 
-void* me::get_param(int param)
+void meStartRecord(MeCommandBuffer* commandBuffer)
 {
-  if (param == ME_INST_PROGRAM)
-    return program;
-  else if (param == ME_INST_RENDERER)
-    return renderer;
-  else if (param == ME_INST_CURRENT_FRAME)
-    return &current_frame;
-  else if (param == ME_INST_FULLSCREEN)
-    return &w_fullscreen;
-  else if (param == ME_INST_VSYNC)
-    return &w_vSync;
-  else if (param == ME_INST_WIN_X)
-    return nullptr; // TODO:
-  else if (param == ME_INST_WIN_Y)
-    return nullptr; // TODO:
-  else if (param == ME_INST_WIN_WIDTH)
-    return &w_width;
-  else if (param == ME_INST_WIN_HEIGHT)
-    return &w_height;
-  else if (param == ME_INST_WINDOW)
-    return window;
-  else if (param == ME_INST_WIN_TITLE)
-    return &w_title;
-  else if (param == ME_INST_FRAMEBUFFER_RESIZED)
-    return &framebuffer_resized;
-  return nullptr;
+  commandBuffer->recording = ME_TRUE;
 }
-int me::set_param(int param, void* value)
+void meStopRecord(MeCommandBuffer* commandBuffer)
+{
+  commandBuffer->recording = ME_FALSE;
+}
+
+/* commands */
+void meRenderFrame(MeCommandBuffer* commandBuffer)
+{
+  if (!commandBuffer->recording) return;
+  commandBuffer->commands.push_back(MeCommand(ME_RENDER_FRAME_FUNC));
+}
+void mePollEvents(MeCommandBuffer* commandBuffer)
+{
+  if (!commandBuffer->recording) return;
+  commandBuffer->commands.push_back(MeCommand(ME_POLL_EVENTS_FUNC));
+}
+void mePollWindowEvents(MeCommandBuffer* commandBuffer)
+{
+  if (!commandBuffer->recording) return;
+  commandBuffer->commands.push_back(MeCommand(ME_POLL_WINDOW_EVENTS_FUNC));
+}
+void meSwapBuffers(MeCommandBuffer* commandBuffer)
+{
+  if (!commandBuffer->recording) return;
+  commandBuffer->commands.push_back(MeCommand(ME_SWAP_BUFFERS_FUNC));
+}
+void meIdle(MeCommandBuffer* commandBuffer)
+{
+  if (!commandBuffer->recording) return;
+  commandBuffer->commands.push_back(MeCommand(ME_IDLE_FUNC));
+}
+void mePullFunction(MeCommandBuffer* commandBuffer, MeEventFunc* func)
 {
   // TODO:
-  if (param == ME_INST_FRAMEBUFFER_RESIZED)
-  {
-    framebuffer_resized = *((bool*)value);
-    return ME_FINE;
-  }
-  return ME_ERR;
+}
+
+/* cleanup */
+void meDestroyInstance(MeInstance* instance)
+{
+  for (MeEngineEvent* event : instance->events)
+    event->onDestroyed(instance);
+}
+void meDestroyWindow(MeWindow* window)
+{
+  window->destroy();
+  glfwTerminate();
+}
+void meDestroyRenderer(MeRenderer* renderer)
+{
+  renderer->cleanup();
 }

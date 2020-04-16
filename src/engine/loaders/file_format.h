@@ -1,9 +1,9 @@
 #ifndef FILE_FORMAT_H
   #define FILE_FORMAT_H
 
-#include "../kernel/kernel.h"
+#include "../MurderEngine.h"
 #include "../kernel/io/file_reader.h"
-#include "../scene/scene.h"
+#include "../scene/scene_content.h"
 #include <vector>
 
 namespace me {
@@ -40,8 +40,8 @@ namespace me {
 
     };
 
-    me::image* read_image(const std::string &filepath);
-    me::scene_packet* read_mesh(const std::string &filepath);
+    void read_image(MeInstance* instance, const std::string &filepath, me::image* image);
+    void read_mesh(MeInstance* instance, const std::string &filepath, me::scene_packet* packet);
 
     void init();
     void cleanup();

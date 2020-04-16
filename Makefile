@@ -167,32 +167,32 @@ src/Main.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/Main.cpp.s
 .PHONY : src/Main.cpp.s
 
-src/engine/EngineManager.o: src/engine/EngineManager.cpp.o
+src/engine/EngineInit.o: src/engine/EngineInit.cpp.o
 
-.PHONY : src/engine/EngineManager.o
+.PHONY : src/engine/EngineInit.o
 
 # target to build an object file
-src/engine/EngineManager.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.o
-.PHONY : src/engine/EngineManager.cpp.o
+src/engine/EngineInit.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/EngineInit.cpp.o
+.PHONY : src/engine/EngineInit.cpp.o
 
-src/engine/EngineManager.i: src/engine/EngineManager.cpp.i
+src/engine/EngineInit.i: src/engine/EngineInit.cpp.i
 
-.PHONY : src/engine/EngineManager.i
+.PHONY : src/engine/EngineInit.i
 
 # target to preprocess a source file
-src/engine/EngineManager.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.i
-.PHONY : src/engine/EngineManager.cpp.i
+src/engine/EngineInit.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/EngineInit.cpp.i
+.PHONY : src/engine/EngineInit.cpp.i
 
-src/engine/EngineManager.s: src/engine/EngineManager.cpp.s
+src/engine/EngineInit.s: src/engine/EngineInit.cpp.s
 
-.PHONY : src/engine/EngineManager.s
+.PHONY : src/engine/EngineInit.s
 
 # target to generate assembly for a file
-src/engine/EngineManager.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/EngineManager.cpp.s
-.PHONY : src/engine/EngineManager.cpp.s
+src/engine/EngineInit.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/EngineInit.cpp.s
+.PHONY : src/engine/EngineInit.cpp.s
 
 src/engine/MurderEngine.o: src/engine/MurderEngine.cpp.o
 
@@ -464,6 +464,33 @@ src/engine/loaders/modules/glsl/glsl_reader.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/glsl/glsl_reader.cpp.s
 .PHONY : src/engine/loaders/modules/glsl/glsl_reader.cpp.s
 
+src/engine/loaders/modules/jpeg/jpeg_reader.o: src/engine/loaders/modules/jpeg/jpeg_reader.cpp.o
+
+.PHONY : src/engine/loaders/modules/jpeg/jpeg_reader.o
+
+# target to build an object file
+src/engine/loaders/modules/jpeg/jpeg_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/jpeg/jpeg_reader.cpp.o
+.PHONY : src/engine/loaders/modules/jpeg/jpeg_reader.cpp.o
+
+src/engine/loaders/modules/jpeg/jpeg_reader.i: src/engine/loaders/modules/jpeg/jpeg_reader.cpp.i
+
+.PHONY : src/engine/loaders/modules/jpeg/jpeg_reader.i
+
+# target to preprocess a source file
+src/engine/loaders/modules/jpeg/jpeg_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/jpeg/jpeg_reader.cpp.i
+.PHONY : src/engine/loaders/modules/jpeg/jpeg_reader.cpp.i
+
+src/engine/loaders/modules/jpeg/jpeg_reader.s: src/engine/loaders/modules/jpeg/jpeg_reader.cpp.s
+
+.PHONY : src/engine/loaders/modules/jpeg/jpeg_reader.s
+
+# target to generate assembly for a file
+src/engine/loaders/modules/jpeg/jpeg_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loaders/modules/jpeg/jpeg_reader.cpp.s
+.PHONY : src/engine/loaders/modules/jpeg/jpeg_reader.cpp.s
+
 src/engine/loaders/modules/png/png_reader.o: src/engine/loaders/modules/png/png_reader.cpp.o
 
 .PHONY : src/engine/loaders/modules/png/png_reader.o
@@ -599,6 +626,33 @@ src/engine/math/vector4.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/math/vector4.cpp.s
 .PHONY : src/engine/math/vector4.cpp.s
 
+src/engine/opengl/opengl_api.o: src/engine/opengl/opengl_api.cpp.o
+
+.PHONY : src/engine/opengl/opengl_api.o
+
+# target to build an object file
+src/engine/opengl/opengl_api.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/opengl/opengl_api.cpp.o
+.PHONY : src/engine/opengl/opengl_api.cpp.o
+
+src/engine/opengl/opengl_api.i: src/engine/opengl/opengl_api.cpp.i
+
+.PHONY : src/engine/opengl/opengl_api.i
+
+# target to preprocess a source file
+src/engine/opengl/opengl_api.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/opengl/opengl_api.cpp.i
+.PHONY : src/engine/opengl/opengl_api.cpp.i
+
+src/engine/opengl/opengl_api.s: src/engine/opengl/opengl_api.cpp.s
+
+.PHONY : src/engine/opengl/opengl_api.s
+
+# target to generate assembly for a file
+src/engine/opengl/opengl_api.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/opengl/opengl_api.cpp.s
+.PHONY : src/engine/opengl/opengl_api.cpp.s
+
 src/engine/renderer/me_renderer.o: src/engine/renderer/me_renderer.cpp.o
 
 .PHONY : src/engine/renderer/me_renderer.o
@@ -706,33 +760,6 @@ src/engine/scene/scenes/scene_2d_viewport.s: src/engine/scene/scenes/scene_2d_vi
 src/engine/scene/scenes/scene_2d_viewport.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_2d_viewport.cpp.s
 .PHONY : src/engine/scene/scenes/scene_2d_viewport.cpp.s
-
-src/engine/scene/scenes/scene_outliner.o: src/engine/scene/scenes/scene_outliner.cpp.o
-
-.PHONY : src/engine/scene/scenes/scene_outliner.o
-
-# target to build an object file
-src/engine/scene/scenes/scene_outliner.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.o
-.PHONY : src/engine/scene/scenes/scene_outliner.cpp.o
-
-src/engine/scene/scenes/scene_outliner.i: src/engine/scene/scenes/scene_outliner.cpp.i
-
-.PHONY : src/engine/scene/scenes/scene_outliner.i
-
-# target to preprocess a source file
-src/engine/scene/scenes/scene_outliner.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.i
-.PHONY : src/engine/scene/scenes/scene_outliner.cpp.i
-
-src/engine/scene/scenes/scene_outliner.s: src/engine/scene/scenes/scene_outliner.cpp.s
-
-.PHONY : src/engine/scene/scenes/scene_outliner.s
-
-# target to generate assembly for a file
-src/engine/scene/scenes/scene_outliner.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/scene/scenes/scene_outliner.cpp.s
-.PHONY : src/engine/scene/scenes/scene_outliner.cpp.s
 
 src/engine/simulation/rigidbody/rigidbody.o: src/engine/simulation/rigidbody/rigidbody.cpp.o
 
@@ -881,9 +908,9 @@ help:
 	@echo "... src/Main.o"
 	@echo "... src/Main.i"
 	@echo "... src/Main.s"
-	@echo "... src/engine/EngineManager.o"
-	@echo "... src/engine/EngineManager.i"
-	@echo "... src/engine/EngineManager.s"
+	@echo "... src/engine/EngineInit.o"
+	@echo "... src/engine/EngineInit.i"
+	@echo "... src/engine/EngineInit.s"
 	@echo "... src/engine/MurderEngine.o"
 	@echo "... src/engine/MurderEngine.i"
 	@echo "... src/engine/MurderEngine.s"
@@ -914,6 +941,9 @@ help:
 	@echo "... src/engine/loaders/modules/glsl/glsl_reader.o"
 	@echo "... src/engine/loaders/modules/glsl/glsl_reader.i"
 	@echo "... src/engine/loaders/modules/glsl/glsl_reader.s"
+	@echo "... src/engine/loaders/modules/jpeg/jpeg_reader.o"
+	@echo "... src/engine/loaders/modules/jpeg/jpeg_reader.i"
+	@echo "... src/engine/loaders/modules/jpeg/jpeg_reader.s"
 	@echo "... src/engine/loaders/modules/png/png_reader.o"
 	@echo "... src/engine/loaders/modules/png/png_reader.i"
 	@echo "... src/engine/loaders/modules/png/png_reader.s"
@@ -929,6 +959,9 @@ help:
 	@echo "... src/engine/math/vector4.o"
 	@echo "... src/engine/math/vector4.i"
 	@echo "... src/engine/math/vector4.s"
+	@echo "... src/engine/opengl/opengl_api.o"
+	@echo "... src/engine/opengl/opengl_api.i"
+	@echo "... src/engine/opengl/opengl_api.s"
 	@echo "... src/engine/renderer/me_renderer.o"
 	@echo "... src/engine/renderer/me_renderer.i"
 	@echo "... src/engine/renderer/me_renderer.s"
@@ -941,9 +974,6 @@ help:
 	@echo "... src/engine/scene/scenes/scene_2d_viewport.o"
 	@echo "... src/engine/scene/scenes/scene_2d_viewport.i"
 	@echo "... src/engine/scene/scenes/scene_2d_viewport.s"
-	@echo "... src/engine/scene/scenes/scene_outliner.o"
-	@echo "... src/engine/scene/scenes/scene_outliner.i"
-	@echo "... src/engine/scene/scenes/scene_outliner.s"
 	@echo "... src/engine/simulation/rigidbody/rigidbody.o"
 	@echo "... src/engine/simulation/rigidbody/rigidbody.i"
 	@echo "... src/engine/simulation/rigidbody/rigidbody.s"
