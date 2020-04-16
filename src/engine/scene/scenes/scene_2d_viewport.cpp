@@ -23,7 +23,7 @@ void me::scene_2d_viewport::onInit(MeInstance* instance)
 
   /* reading scene data */
   me::scene_packet* packet = new me::scene_packet;
-  me::fformat::read_mesh(instance, "/home/edvinskomputa/Dokument/OnePunchEngine/src/res/mega test of doom.dae", packet);
+  me::format::read_mesh(instance, "/home/edvinskomputa/Dokument/OnePunchEngine/src/res/mega test of doom.dae", packet);
 
   /* setting up renderer */
   instance->renderer->setupMeshRenderer(instance);

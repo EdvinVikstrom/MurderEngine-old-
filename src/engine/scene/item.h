@@ -6,8 +6,6 @@
 #define ME_ITEM_TYPE_CAMERA        47
 #define ME_ITEM_TYPE_IMAGE         48
 
-#include "../simulation/simulation.h"
-
 namespace me {
 
   enum item_type {

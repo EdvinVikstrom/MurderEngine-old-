@@ -1,18 +1,21 @@
 #ifndef TEXTURE_H
   #define TEXTURE_H
 
-#define ME_TEX_FORMAT_RGB                  3
-#define ME_TEX_FORMAT_RGBA                 4
-#define ME_TEX_FORMAT_BINARY               1
-#define ME_TEX_FORMAT_GRAY                 1
-
 #include <atomic>
 #include <cstdint>
 #include "metadata.h"
 
 namespace me {
 
-  enum wcolor_type {
+  enum TextureFormat {
+    ME_TEX_FORMAT_RGB =                    3
+    ME_TEX_FORMAT_RGBA =                   4
+    ME_TEX_FORMAT_BINARY =                 1
+    ME_TEX_FORMAT_GRAY =                   1
+    ME_TEX_FORMAT_GRAY_ALPHA =             2
+  };
+
+  enum WColorType {
     ME_WCOLOR_MAP = 0,
     ME_WCOLOR_COLOR = 1,
     ME_WCOLOR_FLOAT = 2

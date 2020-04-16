@@ -4,7 +4,6 @@
 
 /* sandbox stuff */
 #include "engine/scene/scenes/scene_2d_viewport.h"
-#include "engine/loaders/modules/glsl/glsl_reader.h"
 
 MeInstance instance;
 MeWindow window;

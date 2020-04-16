@@ -1,33 +1,5 @@
 set(SOURCES ${SOURCES}
   ${SOURCE_DIR}/Main.cpp
-  ${SOURCE_DIR}/engine/MurderEngine.cpp
-  ${SOURCE_DIR}/engine/EngineInit.cpp
-  ${SOURCE_DIR}/engine/kernel/io/file_reader.cpp
-  ${SOURCE_DIR}/engine/kernel/array_utils.c
-  ${SOURCE_DIR}/engine/kernel/string.cpp
-  ${SOURCE_DIR}/engine/utilities/Logger.cpp
-  ${SOURCE_DIR}/engine/utilities/TimeUtils.cpp
-  ${SOURCE_DIR}/engine/utilities/properties.cpp
-  ${SOURCE_DIR}/engine/loaders/modules/collada/collada_reader.cpp
-  ${SOURCE_DIR}/engine/loaders/modules/bmp/bmp_reader.cpp
-  ${SOURCE_DIR}/engine/loaders/modules/png/png_reader.cpp
-  ${SOURCE_DIR}/engine/loaders/modules/jpeg/jpeg_reader.cpp
-  ${SOURCE_DIR}/engine/loaders/modules/glsl/glsl_reader.cpp
-  ${SOURCE_DIR}/engine/loaders/file_format.cpp
-  ${SOURCE_DIR}/engine/loaders/image_reader.cpp
-  ${SOURCE_DIR}/engine/loaders/mesh_reader.cpp
-  ${SOURCE_DIR}/engine/math/maths.cpp
-  ${SOURCE_DIR}/engine/math/vector2.cpp
-  ${SOURCE_DIR}/engine/math/vector3.cpp
-  ${SOURCE_DIR}/engine/math/vector4.cpp
-  ${SOURCE_DIR}/engine/scene/scene.cpp
-  ${SOURCE_DIR}/engine/scene/particle/particle.cpp
-  ${SOURCE_DIR}/engine/scene/scenes/scene_2d_viewport.cpp
-  ${SOURCE_DIR}/engine/vulkan/vulkan_api.cpp
-  ${SOURCE_DIR}/engine/opengl/opengl_api.cpp
-  ${SOURCE_DIR}/engine/renderer/me_renderer.cpp
-  ${SOURCE_DIR}/engine/simulation/rigidbody/rigidbody.cpp
 )
-set(HEADERS ${HEADERS}
-  ${SOURCE_DIR}/kernel/kernel.h
-)
+
+add_subdirectory(${SOURCE_DIR}/engine)

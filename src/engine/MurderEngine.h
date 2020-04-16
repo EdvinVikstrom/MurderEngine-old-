@@ -138,10 +138,11 @@ struct MeInstance {
   MeCommandBuffer* commandBuffer;
   std::vector<MeEngineEvent*> events;
 
-  /* scene stuff */
   std::vector<me::image*> images;
   std::vector<me::mesh*> meshes;
+  std::vector<me::material*> materials;
   std::vector<me::light*> lights;
+  std::vector<me::camera*> cameras;
 
   /* standard models */
   me::mesh* lightMesh;

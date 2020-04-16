@@ -4,5 +4,5 @@
 
 void meInitEverything()
 {
-  me::fformat::init();
+  me::format::init();
 }
