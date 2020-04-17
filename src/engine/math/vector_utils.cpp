@@ -1,6 +1,6 @@
 #include "vector_utils.h"
 
-bool me::utils::float_to_vec2_array(uint32_t size, float* array, std::vector<me::vec2> vectors, bool allocate)
+bool me::utils::float_to_vec2_array(uint32_t size, float* array, std::vector<me::vec2> &vectors, bool allocate)
 {
   if (size < 2) return false;
   if (allocate) vectors.reserve(size / 2);
@@ -8,7 +8,7 @@ bool me::utils::float_to_vec2_array(uint32_t size, float* array, std::vector<me:
     vectors.emplace_back(array[i], array[i+1]);
   return true;
 }
-bool me::utils::float_to_vec3_array(uint32_t size, float* array, std::vector<me::vec3> vectors, bool allocate)
+bool me::utils::float_to_vec3_array(uint32_t size, float* array, std::vector<me::vec3> &vectors, bool allocate)
 {
   if (size < 3) return false;
   if (allocate) vectors.reserve(size / 3);
@@ -16,7 +16,7 @@ bool me::utils::float_to_vec3_array(uint32_t size, float* array, std::vector<me:
     vectors.emplace_back(array[i], array[i+1], array[i+2]);
   return true;
 }
-bool me::utils::float_to_vec4_array(uint32_t size, float* array, std::vector<me::vec4> vectors, bool allocate)
+bool me::utils::float_to_vec4_array(uint32_t size, float* array, std::vector<me::vec4> &vectors, bool allocate)
 {
   if (size < 4) return false;
   if (allocate) vectors.reserve(size / 4);

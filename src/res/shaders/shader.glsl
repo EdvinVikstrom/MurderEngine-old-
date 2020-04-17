@@ -102,7 +102,7 @@ vec3 mixColor(vec3 color1, vec3 color2, float fac)
 void main()
 {
   vec4 finalDiffuseLight = vec4(0.0F, 0.0F, 0.0F, 1.0F);
-  vec4 finalSpecular = vec4(0.0F, 0.0F, 0.0F, 0.0F);
+  vec4 finalSpecular = vec4(0.0F, 0.0F, 0.0F, 1.0F);
 
   vec4 specularAmount = specularType == 0 ? texture(specularSampler, f_texCoord) : (specularType == 1 ? specularColor : vec4(0.0F));
 
@@ -119,7 +119,7 @@ void main()
 
     float lightPower = max(max(lamp.color.x, lamp.color.y), lamp.color.z);
 
-    float ldot = max(dot(f_normal, nLightDir), 0.0F);
+    float ldot = max(dot(f_normal, nLightDir), 0.05F);
     float dist = abs(distance(lamp.position, f_normal) * 4);
     vec3 diffuseResult = (lamp.color / lightPower) * ldot;
 
@@ -135,6 +135,6 @@ void main()
   if (diffuseType==0)
     outColor = (affLight ? finalDiffuseLight : vec4(1.0F)) * texture(diffuseSampler, f_texCoord);
   else if (diffuseType==1)
-    outColor = (affLight ? finalDiffuseLight : vec4(1.0F)) * diffuseColor + (affLight ? finalSpecular : vec4(0.0F));
+    outColor = (affLight ? finalDiffuseLight : vec4(1.0F)) * diffuseColor;
 }
 #end

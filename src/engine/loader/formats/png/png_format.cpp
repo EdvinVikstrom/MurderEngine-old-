@@ -73,7 +73,6 @@ int me::format::png_format::read_image(me::fileattr &file, me::image* image)
       index+=image->format;
     }
   }
-
   return ME_FINE;
 }
 

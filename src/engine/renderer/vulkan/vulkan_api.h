@@ -6,8 +6,8 @@
 
 /* vulkan */
 #define VK_USE_PLATFORM_XLIB_KHR
-#include "../../../external/vulkan/x86_64/include/vulkan/vulkan.hpp"
-#include "../../../external/vulkan/x86_64/include/vulkan/vulkan.h"
+#include "../../../external/vulkan/source/Vulkan-Headers/include/vulkan/vulkan.hpp"
+#include "../../../external/vulkan/source/Vulkan-Headers/include/vulkan/vulkan.h"
 
 /* GLFW */
 #define GLFW_EXPOSE_NATIVE_X11
