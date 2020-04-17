@@ -1,7 +1,7 @@
 #include "scene_2d_viewport.h"
-#include "../../loaders/mesh_reader.h"
-#include "../../loaders/image_reader.h"
-#include "../../loaders/file_format.h"
+#include "../../loader/mesh_format.h"
+#include "../../loader/image_format.h"
+#include "../../loader/file_format.h"
 
 #include <iostream> // remove
 

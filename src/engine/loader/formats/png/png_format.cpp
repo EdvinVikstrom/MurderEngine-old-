@@ -1,4 +1,4 @@
-#include "png_reader.h"
+#include "png_format.h"
 #include "../../../../external/libpng/png.h"
 
 int me::format::png_format::read_image(me::fileattr &file, me::image* image)

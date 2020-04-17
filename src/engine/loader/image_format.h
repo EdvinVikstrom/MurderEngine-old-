@@ -11,7 +11,7 @@ namespace me {
 
     public:
 
-      image_format() : file_format(me::format::FileType::IMAGE) { }
+      image_format() : file_format(me::format::FileType::FTYPE_IMAGE) { }
 
       virtual int read_image(me::fileattr &file, me::image* image) = 0;
       inline int read_file(me::fileattr &file, me::image* image)

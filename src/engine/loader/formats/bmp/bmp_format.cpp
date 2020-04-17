@@ -1,5 +1,4 @@
-#include "bmp_reader.h"
-#include "../../../kernel/common/byte_buffer.h"
+#include "bmp_format.h"
 
 int me::format::bmp_format::read_image(me::fileattr &file, me::image* image)
 {

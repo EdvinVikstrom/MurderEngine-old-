@@ -1,13 +1,6 @@
 #include "file_reader.h"
-#include "../../utilities/Logger.h"
+#include <iostream>
 #include <stdio.h>
-
-static me::log* FILE_LOGGER = new me::log("EngineManager",
-"\e[32m[%N] %T #%M \e[0m",
-"\e[32m[%N] %T\e[0m \e[33m#%M \e[0m",
-"\e[32m[%N] %T\e[0m \e[31m#%M \e[0m",
-"\e[34m[%N] %T #%M \e[0m"
-);
 
 static std::vector<me::filebuff*> buffers;
 static uint32_t MINI_BUFFER_SIZE = 24;
@@ -20,7 +13,7 @@ me::fileattr* me::read_file(const char* filepath)
   #endif
   if (file==nullptr)
   {
-    FILE_LOGGER->err(std::string("failed to read file \"") + filepath + std::string("\"\n"));
+    std::cerr << "failed to read file \"" << filepath << "\"\n";
     return nullptr;
   }
   fseek(file, 0, SEEK_END);

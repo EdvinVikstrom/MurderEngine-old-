@@ -6,8 +6,8 @@
 #include "../external/glfw/include/GLFW/glfw3.h"
 #include "../external/glfw/include/GLFW/glfw3native.h"
 
-#include "vulkan/vulkan_api.h"
-#include "opengl/opengl_api.h"
+#include "renderer/vulkan/vulkan_api.h"
+#include "renderer/opengl/opengl_api.h"
 
 static void error_callback(int error, const char* description)
 {

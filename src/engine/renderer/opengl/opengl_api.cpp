@@ -1,8 +1,7 @@
-#include "../MurderEngine.h"
 #include "opengl_api.h"
 
-#include "../kernel/log.h"
-#include "../loaders/image_reader.h"
+#include "../../kernel/log.h"
+#include "../../loader/image_format.h"
 
 #include <GL/glew.h>
 

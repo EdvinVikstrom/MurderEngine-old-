@@ -8,7 +8,7 @@ namespace me {
   namespace format {
 
     enum MeshFormat {
-      MESH_FORMAT_VNTC
+      MESH_FORMAT_VNTC,
       MESH_FORMAT_VERTEX
     };
 
@@ -16,7 +16,7 @@ namespace me {
 
     public:
 
-      mesh_format() : file_format(me::format::FileType::MESH) { }
+      mesh_format() : file_format(me::format::FileType::FTYPE_MESH) { }
 
       virtual int read_mesh(me::fileattr &file, scene_packet* scene) = 0;
       inline int read_file(me::fileattr &file, scene_packet* scene)

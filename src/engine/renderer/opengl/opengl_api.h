@@ -1,7 +1,7 @@
 #ifndef OPENGL_API_H
   #define OPENGL_API_H
 
-#include "../MurderEngine.h"
+#include "../../MurderEngine.h"
 
 namespace me {
 

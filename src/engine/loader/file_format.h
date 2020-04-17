@@ -20,7 +20,7 @@ namespace me {
 
       me::format::FileType type;
 
-      file_format(me::format::format_type type)
+      file_format(me::format::FileType type)
       {
         this->type = type;
       }

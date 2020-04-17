@@ -1,19 +1,19 @@
 #ifndef VULKAN_API_H
   #define VULKAN_API_H
 
-#include "../kernel/kernel.h"
+#include "../../MurderEngine.h"
+#include "../../kernel/kernel.h"
 
 /* vulkan */
 #define VK_USE_PLATFORM_XLIB_KHR
-#include "../../external/vulkan/x86_64/include/vulkan/vulkan.hpp"
-#include "../../external/vulkan/x86_64/include/vulkan/vulkan.h"
+#include "../../../external/vulkan/x86_64/include/vulkan/vulkan.hpp"
+#include "../../../external/vulkan/x86_64/include/vulkan/vulkan.h"
 
 /* GLFW */
 #define GLFW_EXPOSE_NATIVE_X11
-#include "../../external/glfw/include/GLFW/glfw3.h"
-#include "../../external/glfw/include/GLFW/glfw3native.h"
+#include "../../../external/glfw/include/GLFW/glfw3.h"
+#include "../../../external/glfw/include/GLFW/glfw3native.h"
 
-#include "../MurderEngine.h"
 
 #include <vector>
 #include <map>

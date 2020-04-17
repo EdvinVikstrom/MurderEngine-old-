@@ -16,8 +16,11 @@ set_target_properties(libpng PROPERTIES IMPORTED_LOCATION src/external/libpng/li
 link_directories(src/external/libpng)
 
 add_subdirectory(src)
+message(STATUS "sources: ${SRC}")
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+
 add_executable(MurderEngine ${SRC})
 
 set_property(TARGET MurderEngine PROPERTY CXX_STANDARD 17)

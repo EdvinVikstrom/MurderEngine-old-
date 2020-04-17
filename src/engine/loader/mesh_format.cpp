@@ -1,7 +1,4 @@
-#include <GL/glew.h>
-#include "mesh_reader.h"
-
-extern std::string RENDERER_API_NAME;
+#include "mesh_format.h"
 
 static void process(me::mesh* mesh, std::vector<me::vertex> &vertices)
 {
@@ -39,7 +36,7 @@ static bool find_vertex(std::vector<me::vertex> &vertices, me::vertex &vertex, u
 }
 
 // TODO: MeshFormat
-void me::format::formatMesh(me::mesh* mesh, MeshFormat format);
+void me::format::formatMesh(me::mesh* mesh, MeshFormat format)
 {
   std::vector<me::vertex> raw_vertices;
   process(mesh, raw_vertices);
