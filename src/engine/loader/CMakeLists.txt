@@ -1,4 +1,4 @@
-set(SOURCES
+set(SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/file_format.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/mesh_format.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/formats/bmp/bmp_format.cpp

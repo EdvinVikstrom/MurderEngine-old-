@@ -4,6 +4,7 @@
 
 /* sandbox stuff */
 #include "engine/scene/scenes/scene_2d_viewport.h"
+#include "engine/loader/formats/glsl/glsl_format.h"
 
 MeInstance instance;
 MeWindow window;
@@ -34,7 +35,7 @@ int main()
   meInitCommandBuffer(&instance, &commandBuffer);
   MeRendererInfo renderer_info = {};
   MeShaderProgram* shaderProgram = new MeShaderProgram;
-  me::glsl_reader::read_shader_file("src/res/shaders/shader.glsl", shaderProgram);
+  me::glsl_format::read_shader_file("src/res/shaders/shader.glsl", shaderProgram);
   renderer_info.api = ME_OPENGL;
   renderer_info.shaderProgram = shaderProgram;
   meInitRenderer(&instance, &renderer_info);

@@ -1,4 +1,4 @@
-set(SOURCES
+set(SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/MurderEngine.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/EngineInit.cpp
 )

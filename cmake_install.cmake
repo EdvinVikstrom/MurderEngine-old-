@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/edvinskomputa/Dokument/OnePunchEngine/src/engine/cmake_install.cmake")
+  include("/home/edvinskomputa/Dokument/OnePunchEngine/src/cmake_install.cmake")
 
 endif()
 

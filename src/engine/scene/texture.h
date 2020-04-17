@@ -8,10 +8,10 @@
 namespace me {
 
   enum TextureFormat {
-    ME_TEX_FORMAT_RGB =                    3
-    ME_TEX_FORMAT_RGBA =                   4
-    ME_TEX_FORMAT_BINARY =                 1
-    ME_TEX_FORMAT_GRAY =                   1
+    ME_TEX_FORMAT_RGB =                    3,
+    ME_TEX_FORMAT_RGBA =                   4,
+    ME_TEX_FORMAT_BINARY =                 1,
+    ME_TEX_FORMAT_GRAY =                   1,
     ME_TEX_FORMAT_GRAY_ALPHA =             2
   };
 
