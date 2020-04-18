@@ -1,3 +1,4 @@
+# CMake
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
@@ -9,5 +10,50 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+
+# Executable
+*.exe
+*.out
+*.app
+
+# Libraries
+*.lib
+
+# Compiled dynamic libraries
+*.so
+*.dll
+*.dylib
+
+# Compiled objects
+*.o
+*.obj
+
+# Visual Studio
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+mono_crash.*
+.vs/
+Generated\ Files/
+*.VisualState.xml
+TestResult.xml
+nuit-*.xml
+project.lock.json
+project.fragment.lock.json
+artifacts/
+ScaffoldingReadMe.txt
+StyleCopReport.xml
+.builds
+*.log
+*.vspscc
+*.vssscc
+*.scc
+
+# Others
+*.tmp
+*.temp
 MurderEngine
 ignoreme
