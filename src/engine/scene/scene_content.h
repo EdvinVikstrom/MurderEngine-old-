@@ -17,13 +17,13 @@
 
 namespace me {
 
-  struct scene_packet {
-    std::map<std::string, me::mesh*> meshes;
-    std::map<std::string, me::camera*> cameras;
-    std::map<std::string, me::light*> lights;
-    std::map<std::string, me::image*> images;
-    std::map<std::string, me::material*> materials;
-    std::vector<me::item*> items;
+  struct ScenePacket {
+    std::map<std::string, me::Mesh*> meshes;
+    std::map<std::string, me::Camera*> cameras;
+    std::map<std::string, me::Light*> lights;
+    std::map<std::string, me::Image*> images;
+    std::map<std::string, me::Material*> materials;
+    std::vector<me::Item*> items;
   };
 
 };

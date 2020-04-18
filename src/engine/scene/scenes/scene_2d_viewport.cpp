@@ -1,5 +1,5 @@
 #include "scene_2d_viewport.h"
-#include "../../loader/mesh_format.h"
+#include "../../loader/scene_format.h"
 #include "../../loader/image_format.h"
 #include "../../loader/file_format.h"
 
@@ -18,12 +18,12 @@ void me::scene_2d_viewport::onInit(MeInstance* instance)
   float aspect = (float)width/(float)height;
   me::vec3 position(0, 0, 0);
   me::vec3 rotation(0.0F, 0.0F, 0.0F);
-  scene::camera = new me::camera("camera", me::camera_type::PERSPECTIVE, me::maths::to_radians(70.0F), aspect, 0.1F, 100.0F, position, rotation);
+  scene::camera = new me::Camera("camera", me::CameraProjection::PROJ_PERSPECTIVE, me::maths::to_radians(70.0F), aspect, 0.1F, 100.0F, position, rotation);
   scene::onInit(instance);
 
   /* reading scene data */
-  me::scene_packet* packet = new me::scene_packet;
-  me::format::read_mesh(instance, "/home/edvinskomputa/Dokument/OnePunchEngine/src/res/mega test of doom.dae", packet);
+  me::ScenePacket* packet = new me::ScenePacket;
+  me::format::loadScene(instance, "/home/edvinskomputa/Dokument/OnePunchEngine/src/res/mega test of doom.dae", packet);
 
   /* setting up renderer */
   instance->renderer->setupMeshRenderer(instance);

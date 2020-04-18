@@ -82,11 +82,11 @@ int me::vulkan_api::setupImageRenderer(MeInstance* instance)
 {
   return ME_FINE;
 }
-int me::vulkan_api::loadMesh(me::mesh* mesh)
+int me::vulkan_api::loadMesh(me::Mesh* mesh)
 {
   return ME_FINE;
 }
-int me::vulkan_api::loadImage(me::image* image)
+int me::vulkan_api::loadImage(me::Image* image)
 {
   return ME_FINE;
 }

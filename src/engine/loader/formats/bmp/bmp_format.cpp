@@ -1,6 +1,6 @@
 #include "bmp_format.h"
 
-int me::format::bmp_format::read_image(me::fileattr &file, me::image* image)
+int me::format::bmp_format::read_image(me::fileattr &file, me::Image* image)
 {
   file.readFile();
   me::filebuff& buffer = *file.buffer;
@@ -22,38 +22,39 @@ int me::format::bmp_format::read_image(me::fileattr &file, me::image* image)
   header.info.colors_used = buffer._uint32();
   header.info.important_colors = buffer._uint32();
 
-  image->identifier = file.filepath;
-  image->width = header.info.width;
-  image->height = header.info.height;
-  uint32_t image_size = image->width * image->height * 3;
+  image->info.identifier = file.filepath;
+  image->bitmap->width = header.info.width;
+  image->bitmap->height = header.info.height;
 
   if (header.info.bits_per_pixel==bmp_color_type::MONOCHROME)
   {
-    image->format = ME_TEX_FORMAT_BINARY;
-    image->depth = 1;
+    // TODO: < 8 bit image
+    image->info.format = ME_IMG_FORMAT_BINARY;
+    image->bitmap->depth = 8;
   }else if (header.info.bits_per_pixel==bmp_color_type::BIT4)
   {
-    image->format = ME_TEX_FORMAT_GRAY;
-    image->depth = 4;
+    image->info.format = ME_IMG_FORMAT_GRAY;
+    image->bitmap->depth = 8;
   }else if (header.info.bits_per_pixel==bmp_color_type::BIT8)
   {
-    image->format = ME_TEX_FORMAT_GRAY;
-    image->depth = 8;
+    image->info.format = ME_IMG_FORMAT_GRAY;
+    image->bitmap->depth = 8;
   }else if (header.info.bits_per_pixel==bmp_color_type::RGB16)
   {
-    image->format = ME_TEX_FORMAT_RGB;
-    image->depth = 16;
+    image->info.format = ME_IMG_FORMAT_RGB;
+    image->bitmap->depth = 16;
   }else if (header.info.bits_per_pixel==bmp_color_type::RGB24)
   {
-    image->format = ME_TEX_FORMAT_RGB;
-    image->depth = 24;
+    image->info.format = ME_IMG_FORMAT_RGB;
+    image->bitmap->depth = 24;
   }
-  image->pixels = new unsigned char[image_size];
+  uint32_t image_size = image->bitmap->width * image->bitmap->height * me::byte_rate(image->info.format) * (image->bitmap->depth / 8);
+  image->bitmap->map = new unsigned char[image_size];
   for (unsigned int i = 0; i < image_size; i+=3)
   {
-    image->pixels[i + 2] = buffer.data[header.file.data_offset+i];
-    image->pixels[i + 1] = buffer.data[header.file.data_offset+i + 1];
-    image->pixels[i] = buffer.data[header.file.data_offset+i + 2];
+    image->bitmap->map[i + 2] = buffer.data[header.file.data_offset+i];
+    image->bitmap->map[i + 1] = buffer.data[header.file.data_offset+i + 1];
+    image->bitmap->map[i] = buffer.data[header.file.data_offset+i + 2];
   }
   return ME_FINE;
 }

@@ -1,6 +1,6 @@
-#include "mesh_format.h"
+#include "scene_format.h"
 
-static void process(me::mesh* mesh, std::vector<me::vertex> &vertices)
+static void process(me::Mesh* mesh, std::vector<me::vertex> &vertices)
 {
   mesh->vertices.reserve((mesh->indices.size() / mesh->offset) * sizeof(me::vertex));
   bool has_color = mesh->colors.size() != 0;
@@ -39,7 +39,7 @@ static bool find_vertex(std::vector<me::vertex> &vertices, me::vertex &vertex, u
 }
 
 // TODO: MeshFormat
-void me::format::formatMesh(me::mesh* mesh, MeshFormat format)
+void me::format::formatMesh(me::Mesh* mesh, MeshFormat format)
 {
   std::vector<me::vertex> raw_vertices;
   process(mesh, raw_vertices);

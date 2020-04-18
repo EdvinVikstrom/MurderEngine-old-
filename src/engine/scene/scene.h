@@ -13,7 +13,7 @@ namespace me {
     std::string identifier;
     int x, y;
     unsigned int width, height;
-    me::camera* camera;
+    me::Camera* camera;
 
   public:
 

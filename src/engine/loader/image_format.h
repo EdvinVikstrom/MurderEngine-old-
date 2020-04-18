@@ -13,9 +13,11 @@ namespace me {
 
       image_format() : file_format(me::format::FileType::FTYPE_IMAGE) { }
 
-      virtual int read_image(me::fileattr &file, me::image* image) = 0;
-      inline int read_file(me::fileattr &file, me::image* image)
+      virtual int read_image(me::fileattr &file, me::Image* image) = 0;
+      inline int read_file(me::fileattr &file, me::Image* image)
       {
+        if (image->bitmap == nullptr)
+          image->bitmap = new me::Bitmap;
         int result = read_image(file, image);
         if (result != ME_FINE)
           return result;

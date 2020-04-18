@@ -7,12 +7,12 @@
 
 namespace me {
 
-  enum TextureFormat {
-    ME_TEX_FORMAT_RGB =                    3,
-    ME_TEX_FORMAT_RGBA =                   4,
-    ME_TEX_FORMAT_BINARY =                 1,
-    ME_TEX_FORMAT_GRAY =                   1,
-    ME_TEX_FORMAT_GRAY_ALPHA =             2
+  enum ImageFormat {
+    ME_IMG_FORMAT_RGB =                    3,
+    ME_IMG_FORMAT_RGBA =                   4,
+    ME_IMG_FORMAT_BINARY =                 5,
+    ME_IMG_FORMAT_GRAY =                   6,
+    ME_IMG_FORMAT_GRAY_ALPHA =             7
   };
 
   enum WColorType {
@@ -21,70 +21,99 @@ namespace me {
     ME_WCOLOR_FLOAT = 2
   };
 
-  struct image {
+  struct Bitmap {
+    uint32_t width, height;
+    unsigned char depth;
+    unsigned char* map;
+  };
+
+  struct ImageInfo {
+    uint32_t glBindId;
     std::string source;
     std::string identifier;
     me::metadata* metadata;
-    unsigned int imageId;
-    unsigned int bindId;
-    unsigned int format;
-    unsigned int depth;
-    unsigned int width, height;
-    unsigned char* pixels;
+    ImageFormat format;
+  };
 
-    bool loaded = false;
+  struct Image {
 
-    image(std::string source, std::string identifier, me::metadata* metadata, unsigned int bindId, unsigned int format, unsigned int depth, unsigned int width, unsigned int height, unsigned char* pixels)
+    Bitmap* bitmap;
+    ImageInfo info;
+
+    Image(Bitmap* bitmap, ImageInfo info)
+    {
+      this->bitmap = bitmap;
+      this->info = info;
+    }
+
+    Image(std::string source)
+    {
+      info.source = source;
+    }
+
+    Image() { }
+
+    ~Image()
+    {
+    }
+
+  };
+
+  struct ImageSequence {
+
+    std::string source;
+    std::string identifier;
+
+    uint32_t frameCount;
+    uint32_t fps;
+    ImageFormat imageFormat;
+    std::vector<Bitmap*> frames;
+
+    ImageSequence(std::string source, std::string identifier)
     {
       this->source = source;
       this->identifier = identifier;
-      this->metadata = metadata;
-      this->bindId = bindId;
-      this->format = format;
-      this->depth = depth;
-      this->width = width;
-      this->height = height;
-      this->pixels = pixels;
     }
 
-    image(std::string source)
+    ImageSequence(std::string source, std::string identifier, uint32_t frameCount, uint32_t fps, ImageFormat format)
     {
       this->source = source;
+      this->identifier = identifier;
+      this->frameCount = frameCount;
+      this->fps = fps;
+      this->imageFormat = imageFormat;
     }
 
-    image() { }
+    ImageSequence() { }
 
-    ~image()
-    {
-      delete[] pixels;
-    }
+    ~ImageSequence() { }
+
+    bool hasNext();
+    Bitmap* nextFrame();
 
   };
 
   struct wcolor { // stands for wide-color. yes i know very stupid
 
-    int type = 0;
+    unsigned char type;
+    void* data;
 
-    me::image* image;
-    me::vec4 color;
-    float f;
-
-    wcolor(me::image* image)
+    wcolor(me::Image* image)
     {
-      type = 0;
-      this->image = image;
+      type = WColorType::ME_WCOLOR_MAP;
+      this->data = image;
     }
 
-    wcolor(me::vec4 color)
+    wcolor(me::vec4* color)
     {
-      type = 1;
-      this->color = color;
+      type = WColorType::ME_WCOLOR_COLOR;
+      this->data = color;
     }
 
-    wcolor(float f)
+    wcolor(float* f)
     {
-      type = 2;
-      this->f = f;
+      type = WColorType::ME_WCOLOR_FLOAT;
+      this->data = f;
     }
 
     wcolor()
@@ -96,6 +125,20 @@ namespace me {
     }
 
   };
+
+  /* helpers */
+  inline uint32_t byte_rate(ImageFormat format)
+  {
+    if (format == ME_IMG_FORMAT_RGB)
+      return 3;
+    else if (format == ME_IMG_FORMAT_RGBA)
+      return 4;
+    else if (format == ME_IMG_FORMAT_GRAY || format == ME_IMG_FORMAT_BINARY)
+      return 1;
+    else if (format == ME_IMG_FORMAT_GRAY_ALPHA)
+      return 2;
+    return 0;
+  }
 
 };
 

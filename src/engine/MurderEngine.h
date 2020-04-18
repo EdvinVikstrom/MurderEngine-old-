@@ -118,8 +118,8 @@ struct MeRenderer {
 
   virtual int setupMeshRenderer(MeInstance* instance) = 0;
   virtual int setupImageRenderer(MeInstance* instance) = 0;
-  virtual int loadMesh(me::mesh* mesh) = 0;
-  virtual int loadImage(me::image* image) = 0;
+  virtual int loadMesh(me::Mesh* mesh) = 0;
+  virtual int loadImage(me::Image* image) = 0;
 
   virtual int uniformMatrix4(int location, me::maths::mat4 matrix) = 0;
   virtual int uniformVec2(int location, me::vec2 vec) = 0;
@@ -138,39 +138,33 @@ struct MeInstance {
   MeCommandBuffer* commandBuffer;
   std::vector<MeEngineEvent*> events;
 
-  std::vector<me::image*> images;
-  std::vector<me::mesh*> meshes;
-  std::vector<me::material*> materials;
-  std::vector<me::light*> lights;
-  std::vector<me::camera*> cameras;
+  std::vector<me::Image*> images;
+  std::vector<me::Mesh*> meshes;
+  std::vector<me::Material*> materials;
+  std::vector<me::Light*> lights;
+  std::vector<me::Camera*> cameras;
 
   /* standard models */
-  me::mesh* lightMesh;
+  me::Mesh* lightMesh;
 
-  void loadImage(me::image* image)
+  void loadImage(me::Image* image)
   {
-    image->imageId = images.size();
     images.push_back(image);
-    image->loaded = true;
   }
 
-  void loadMesh(me::mesh* mesh)
+  void loadMesh(me::Mesh* mesh)
   {
-    mesh->meshId = meshes.size();
     meshes.push_back(mesh);
-    mesh->loaded = true;
   }
 
-  void loadLight(me::light* light)
+  void loadLight(me::Light* light)
   {
-    light->lightId = lights.size();
     lights.push_back(light);
-    light->loaded = true;
   }
 
   void loadStandardModels()
   {
-    lightMesh = new me::mesh;
+    lightMesh = new me::Mesh;
     lightMesh->vertices.push_back(me::vertex(
       {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F}, {-1.0F, -1.0F, -1.0F, -1.0F}
     ));

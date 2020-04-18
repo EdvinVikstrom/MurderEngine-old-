@@ -2,13 +2,13 @@
   #define COLLADA_READER_H
 
 #include "../../../../external/rapidxml.hpp"
-#include "../../mesh_format.h"
+#include "../../scene_format.h"
 
 namespace me {
 
   namespace format {
 
-    struct collada_format : public mesh_format {
+    struct collada_format : public scene_format {
 
       struct param {
         std::string sid;
@@ -45,12 +45,12 @@ namespace me {
       };
 
       struct packet {
-        me::scene_packet* scene;
+        me::ScenePacket* scene;
         std::map<std::string, effect*> effects;
       };
 
       int read_collada(me::fileattr &file, packet* packet);
-      int read_mesh(me::fileattr &file, me::scene_packet* scene) override
+      int read_scene(me::fileattr &file, me::ScenePacket* scene) override
       {
         return read_collada(file, new packet{scene});
       }

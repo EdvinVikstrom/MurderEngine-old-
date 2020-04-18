@@ -1,7 +1,7 @@
 set(SRC
   ${SRC}
   ${CMAKE_CURRENT_SOURCE_DIR}/file_format.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/mesh_format.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/scene_format.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/formats/glsl/glsl_format.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/formats/bmp/bmp_format.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/formats/png/png_format.cpp

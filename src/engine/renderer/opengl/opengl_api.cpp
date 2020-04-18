@@ -77,17 +77,17 @@ int me::opengl_api::initializeApi(MeInstance* instance)
 
 int me::opengl_api::setupMeshRenderer(MeInstance* instance)
 {
-  for (me::mesh* mesh : instance->meshes)
+  for (me::Mesh* mesh : instance->meshes)
     loadMesh(mesh);
   return ME_FINE;
 }
 int me::opengl_api::setupImageRenderer(MeInstance* instance)
 {
-  for (me::image* image : instance->images)
+  for (me::Image* image : instance->images)
     loadImage(image);
   return ME_FINE;
 }
-int me::opengl_api::loadMesh(me::mesh* mesh)
+int me::opengl_api::loadMesh(me::Mesh* mesh)
 {
   bool has_color = mesh->colors.size() != 0;
   glGenVertexArrays(1, &mesh->buffer);
@@ -131,11 +131,11 @@ int me::opengl_api::loadMesh(me::mesh* mesh)
   glBindVertexArray(0);
   return ME_FINE;
 }
-int me::opengl_api::loadImage(me::image* image)
+int me::opengl_api::loadImage(me::Image* image)
 {
   glEnable(GL_TEXTURE_2D);
-  glGenTextures(1, &image->bindId);
-  glBindTexture(GL_TEXTURE_2D, image->bindId);
+  glGenTextures(1, &image->info.glBindId);
+  glBindTexture(GL_TEXTURE_2D, image->info.glBindId);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -144,16 +144,16 @@ int me::opengl_api::loadImage(me::image* image)
 
   int internal_format = 0;
   int external_format = 0;
-  if (image->format == ME_TEX_FORMAT_RGB)
+  if (image->info.format == ME_IMG_FORMAT_RGB)
   {
     internal_format = GL_RGB8;
     external_format = GL_RGB;
-  }else if (image->format == ME_TEX_FORMAT_RGBA)
+  }else if (image->info.format == ME_IMG_FORMAT_RGBA)
   {
     internal_format = GL_RGBA8;
     external_format = GL_RGBA;
   }
-  glTexImage2D(GL_TEXTURE_2D, 0, internal_format, image->width, image->height, 0, external_format, GL_UNSIGNED_BYTE, image->pixels);
+  glTexImage2D(GL_TEXTURE_2D, 0, internal_format, image->bitmap->width, image->bitmap->height, 0, external_format, GL_UNSIGNED_BYTE, image->bitmap->map);
   glBindTexture(GL_TEXTURE_2D, 0);
   glDisable(GL_TEXTURE_2D);
   return ME_FINE;
@@ -195,20 +195,21 @@ static void bindWColor(me::wcolor* color, int location, int slot)
   if (color->type==0)
   {
     glUniform1i(location, 0);
-    bindTextureSampler(color->image->bindId, slot);
+    bindTextureSampler(((me::Image*)color->data)->info.glBindId, slot);
     glUniform1i(location + 1, slot);
   }
   else if (color->type==1)
   {
+    me::vec4* vec = (me::vec4*) color->data;
     glUniform1i(location, 1);
-    glUniform4f(location + 2, color->color.x, color->color.y, color->color.z, color->color.w);
+    glUniform4f(location + 2, vec->x, vec->y, vec->z, vec->w);
   }else if (color->type==2)
   {
     glUniform1i(location, 1);
-    glUniform1f(location + 2, color->f);
+    glUniform1f(location + 2, *((float*)color->data));
   }
 }
-static void bindMaterial(me::material* material)
+static void bindMaterial(me::Material* material)
 {
   me::wcolor* diffuse = material->diffuse;
   me::wcolor* specular = material->specular;
@@ -226,7 +227,7 @@ static void bindMaterial(me::material* material)
   glDisable(GL_TEXTURE_2D);
 }
 
-static void renderMesh(me::mesh* mesh, me::material* material, me::Polygon mode)
+static void renderMesh(me::Mesh* mesh, me::Material* material, me::Polygon mode)
 {
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
@@ -248,7 +249,7 @@ int me::opengl_api::renderFrame(MeInstance* instance, unsigned long current_fram
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
   uint32_t index = 0;
-  for (me::light* light : instance->lights)
+  for (me::Light* light : instance->lights)
   {
     float x = light->model_matrix.x();
     float y = light->model_matrix.y();
@@ -282,9 +283,9 @@ int me::opengl_api::renderFrame(MeInstance* instance, unsigned long current_fram
     glUniform3f(18+i, 0.0F, 0.0F, 0.0F);
     glUniform3f(19+i, -1.0F, -1.0F, -1.0F);
   }
-  for (me::mesh* mesh : instance->meshes)
+  for (me::Mesh* mesh : instance->meshes)
   {
-    me::material* material = mesh->materials.at(0);
+    me::Material* material = mesh->materials.at(0);
     glUniformMatrix4fv(2, 1, GL_FALSE, mesh->model_matrix.array);
 
     glBindVertexArray(mesh->buffer);

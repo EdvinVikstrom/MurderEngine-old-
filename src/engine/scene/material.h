@@ -3,12 +3,12 @@
 
 namespace me {
 
-  struct material {
+  struct Material {
 
     std::string identifier;
     me::wcolor *diffuse, *specular, *emission, *gloss, *ior;
 
-    material(std::string identifier, me::wcolor* diffuse, me::wcolor* specular, me::wcolor* emission, me::wcolor* gloss, me::wcolor* ior)
+    Material(std::string identifier, me::wcolor* diffuse, me::wcolor* specular, me::wcolor* emission, me::wcolor* gloss, me::wcolor* ior)
     {
       this->identifier = identifier;
       this->diffuse = diffuse;
@@ -18,15 +18,15 @@ namespace me {
       this->ior = ior;
     }
 
-    material()
+    Material()
     {
-      diffuse = new me::wcolor(vec4(1.0F, 1.0F, 1.0F, 1.0F));
-      specular = new me::wcolor(0.5F);
-      emission = new me::wcolor(vec4(0.0F, 0.0F, 0.0F, 1.0F));
-      ior = new me::wcolor(1.45F);
+      diffuse = new me::wcolor(new vec4(1.0F, 1.0F, 1.0F, 1.0F));
+      specular = new me::wcolor(new float(0.5F));
+      emission = new me::wcolor(new vec4(0.0F, 0.0F, 0.0F, 1.0F));
+      ior = new me::wcolor(new float(1.45F));
     }
 
-    ~material()
+    ~Material()
     {
       /*
       delete rgba;

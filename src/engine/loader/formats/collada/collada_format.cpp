@@ -45,7 +45,7 @@ static me::wcolor* process_node_value(rapidxml::xml_node<>* node, me::format::co
   {
     std::string color_str = value_node->value();
     char** args = me::splitf_str((char*)color_str.c_str(), color_str.size(), 4, ' ');
-    me::vec4 vec(std::stof(args[0]), std::stof(args[1]), std::stof(args[2]), std::stof(args[3]));
+    me::vec4* vec = new me::vec4(std::stof(args[0]), std::stof(args[1]), std::stof(args[2]), std::stof(args[3]));
     return new me::wcolor(vec);
   }else if (node_name == "texture")
   {
@@ -53,7 +53,7 @@ static me::wcolor* process_node_value(rapidxml::xml_node<>* node, me::format::co
     std::string tex_path = get_texture_path(texture, effect->params);
     return new me::wcolor(packet->scene->images[tex_path]);
   }else if (node_name == "float")
-    return new me::wcolor(std::stof(value_node->value()));
+    return new me::wcolor(new float(std::stof(value_node->value())));
   return nullptr;
 }
 
@@ -71,31 +71,41 @@ static bool parse_camera_node(me::fileattr &file, rapidxml::xml_node<>* camera_n
 
   if (perspective_node != nullptr)
   {
+    /* common camera info */
     float fov = std::stof(perspective_node->first_node("xfov")->value());
     float aspect_ratio = std::stof(perspective_node->first_node("aspect_ratio")->value());
     double znear = std::stod(perspective_node->first_node("znear")->value());
     double zfar = std::stod(perspective_node->first_node("zfar")->value());
-    me::camera* camera = new me::camera;
+
+    /* creating Camera object */
+    me::Camera* camera = new me::Camera;
     camera->identifier = identifier;
-    camera->type = me::camera_type::ORTHOGRAPHIC;
+    camera->projection = me::CameraProjection::PROJ_PERSPECTIVE;
     camera->focalLength = fov;
     camera->aspectRatio = aspect_ratio;
     camera->znear = znear;
     camera->zfar = zfar;
+
+    /* adding camera to "ScenePacket" */
     packet->scene->cameras[identifier] = camera;
   }else if (orthographic_node != nullptr)
   {
+    /* more common camera info */
     float xmag = std::stof(orthographic_node->first_node("xmag")->value());
     float aspect_ratio = std::stof(orthographic_node->first_node("aspect_ratio")->value());
     double znear = std::stod(orthographic_node->first_node("znear")->value());
     double zfar = std::stod(orthographic_node->first_node("zfar")->value());
-    me::camera* camera = new me::camera;
+
+    /* creating the orthographic Camera object */
+    me::Camera* camera = new me::Camera;
     camera->identifier = identifier;
-    camera->type = me::camera_type::ORTHOGRAPHIC;
+    camera->projection = me::CameraProjection::PROJ_ORTHOGRAPHIC;
     camera->focalLength = xmag;
     camera->aspectRatio = aspect_ratio;
     camera->znear = znear;
     camera->zfar = zfar;
+
+    /* adding the camera to "ScenePacket" */
     packet->scene->cameras[identifier] = camera;
   }
   return true;
@@ -109,24 +119,32 @@ static bool parse_light_node(me::fileattr &file, rapidxml::xml_node<>* light_nod
   if (technique_common_node == nullptr)
     return false;
 
-  me::light* light = new me::light;
+  /* create Light object */
+  me::Light* light = new me::Light;
   light->identifier = identifier;
 
   rapidxml::xml_node<>* point_node = technique_common_node->first_node("point");
   if (point_node != nullptr)
   {
+    /* setting up "point" light */
+
     std::string color_str = point_node->first_node("color")->value();
     char** color_str_args = me::splitf_str((char*)color_str.c_str(), color_str.size(), 3, ' ');
+
+    /* light color */
     double red = std::stod(color_str_args[0]);
     double green = std::stod(color_str_args[1]);
     double blue = std::stod(color_str_args[2]);
     double power = me::maths::max(me::maths::max(red, green), blue);
     light->rgba = me::vec3(red, green, blue);
+
     light->power = power;
+
     float constant_attenuation = std::stof(point_node->first_node("constant_attenuation")->value());
     float linear_attenuation = std::stof(point_node->first_node("linear_attenuation")->value());
     float quadratic_attenuation = std::stof(point_node->first_node("quadratic_attenuation")->value());
   }
+  /* and don't forget to add the Light to the scene:) */
   packet->scene->lights[identifier] = light;
   return true;
 }
@@ -139,10 +157,13 @@ static bool parse_effect_node(me::fileattr &file, rapidxml::xml_node<>* effect_n
   if (profile_common_node == nullptr)
     return false;
 
+  /* creating the classic Collada effect */
   me::format::collada_format::effect* effect = new me::format::collada_format::effect;
   effect->identifier = identifier;
 
   rapidxml::xml_node<>* newparam_node = profile_common_node->first_node("newparam");
+
+  /* setting up all the params */
   while(newparam_node != nullptr)
   {
     std::string sid = newparam_node->first_attribute("sid")->value();
@@ -154,6 +175,8 @@ static bool parse_effect_node(me::fileattr &file, rapidxml::xml_node<>* effect_n
   }
 
   rapidxml::xml_node<>* technique_node = profile_common_node->first_node("technique");
+
+  /* shader, material info */
   if (technique_node != nullptr)
   {
     rapidxml::xml_node<>* phong_node = technique_node->first_node("phong");
@@ -191,6 +214,7 @@ static bool parse_effect_node(me::fileattr &file, rapidxml::xml_node<>* effect_n
       if (ior_node != nullptr) effect->ior = process_node_value(ior_node, effect, packet);
     }
   }
+  /* oh i almost forgot! add the effect to the scene (NOTE: this is not "ScenePacket") */
   packet->effects[identifier] = effect;
   return true;
 }
@@ -201,10 +225,17 @@ static bool parse_image_node(me::fileattr &file, rapidxml::xml_node<>* image_nod
   rapidxml::xml_node<>* init_from_node = image_node->first_node("init_from");
   if (init_from_node != nullptr)
   {
+    /* image file path */
     std::string path = init_from_node->value();
+
+    /* is absolute path? */
     bool abs_path = me::is_abs_path(path);
+
+    /* fixing the "filepath" */
     std::string filepath = abs_path ? path : (me::to_folder_path(file.filepath) + "/" + path);
-    packet->scene->images[identifier] = new me::image(filepath);
+
+    /* and maybe add it to the scene */
+    packet->scene->images[identifier] = new me::Image(filepath);
   }
   return true;
 }
@@ -212,17 +243,24 @@ static bool parse_image_node(me::fileattr &file, rapidxml::xml_node<>* image_nod
 static bool parse_material_node(me::fileattr &file, rapidxml::xml_node<>* material_node, me::format::collada_format::packet* packet)
 {
   std::string identifier = material_node->first_attribute("id")->value();
-  me::material* material = new me::material;
+
+  /* creating Material object */
+  me::Material* material = new me::Material;
   material->identifier = identifier;
+
   rapidxml::xml_node<>* instance_effect_node = material_node->first_node("instance_effect");
   if (instance_effect_node != nullptr)
   {
+    /* the "Collada effect" id/url */
     std::string url = instance_effect_node->first_attribute("url")->value();
+    /* removing the "#" */
     url = url.substr(1);
+
     me::format::collada_format::effect* effect = packet->effects[url];
     material->diffuse = effect->diffuse;
     // TODO:
   }
+  /* hmm maybe we should add it to the scene */
   packet->scene->materials[identifier] = material;
   return true;
 }
@@ -232,10 +270,13 @@ static bool parse_geometry_node(me::fileattr &file, rapidxml::xml_node<>* geomet
   std::string identifier = geometry_node->first_attribute("id")->value();
   rapidxml::xml_node<>* mesh_node = geometry_node->first_node("mesh");
   rapidxml::xml_node<>* source_node = mesh_node->first_node("source");
-  me::mesh* mesh = new me::mesh;
+
+  /* creating Mesh object */
+  me::Mesh* mesh = new me::Mesh;
   mesh->identifier = identifier;
 
   std::map<std::string, std::vector<float>> float_arrays;
+  /* going through all float arrays */
   while(source_node != nullptr)
   {
     rapidxml::xml_node<>* float_array_node = source_node->first_node("float_array");
@@ -250,8 +291,11 @@ static bool parse_geometry_node(me::fileattr &file, rapidxml::xml_node<>* geomet
 
     std::vector<float> float_array;
     std::string array_identifier = source_node->first_attribute("id")->value();
+
+    /* allocate enough memory */
     float_array.reserve(array_size);
 
+    /* converting the string to float and adding to "float_array" */
     for (uint32_t i = 0; i < array_size; i++)
       float_array.emplace_back(std::stof(splitted_array[i]));
     rapidxml::xml_node<>* accessor_node = technique_common_node->first_node("accessor");
@@ -334,7 +378,7 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
       std::string url = instance_geometry_node->first_attribute("url")->value();
       url = url.substr(1);
 
-      me::mesh* mesh = packet->scene->meshes[url];
+      me::Mesh* mesh = packet->scene->meshes[url];
       mesh->identifier = identifier;
       mesh->model_matrix = transform_matrix;
 
@@ -343,7 +387,7 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
       std::string url = instance_camera_node->first_attribute("url")->value();
       url = url.substr(1);
 
-      me::camera* camera = packet->scene->cameras[url];
+      me::Camera* camera = packet->scene->cameras[url];
       camera->identifier = identifier;
       camera->view_matrix = transform_matrix;
 
@@ -352,7 +396,7 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
       std::string url = instance_light_node->first_attribute("url")->value();
       url = url.substr(1);
 
-      me::light* light = packet->scene->lights[url];
+      me::Light* light = packet->scene->lights[url];
       light->identifier = identifier;
       light->model_matrix = transform_matrix;
 

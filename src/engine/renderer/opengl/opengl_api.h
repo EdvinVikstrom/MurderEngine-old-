@@ -13,8 +13,8 @@ namespace me {
 
     int setupMeshRenderer(MeInstance* instance);
     int setupImageRenderer(MeInstance* instance);
-    int loadMesh(me::mesh* mesh);
-    int loadImage(me::image* image);
+    int loadMesh(me::Mesh* mesh);
+    int loadImage(me::Image* image);
 
     int uniformMatrix4(int location, me::maths::mat4 matrix);
     int uniformVec2(int location, me::vec2 vec);

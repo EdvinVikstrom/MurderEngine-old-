@@ -34,10 +34,9 @@ namespace me {
     }
   };
 
-  struct mesh {
+  struct Mesh {
 
     std::string identifier;
-    unsigned int meshId;
     unsigned int buffer;
 
     Polygon mode;
@@ -50,19 +49,17 @@ namespace me {
     std::vector<me::vertex> vertices;
     std::vector<uint32_t> indices;
 
-    std::vector<me::material*> materials;
+    std::vector<me::Material*> materials;
     me::maths::mat4 model_matrix;
     /*                     | offset 4 -->  0 1 2 3  | 4 5 6 7  | 8 9 ...   */
     /* indices offset | example: indices { v,n,t,c, | v,n,t,c, | v,n,... } */
     unsigned int offset = 0;
 
-    bool loaded = false;
-
-    mesh()
+    Mesh()
     {
     }
 
-    ~mesh()
+    ~Mesh()
     {
     }
 

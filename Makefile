@@ -410,32 +410,32 @@ src/engine/loader/formats/png/png_format.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/formats/png/png_format.cpp.s
 .PHONY : src/engine/loader/formats/png/png_format.cpp.s
 
-src/engine/loader/mesh_format.o: src/engine/loader/mesh_format.cpp.o
+src/engine/loader/scene_format.o: src/engine/loader/scene_format.cpp.o
 
-.PHONY : src/engine/loader/mesh_format.o
+.PHONY : src/engine/loader/scene_format.o
 
 # target to build an object file
-src/engine/loader/mesh_format.cpp.o:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/mesh_format.cpp.o
-.PHONY : src/engine/loader/mesh_format.cpp.o
+src/engine/loader/scene_format.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/scene_format.cpp.o
+.PHONY : src/engine/loader/scene_format.cpp.o
 
-src/engine/loader/mesh_format.i: src/engine/loader/mesh_format.cpp.i
+src/engine/loader/scene_format.i: src/engine/loader/scene_format.cpp.i
 
-.PHONY : src/engine/loader/mesh_format.i
+.PHONY : src/engine/loader/scene_format.i
 
 # target to preprocess a source file
-src/engine/loader/mesh_format.cpp.i:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/mesh_format.cpp.i
-.PHONY : src/engine/loader/mesh_format.cpp.i
+src/engine/loader/scene_format.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/scene_format.cpp.i
+.PHONY : src/engine/loader/scene_format.cpp.i
 
-src/engine/loader/mesh_format.s: src/engine/loader/mesh_format.cpp.s
+src/engine/loader/scene_format.s: src/engine/loader/scene_format.cpp.s
 
-.PHONY : src/engine/loader/mesh_format.s
+.PHONY : src/engine/loader/scene_format.s
 
 # target to generate assembly for a file
-src/engine/loader/mesh_format.cpp.s:
-	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/mesh_format.cpp.s
-.PHONY : src/engine/loader/mesh_format.cpp.s
+src/engine/loader/scene_format.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/scene_format.cpp.s
+.PHONY : src/engine/loader/scene_format.cpp.s
 
 src/engine/math/maths.o: src/engine/math/maths.cpp.o
 
@@ -746,9 +746,9 @@ help:
 	@echo "... src/engine/loader/formats/png/png_format.o"
 	@echo "... src/engine/loader/formats/png/png_format.i"
 	@echo "... src/engine/loader/formats/png/png_format.s"
-	@echo "... src/engine/loader/mesh_format.o"
-	@echo "... src/engine/loader/mesh_format.i"
-	@echo "... src/engine/loader/mesh_format.s"
+	@echo "... src/engine/loader/scene_format.o"
+	@echo "... src/engine/loader/scene_format.i"
+	@echo "... src/engine/loader/scene_format.s"
 	@echo "... src/engine/math/maths.o"
 	@echo "... src/engine/math/maths.i"
 	@echo "... src/engine/math/maths.s"

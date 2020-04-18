@@ -12,8 +12,8 @@ namespace me {
 
     enum FileType {
       FTYPE_IMAGE = 0,
-      FTYPE_MESH = 0,
-      FTYPE_AUDIO = 0
+      FTYPE_SCENE = 1,
+      FTYPE_AUDIO = 2
     };
 
     struct file_format {
@@ -30,8 +30,8 @@ namespace me {
 
     };
 
-    void read_image(MeInstance* instance, const std::string &filepath, me::image* image);
-    void read_mesh(MeInstance* instance, const std::string &filepath, me::scene_packet* packet);
+    void loadImage(MeInstance* instance, const std::string &filepath, me::Image* image);
+    void loadScene(MeInstance* instance, const std::string &filepath, me::ScenePacket* packet);
 
     void init();
     void cleanup();

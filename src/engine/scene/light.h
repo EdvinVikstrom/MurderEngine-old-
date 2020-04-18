@@ -3,19 +3,16 @@
 
 namespace me {
 
-  struct light {
+  struct Light {
 
     std::string identifier;
-    uint32_t lightId;
 
     double power;
     double size;
     me::vec3 rgba;
     me::maths::mat4 model_matrix;
 
-    bool loaded = false;
-
-    light(std::string identifier, double power, double size, me::vec3 rgba, me::maths::mat4 model_matrix)
+    Light(std::string identifier, double power, double size, me::vec3 rgba, me::maths::mat4 model_matrix)
     {
       this->identifier = identifier;
       this->power = power;
@@ -24,9 +21,9 @@ namespace me {
       this->model_matrix = model_matrix;
     }
 
-    light() { }
+    Light() { }
 
-    ~light()
+    ~Light()
     {
       //delete rgba;
     }
