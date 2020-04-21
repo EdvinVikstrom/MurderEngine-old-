@@ -1,5 +1,5 @@
 # this project
-external/*
+src/external/*
 
 # CMake
 CMakeLists.txt.user
