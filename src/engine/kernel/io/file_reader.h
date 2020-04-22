@@ -19,7 +19,6 @@ namespace me {
 
     filebuff()
     {
-      data = nullptr;
       length = 0;
       pos = 0;
     }
@@ -152,6 +151,8 @@ namespace me {
       #ifdef ME_DEBUG
         printf("file buffer flushed / length: %ld\n", length);
       #endif
+      length = 0;
+      pos = 0;
     }
 
   };
@@ -168,6 +169,7 @@ namespace me {
     file_access access;
     long created, modified;
     FILE* file;
+
     me::filebuff* buffer;
 
     fileattr(const char* filepath, file_access access, long created, long modified, FILE* file, me::filebuff* buffer)
@@ -182,6 +184,8 @@ namespace me {
 
     ~fileattr()
     {
+      delete file;
+      delete buffer;
     }
 
     void readFile();
@@ -189,7 +193,7 @@ namespace me {
 
   };
 
-  me::fileattr* read_file(const char* filepath);
+  me::fileattr* load_file(const char* filepath);
   void write_file(const char* filepath, unsigned char* data, uint64_t off, uint64_t len);
   int cleanup_buffers();
 

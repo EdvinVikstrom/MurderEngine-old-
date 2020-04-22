@@ -1,0 +1,25 @@
+{
+  "stuff": {
+    "boolean": true,
+    "string": "hej hej",
+    "number" 17,
+    "more stuff": {
+      "pig": "meow",
+      "array": [
+        "index 1": "cat",
+        "index 2": "dog",
+        "index 3": "witch",
+        "index 4": "iron man"
+      ],
+      "game": "a game",
+      "one more array": [
+        "83": 83,
+        "fisk": "ugly"
+      ]
+    },
+    "less stuff": {
+      "bye": 85
+    }
+  },
+  "value": "greta"
+}

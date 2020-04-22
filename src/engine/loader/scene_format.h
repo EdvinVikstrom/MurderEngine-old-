@@ -7,26 +7,30 @@ namespace me {
 
   namespace format {
 
+    enum SceneFileFormat {
+      SFF_COLLADA,
+      SFF_WAVEFRONT,
+      SFF_STANFORD,
+      SFF_STL,
+      SFF_FBX,
+      SFF_USD
+    };
+
     enum MeshFormat {
       MESH_FORMAT_VNTC,
       MESH_FORMAT_VERTEX
     };
 
-    struct scene_format : public file_format {
+    struct scene_format : file_format {
 
-    public:
+      SceneFileFormat format;
 
-      scene_format() : file_format(me::format::FileType::FTYPE_SCENE) { }
-
-      virtual int read_scene(me::fileattr &file, ScenePacket* scene) = 0;
-      inline int read_file(me::fileattr &file, ScenePacket* scene)
+      scene_format(SceneFileFormat format) : file_format(me::format::FileType::FTYPE_SCENE)
       {
-        int result = read_scene(file, scene);
-        if (result != ME_FINE)
-          return result;
-        return ME_FINE;
+        this->format = format;
       }
 
+      virtual int load_scene(me::fileattr &file, ScenePacket* scene) = 0;
       virtual bool recognized(me::fileattr &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 

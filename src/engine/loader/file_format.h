@@ -11,9 +11,10 @@ namespace me {
   namespace format {
 
     enum FileType {
-      FTYPE_IMAGE = 0,
-      FTYPE_SCENE = 1,
-      FTYPE_AUDIO = 2
+      FTYPE_INSTANCE = 0,
+      FTYPE_IMAGE = 1,
+      FTYPE_SCENE = 2,
+      FTYPE_AUDIO = 3
     };
 
     struct file_format {
@@ -30,6 +31,7 @@ namespace me {
 
     };
 
+    void loadInstance(MeInstance* instance, const std::string &filepath, std::vector<int> flags);
     void loadImage(MeInstance* instance, const std::string &filepath, me::Image* image);
     void loadScene(MeInstance* instance, const std::string &filepath, me::ScenePacket* packet);
 

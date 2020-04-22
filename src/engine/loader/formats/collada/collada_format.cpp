@@ -30,14 +30,14 @@ static int get_wcolor_location(const std::string &string)
   return -1;
 }
 
-static std::string get_texture_path(std::string &url, std::map<std::string, me::format::collada_format::param> &params)
+static std::string get_texture_path(std::string &url, std::map<std::string, me::format::collada_param> &params)
 {
   if (params[url].path == "source")
     return get_texture_path(params[url].value, params);
   return params[url].value;
 }
 
-static me::wcolor* process_node_value(rapidxml::xml_node<>* node, me::format::collada_format::effect* effect, me::format::collada_format::packet* packet)
+static me::wcolor* process_node_value(rapidxml::xml_node<>* node, me::format::collada_effect* effect, me::ScenePacket* packet)
 {
   rapidxml::xml_node<>* value_node = node->first_node();
   std::string node_name = value_node->name();
@@ -51,13 +51,13 @@ static me::wcolor* process_node_value(rapidxml::xml_node<>* node, me::format::co
   {
     std::string texture = value_node->first_attribute("texture")->value();
     std::string tex_path = get_texture_path(texture, effect->params);
-    return new me::wcolor(packet->scene->images[tex_path]);
+    return new me::wcolor(packet->images[tex_path]);
   }else if (node_name == "float")
     return new me::wcolor(new float(std::stof(value_node->value())));
   return nullptr;
 }
 
-static bool parse_camera_node(me::fileattr &file, rapidxml::xml_node<>* camera_node, me::format::collada_format::packet* packet)
+static bool parse_camera_node(me::fileattr &file, rapidxml::xml_node<>* camera_node, me::ScenePacket* packet)
 {
   std::string identifier = camera_node->first_attribute("id")->value();
   rapidxml::xml_node<>* optics_node = camera_node->first_node("optics");
@@ -87,7 +87,7 @@ static bool parse_camera_node(me::fileattr &file, rapidxml::xml_node<>* camera_n
     camera->zfar = zfar;
 
     /* adding camera to "ScenePacket" */
-    packet->scene->cameras[identifier] = camera;
+    packet->cameras[identifier] = camera;
   }else if (orthographic_node != nullptr)
   {
     /* more common camera info */
@@ -106,12 +106,12 @@ static bool parse_camera_node(me::fileattr &file, rapidxml::xml_node<>* camera_n
     camera->zfar = zfar;
 
     /* adding the camera to "ScenePacket" */
-    packet->scene->cameras[identifier] = camera;
+    packet->cameras[identifier] = camera;
   }
   return true;
 }
 
-static bool parse_light_node(me::fileattr &file, rapidxml::xml_node<>* light_node, me::format::collada_format::packet* packet)
+static bool parse_light_node(me::fileattr &file, rapidxml::xml_node<>* light_node, me::ScenePacket* packet)
 {
   std::string identifier = light_node->first_attribute("id")->value();
   rapidxml::xml_node<>* technique_common_node = light_node->first_node("technique_common");
@@ -145,11 +145,11 @@ static bool parse_light_node(me::fileattr &file, rapidxml::xml_node<>* light_nod
     float quadratic_attenuation = std::stof(point_node->first_node("quadratic_attenuation")->value());
   }
   /* and don't forget to add the Light to the scene:) */
-  packet->scene->lights[identifier] = light;
+  packet->lights[identifier] = light;
   return true;
 }
 
-static bool parse_effect_node(me::fileattr &file, rapidxml::xml_node<>* effect_node, me::format::collada_format::packet* packet)
+static bool parse_effect_node(me::fileattr &file, rapidxml::xml_node<>* effect_node, me::ScenePacket* packet, std::map<std::string, me::format::collada_effect*> &effects)
 {
   std::string identifier = effect_node->first_attribute("id")->value();
   rapidxml::xml_node<>* profile_common_node = effect_node->first_node("profile_COMMON");
@@ -158,7 +158,7 @@ static bool parse_effect_node(me::fileattr &file, rapidxml::xml_node<>* effect_n
     return false;
 
   /* creating the classic Collada effect */
-  me::format::collada_format::effect* effect = new me::format::collada_format::effect;
+  me::format::collada_effect* effect = new me::format::collada_effect;
   effect->identifier = identifier;
 
   rapidxml::xml_node<>* newparam_node = profile_common_node->first_node("newparam");
@@ -170,7 +170,7 @@ static bool parse_effect_node(me::fileattr &file, rapidxml::xml_node<>* effect_n
     rapidxml::xml_node<>* type_node = newparam_node->first_node();
     std::string path = type_node->first_node()->name();
     std::string value = type_node->first_node()->value();
-    effect->params[sid] = me::format::collada_format::param(sid, type_node->name(), path, value);
+    effect->params[sid] = me::format::collada_param(sid, type_node->name(), path, value);
     newparam_node = newparam_node->next_sibling("newparam");
   }
 
@@ -215,11 +215,11 @@ static bool parse_effect_node(me::fileattr &file, rapidxml::xml_node<>* effect_n
     }
   }
   /* oh i almost forgot! add the effect to the scene (NOTE: this is not "ScenePacket") */
-  packet->effects[identifier] = effect;
+  effects[identifier] = effect;
   return true;
 }
 
-static bool parse_image_node(me::fileattr &file, rapidxml::xml_node<>* image_node, me::format::collada_format::packet* packet)
+static bool parse_image_node(me::fileattr &file, rapidxml::xml_node<>* image_node, me::ScenePacket* packet)
 {
   std::string identifier = image_node->first_attribute("id")->value();
   rapidxml::xml_node<>* init_from_node = image_node->first_node("init_from");
@@ -235,12 +235,12 @@ static bool parse_image_node(me::fileattr &file, rapidxml::xml_node<>* image_nod
     std::string filepath = abs_path ? path : (me::to_folder_path(file.filepath) + "/" + path);
 
     /* and maybe add it to the scene */
-    packet->scene->images[identifier] = new me::Image(filepath);
+    packet->images[identifier] = new me::Image(filepath);
   }
   return true;
 }
 
-static bool parse_material_node(me::fileattr &file, rapidxml::xml_node<>* material_node, me::format::collada_format::packet* packet)
+static bool parse_material_node(me::fileattr &file, rapidxml::xml_node<>* material_node, me::ScenePacket* packet, std::map<std::string, me::format::collada_effect*> &effects)
 {
   std::string identifier = material_node->first_attribute("id")->value();
 
@@ -256,16 +256,16 @@ static bool parse_material_node(me::fileattr &file, rapidxml::xml_node<>* materi
     /* removing the "#" */
     url = url.substr(1);
 
-    me::format::collada_format::effect* effect = packet->effects[url];
+    me::format::collada_effect* effect = effects[url];
     material->diffuse = effect->diffuse;
     // TODO:
   }
   /* hmm maybe we should add it to the scene */
-  packet->scene->materials[identifier] = material;
+  packet->materials[identifier] = material;
   return true;
 }
 
-static bool parse_geometry_node(me::fileattr &file, rapidxml::xml_node<>* geometry_node, me::format::collada_format::packet* packet)
+static bool parse_geometry_node(me::fileattr &file, rapidxml::xml_node<>* geometry_node, me::ScenePacket* packet)
 {
   std::string identifier = geometry_node->first_attribute("id")->value();
   rapidxml::xml_node<>* mesh_node = geometry_node->first_node("mesh");
@@ -333,7 +333,7 @@ static bool parse_geometry_node(me::fileattr &file, rapidxml::xml_node<>* geomet
     rapidxml::xml_node<>* faces_node = triangles_node->first_node("p");
     unsigned int face_count = std::stoi(triangles_node->first_attribute("count")->value());
     std::string material_url = triangles_node->first_attribute("material")->value();
-    mesh->materials.push_back(packet->scene->materials[material_url]);
+    mesh->materials.push_back(packet->materials[material_url]);
 
     std::string raw_face_array = faces_node->value();
 
@@ -345,11 +345,11 @@ static bool parse_geometry_node(me::fileattr &file, rapidxml::xml_node<>* geomet
       mesh->indices.emplace_back(std::stoi(faces[i]));
     triangles_node = triangles_node->next_sibling("triangles");
   }
-  packet->scene->meshes[identifier] = mesh;
+  packet->meshes[identifier] = mesh;
   return true;
 }
 
-static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* visual_scene_node, me::format::collada_format::packet* packet)
+static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* visual_scene_node, me::ScenePacket* packet)
 {
   std::string identifier = visual_scene_node->first_attribute("id")->value();
   rapidxml::xml_node<>* node = visual_scene_node->first_node("node");
@@ -378,7 +378,7 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
       std::string url = instance_geometry_node->first_attribute("url")->value();
       url = url.substr(1);
 
-      me::Mesh* mesh = packet->scene->meshes[url];
+      me::Mesh* mesh = packet->meshes[url];
       mesh->identifier = identifier;
       mesh->model_matrix = transform_matrix;
 
@@ -387,7 +387,7 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
       std::string url = instance_camera_node->first_attribute("url")->value();
       url = url.substr(1);
 
-      me::Camera* camera = packet->scene->cameras[url];
+      me::Camera* camera = packet->cameras[url];
       camera->identifier = identifier;
       camera->view_matrix = transform_matrix;
 
@@ -396,7 +396,7 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
       std::string url = instance_light_node->first_attribute("url")->value();
       url = url.substr(1);
 
-      me::Light* light = packet->scene->lights[url];
+      me::Light* light = packet->lights[url];
       light->identifier = identifier;
       light->model_matrix = transform_matrix;
 
@@ -406,12 +406,12 @@ static bool parse_visual_scene_node(me::fileattr &file, rapidxml::xml_node<>* vi
   return true;
 }
 
-int me::format::collada_format::read_collada(me::fileattr &file, me::format::collada_format::packet* packet)
+int me::format::collada_format::load_scene(me::fileattr &file, me::ScenePacket* packet)
 {
   file.readFile();
   rapidxml::xml_document<> doc;
   doc.parse<0>((char*)file.buffer->data);
-  std::cout << "Parsed XML data\n";
+  std::cout << "--- [Parsed XML data] ---\n";
   rapidxml::xml_node<>* collada_node = doc.first_node();
 
   rapidxml::xml_node<>* library_cameras_node = collada_node->first_node("library_cameras");
@@ -422,9 +422,11 @@ int me::format::collada_format::read_collada(me::fileattr &file, me::format::col
   rapidxml::xml_node<>* library_geometries_node = collada_node->first_node("library_geometries");
   rapidxml::xml_node<>* library_visual_scenes_node = collada_node->first_node("library_visual_scenes");
 
+  std::map<std::string, collada_effect*> effects;
+
   if (library_cameras_node != nullptr)
   {
-    std::cout << "loading camera data\n";
+    std::cout << "==>> loading camera data\n";
     rapidxml::xml_node<>* camera_node = library_cameras_node->first_node("camera");
     while(camera_node != nullptr)
     {
@@ -434,7 +436,7 @@ int me::format::collada_format::read_collada(me::fileattr &file, me::format::col
   }
   if (library_lights_node != nullptr)
   {
-    std::cout << "loading light data\n";
+    std::cout << "==>> loading light data\n";
     rapidxml::xml_node<>* light_node = library_lights_node->first_node("light");
     while(light_node != nullptr)
     {
@@ -444,7 +446,7 @@ int me::format::collada_format::read_collada(me::fileattr &file, me::format::col
   }
   if (library_images_node != nullptr)
   {
-    std::cout << "loading image data\n";
+    std::cout << "==>> loading image data\n";
     rapidxml::xml_node<>* image_node = library_images_node->first_node("image");
     while(image_node != nullptr)
     {
@@ -454,27 +456,27 @@ int me::format::collada_format::read_collada(me::fileattr &file, me::format::col
   }
   if (library_effects_node != nullptr)
   {
-    std::cout << "loading effect data\n";
+    std::cout << "==>> loading effect data\n";
     rapidxml::xml_node<>* effect_node = library_effects_node->first_node("effect");
     while(effect_node != nullptr)
     {
-      parse_effect_node(file, effect_node, packet);
+      parse_effect_node(file, effect_node, packet, effects);
       effect_node = effect_node->next_sibling("effect");
     }
   }
   if (library_materials_node != nullptr)
   {
-    std::cout << "loading material data\n";
+    std::cout << "==>> loading material data\n";
     rapidxml::xml_node<>* material_node = library_materials_node->first_node("material");
     while(material_node != nullptr)
     {
-      parse_material_node(file, material_node, packet);
+      parse_material_node(file, material_node, packet, effects);
       material_node = material_node->next_sibling("material");
     }
   }
   if (library_geometries_node != nullptr)
   {
-    std::cout << "loading geometry data\n";
+    std::cout << "==>> loading geometry data\n";
     rapidxml::xml_node<>* geometry_node = geometry_node = library_geometries_node->first_node("geometry");
     while(geometry_node != nullptr)
     {
@@ -484,7 +486,7 @@ int me::format::collada_format::read_collada(me::fileattr &file, me::format::col
   }
   if (library_visual_scenes_node != nullptr)
   {
-    std::cout << "loading scene data\n";
+    std::cout << "==>> loading scene data\n";
     rapidxml::xml_node<>* visual_scene_node = library_visual_scenes_node->first_node("visual_scene");
     while(visual_scene_node != nullptr)
     {
@@ -498,7 +500,7 @@ int me::format::collada_format::read_collada(me::fileattr &file, me::format::col
 
 bool me::format::collada_format::recognized(me::fileattr &file)
 {
-  if (me::str_starts(file.filepath, "<?xml"))
+  if (file.buffer->data != nullptr && me::str_starts(file.filepath, "<?xml"))
   {
     rapidxml::xml_document<> doc;
     doc.parse<0>((char*)file.buffer->data); // TODO: will maybe produce errors. "data" does not contain the full document bc memory.

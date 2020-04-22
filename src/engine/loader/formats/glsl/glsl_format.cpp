@@ -6,7 +6,7 @@
 
 int me::glsl_format::read_shader_file(const char* filepath, MeShaderProgram* program)
 {
-  me::fileattr* file = me::read_file(filepath);
+  me::fileattr* file = me::load_file(filepath);
   file->readFile();
   std::string data = (char*)file->buffer->data;
   std::vector<std::string> lines = me::split_str(data, '\n');

@@ -7,23 +7,27 @@ namespace me {
 
   namespace format {
 
-    struct image_format : public file_format {
+    enum ImageFileFormat {
+      IFF_PNG,
+      IFF_JPEG,
+      IFF_GIF,
+      IFF_TIFF,
+      IFF_BMP,
+      IFF_EXR,
+      IFF_HDR,
+      IFF_RAW
+    };
 
-    public:
+    struct image_format : file_format {
 
-      image_format() : file_format(me::format::FileType::FTYPE_IMAGE) { }
+      ImageFileFormat format;
 
-      virtual int read_image(me::fileattr &file, me::Image* image) = 0;
-      inline int read_file(me::fileattr &file, me::Image* image)
+      image_format(ImageFileFormat format) : file_format(me::format::FileType::FTYPE_IMAGE)
       {
-        if (image->bitmap == nullptr)
-          image->bitmap = new me::Bitmap;
-        int result = read_image(file, image);
-        if (result != ME_FINE)
-          return result;
-        return ME_FINE;
+         this->format = format;
       }
 
+      virtual int load_image(me::fileattr &file, me::Image* image) = 0;
       virtual bool recognized(me::fileattr &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 

@@ -47,9 +47,11 @@ namespace me {
 
     };
 
-    struct bmp_format : public image_format {
+    struct bmp_format : image_format {
 
-      int read_image(me::fileattr &file, me::Image* image) override;
+      bmp_format() : image_format(IFF_BMP) { }
+
+      int load_image(me::fileattr &file, me::Image* image) override;
       bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
 

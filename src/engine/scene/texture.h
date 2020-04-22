@@ -7,15 +7,15 @@
 
 namespace me {
 
-  enum ImageFormat {
-    ME_IMG_FORMAT_RGB =                    3,
-    ME_IMG_FORMAT_RGBA =                   4,
-    ME_IMG_FORMAT_BINARY =                 5,
-    ME_IMG_FORMAT_GRAY =                   6,
-    ME_IMG_FORMAT_GRAY_ALPHA =             7
+  enum ImageFormat : unsigned char {
+    ME_IMG_FORMAT_RGB =                    0x03,
+    ME_IMG_FORMAT_RGBA =                   0x14,
+    ME_IMG_FORMAT_BINARY =                 0x21,
+    ME_IMG_FORMAT_GRAY =                   0x31,
+    ME_IMG_FORMAT_GRAY_ALPHA =             0x42
   };
 
-  enum WColorType {
+  enum WColorType : unsigned char {
     ME_WCOLOR_MAP = 0,
     ME_WCOLOR_COLOR = 1,
     ME_WCOLOR_FLOAT = 2
@@ -127,16 +127,18 @@ namespace me {
   };
 
   /* helpers */
-  inline uint32_t byte_rate(ImageFormat format)
+  inline uint32_t min_bit_rate(ImageFormat format)
   {
     if (format == ME_IMG_FORMAT_RGB)
-      return 3;
+      return 24;
     else if (format == ME_IMG_FORMAT_RGBA)
-      return 4;
-    else if (format == ME_IMG_FORMAT_GRAY || format == ME_IMG_FORMAT_BINARY)
+      return 32;
+    else if (format == ME_IMG_FORMAT_GRAY)
+      return 8;
+    else if (format == ME_IMG_FORMAT_BINARY)
       return 1;
     else if (format == ME_IMG_FORMAT_GRAY_ALPHA)
-      return 2;
+      return 16;
     return 0;
   }
 

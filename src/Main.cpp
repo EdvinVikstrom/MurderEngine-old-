@@ -18,6 +18,11 @@ static void sandbox()
 
 int main()
 {
+  #ifdef DEBUG
+    std::cout << "[DEBUG MODE]\n";
+  #else
+    std::cout << "[RELEASE MODE]\n";
+  #endif
   MeInstanceInfo instance_info = {};
   instance_info.appName = "Sandbox";
   instance_info.appVersion = 457;
