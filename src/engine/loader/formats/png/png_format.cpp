@@ -25,7 +25,7 @@ int me::format::png_format::load_image(me::fileattr &file, me::Image* image)
   else if (colorType == PNG_COLOR_TYPE_GRAY)
     image->info.format = ME_IMG_FORMAT_GRAY;
 
-  image->bitmap->depth = ((image->bitmap->depth / 8) * (image->info.format & 0x0F)) * 8;
+  image->bitmap->depth = image->bitmap->depth * (image->info.format & 0x0F);
   std::cout << "[PNGLoader]: width: " << image->bitmap->width << ", height: " << image->bitmap->height << " | depth: " << (int) image->bitmap->depth << "\n";
 
   /* setting up libpng */
