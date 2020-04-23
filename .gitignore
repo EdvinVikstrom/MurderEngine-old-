@@ -1,6 +1,3 @@
-# this project
-src/external/*
-
 # CMake
 CMakeLists.txt.user
 CMakeCache.txt
