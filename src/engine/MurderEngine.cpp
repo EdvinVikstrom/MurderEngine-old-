@@ -150,6 +150,7 @@ MeResult meRunLoop(MeInstance* instance)
     glfwPollEvents();
     instance->currentFrame++;
   }
+  meCleanupEverything();
   return ME_SUCCESS;
 }
 

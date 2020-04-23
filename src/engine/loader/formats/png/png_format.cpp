@@ -88,6 +88,11 @@ int me::format::png_format::load_image(me::fileattr &file, me::Image* image)
   return ME_FINE;
 }
 
+int me::format::png_format::write_image(me::write_buffer &buffer, me::Image* image)
+{
+  return ME_FINE;
+}
+
 bool me::format::png_format::recognized(me::fileattr &file)
 {
   return me::str_ends(file.filepath, ".png") || (

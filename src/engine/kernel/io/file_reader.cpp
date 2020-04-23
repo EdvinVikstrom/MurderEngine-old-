@@ -27,7 +27,9 @@ me::fileattr* me::load_file(const char* filepath)
 
 void me::write_file(const char* filepath, unsigned char* data, uint64_t off, uint64_t len)
 {
-
+  FILE* file = fopen(filepath, "wb");
+  fwrite(data, 1, len, file);
+  fclose(file);
 }
 
 void me::fileattr::readFile()

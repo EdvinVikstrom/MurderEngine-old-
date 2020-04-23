@@ -126,21 +126,65 @@ namespace me {
 
   };
 
-  /* helpers */
-  inline uint32_t min_bit_rate(ImageFormat format)
-  {
-    if (format == ME_IMG_FORMAT_RGB)
-      return 24;
-    else if (format == ME_IMG_FORMAT_RGBA)
-      return 32;
-    else if (format == ME_IMG_FORMAT_GRAY)
-      return 8;
-    else if (format == ME_IMG_FORMAT_BINARY)
-      return 1;
-    else if (format == ME_IMG_FORMAT_GRAY_ALPHA)
-      return 16;
-    return 0;
-  }
+  struct ImageRasterizer {
+
+    me::Image* image;
+
+    ImageRasterizer(me::Image* image)
+    {
+      this->image = image;
+    }
+
+    inline void set_pixel(int color, int posX, int posY)
+    {
+      if (posX < 0 || posX >= image->bitmap->width || posY < 0 || posY >= image->bitmap->height)
+        return;
+      uint32_t index = (posY * image->bitmap->width + posX) * (image->bitmap->depth / 8);
+      unsigned char red = (unsigned char)(color >> 24);
+      unsigned char green = (image->info.format & 0x0F) > 1 ? (unsigned char)(color >> 16) : red;
+      unsigned char blue = (image->info.format & 0x0F) > 2 ? (unsigned char)(color >> 8) : green;
+      unsigned char alpha = (image->info.format & 0x0F) > 3 ? (unsigned char)color : blue;
+      image->bitmap->map[index] = red;
+      if ((image->info.format & 0x0F) > 1)
+        image->bitmap->map[index + 1] = green;
+      if ((image->info.format & 0x0F) > 2)
+        image->bitmap->map[index + 2] = blue;
+      if ((image->info.format & 0x0F) > 3)
+        image->bitmap->map[index + 3] = alpha;
+    }
+
+    inline int get_pixel(int posX, int posY)
+    {
+      if (posX < 0 || posX >= image->bitmap->width || posY < 0 || posY >= image->bitmap->height)
+        return 0x00000000;
+      uint32_t index = (posY * image->bitmap->width + posX) * (image->bitmap->depth / 8);
+      return (image->bitmap->map[index] << 24) | (image->bitmap->map[index + 1] << 16) | (image->bitmap->map[index + 2] << 8) | (image->bitmap->map[index + 3]);
+    }
+
+    inline void fill_rect(int color, int posX, int posY, uint32_t scaleX, uint32_t scaleY)
+    {
+      for (uint32_t x = 0; x < scaleX; x++)
+      {
+        for (uint32_t y = 0; y < scaleY; y++)
+          set_pixel(color, posX + x, posY + y);
+      }
+    }
+
+    inline void flip_vertical()
+    {
+      for (uint32_t y = 0; y < image->bitmap->height / 2; y++)
+      {
+        for (uint32_t x = 0; x < image->bitmap->width; x++)
+        {
+          int temp = get_pixel(x, image->bitmap->height - y - 1);
+          int color = get_pixel(x, y);
+          set_pixel(color, x, image->bitmap->height - y - 1);
+          set_pixel(temp, x, y);
+        }
+      }
+    }
+
+  };
 
 };
 

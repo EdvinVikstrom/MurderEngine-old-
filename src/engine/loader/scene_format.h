@@ -7,15 +7,6 @@ namespace me {
 
   namespace format {
 
-    enum SceneFileFormat {
-      SFF_COLLADA,
-      SFF_WAVEFRONT,
-      SFF_STANFORD,
-      SFF_STL,
-      SFF_FBX,
-      SFF_USD
-    };
-
     enum MeshFormat {
       MESH_FORMAT_VNTC,
       MESH_FORMAT_VERTEX

@@ -221,6 +221,33 @@ src/engine/MurderEngine.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/MurderEngine.cpp.s
 .PHONY : src/engine/MurderEngine.cpp.s
 
+src/engine/audio/audio_system.o: src/engine/audio/audio_system.cpp.o
+
+.PHONY : src/engine/audio/audio_system.o
+
+# target to build an object file
+src/engine/audio/audio_system.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/audio/audio_system.cpp.o
+.PHONY : src/engine/audio/audio_system.cpp.o
+
+src/engine/audio/audio_system.i: src/engine/audio/audio_system.cpp.i
+
+.PHONY : src/engine/audio/audio_system.i
+
+# target to preprocess a source file
+src/engine/audio/audio_system.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/audio/audio_system.cpp.i
+.PHONY : src/engine/audio/audio_system.cpp.i
+
+src/engine/audio/audio_system.s: src/engine/audio/audio_system.cpp.s
+
+.PHONY : src/engine/audio/audio_system.s
+
+# target to generate assembly for a file
+src/engine/audio/audio_system.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/audio/audio_system.cpp.s
+.PHONY : src/engine/audio/audio_system.cpp.s
+
 src/engine/kernel/io/file_reader.o: src/engine/kernel/io/file_reader.cpp.o
 
 .PHONY : src/engine/kernel/io/file_reader.o
@@ -409,6 +436,33 @@ src/engine/loader/formats/png/png_format.s: src/engine/loader/formats/png/png_fo
 src/engine/loader/formats/png/png_format.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/formats/png/png_format.cpp.s
 .PHONY : src/engine/loader/formats/png/png_format.cpp.s
+
+src/engine/loader/formats/wave/wave_format.o: src/engine/loader/formats/wave/wave_format.cpp.o
+
+.PHONY : src/engine/loader/formats/wave/wave_format.o
+
+# target to build an object file
+src/engine/loader/formats/wave/wave_format.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/formats/wave/wave_format.cpp.o
+.PHONY : src/engine/loader/formats/wave/wave_format.cpp.o
+
+src/engine/loader/formats/wave/wave_format.i: src/engine/loader/formats/wave/wave_format.cpp.i
+
+.PHONY : src/engine/loader/formats/wave/wave_format.i
+
+# target to preprocess a source file
+src/engine/loader/formats/wave/wave_format.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/formats/wave/wave_format.cpp.i
+.PHONY : src/engine/loader/formats/wave/wave_format.cpp.i
+
+src/engine/loader/formats/wave/wave_format.s: src/engine/loader/formats/wave/wave_format.cpp.s
+
+.PHONY : src/engine/loader/formats/wave/wave_format.s
+
+# target to generate assembly for a file
+src/engine/loader/formats/wave/wave_format.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/formats/wave/wave_format.cpp.s
+.PHONY : src/engine/loader/formats/wave/wave_format.cpp.s
 
 src/engine/loader/scene_format.o: src/engine/loader/scene_format.cpp.o
 
@@ -725,6 +779,9 @@ help:
 	@echo "... src/engine/MurderEngine.o"
 	@echo "... src/engine/MurderEngine.i"
 	@echo "... src/engine/MurderEngine.s"
+	@echo "... src/engine/audio/audio_system.o"
+	@echo "... src/engine/audio/audio_system.i"
+	@echo "... src/engine/audio/audio_system.s"
 	@echo "... src/engine/kernel/io/file_reader.o"
 	@echo "... src/engine/kernel/io/file_reader.i"
 	@echo "... src/engine/kernel/io/file_reader.s"
@@ -746,6 +803,9 @@ help:
 	@echo "... src/engine/loader/formats/png/png_format.o"
 	@echo "... src/engine/loader/formats/png/png_format.i"
 	@echo "... src/engine/loader/formats/png/png_format.s"
+	@echo "... src/engine/loader/formats/wave/wave_format.o"
+	@echo "... src/engine/loader/formats/wave/wave_format.i"
+	@echo "... src/engine/loader/formats/wave/wave_format.s"
 	@echo "... src/engine/loader/scene_format.o"
 	@echo "... src/engine/loader/scene_format.i"
 	@echo "... src/engine/loader/scene_format.s"

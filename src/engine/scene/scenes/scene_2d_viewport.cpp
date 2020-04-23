@@ -2,6 +2,7 @@
 #include "../../loader/scene_format.h"
 #include "../../loader/image_format.h"
 #include "../../loader/file_format.h"
+#include "../../audio/audio_system.h"
 
 #include <iostream> // remove
 
@@ -24,6 +25,36 @@ void me::scene_2d_viewport::onInit(MeInstance* instance)
   /* reading scene data */
   me::ScenePacket* packet = new me::ScenePacket;
   me::format::loadScene(instance, "/home/edvinskomputa/Dokument/OnePunchEngine/src/res/mega test of doom.dae", packet);
+
+  me::AudioTrack* track = new me::AudioTrack;
+  track->waveform = new me::AudioWave;
+  track->info.format = ME_AUD_FORMAT_S32BIT_PCM;
+  track->info.sampleRate = 44100;
+  track->info.channels = 2;
+  track->waveform->bytes = me::format::loadRAWData(instance, "ignoreme/CheatCxdes.raw", track->waveform->length);
+  //me::format::loadAudio(instance, "ignoreme/CheatCxdes.wav", track);
+
+  uint32_t track_id = me::audio::register_track(track);
+  me::audio::load_track(track_id);
+  me::audio::play_track(track_id);
+
+  /*
+  uint32_t width = 1920 * 4;
+  uint32_t height = 256;
+  me::Bitmap* bitmap = new me::Bitmap {width, height, 24, new unsigned char[width * height * 3]};
+  me::Image* bild = new me::Image(bitmap, {0, "", "", nullptr, ImageFormat::ME_IMG_FORMAT_RGB});
+  me::ImageRasterizer rasterizer(bild);
+  rasterizer.fill_rect(0x00000000, 0, 0, width, height);
+  int x = 0;
+  for (uint32_t i = 0; x < width; i+=1)
+  {
+    unsigned char y = track->waveform->bytes[44100 + i];
+    rasterizer.fill_rect(0x0014FFFF, x, 0, 1, y);
+    x++;
+  }
+  rasterizer.flip_vertical();
+  me::format::writeImage(instance, "ignoreme/graph.bmp", me::format::ImageFileFormat::IFF_BMP, bild);
+*/
 
   /* setting up renderer */
   instance->renderer->setupMeshRenderer(instance);

@@ -30,6 +30,7 @@ enum MeBool {
 #endif
 
 #include <stdint.h>
+#include <cstring>
 
 #ifdef __cplusplus
   #include "string.h"

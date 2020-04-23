@@ -7,17 +7,6 @@ namespace me {
 
   namespace format {
 
-    enum ImageFileFormat {
-      IFF_PNG,
-      IFF_JPEG,
-      IFF_GIF,
-      IFF_TIFF,
-      IFF_BMP,
-      IFF_EXR,
-      IFF_HDR,
-      IFF_RAW
-    };
-
     struct image_format : file_format {
 
       ImageFileFormat format;
@@ -28,6 +17,7 @@ namespace me {
       }
 
       virtual int load_image(me::fileattr &file, me::Image* image) = 0;
+      virtual int write_image(me::write_buffer &buffer, me::Image* image) = 0;
       virtual bool recognized(me::fileattr &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 
