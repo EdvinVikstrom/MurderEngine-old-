@@ -17,7 +17,7 @@ static int pa_callback(const void *inputBuffer, void *outputBuffer,
                            PaStreamCallbackFlags statusFlags,
                            void *userData)
 {
-  me::AudioTrack* track = tracks.at(*((uint32_t*) userData));
+  me::AudioTrack* track = (me::AudioTrack*) userData;
   if (!track->state.playing)
     return 0;
 
@@ -92,7 +92,7 @@ int me::audio::load_track(uint32_t track_id)
     track->info.sampleRate,
     FRAMES_PER_BUFFER,
     pa_callback,
-    new uint32_t(track_id)
+    track
   );
   if (err != paNoError)
   {
