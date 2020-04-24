@@ -248,6 +248,33 @@ src/engine/audio/audio_system.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/audio/audio_system.cpp.s
 .PHONY : src/engine/audio/audio_system.cpp.s
 
+src/engine/kernel/io/bytebuff.o: src/engine/kernel/io/bytebuff.cpp.o
+
+.PHONY : src/engine/kernel/io/bytebuff.o
+
+# target to build an object file
+src/engine/kernel/io/bytebuff.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/kernel/io/bytebuff.cpp.o
+.PHONY : src/engine/kernel/io/bytebuff.cpp.o
+
+src/engine/kernel/io/bytebuff.i: src/engine/kernel/io/bytebuff.cpp.i
+
+.PHONY : src/engine/kernel/io/bytebuff.i
+
+# target to preprocess a source file
+src/engine/kernel/io/bytebuff.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/kernel/io/bytebuff.cpp.i
+.PHONY : src/engine/kernel/io/bytebuff.cpp.i
+
+src/engine/kernel/io/bytebuff.s: src/engine/kernel/io/bytebuff.cpp.s
+
+.PHONY : src/engine/kernel/io/bytebuff.s
+
+# target to generate assembly for a file
+src/engine/kernel/io/bytebuff.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/kernel/io/bytebuff.cpp.s
+.PHONY : src/engine/kernel/io/bytebuff.cpp.s
+
 src/engine/kernel/io/file_reader.o: src/engine/kernel/io/file_reader.cpp.o
 
 .PHONY : src/engine/kernel/io/file_reader.o
@@ -382,6 +409,33 @@ src/engine/loader/formats/collada/collada_format.s: src/engine/loader/formats/co
 src/engine/loader/formats/collada/collada_format.cpp.s:
 	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/formats/collada/collada_format.cpp.s
 .PHONY : src/engine/loader/formats/collada/collada_format.cpp.s
+
+src/engine/loader/formats/flac/flac_format.o: src/engine/loader/formats/flac/flac_format.cpp.o
+
+.PHONY : src/engine/loader/formats/flac/flac_format.o
+
+# target to build an object file
+src/engine/loader/formats/flac/flac_format.cpp.o:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/formats/flac/flac_format.cpp.o
+.PHONY : src/engine/loader/formats/flac/flac_format.cpp.o
+
+src/engine/loader/formats/flac/flac_format.i: src/engine/loader/formats/flac/flac_format.cpp.i
+
+.PHONY : src/engine/loader/formats/flac/flac_format.i
+
+# target to preprocess a source file
+src/engine/loader/formats/flac/flac_format.cpp.i:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/formats/flac/flac_format.cpp.i
+.PHONY : src/engine/loader/formats/flac/flac_format.cpp.i
+
+src/engine/loader/formats/flac/flac_format.s: src/engine/loader/formats/flac/flac_format.cpp.s
+
+.PHONY : src/engine/loader/formats/flac/flac_format.s
+
+# target to generate assembly for a file
+src/engine/loader/formats/flac/flac_format.cpp.s:
+	$(MAKE) -f CMakeFiles/MurderEngine.dir/build.make CMakeFiles/MurderEngine.dir/src/engine/loader/formats/flac/flac_format.cpp.s
+.PHONY : src/engine/loader/formats/flac/flac_format.cpp.s
 
 src/engine/loader/formats/glsl/glsl_format.o: src/engine/loader/formats/glsl/glsl_format.cpp.o
 
@@ -782,6 +836,9 @@ help:
 	@echo "... src/engine/audio/audio_system.o"
 	@echo "... src/engine/audio/audio_system.i"
 	@echo "... src/engine/audio/audio_system.s"
+	@echo "... src/engine/kernel/io/bytebuff.o"
+	@echo "... src/engine/kernel/io/bytebuff.i"
+	@echo "... src/engine/kernel/io/bytebuff.s"
 	@echo "... src/engine/kernel/io/file_reader.o"
 	@echo "... src/engine/kernel/io/file_reader.i"
 	@echo "... src/engine/kernel/io/file_reader.s"
@@ -797,6 +854,9 @@ help:
 	@echo "... src/engine/loader/formats/collada/collada_format.o"
 	@echo "... src/engine/loader/formats/collada/collada_format.i"
 	@echo "... src/engine/loader/formats/collada/collada_format.s"
+	@echo "... src/engine/loader/formats/flac/flac_format.o"
+	@echo "... src/engine/loader/formats/flac/flac_format.i"
+	@echo "... src/engine/loader/formats/flac/flac_format.s"
 	@echo "... src/engine/loader/formats/glsl/glsl_format.o"
 	@echo "... src/engine/loader/formats/glsl/glsl_format.i"
 	@echo "... src/engine/loader/formats/glsl/glsl_format.s"

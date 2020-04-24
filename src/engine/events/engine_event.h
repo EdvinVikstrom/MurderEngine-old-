@@ -5,6 +5,8 @@ enum MeKey {
 
   ME_KEY_NONE =                                         -1,
 
+  ME_KEY_SPACE =                                        32,
+
   ME_KEY_A =                                            65,
   ME_KEY_B =                                            66,
   ME_KEY_C =                                            67,
@@ -42,6 +44,11 @@ enum MeKey {
   ME_KEY_7 =                                            98,
   ME_KEY_8 =                                            99,
   ME_KEY_9 =                                            100,
+
+  ME_KEY_RIGHT =                                        262,
+  ME_KEY_LEFT =                                         263,
+  ME_KEY_DOWN =                                         264,
+  ME_KEY_UP =                                           265,
 
   ME_MOUSE_LEFT_BUTTON =                                76697084,
   ME_MOUSE_MIDDLE_BUTTON =                              777368,

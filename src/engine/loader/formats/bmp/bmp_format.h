@@ -52,7 +52,7 @@ namespace me {
       bmp_format() : image_format(IFF_BMP) { }
 
       int load_image(me::fileattr &file, me::Image* image) override;
-      int write_image(me::write_buffer &buffer, me::Image* image) override;
+      int write_image(me::bytebuff &buffer, me::Image* image) override;
       bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
 

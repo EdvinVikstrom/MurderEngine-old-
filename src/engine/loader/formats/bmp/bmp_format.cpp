@@ -3,24 +3,24 @@
 int me::format::bmp_format::load_image(me::fileattr &file, me::Image* image)
 {
   file.readFile();
-  me::filebuff& buffer = *file.buffer;
+  me::bytebuff& buffer = *file.buffer;
   bmp_header header;
-  header.file.signature = buffer._uint16();
-  header.file.file_size = buffer._uint32();
-  header.file.reserved = buffer._uint32();
-  header.file.data_offset = buffer._uint32();
+  header.file.signature = buffer.pull_uint16();
+  header.file.file_size = buffer.pull_uint32();
+  header.file.reserved = buffer.pull_uint32();
+  header.file.data_offset = buffer.pull_uint32();
 
-  header.info.size = buffer._uint32();
-  header.info.width = buffer._uint32();
-  header.info.height = buffer._uint32();
-  header.info.planes = buffer._uint16();
-  header.info.bits_per_pixel = buffer._uint16();
-  header.info.compression = buffer._uint32();
-  header.info.image_size = buffer._uint32();
-  header.info.x_pixel_per_m = buffer._uint32();
-  header.info.y_pixel_per_m = buffer._uint32();
-  header.info.colors_used = buffer._uint32();
-  header.info.important_colors = buffer._uint32();
+  header.info.size = buffer.pull_uint32();
+  header.info.width = buffer.pull_uint32();
+  header.info.height = buffer.pull_uint32();
+  header.info.planes = buffer.pull_uint16();
+  header.info.bits_per_pixel = buffer.pull_uint16();
+  header.info.compression = buffer.pull_uint32();
+  header.info.image_size = buffer.pull_uint32();
+  header.info.x_pixel_per_m = buffer.pull_uint32();
+  header.info.y_pixel_per_m = buffer.pull_uint32();
+  header.info.colors_used = buffer.pull_uint32();
+  header.info.important_colors = buffer.pull_uint32();
 
   image->info.identifier = file.filepath;
   image->bitmap->width = header.info.width;
@@ -61,12 +61,12 @@ int me::format::bmp_format::load_image(me::fileattr &file, me::Image* image)
   return ME_FINE;
 }
 
-int me::format::bmp_format::write_image(me::write_buffer &buffer, me::Image* image)
+int me::format::bmp_format::write_image(me::bytebuff &buffer, me::Image* image)
 {
   uint32_t size = image->bitmap->width * image->bitmap->height * (image->bitmap->depth / 8);
   uint32_t header_size = 14 + 40;
-  buffer.order(me::ByteOrder::BO_LITTLE_ENDIAN);
-  buffer.push("BM");
+  buffer.byteOrder(me::ByteOrder::BO_LITTLE_ENDIAN);
+  buffer.push((unsigned char*) "BM", 2);
   buffer.push_uint32(header_size + size); // file size
   buffer.push_uint32(0); // reserved
   buffer.push_uint32(header_size); // data Offset
@@ -82,7 +82,7 @@ int me::format::bmp_format::write_image(me::write_buffer &buffer, me::Image* ima
   buffer.push_int32((int) image->bitmap->height / 4); // y pixel per meter
   buffer.push_uint32(0); // colors used
   buffer.push_uint32(0); // important colors
-  buffer.push_mem(size);
+  buffer.pushMem(size);
   for (uint32_t i = 0; i < size; i+=3)
   {
     buffer.push(image->bitmap->map[i + 2]);
@@ -94,7 +94,7 @@ int me::format::bmp_format::write_image(me::write_buffer &buffer, me::Image* ima
 
 bool me::format::bmp_format::recognized(me::fileattr &file)
 {
-  return me::str_ends(file.filepath, ".bmp") || (file.buffer->data != nullptr && file.buffer->data[0]=='b' && file.buffer->data[1]=='m');
+  return me::str_ends(file.filepath, ".bmp") || (file.buffer->data.size() >= 2 && file.buffer->data[0]=='b' && file.buffer->data[1]=='m');
 }
 
 std::vector<std::string> me::format::bmp_format::get_file_exts()

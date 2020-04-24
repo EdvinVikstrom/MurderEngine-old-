@@ -14,6 +14,8 @@ static void button_press()
 void me::scene_2d_viewport::onPreInit(MeInstance* instance) { }
 void me::scene_2d_viewport::onDestroyed(MeInstance* instance) { }
 
+me::AudioTrack* track = nullptr;
+
 void me::scene_2d_viewport::onInit(MeInstance* instance)
 {
   float aspect = (float)width/(float)height;
@@ -26,13 +28,13 @@ void me::scene_2d_viewport::onInit(MeInstance* instance)
   me::ScenePacket* packet = new me::ScenePacket;
   me::format::loadScene(instance, "/home/edvinskomputa/Dokument/OnePunchEngine/src/res/mega test of doom.dae", packet);
 
-  me::AudioTrack* track = new me::AudioTrack;
+  track = new me::AudioTrack;
   track->waveform = new me::AudioWave;
   track->info.format = ME_AUD_FORMAT_S32BIT_PCM;
   track->info.sampleRate = 44100;
   track->info.channels = 2;
-  track->waveform->bytes = me::format::loadRAWData(instance, "ignoreme/CheatCxdes.raw", track->waveform->length);
-  //me::format::loadAudio(instance, "ignoreme/CheatCxdes.wav", track);
+  //track->waveform->bytes = me::format::loadRAWData(instance, "ignoreme/CheatCxdes.raw", track->waveform->length);
+  me::format::loadAudio(instance, "ignoreme/CheatCxdes.flac", track);
 
   uint32_t track_id = me::audio::register_track(track);
   me::audio::load_track(track_id);
@@ -98,5 +100,14 @@ bool me::scene_2d_viewport::onMouseInput(MeInstance* instance, int action, doubl
 }
 bool me::scene_2d_viewport::onKeyInput(MeInstance* instance, int action, int key)
 {
+  if (action == ME_PRESS)
+  {
+    if (key == ME_KEY_SPACE)
+      track->state.playing = !track->state.playing;
+    else if (key == ME_KEY_UP)
+      track->state.gain+=0.1F;
+    else if (key == ME_KEY_DOWN)
+      track->state.gain-=0.1F;
+  }
   return scene::onKeyInput(instance, action, key);
 }

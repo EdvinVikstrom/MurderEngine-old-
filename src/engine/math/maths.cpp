@@ -214,29 +214,29 @@ float me::maths::atanh(float angle)
 /* ceil */
 long double me::maths::ceil(long double a)
 {
-
+  return ::ceil(a);
 }
 double me::maths::ceil(double a)
 {
-
+  return ::ceil(a);
 }
 float me::maths::ceil(float a)
 {
-
+  return ::ceil(a);
 }
 
 /* floor */
 long double me::maths::floor(long double a)
 {
-
+  return ::floor(a);
 }
 double me::maths::floor(double a)
 {
-
+  return ::floor(a);
 }
 float me::maths::floor(float a)
 {
-
+  return ::floor(a);
 }
 
 /* trunc */

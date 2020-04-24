@@ -1,0 +1,16 @@
+#include "flac_format.h"
+
+int me::format::flac_format::load_audio(me::fileattr &file, me::AudioTrack* track)
+{
+  return ME_FINE;
+}
+
+bool me::format::flac_format::recognized(me::fileattr &file)
+{
+  return me::str_ends(file.filepath, ".flac");
+}
+
+std::vector<std::string> me::format::flac_format::get_file_exts()
+{
+  return { "flac" };
+}

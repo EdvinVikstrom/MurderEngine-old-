@@ -4,21 +4,21 @@ int me::format::wave_format::load_audio(me::fileattr &file, me::AudioTrack* trac
 {
   file.readFile();
   wave_header header;
-  header.riff.chunkID = file.buffer->_uint32();
-  header.riff.chunkSize = file.buffer->_uint32();
-  header.riff.format = file.buffer->_uint32();
+  header.riff.chunkID = file.buffer->pull_uint32();
+  header.riff.chunkSize = file.buffer->pull_uint32();
+  header.riff.format = file.buffer->pull_uint32();
 
-  header.fmt.subChunkID = file.buffer->_uint32();
-  header.fmt.subChunkSize = file.buffer->_uint32();
-  header.fmt.format = file.buffer->_uint16();
-  header.fmt.channels = file.buffer->_uint16();
-  header.fmt.sampleRate = file.buffer->_uint32();
-  header.fmt.byteRate = file.buffer->_uint32();
-  header.fmt.blockAlign = file.buffer->_uint16();
-  header.fmt.bitsPerSample = file.buffer->_uint16();
+  header.fmt.subChunkID = file.buffer->pull_uint32();
+  header.fmt.subChunkSize = file.buffer->pull_uint32();
+  header.fmt.format = file.buffer->pull_uint16();
+  header.fmt.channels = file.buffer->pull_uint16();
+  header.fmt.sampleRate = file.buffer->pull_uint32();
+  header.fmt.byteRate = file.buffer->pull_uint32();
+  header.fmt.blockAlign = file.buffer->pull_uint16();
+  header.fmt.bitsPerSample = file.buffer->pull_uint16();
 
-  header.data.subChunkID = file.buffer->_uint32();
-  header.data.subChunkSize = file.buffer->_uint32();
+  header.data.subChunkID = file.buffer->pull_uint32();
+  header.data.subChunkSize = file.buffer->pull_uint32();
 
   if (header.fmt.bitsPerSample == 8)
     track->info.format = AudioFormat::ME_AUD_FORMAT_S8BIT_PCM;

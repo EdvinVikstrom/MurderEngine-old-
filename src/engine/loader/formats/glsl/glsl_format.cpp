@@ -8,7 +8,7 @@ int me::glsl_format::read_shader_file(const char* filepath, MeShaderProgram* pro
 {
   me::fileattr* file = me::load_file(filepath);
   file->readFile();
-  std::string data = (char*)file->buffer->data;
+  std::string data = (char*) &file->buffer->data[0];
   std::vector<std::string> lines = me::split_str(data, '\n');
   MeShaderType type = MeShaderType::UNKNOWN_SHADER;
   for (std::string &line : lines)

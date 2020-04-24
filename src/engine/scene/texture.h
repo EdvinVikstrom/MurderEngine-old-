@@ -15,6 +15,23 @@ namespace me {
     ME_IMG_FORMAT_GRAY_ALPHA =             0x42
   };
 
+  enum ImageCompression : unsigned char {
+    ME_IMG_COMPRESSION_NONE =              0x1,
+    ME_IMG_COMPRESSION_DEFLATE =           0x2,
+    ME_IMG_COMPRESSION_LZW =               0x3,
+    ME_IMG_COMPRESSION_PACK_BITS =         0x4,
+    ME_IMG_COMPRESSION_DWAA =              0x5,
+    ME_IMG_COMPRESSION_PXR24 =             0x6,
+    ME_IMG_COMPRESSION_B44A =              0x7,
+    ME_IMG_COMPRESSION_B44 =               0x8
+  };
+
+  enum VideoCodec : unsigned char {
+    ME_VID_CODEC_H264 =                   0xF1,
+    ME_VID_CODEC_MPEG4 =                  0xF2,
+    ME_VID_CODEC_PNG =                    0xF3
+  };
+
   enum WColorType : unsigned char {
     ME_WCOLOR_MAP = 0,
     ME_WCOLOR_COLOR = 1,
@@ -33,6 +50,7 @@ namespace me {
     std::string identifier;
     me::metadata* metadata;
     ImageFormat format;
+    ImageCompression compression = ME_IMG_COMPRESSION_NONE;
   };
 
   struct Image {

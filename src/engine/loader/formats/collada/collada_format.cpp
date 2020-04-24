@@ -410,7 +410,7 @@ int me::format::collada_format::load_scene(me::fileattr &file, me::ScenePacket* 
 {
   file.readFile();
   rapidxml::xml_document<> doc;
-  doc.parse<0>((char*)file.buffer->data);
+  doc.parse<0>((char*) &file.buffer->data[0]);
   std::cout << "--- [Parsed XML data] ---\n";
   rapidxml::xml_node<>* collada_node = doc.first_node();
 
@@ -500,10 +500,10 @@ int me::format::collada_format::load_scene(me::fileattr &file, me::ScenePacket* 
 
 bool me::format::collada_format::recognized(me::fileattr &file)
 {
-  if (file.buffer->data != nullptr && me::str_starts(file.filepath, "<?xml"))
+  if (file.buffer->data.size() != 0 && me::str_starts(file.filepath, "<?xml"))
   {
     rapidxml::xml_document<> doc;
-    doc.parse<0>((char*)file.buffer->data); // TODO: will maybe produce errors. "data" does not contain the full document bc memory.
+    doc.parse<0>((char*) &file.buffer->data[0]); // TODO: will maybe produce errors. "data" does not contain the full document bc memory.
     if (std::string(doc.first_node()->name())=="COLLADA")
       return true;
   }

@@ -61,6 +61,9 @@ namespace me {
   struct AudioState {
     uint32_t position = 0;
     bool playing = false;
+
+    float gain = 1.0F;
+
   };
 
   struct AudioTrack {

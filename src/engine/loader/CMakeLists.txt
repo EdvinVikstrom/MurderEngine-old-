@@ -6,6 +6,7 @@ set(SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/formats/bmp/bmp_format.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/formats/png/png_format.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/formats/wave/wave_format.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/formats/flac/flac_format.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/formats/collada/collada_format.cpp
   PARENT_SCOPE
 )

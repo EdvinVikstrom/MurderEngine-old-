@@ -26,6 +26,7 @@ namespace me {
       IFF_BMP,
       IFF_EXR,
       IFF_HDR,
+      IFF_FFMPEG,
       IFF_RAW
     };
 

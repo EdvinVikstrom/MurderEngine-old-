@@ -8,8 +8,8 @@
 
 #define FRAMES_PER_BUFFER                 1L
 
-static std::vector<me::AudioTrack*> tracks;
-static std::vector<PaStream*> streams;
+static std::map<uint32_t, me::AudioTrack*> tracks;
+static std::map<uint32_t, PaStream*> streams;
 
 static int pa_callback(const void *inputBuffer, void *outputBuffer,
                            unsigned long framesPerBuffer,
@@ -33,7 +33,7 @@ static int pa_callback(const void *inputBuffer, void *outputBuffer,
       else if (track->info.format == me::AudioFormat::ME_AUD_FORMAT_S24BIT_PCM) audio = (bytes[track->state.position++]) | (bytes[track->state.position++] << 8) | (bytes[track->state.position++] << 16);
       else if (track->info.format == me::AudioFormat::ME_AUD_FORMAT_S32BIT_PCM) audio = (bytes[track->state.position++]) | (bytes[track->state.position++] << 8) | (bytes[track->state.position++] << 16) | (bytes[track->state.position++] << 24);
       else if (track->info.format == me::AudioFormat::ME_AUD_FORMAT_FLOAT32) audio = 0;
-      out[j] = audio;
+      out[j] = audio * track->state.gain;
     }
   }
   return 0;
@@ -64,13 +64,13 @@ int me::audio::cleanup()
 uint32_t me::audio::register_track(me::AudioTrack* track)
 {
   uint32_t track_id = tracks.size();
-  tracks.push_back(track);
+  tracks[track_id] = track;
   return track_id;
 }
 
 int me::audio::load_track(uint32_t track_id)
 {
-  me::AudioTrack* track = tracks.at(track_id);
+  me::AudioTrack* track = tracks[track_id];
   PaSampleFormat format;
   if (track->info.format == ME_AUD_FORMAT_S8BIT_PCM) format = paInt8;
   else if (track->info.format == ME_AUD_FORMAT_S16BIT_PCM) format = paInt16;
@@ -99,15 +99,15 @@ int me::audio::load_track(uint32_t track_id)
     std::cout << "[AudioSystem] Failed to load AudioTrack\n";
     return ME_ERR;
   }
-  streams.push_back(stream);
+  streams[track_id] = stream;
   return ME_FINE;
 }
 
 int me::audio::play_track(uint32_t track_id)
 {
-  me::AudioTrack* track = tracks.at(track_id);
+  me::AudioTrack* track = tracks[track_id];
   track->state.playing = true;
-  PaStream* stream = streams.at(track_id);
+  PaStream* stream = streams[track_id];
   PaError err = Pa_StartStream(stream);
   if (err != paNoError)
   {
@@ -119,9 +119,9 @@ int me::audio::play_track(uint32_t track_id)
 
 int me::audio::stop_track(uint32_t track_id)
 {
-  me::AudioTrack* track = tracks.at(track_id);
+  me::AudioTrack* track = tracks[track_id];
   track->state.playing = false;
-  PaStream* stream = streams.at(track_id);
+  PaStream* stream = streams[track_id];
   PaError err = Pa_StopStream(stream);
   if (err != paNoError)
   {

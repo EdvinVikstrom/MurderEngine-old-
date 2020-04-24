@@ -88,7 +88,7 @@ int me::format::png_format::load_image(me::fileattr &file, me::Image* image)
   return ME_FINE;
 }
 
-int me::format::png_format::write_image(me::write_buffer &buffer, me::Image* image)
+int me::format::png_format::write_image(me::bytebuff &buffer, me::Image* image)
 {
   return ME_FINE;
 }

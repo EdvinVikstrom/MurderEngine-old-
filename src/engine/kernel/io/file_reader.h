@@ -10,216 +10,79 @@ namespace me {
     BO_LITTLE_ENDIAN = 1
   };
 
-  struct filebuff {
-
-    unsigned char* data;
-    uint64_t length, pos;
-
-    filebuff(unsigned char* data, uint64_t length)
-    {
-      this->data = data;
-      this->length = length;
-      pos = 0;
-    }
-
-    filebuff()
-    {
-      length = 0;
-      pos = 0;
-    }
-
-    ~filebuff()
-    {
-      #ifdef ME_DEBUG
-        printf("file buffer destroyed / length: %ld\n", length);
-      #endif
-    }
-
-    inline uint32_t remaining()
-    {
-      return length - pos;
-    }
-
-    inline bool hasRemaining()
-    {
-      return pos < length;
-    }
-
-    inline unsigned char* atPos(uint32_t size)
-    {
-      return &data[pos+=size];
-    }
-
-    inline unsigned char read()
-    {
-      return data[pos++];
-    }
-
-    inline unsigned char* read(uint32_t length)
-    {
-      unsigned char* output = new unsigned char[length];
-      for (uint32_t i = 0; i < length; i++)
-      {
-        output[i] = data[pos];
-        pos++;
-      }
-      return output;
-    }
-
-    inline short _short()
-    {
-      short o = short((data[pos+1]) << 8 | (data[pos]));
-      pos+=2;
-      return o;
-    }
-
-    inline int _int()
-    {
-      int o = int((data[pos+3]) << 24 | (data[pos+2]) << 16 | (data[pos+1]) << 8 | (data[pos]));
-      pos+=4;
-      return o;
-    }
-
-    inline long _long()
-    {
-      long o = long(
-        (long)(data[pos+7]) << 56L | (long)(data[pos+6]) << 48L | (long)(data[pos+5]) << 40L | (long)(data[pos+4]) << 32L |
-        (long)(data[pos+3]) << 24L | (long)(data[pos+2]) << 16L | (long)(data[pos+1]) << 8L | (long)(data[pos+=8]));
-      pos+=8;
-      return o;
-    }
-
-    inline uint16_t _uint16()
-    {
-      uint16_t o = uint16_t((data[pos+1]) << 8 | (data[pos]));
-      pos+=2;
-      return o;
-    }
-
-    inline uint32_t _uint32()
-    {
-      uint32_t o = uint32_t((data[pos+3]) << 24 | (data[pos+2]) << 16 | (data[pos+1]) << 8 | (data[pos]));
-      pos+=4;
-      return o;
-    }
-
-    inline uint64_t _uint64()
-    {
-      uint64_t o = uint64_t(
-        (long)(data[pos+7]) << 56L | (long)(data[pos+6]) << 48L | (long)(data[pos+5]) << 40L | (long)(data[pos+4]) << 32L |
-        (long)(data[pos+3]) << 24L | (long)(data[pos+2]) << 16L | (long)(data[pos+1]) << 8L | (long)(data[pos]));
-      pos+=8;
-      return o;
-    }
-
-    inline void reset()
-    {
-      pos = 0;
-    }
-
-    inline void flush()
-    {
-      delete[] data;
-      #ifdef ME_DEBUG
-        printf("file buffer flushed / length: %ld\n", length);
-      #endif
-      length = 0;
-      pos = 0;
-    }
-
+  enum BitOrder : unsigned char {
+    BO_FIRST = 0,
+    BO_LAST = 1,
   };
 
-  struct write_buffer {
+  struct bytebuff {
+    std::vector<unsigned char> data;
+    uint64_t length, pos, bit_pos;
+    me::ByteOrder byte_order;
+    me::BitOrder bit_order;
 
-    std::vector<unsigned char> bytes;
-    me::ByteOrder byte_order = BO_BIG_ENDIAN;
-
-    write_buffer(std::vector<unsigned char> bytes, me::ByteOrder byte_order)
+    bytebuff(uint64_t length, ByteOrder byte_order, BitOrder bit_order)
     {
-      this->bytes = bytes;
+      this->length = length;
+      pos = 0;
+      bit_pos = 0;
       this->byte_order = byte_order;
+      this->bit_order = bit_order;
     }
 
-    write_buffer(me::ByteOrder byte_order)
+    bytebuff()
     {
-      this->byte_order = byte_order;
+      length = 0;
+      pos = 0;
+      bit_pos = 0;
+      byte_order = BO_BIG_ENDIAN;
+      bit_order = BO_LAST;
     }
 
-    write_buffer() { }
+    void byteOrder(me::ByteOrder order);
+    void bitOrder(me::BitOrder order);
 
-    ~write_buffer()
-    {
-      bytes.clear();
-    }
+    void pushMem(uint64_t mem);
+    void flip();
+    bool hasRemaining();
+    uint64_t remaining();
+    uint8_t read();
+    void write(unsigned char byte);
 
-    inline void order(me::ByteOrder byte_order)
-    {
-      this->byte_order = byte_order;
-    }
+    uint8_t* read(uint64_t bit_length, uint64_t byte_length);
+    void write(uint8_t* bytes, uint64_t bit_length, uint64_t byte_length);
 
-    inline uint32_t length()
-    {
-      return bytes.size();
-    }
+    uint8_t pull();
+    uint8_t* pull(uint32_t length);
+    short pull_int16();
+    int pull_int24();
+    int pull_int32();
+    long pull_int64();
 
-    inline void push_mem(uint32_t mem)
-    {
-      bytes.reserve(bytes.size() + mem);
-    }
+    uint16_t pull_uint16();
+    uint32_t pull_uint24();
+    uint32_t pull_uint32();
+    uint64_t pull_uint64();
 
-    inline unsigned char& at(uint32_t index)
-    {
-      return bytes.at(index);
-    }
+    long pull_int(uint32_t bit_length);
+    uint64_t pull_uint(uint32_t bit_length);
 
-    inline void push(unsigned char byte)
-    {
-      bytes.emplace_back(byte);
-    }
+    void push(unsigned char byte);
+    void push(unsigned char* data, uint32_t length);
+    void push_int16(short i);
+    void push_int24(int i);
+    void push_int32(int i);
+    void push_int64(long i);
 
-    inline void push(const char* string)
-    {
-      uint32_t str_length = strlen(string);
-      bytes.reserve(bytes.size() + str_length);
-      for (uint32_t i = 0; i < str_length; i++)
-        bytes.push_back((unsigned char) string[i]);
-    }
+    void push_uint16(uint16_t i);
+    void push_uint24(uint32_t i);
+    void push_uint32(uint32_t i);
+    void push_uint64(uint64_t i);
 
-    inline void push_int16(short i)
-    {
-      for (unsigned char j = 0; j < 2; j++)
-        bytes.push_back((i >> ((byte_order == BO_LITTLE_ENDIAN ? j : 1 - j) * 8)) & 0xFF);
-    }
+    void push_int(long i, uint32_t bit_length);
+    void push_uint(uint64_t i, uint32_t bit_length);
 
-    inline void push_int32(int i)
-    {
-      for (unsigned char j = 0; j < 4; j++)
-        bytes.push_back((i >> ((byte_order == BO_LITTLE_ENDIAN ? j : 3 - j) * 8)) & 0xFF);
-    }
-
-    inline void push_int64(long i)
-    {
-      for (unsigned char j = 0; j < 8; j++)
-        bytes.push_back((i >> ((byte_order == BO_LITTLE_ENDIAN ? j : 7 - j) * 8)) & 0xFF);
-    }
-
-    inline void push_uint16(uint16_t i)
-    {
-      for (unsigned char j = 0; j < 2; j++)
-        bytes.push_back((i >> ((byte_order == BO_LITTLE_ENDIAN ? j : 1 - j) * 8)) & 0xFF);
-    }
-
-    inline void push_uint32(uint32_t i)
-    {
-      for (unsigned char j = 0; j < 4; j++)
-        bytes.push_back((i >> ((byte_order == BO_LITTLE_ENDIAN ? j : 3 - j) * 8)) & 0xFF);
-    }
-
-    inline void push_uint64(uint64_t i)
-    {
-      for (unsigned char j = 0; j < 8; j++)
-        bytes.push_back((i >> ((byte_order == BO_LITTLE_ENDIAN ? j : 7 - j) * 8)) & 0xFF);
-    }
+    void flush();
 
   };
 
@@ -236,9 +99,9 @@ namespace me {
     long created, modified;
     FILE* file;
 
-    me::filebuff* buffer;
+    me::bytebuff* buffer;
 
-    fileattr(const char* filepath, file_access access, long created, long modified, FILE* file, me::filebuff* buffer)
+    fileattr(const char* filepath, file_access access, long created, long modified, FILE* file, me::bytebuff* buffer)
     {
       this->filepath = filepath;
       this->access = access;

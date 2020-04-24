@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <iostream>
 
-static std::vector<me::filebuff*> buffers;
+static std::vector<me::bytebuff*> buffers;
 
 me::fileattr* me::load_file(const char* filepath)
 {
@@ -20,7 +20,7 @@ me::fileattr* me::load_file(const char* filepath)
   uint64_t file_size = ftell(file);
   rewind(file);
 
-  me::filebuff* buffer = new me::filebuff(nullptr, file_size);
+  me::bytebuff* buffer = new me::bytebuff(file_size, me::ByteOrder::BO_BIG_ENDIAN, me::BitOrder::BO_LAST);
   buffers.push_back(buffer);
   return new me::fileattr(filepath, file_access::ALL, 0L, 0L, file, buffer);
 }
@@ -34,12 +34,12 @@ void me::write_file(const char* filepath, unsigned char* data, uint64_t off, uin
 
 void me::fileattr::readFile()
 {
-  char* data = new char[buffer->length + 1];
-  fread(data, buffer->length, 1, file);
-  data[buffer->length] = 0;
+  buffer->data.resize(buffer->length + 1);
+  fread(&buffer->data[0], buffer->length, 1, file);
+  buffer->data[buffer->length] = 0;
 
-  if (file != nullptr) fclose(file);
-  buffer->data = (unsigned char*) data;
+  if (file != nullptr)
+    fclose(file);
 }
 
 /* close the filebuff */
@@ -51,7 +51,7 @@ void me::fileattr::closeFile()
 int me::cleanup_buffers()
 {
   int count = 0;
-  for (me::filebuff* buffer : buffers)
+  for (me::bytebuff* buffer : buffers)
   {
     if (buffer==nullptr)
       continue;

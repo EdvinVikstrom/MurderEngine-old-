@@ -17,7 +17,7 @@ namespace me {
       }
 
       virtual int load_image(me::fileattr &file, me::Image* image) = 0;
-      virtual int write_image(me::write_buffer &buffer, me::Image* image) = 0;
+      virtual int write_image(me::bytebuff &buffer, me::Image* image) = 0;
       virtual bool recognized(me::fileattr &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
 

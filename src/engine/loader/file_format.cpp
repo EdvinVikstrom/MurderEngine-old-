@@ -3,9 +3,15 @@
 #include "scene_format.h"
 #include "../kernel/io/file_reader.h"
 
+/* image formats */
 #include "formats/bmp/bmp_format.h"
 #include "formats/png/png_format.h"
+
+/* audio formats */
 #include "formats/wave/wave_format.h"
+#include "formats/flac/flac_format.h"
+
+/* scene formats */
 #include "formats/collada/collada_format.h"
 
 static std::vector<me::format::image_format*> image_formats;
@@ -67,13 +73,13 @@ void me::format::loadScene(MeInstance* instance, const std::string &filepath, me
 
 void me::format::writeImage(MeInstance* instance, const std::string &filepath, me::format::ImageFileFormat image_format, me::Image* image)
 {
-  me::write_buffer buffer;
+  me::bytebuff buffer;
   for (me::format::image_format* format : image_formats)
   {
     if (format->format == image_format)
       format->write_image(buffer, image);
   }
-  me::write_file(filepath.c_str(), &buffer.bytes[0], 0, buffer.length());
+  me::write_file(filepath.c_str(), &buffer.data[0], 0, buffer.length);
 }
 
 unsigned char* me::format::loadRAWData(MeInstance* instance, const std::string &filepath, uint32_t &length)
@@ -81,7 +87,7 @@ unsigned char* me::format::loadRAWData(MeInstance* instance, const std::string &
   me::fileattr &file = *me::load_file(filepath.c_str());
   file.readFile();
   length = file.buffer->length;
-  return file.buffer->data;
+  return &file.buffer->data[0];
 }
 
 void me::format::init()
@@ -89,6 +95,7 @@ void me::format::init()
   image_formats.push_back(new bmp_format);
   image_formats.push_back(new png_format);
   audio_formats.push_back(new wave_format);
+  audio_formats.push_back(new flac_format);
   scene_formats.push_back(new collada_format);
 }
 void me::format::cleanup()
