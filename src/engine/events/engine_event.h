@@ -69,6 +69,14 @@ enum MeInputType {
   ME_INPUT_TYPE_OTHER =                                 291
 };
 
+struct MeInputEventContext {
+
+  MeInstance* instance;
+  double cursorX, cursorY;
+  std::map<int, bool> pressed;
+
+};
+
 struct MeEngineEvent {
 
   virtual void onPreInit(MeInstance* instance) = 0;
@@ -78,12 +86,8 @@ struct MeEngineEvent {
   virtual void onLoop(MeInstance* instance) = 0;
   virtual void onRender(MeRenderer* renderer) = 0;
 
-  virtual bool onMouseInput(MeInstance* instance, int action, double posX, double posY, int button) = 0;
-  virtual bool onKeyInput(MeInstance* instance, int action, int key) = 0;
-
-  bool isPressed(MeInstance* instance, int key);
-  double mouseX(MeInstance* instance);
-  double mouseY(MeInstance* instance);
+  virtual bool onMouseInput(MeInputEventContext* context, int action, double posX, double posY, int button) = 0;
+  virtual bool onKeyInput(MeInputEventContext* context, int action, int key) = 0;
 
   static MeKey fromGLFW(int i, MeInputType type)
   {

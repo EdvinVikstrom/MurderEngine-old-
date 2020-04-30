@@ -2,10 +2,15 @@
   #define SCENE_2D_VIEWPORT_H
 
 #include "../scene.h"
+#include "../ui/user_interface.h"
 
 namespace me {
 
   class scene_2d_viewport : public me::scene {
+
+  private:
+
+    me::ui::user_interface* ui = new me::ui::user_interface;
 
   public:
 
@@ -18,8 +23,8 @@ namespace me {
     void onRender(MeRenderer* renderer) override;
     void onLoop(MeInstance* instance) override;
 
-    bool onMouseInput(MeInstance* instance, int action, double posX, double posY, int button) override;
-    bool onKeyInput(MeInstance* instance, int action, int key) override;
+    bool onMouseInput(MeInputEventContext* context, int action, double posX, double posY, int button) override;
+    bool onKeyInput(MeInputEventContext* context, int action, int key) override;
 
   };
 

@@ -46,9 +46,10 @@ namespace me {
 
       collada_format() : scene_format(SFF_COLLADA) { }
 
-      int load_scene(me::fileattr &file, me::ScenePacket* scene) override;
+      int load_scene(me::bytebuff &buffer, me::ScenePacket* scene, uint64_t flags) override;
       bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
+      uint64_t supported_flags() override;
 
     };
 

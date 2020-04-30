@@ -26,8 +26,8 @@ namespace me {
     virtual void onRender(MeRenderer* renderer);
     virtual void onLoop(MeInstance* instance);
 
-    virtual bool onMouseInput(MeInstance* instance, int action, double posX, double posY, int button);
-    virtual bool onKeyInput(MeInstance* instance, int action, int key);
+    virtual bool onMouseInput(MeInputEventContext* context, int action, double posX, double posY, int button);
+    virtual bool onKeyInput(MeInputEventContext* context, int action, int key);
 
   };
 

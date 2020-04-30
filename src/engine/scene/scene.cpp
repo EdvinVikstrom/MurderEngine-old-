@@ -28,11 +28,11 @@ void me::scene::onRender(MeRenderer* renderer)
   renderer->uniformMatrix4(1, camera->view_matrix);
 }
 
-bool me::scene::onMouseInput(MeInstance* instance, int action, double posX, double posY, int button)
+bool me::scene::onMouseInput(MeInputEventContext* context, int action, double posX, double posY, int button)
 {
   return false;
 }
-bool me::scene::onKeyInput(MeInstance* instance, int action, int key)
+bool me::scene::onKeyInput(MeInputEventContext* context, int action, int key)
 {
   return false;
 }

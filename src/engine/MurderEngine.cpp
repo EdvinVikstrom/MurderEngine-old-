@@ -24,45 +24,38 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   for (MeEngineEvent* event : instance->events)
-    event->onMouseInput(instance, ME_MOUSE_MOVE, instance->window->cursorX - xpos, instance->window->cursorY - ypos, ME_KEY_NONE);
-  instance->window->cursorX = xpos;
-  instance->window->cursorY = ypos;
+    event->onMouseInput(instance->inputContext, ME_MOUSE_MOVE, instance->inputContext->cursorX - xpos, instance->inputContext->cursorY - ypos, ME_KEY_NONE);
+  instance->inputContext->cursorX = xpos;
+  instance->inputContext->cursorY = ypos;
 }
 
 static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   for (MeEngineEvent* event : instance->events)
-    event->onMouseInput(instance, ME_MOUSE_SCROLL, xoffset, yoffset, ME_KEY_NONE);
+    event->onMouseInput(instance->inputContext, ME_MOUSE_SCROLL, xoffset, yoffset, ME_KEY_NONE);
 }
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   if (action==GLFW_PRESS)
-    instance->window->pressedKeys[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = ME_TRUE;
+    instance->inputContext->pressed[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = ME_TRUE;
   if (action==GLFW_RELEASE)
-    instance->window->pressedKeys[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = ME_FALSE;
+    instance->inputContext->pressed[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = ME_FALSE;
   for (MeEngineEvent* event : instance->events)
-    event->onMouseInput(instance, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), instance->window->cursorX, instance->window->cursorY, button);
+    event->onMouseInput(instance->inputContext, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), instance->inputContext->cursorX, instance->inputContext->cursorY, button);
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   if (action==GLFW_PRESS)
-    instance->window->pressedKeys[static_cast<MeKey>(key)] = ME_TRUE;
+    instance->inputContext->pressed[static_cast<MeKey>(key)] = ME_TRUE;
   if (action==GLFW_RELEASE)
-    instance->window->pressedKeys[static_cast<MeKey>(key)] = ME_FALSE;
+    instance->inputContext->pressed[static_cast<MeKey>(key)] = ME_FALSE;
   for (MeEngineEvent* event : instance->events)
-    event->onKeyInput(instance, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), key);
-}
-
-bool MeEngineEvent::isPressed(MeInstance* instance, int key)
-{
-  if (!instance->window->pressedKeys.count(key))
-    return false;
-  return instance->window->pressedKeys[key];
+    event->onKeyInput(instance->inputContext, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), key);
 }
 
 MeResult MeCommand::execute(MeInstance* instance)
@@ -87,6 +80,7 @@ MeBool MeInstance::shouldExit()
 MeResult meInitInstance(MeInstanceInfo* info, MeInstance* instance)
 {
   instance->info = info;
+  instance->inputContext = new MeInputEventContext;
   return ME_SUCCESS;
 }
 MeResult meInitWindow(MeInstance* instance, MeWindowInfo* info, MeWindow* window)

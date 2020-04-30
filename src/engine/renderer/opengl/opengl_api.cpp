@@ -152,6 +152,10 @@ int me::opengl_api::loadImage(me::Image* image)
   {
     internal_format = GL_RGBA8;
     external_format = GL_RGBA;
+  }else
+  {
+    std::cout << "[OpenGL] [ERR]: unknown image format [" << image->info.format << "]\n";
+    return ME_ERR;
   }
   glTexImage2D(GL_TEXTURE_2D, 0, internal_format, image->bitmap->width, image->bitmap->height, 0, external_format, GL_UNSIGNED_BYTE, image->bitmap->map);
   glBindTexture(GL_TEXTURE_2D, 0);
@@ -286,7 +290,8 @@ int me::opengl_api::renderFrame(MeInstance* instance, unsigned long current_fram
   for (me::Mesh* mesh : instance->meshes)
   {
     me::Material* material = mesh->materials.at(0);
-    glUniformMatrix4fv(2, 1, GL_FALSE, mesh->model_matrix.array);
+    mesh->transform.updateMatrix();
+    glUniformMatrix4fv(2, 1, GL_FALSE, mesh->transform.matrix.array);
 
     glBindVertexArray(mesh->buffer);
     renderMesh(mesh, material, mesh->mode);

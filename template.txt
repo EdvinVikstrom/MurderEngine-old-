@@ -1,0 +1,9 @@
+OUT = ${OUTPUT}
+ODIR = ${OBJ_DIR}
+SDIR = ${SRC_DIR}
+SOURCES = ${SOURCES}
+OBJECTS = ${OBJECTS}
+CC = g++
+
+build:
+  ${CC} -c ${}

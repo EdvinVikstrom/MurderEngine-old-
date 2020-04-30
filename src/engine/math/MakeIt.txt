@@ -1,0 +1,7 @@
+append:
+  SOURCES
+  ${CURRENT_DIR}/maths.cpp
+  ${CURRENT_DIR}/vector_utils.cpp
+  ${CURRENT_DIR}/vector2.cpp
+  ${CURRENT_DIR}/vector3.cpp
+  ${CURRENT_DIR}/vector4.cpp

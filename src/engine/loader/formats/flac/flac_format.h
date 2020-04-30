@@ -48,9 +48,10 @@ namespace me {
 
       flac_format() : audio_format(AFF_FLAC) { }
 
-      int load_audio(me::fileattr &file, me::AudioTrack* track) override;
+      int load_audio(me::bytebuff &buffer, me::AudioTrack* track, uint64_t flags) override;
       bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
+      uint64_t supported_flags() override;
 
     };
 

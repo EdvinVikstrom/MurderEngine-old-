@@ -21,9 +21,10 @@ namespace me {
         this->format = format;
       }
 
-      virtual int load_scene(me::fileattr &file, ScenePacket* scene) = 0;
+      virtual int load_scene(me::bytebuff &buffer, ScenePacket* scene, uint64_t flags) = 0;
       virtual bool recognized(me::fileattr &file) = 0;
       virtual std::vector<std::string> get_file_exts() = 0;
+      virtual uint64_t supported_flags() = 0;
 
     };
 

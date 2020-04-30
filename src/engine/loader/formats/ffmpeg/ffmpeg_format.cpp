@@ -1,22 +1,33 @@
 #include "ffmpeg_format.h"
+//#include "../../../../external/ffmpeg/libavcodec/avcodec.h"
+//#include "../../../../external/ffmpeg/libavformat/avformat.h"
 
-int load_image(me::fileattr &file, me::Image* image)
+int me::format::ffmpeg_format::load_image(me::bytebuff &buffer, me::Image* image, uint64_t flags)
 {
-  
+  //AVFormatContext* format_context = avformat_alloc_context();
+  //avformat_open_input(&format_context, buffer.source.c_str(), nullptr, nullptr);
+  //std::cout << "format: " << format_context->iformat->name << "\n";
+  //std::cout << "duration: " << format_context->duration << "\n";
+  //std::cout << "bit rate: " << format_context->bit_rate << "\n";
   return ME_FINE;
 }
 
-int write_image(me::bytebuff &buffer, me::Image* image)
+int me::format::ffmpeg_format::write_image(me::bytebuff &buffer, me::Image* image, uint64_t flags)
 {
   return ME_FINE;
 }
 
-bool recognized(me::fileattr &file)
+bool me::format::ffmpeg_format::recognized(me::fileattr &file)
 {
-  return me::str_ends(file.filepath, ".ffmpeg");
+  return me::str_ends(file.filepath, ".mov");
 }
 
-std::vector<std::string> get_file_exts()
+std::vector<std::string> me::format::ffmpeg_format::get_file_exts()
 {
-  return { "ffmpeg" };
+  return { ".mp4" };
+}
+
+uint64_t me::format::ffmpeg_format::supported_flags()
+{
+  return 0; // TODO:
 }

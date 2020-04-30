@@ -27,7 +27,8 @@ namespace me {
       struct header {
         uint16_t signature;        // 'BM' | offset: 0
         uint32_t file_size;        // size of file in bytes | offset: 2
-        uint32_t reserved;         // unused | offset: 6
+        uint16_t reserved1;        // unused | offset: 6
+        uint16_t reserved2;        // unused | offset: 8
         uint32_t data_offset;      // beginning of the bitmap data | offset: 10
       } file;
 
@@ -51,10 +52,11 @@ namespace me {
 
       bmp_format() : image_format(IFF_BMP) { }
 
-      int load_image(me::fileattr &file, me::Image* image) override;
-      int write_image(me::bytebuff &buffer, me::Image* image) override;
+      int load_image(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
+      int write_image(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
       bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
+      uint64_t supported_flags() override;
 
     };
 

@@ -1,0 +1,5 @@
+append:
+  SOURCES
+  ${CURRENT_DIR}/string.cpp
+  ${CURRENT_DIR}/io/file_reader.cpp
+  ${CURRENT_DIR}/io/bytebuff.cpp

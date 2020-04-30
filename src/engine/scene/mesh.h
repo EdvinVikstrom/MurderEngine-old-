@@ -2,6 +2,7 @@
   #define MESH_H
 
 #include "../kernel/array_utils.h"
+#include "../math/transform.h"
 
 namespace me {
 
@@ -39,7 +40,7 @@ namespace me {
     std::string identifier;
     unsigned int buffer;
 
-    Polygon mode;
+    Polygon mode = TRIANGLE;
 
     std::vector<me::vec3> positions;
     std::vector<me::vec3> normals;
@@ -50,7 +51,7 @@ namespace me {
     std::vector<uint32_t> indices;
 
     std::vector<me::Material*> materials;
-    me::maths::mat4 model_matrix;
+    me::transform transform;
     /*                     | offset 4 -->  0 1 2 3  | 4 5 6 7  | 8 9 ...   */
     /* indices offset | example: indices { v,n,t,c, | v,n,t,c, | v,n,... } */
     unsigned int offset = 0;

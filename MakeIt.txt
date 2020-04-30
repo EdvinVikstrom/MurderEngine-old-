@@ -1,0 +1,24 @@
+project:
+  MurderEngine
+
+build_dir:
+  ${CURRENT_DIR}/build
+
+var:
+  SOURCES
+  LIBS
+
+append:
+  LIBS
+  glfw
+
+directory:
+  ${CURRENT_DIR}/src
+
+cout:
+  all sources: ${SOURCES}
+
+exec:
+  -std=c++17
+  ${SOURCES}
+  ${LIBS}

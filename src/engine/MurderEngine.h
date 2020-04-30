@@ -105,9 +105,6 @@ struct MeWindow {
   void destroy();
   MeBool shouldClose();
 
-  std::map<int, bool> pressedKeys;
-  double cursorX, cursorY;
-
 };
 
 struct MeRenderer {
@@ -136,6 +133,7 @@ struct MeInstance {
   MeWindow* window;
   MeRenderer* renderer;
   MeCommandBuffer* commandBuffer;
+  MeInputEventContext* inputContext;
   std::vector<MeEngineEvent*> events;
 
   std::vector<me::Image*> images;

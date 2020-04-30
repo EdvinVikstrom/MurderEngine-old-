@@ -20,7 +20,7 @@ me::fileattr* me::load_file(const char* filepath)
   uint64_t file_size = ftell(file);
   rewind(file);
 
-  me::bytebuff* buffer = new me::bytebuff(file_size, me::ByteOrder::BO_BIG_ENDIAN, me::BitOrder::BO_LAST);
+  me::bytebuff* buffer = new me::bytebuff(filepath, file_size, me::ByteOrder::BO_BIG_ENDIAN, me::BitOrder::BO_LAST, me::ByteBuffMode::BBMODE_READ);
   buffers.push_back(buffer);
   return new me::fileattr(filepath, file_access::ALL, 0L, 0L, file, buffer);
 }

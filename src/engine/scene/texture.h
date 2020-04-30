@@ -5,6 +5,9 @@
 #include <cstdint>
 #include "metadata.h"
 
+#define IMAGE_MAX_WIDTH                    44100
+#define IMAGE_MAX_HEIGHT                   44100
+
 namespace me {
 
   enum ImageFormat : unsigned char {
@@ -23,7 +26,10 @@ namespace me {
     ME_IMG_COMPRESSION_DWAA =              0x5,
     ME_IMG_COMPRESSION_PXR24 =             0x6,
     ME_IMG_COMPRESSION_B44A =              0x7,
-    ME_IMG_COMPRESSION_B44 =               0x8
+    ME_IMG_COMPRESSION_B44 =               0x8,
+    ME_IMG_COMPRESSION_CCITT3 =            0x9,
+    ME_IMG_COMPRESSION_CCITT4 =            0x10,
+    ME_IMG_COMPRESSION_CCITT6 =            0x11
   };
 
   enum VideoCodec : unsigned char {
@@ -40,7 +46,7 @@ namespace me {
 
   struct Bitmap {
     uint32_t width, height;
-    unsigned char depth;
+    unsigned char bitsPerSample;
     unsigned char* map;
   };
 
@@ -48,7 +54,7 @@ namespace me {
     uint32_t glBindId;
     std::string source;
     std::string identifier;
-    me::metadata* metadata;
+    me::metadata* metadata = new me::metadata;
     ImageFormat format;
     ImageCompression compression = ME_IMG_COMPRESSION_NONE;
   };
@@ -153,6 +159,7 @@ namespace me {
       this->image = image;
     }
 
+/*
     inline void set_pixel(int color, int posX, int posY)
     {
       if (posX < 0 || posX >= image->bitmap->width || posY < 0 || posY >= image->bitmap->height)
@@ -201,6 +208,7 @@ namespace me {
         }
       }
     }
+*/
 
   };
 

@@ -1,0 +1,15 @@
+append:
+  SOURCES
+  ${CURRENT_DIR}/formats/bmp/bmp_format.cpp
+  ${CURRENT_DIR}/formats/collada/collada_format.cpp
+  ${CURRENT_DIR}/formats/ffmpeg/ffmpeg_format.cpp
+  ${CURRENT_DIR}/formats/flac/flac_format.cpp
+  ${CURRENT_DIR}/formats/gif/gif_format.cpp
+  ${CURRENT_DIR}/formats/glsl/glsl_format.cpp
+  ${CURRENT_DIR}/formats/ico/ico_format.cpp
+  ${CURRENT_DIR}/formats/jpeg/jpeg_format.cpp
+  ${CURRENT_DIR}/formats/png/png_format.cpp
+  ${CURRENT_DIR}/formats/targa/targa_format.cpp
+  ${CURRENT_DIR}/formats/tiff/tiff_format.cpp
+  ${CURRENT_DIR}/formats/wave/wave_format.cpp
+  ${CURRENT_DIR}/formats/zip/zip_format.cpp

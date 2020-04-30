@@ -1,0 +1,6 @@
+append:
+  SOURCES
+  ${CURRENT_DIR}/Main.cpp
+
+directory:
+  ${CURRENT_DIR}/engine
