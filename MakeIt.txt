@@ -11,12 +11,19 @@ var:
 append:
   LIBS
   glfw
+  GLEW
+  GL
+  GLU
+  vulkan
+  portaudio
 
 directory:
   ${CURRENT_DIR}/src
 
-cout:
-  all sources: ${SOURCES}
+library:
+  ${CURRENT_DIR}/external/vulkan/x86_64/lib
+  ${CURRENT_DIR}/src/external/libpng/libpng.so
+  ${CURRENT_DIR}/src/external/portaudio
 
 exec:
   -std=c++17

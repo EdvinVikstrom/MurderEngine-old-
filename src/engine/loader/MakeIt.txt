@@ -1,5 +1,7 @@
 append:
   SOURCES
+  ${CURRENT_DIR}/file_format.cpp
+  ${CURRENT_DIR}/scene_format.cpp
   ${CURRENT_DIR}/formats/bmp/bmp_format.cpp
   ${CURRENT_DIR}/formats/collada/collada_format.cpp
   ${CURRENT_DIR}/formats/ffmpeg/ffmpeg_format.cpp
