@@ -1,9 +1,6 @@
 project:
   MurderEngine
 
-build_dir:
-  ${CURRENT_DIR}/build
-
 var:
   SOURCES
   LIBS

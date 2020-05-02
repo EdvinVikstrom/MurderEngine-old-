@@ -4,12 +4,12 @@ OBJ = ./MakeItFiles/src/Main.o ./MakeItFiles/src/engine/MurderEngine.o ./MakeItF
 
 CC = g++
 CFLAGS = -Wall -std=c++17
-OUTDIR = MakeItFiles
+OUTD = MakeItFiles
 LIBD = -L./external/vulkan/x86_64/lib -L./src/external/libpng/libpng.so -L./src/external/portaudio 
 INCD = 
 LIBS = -lglfw -lGLEW -lGL -lGLU -lvulkan -lportaudio 
 
-$(OUTDIR)/%.o: %.cpp $(SRC)
+$(OUTD)/%.o: %.cpp $(SRC)
 	$(CC) -c -o $@ $< $(INCD) $(CFLAGS)
 
 $(NAME): $(OBJ)
@@ -18,4 +18,4 @@ $(NAME): $(OBJ)
 .PHONY: clean
 
 clean:
-	rm -rf $(OBJ)
+	rm -f $(OUTD)/*.o
