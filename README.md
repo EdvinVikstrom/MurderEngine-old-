@@ -1,4 +1,6 @@
-![](https://img.shields.io/badge/Contributions-2-orange)
+![](https://img.shields.io/github/last-commit/Ficklampan/MurderEngine)
+![](https://img.shields.io/github/repo-size/Ficklampan/MurderEngine)
+![](https://img.shields.io/github/license/Ficklampan/MurderEngine)
 
 # MurderEngine
 An Open Source Game Engine
