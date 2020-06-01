@@ -6,11 +6,11 @@
 
 namespace me {
 
-  enum Polygon {
-    POINT,
-    LINE,
-    TRIANGLE,
-    QUAD,
+  enum MeshPolygonMode : unsigned char {
+    MESH_PLY_POINT,
+    MESH_PLY_LINE,
+    MESH_PLY_TRIANGLE,
+    MESH_PLY_QUAD
   };
 
   struct vertex {
@@ -35,12 +35,17 @@ namespace me {
     }
   };
 
+  struct MeshInfo {
+    uint32_t data[4];
+    std::string source;
+    std::string identifier;
+    me::metadata* metadata = new me::metadata;
+    MeshPolygonMode polygonMode;
+  };
+
   struct Mesh {
 
-    std::string identifier;
-    unsigned int buffer;
-
-    Polygon mode = TRIANGLE;
+    me::transform transform;
 
     std::vector<me::vec3> positions;
     std::vector<me::vec3> normals;
@@ -49,12 +54,30 @@ namespace me {
 
     std::vector<me::vertex> vertices;
     std::vector<uint32_t> indices;
-
     std::vector<me::Material*> materials;
-    me::transform transform;
-    /*                     | offset 4 -->  0 1 2 3  | 4 5 6 7  | 8 9 ...   */
-    /* indices offset | example: indices { v,n,t,c, | v,n,t,c, | v,n,... } */
-    unsigned int offset = 0;
+    uint8_t offset;
+
+    MeshInfo info;
+
+    Mesh(me::transform transform, std::vector<me::vec3> positions, std::vector<me::vec3> normals, std::vector<me::vec2> texCoords, std::vector<me::vec4> colors, std::vector<me::vertex> vertices, std::vector<uint32_t> indices, std::vector<me::Material*> materials, uint8_t offset, MeshInfo info)
+    {
+      this->transform = transform;
+      this->positions = positions;
+      this->normals = normals;
+      this->texCoords = texCoords;
+      this->colors = colors;
+      this->vertices = vertices;
+      this->indices = indices;
+      this->materials = materials;
+      this->offset = offset;
+      this->info = info;
+    }
+
+    Mesh(me::transform transform, MeshInfo info)
+    {
+      this->transform = transform;
+      this->info = info;
+    }
 
     Mesh()
     {

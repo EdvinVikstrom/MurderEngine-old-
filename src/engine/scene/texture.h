@@ -51,7 +51,7 @@ namespace me {
   };
 
   struct ImageInfo {
-    uint32_t glBindId;
+    uint32_t data[4];
     std::string source;
     std::string identifier;
     me::metadata* metadata = new me::metadata;

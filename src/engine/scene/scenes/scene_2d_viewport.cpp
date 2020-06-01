@@ -5,7 +5,6 @@
 #include "../../audio/audio_system.h"
 
 #include <iostream> // remove
-#include "../../algorithm/lzw/lzw_algorithm.h" // remove
 
 void me::scene_2d_viewport::onPreInit(MeInstance* instance) { }
 void me::scene_2d_viewport::onDestroyed(MeInstance* instance) { }
@@ -24,25 +23,7 @@ void me::scene_2d_viewport::onInit(MeInstance* instance)
   scene::onInit(instance);
 
   me::Image* image = new me::Image;
-  me::Archive* archive = new me::Archive;
-  me::format::loadImage(instance, "src/res/test.mov", image, FLAG_METADATA_ALL);
-  //me::format::loadArchive(instance, "src/res/kompressaaatt.txt.zip", archive, FLAG_METADATA_ALL);
-  image->info.metadata->putTag(new me::metadata::Tag("SOFTWARE", me::metadata::TagType::MTT_STRING, 12, new uint8_t[12]{
-    (uint8_t) 'M',
-    (uint8_t) 'u',
-    (uint8_t) 'r',
-    (uint8_t) 'd',
-    (uint8_t) 'e',
-    (uint8_t) 'r',
-    (uint8_t) 'E',
-    (uint8_t) 'n',
-    (uint8_t) 'g',
-    (uint8_t) 'i',
-    (uint8_t) 'n',
-    (uint8_t) 'e'
-  }));
-
-  me::format::writeImage(instance, "src/res/exported.bmp", me::format::ImageFileFormat::IFF_BMP, image, FLAG_METADATA_ALL);
+  me::format::loadImage(instance, "src/res/untitled.bmp", image, FLAG_METADATA_ALL);
 
   ui->elements["test"] = new me::ui::button(instance, new me::wcolor(image), 0, 0, 24, 24, button_callback);
 

@@ -136,5 +136,6 @@ void main()
     outColor = (affLight ? finalDiffuseLight : vec4(1.0F)) * texture(diffuseSampler, f_texCoord);
   else if (diffuseType==1)
     outColor = (affLight ? finalDiffuseLight : vec4(1.0F)) * diffuseColor;
+  outColor = vec4(1.0F, 0.0F, 0.0F, 1.0F);
 }
 #end

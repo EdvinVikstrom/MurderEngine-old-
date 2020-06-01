@@ -33,12 +33,12 @@ namespace me {
         if (color != nullptr)
         {
           me::Mesh* mesh = new me::Mesh;
-          mesh->identifier = "ui-mesh";
+          //mesh->identifier = "ui-mesh";
           mesh->vertices = RECT_VERTICIES;
           mesh->indices = RECT_INDICES;
           mesh->transform = me::transform({posX, posY, 0}, {0, 0, 0}, {scaleX, scaleY, 1});
           mesh->materials.push_back(new me::Material("ui-material", color));
-          instance->loadMesh(mesh);
+          //instance->loadMesh(mesh);
         }
       }
 

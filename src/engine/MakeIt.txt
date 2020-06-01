@@ -11,4 +11,5 @@ directory:
   ${CURRENT_DIR}/math
   ${CURRENT_DIR}/renderer
   ${CURRENT_DIR}/scene
+  ${CURRENT_DIR}/script
   ${CURRENT_DIR}/utilities

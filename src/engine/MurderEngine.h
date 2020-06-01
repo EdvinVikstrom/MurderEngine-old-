@@ -76,7 +76,7 @@ struct MeShaderProgram {
 
 struct MeCommandBuffer {
   std::vector<MeCommand> commands;
-  MeBool recording;
+  bool recording;
 };
 
 struct MeInstanceInfo {
@@ -94,6 +94,7 @@ struct MeWindowInfo {
 struct MeRendererInfo {
   MeRendererAPI api;
   MeShaderProgram* shaderProgram;
+  #define MESH_BUFF_CAP 2048
 };
 
 struct MeWindow {
@@ -103,7 +104,7 @@ struct MeWindow {
   bool framebufferResized;
 
   void destroy();
-  MeBool shouldClose();
+  bool shouldClose();
 
 };
 
@@ -113,15 +114,13 @@ struct MeRenderer {
 
   virtual int initializeApi(MeInstance* instance) = 0;
 
-  virtual int setupMeshRenderer(MeInstance* instance) = 0;
-  virtual int setupImageRenderer(MeInstance* instance) = 0;
-  virtual int loadMesh(me::Mesh* mesh) = 0;
-  virtual int loadImage(me::Image* image) = 0;
-
   virtual int uniformMatrix4(int location, me::maths::mat4 matrix) = 0;
   virtual int uniformVec2(int location, me::vec2 vec) = 0;
   virtual int uniformVec3(int location, me::vec3 vec) = 0;
   virtual int uniformVec4(int location, me::vec4 vec) = 0;
+
+  virtual int pushMesh(me::Mesh* mesh);
+  virtual int pullMesh(me::Mesh* mesh);
 
   virtual int renderFrame(MeInstance* instance, unsigned long current_frame, bool &framebuffer_resized) = 0;
   virtual int cleanup() = 0;
@@ -136,43 +135,26 @@ struct MeInstance {
   MeInputEventContext* inputContext;
   std::vector<MeEngineEvent*> events;
 
-  std::vector<me::Image*> images;
-  std::vector<me::Mesh*> meshes;
-  std::vector<me::Material*> materials;
-  std::vector<me::Light*> lights;
-  std::vector<me::Camera*> cameras;
+  struct Storage {
+    std::vector<me::Mesh*> meshes;
+    std::vector<me::Image*> images;
+    std::vector<me::Material*> materials;
 
-  /* standard models */
-  me::Mesh* lightMesh;
+    bool registerItem(uint8_t type, void* ptr)
+    {
+      if (type == 0) meshes.push_back((me::Mesh*) ptr);
+      else if (type == 1) images.push_back((me::Image*) ptr);
+      else if (type == 2) materials.push_back((me::Material*) ptr);
+      else
+        return false;
+      return true;
+    }
 
-  void loadImage(me::Image* image)
-  {
-    images.push_back(image);
-  }
-
-  void loadMesh(me::Mesh* mesh)
-  {
-    meshes.push_back(mesh);
-  }
-
-  void loadLight(me::Light* light)
-  {
-    lights.push_back(light);
-  }
-
-  void loadStandardModels()
-  {
-    lightMesh = new me::Mesh;
-    lightMesh->vertices.push_back(me::vertex(
-      {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F}, {-1.0F, -1.0F, -1.0F, -1.0F}
-    ));
-    lightMesh->indices.push_back(0);
-    renderer->loadMesh(lightMesh);
-  }
+  } storage;
 
   uint64_t currentFrame = 0;
 
-  MeBool shouldExit();
+  bool shouldExit();
 
 };
 

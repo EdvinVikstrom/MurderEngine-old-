@@ -14,11 +14,6 @@ enum MeResult {
   ME_NONE = 5
 };
 
-enum MeBool {
-  ME_TRUE = 1,
-  ME_FALSE = 0
-};
-
 #define ME_DEBUG
 
 #ifdef ME_UINT_32_BIT

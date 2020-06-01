@@ -40,9 +40,9 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   if (action==GLFW_PRESS)
-    instance->inputContext->pressed[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = ME_TRUE;
+    instance->inputContext->pressed[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = true;
   if (action==GLFW_RELEASE)
-    instance->inputContext->pressed[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = ME_FALSE;
+    instance->inputContext->pressed[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = false;
   for (MeEngineEvent* event : instance->events)
     event->onMouseInput(instance->inputContext, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), instance->inputContext->cursorX, instance->inputContext->cursorY, button);
 }
@@ -51,9 +51,9 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   if (action==GLFW_PRESS)
-    instance->inputContext->pressed[static_cast<MeKey>(key)] = ME_TRUE;
+    instance->inputContext->pressed[static_cast<MeKey>(key)] = true;
   if (action==GLFW_RELEASE)
-    instance->inputContext->pressed[static_cast<MeKey>(key)] = ME_FALSE;
+    instance->inputContext->pressed[static_cast<MeKey>(key)] = false;
   for (MeEngineEvent* event : instance->events)
     event->onKeyInput(instance->inputContext, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), key);
 }
@@ -67,14 +67,14 @@ void MeWindow::destroy()
 {
   glfwDestroyWindow((GLFWwindow*)window);
 }
-MeBool MeWindow::shouldClose()
+bool MeWindow::shouldClose()
 {
-  return glfwWindowShouldClose((GLFWwindow*)window) ? ME_TRUE : ME_FALSE;
+  return glfwWindowShouldClose((GLFWwindow*) window);
 }
 
-MeBool MeInstance::shouldExit()
+bool MeInstance::shouldExit()
 {
-  return window != nullptr ? window->shouldClose() : ME_FALSE;
+  return window != nullptr ? window->shouldClose() : false;
 }
 
 MeResult meInitInstance(MeInstanceInfo* info, MeInstance* instance)
@@ -133,7 +133,7 @@ MeResult meRunLoop(MeInstance* instance)
   meInitEverything();
   for (MeEngineEvent* event : instance->events)
     event->onInit(instance);
-  while(instance->shouldExit() != ME_TRUE)
+  while(instance->shouldExit() != true)
   {
     instance->renderer->renderFrame(instance, instance->currentFrame, instance->window->framebufferResized);
     for (MeEngineEvent* event : instance->events)
@@ -162,11 +162,11 @@ MeResult meRegisterEvent(MeInstance* instance, MeEngineEvent* event)
 
 void meStartRecord(MeCommandBuffer* commandBuffer)
 {
-  commandBuffer->recording = ME_TRUE;
+  commandBuffer->recording = true;
 }
 void meStopRecord(MeCommandBuffer* commandBuffer)
 {
-  commandBuffer->recording = ME_FALSE;
+  commandBuffer->recording = false;
 }
 
 /* commands */

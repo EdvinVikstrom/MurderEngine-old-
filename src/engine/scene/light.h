@@ -1,31 +1,43 @@
 #ifndef LIGHT_H
   #define LIGHT_H
 
+#include "../math/transform.h"
+
 namespace me {
+
+  enum LightType : unsigned char {
+    LIGHT_TYPE_POINT,
+    LIGHT_TYPE_SUN,
+    LIGHT_TYPE_SPOT,
+    LIGHT_TYPE_AREA
+  };
+
+  struct LightInfo {
+    uint32_t data[4];
+    std::string source;
+    std::string identifier;
+    me::metadata* metadata = new me::metadata;
+    LightType type;
+  };
 
   struct Light {
 
-    std::string identifier;
+    me::transform transform;
+    me::vec3 rgb;
 
-    double power;
-    double size;
-    me::vec3 rgba;
-    me::maths::mat4 model_matrix;
+    LightInfo info;
 
-    Light(std::string identifier, double power, double size, me::vec3 rgba, me::maths::mat4 model_matrix)
+    Light(me::transform transform, me::vec3 rgb, LightInfo info)
     {
-      this->identifier = identifier;
-      this->power = power;
-      this->size = size;
-      this->rgba = rgba;
-      this->model_matrix = model_matrix;
+      this->transform = transform;
+      this->rgb = rgb;
+      this->info = info;
     }
 
     Light() { }
 
     ~Light()
     {
-      //delete rgba;
     }
 
   };

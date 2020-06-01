@@ -77,7 +77,7 @@ void me::format::loadImage(MeInstance* instance, const std::string &filepath, me
   {
     file.readFile();
     format->load_image(*file.buffer, image, flags);
-    instance->loadImage(image);
+    instance->storage.registerItem(1, image);
   }
 }
 void me::format::loadAudio(MeInstance* instance, const std::string &filepath, me::AudioTrack* track, uint64_t flags)
@@ -100,8 +100,7 @@ void me::format::loadScene(MeInstance* instance, const std::string &filepath, me
     format->load_scene(*file.buffer, packet, flags);
 
     for (auto const &[key, value] : packet->images) { loadImage(instance, "", value, flags); }
-    for (auto const &[key, value] : packet->meshes) { formatMesh(value, MeshFormat::MESH_FORMAT_VNTC); instance->loadMesh(value); }
-    for (auto const &[key, value] : packet->lights) instance->loadLight(value);
+    for (auto const &[key, value] : packet->meshes) { formatMesh(value, MeshFormat::MESH_FORMAT_VNTC); instance->storage.registerItem(0, value); }
   }
 }
 void me::format::loadArchive(MeInstance* instance, const std::string &filepath, me::Archive* archive, uint64_t flags)
