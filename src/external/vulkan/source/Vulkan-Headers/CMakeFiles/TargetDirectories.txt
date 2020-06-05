@@ -1,6 +1,0 @@
-/home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/source/Vulkan-Headers/CMakeFiles/install/local.dir
-/home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/source/Vulkan-Headers/CMakeFiles/install.dir
-/home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/source/Vulkan-Headers/CMakeFiles/list_install_components.dir
-/home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/source/Vulkan-Headers/CMakeFiles/uninstall.dir
-/home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/source/Vulkan-Headers/CMakeFiles/edit_cache.dir
-/home/edvinskomputa/Dokument/OnePunchEngine/src/external/vulkan/source/Vulkan-Headers/CMakeFiles/rebuild_cache.dir

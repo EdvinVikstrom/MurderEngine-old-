@@ -17,6 +17,13 @@ append:
 directory:
   ${CURRENT_DIR}/src
 
+dependencies:
+  ${CURRENT_DIR}/src/external/
+  git@github.com:FFmpeg/FFmpeg.git FFmpeg
+  git@github.com:nigels-com/glew.git glew
+  git@github.com:glfw/glfw.git glfw
+  git@git.assembla.com:portaudio.git portaudio
+
 library:
   ${CURRENT_DIR}/external/vulkan/x86_64/lib
   ${CURRENT_DIR}/src/external/libpng/libpng.so
