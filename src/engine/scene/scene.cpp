@@ -1,5 +1,5 @@
-#include "scene.h"
-#include "../math/maths.h"
+#include "scene.hpp"
+#include "../math/maths.hpp"
 
 me::scene::scene(std::string identifier, int x, int y, unsigned int width, unsigned int height)
 {

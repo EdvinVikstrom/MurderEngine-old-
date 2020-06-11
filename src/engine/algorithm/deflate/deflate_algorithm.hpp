@@ -1,7 +1,7 @@
 #ifndef DEFLATE_ALGORITHM_H
   #define DEFLATE_ALGORITHM_H
 
-#include "../algorithm.h"
+#include "../algorithm.hpp"
 
 namespace me {
 

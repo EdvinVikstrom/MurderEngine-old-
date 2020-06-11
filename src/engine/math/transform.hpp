@@ -1,8 +1,8 @@
 #ifndef TRANSFORM_H
   #define TRANSFORM_H
 
-#include "matrix.h"
-#include "maths.h"
+#include "matrix.hpp"
+#include "maths.hpp"
 
 namespace me {
 

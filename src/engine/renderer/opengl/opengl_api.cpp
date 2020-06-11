@@ -1,7 +1,7 @@
-#include "opengl_api.h"
+#include "opengl_api.hpp"
 
-#include "../../kernel/log.h"
-#include "../../loader/image_format.h"
+#include "../../kernel/log.hpp"
+#include "../../loader/image_format.hpp"
 
 #include <GL/glew.h>
 
@@ -72,6 +72,170 @@ int me::opengl_api::initializeApi(MeInstance* instance)
   glCullFace(GL_BACK);
 
   instance->loadStandardModels();
+  return ME_FINE;
+}
+
+int me::opengl_api::compileShader(const std::string &source, uint8_t type, MeShader &shader)
+{
+  uint32_t glType = 0;
+  if (type == 1) glType = GL_VERTEX_SHADER;
+  else if (type == 2) glType = GL_FRAGMENT_SHADER;
+  shader.shaderID = glCreateShader(glType);
+  glShaderSource(shader.shaderID, 1, source.c_str(), nullptr);
+  glCompileShader(shader.shaderID);
+  int result;
+  glGetShaderiv(shader.shaderID, GL_COMPILE_STATUS, &result);
+  if (result != GL_TRUE)
+  {
+    uint32_t length;
+    char log[1024];
+    glGetShaderInfoLog(shader.shaderID, 1024, &length, log);
+    log[length - 1] = 0;
+    std::cout << "[OpenGL] [ERR]: Failed to compile shader \"" << log << "\"";
+    return ME_ERR;
+  }
+  return ME_FINE;
+}
+
+int me::opengl_api::makeShaderProgram(MeShader* shaders, uint8_t count, MeShaderProgram &program)
+{
+  program.programID = glCreateProgram();
+  for (uint8_t i = 0; i < count; i++)
+    glAttachShader(program.programID, shaders[i]);
+  glLinkProgram(program.programID);
+  glValidateProgram(program.programID);
+  int result;
+  glGetShaderiv(program.programID, GL_LINK_STATUS, &result);
+  if (result != GL_TRUE)
+  {
+    uint32_t length;
+    char log[1024];
+    glGetShaderInfoLog(program.programID, 1024, &length, log);
+    log[length - 1] = 0;
+    std::cout << "[OpenGL] [ERR]: Failed to link shaders \"" << log << "\"";
+    return ME_ERR;
+  }
+  return ME_FINE;
+}
+
+int uniform1f(int location, float* f, uint32_t count = 1)
+{
+  if (count == 1) glUniform1f(location, *f);
+  else glUniform1fv(location, count, f);
+  return ME_FINE;
+}
+int uniform2f(int location, me::vec2* vec, uint32_t count = 1)
+{
+  if (count == 1) glUniform2f(location, vec->x, vec->y);
+  else glUniform2fv(location, count, (float*) vec);
+  return ME_FINE;
+}
+int uniform3f(int location, me::vec3* vec, uint32_t count = 1)
+{
+  if (count == 1) glUniform3f(location, vec->x, vec->y, vec->z);
+  else glUniform3fv(location, count, (float*) vec);
+  return ME_FINE;
+}
+int uniform4f(int location, me::vec4* vec, uint32_t count = 1)
+{
+  if (count == 1) glUniform4f(location, vec->x, vec->y, vec->z, vec->w);
+  else glUniform4fv(location, count, (float*) vec);
+  return ME_FINE;
+}
+
+int uniform1i(int location, int* i, uint32_t count = 1)
+{
+  if (count == 1) glUniform1i(location, *i);
+  else glUniform1iv(location, count, i);
+  return ME_FINE;
+}
+int uniform2i(int location, me::vec2i* vec, uint32_t count = 1)
+{
+  if (count == 1) glUniform2i(location, vec->x, vec->y);
+  else glUniform2iv(location, count, (int*) vec);
+  return ME_FINE;
+}
+int uniform3i(int location, me::vec3i* vec, uint32_t count = 1)
+{
+  if (count == 1) glUniform3i(location, vec->x, vec->y, vec->z);
+  else glUniform2iv(location, count, (int*) vec);
+  return ME_FINE;
+}
+int uniform4i(int location, me::vec4i* vec, uint32_t count = 1)
+{
+  if (count == 1) glUniform4i(location, vec->x, vec->y, vec->z, vec->w);
+  else glUniform2iv(location, count, (int*) vec);
+  return ME_FINE;
+}
+
+int uniform1ui(int location, uint32_t* i, uint32_t count = 1)
+{
+  if (count == 1) glUniform1ui(location, *i);
+  else glUniform1uiv(location, count, i);
+  return ME_FINE;
+}
+int uniform2ui(int location, me::vec2ui* vec, uint32_t count = 1)
+{
+  if (count == 1) glUniform2ui(location, vec->x, vec->y);
+  else glUniform2uiv(location, count, (uint32_t*) vec);
+  return ME_FINE;
+}
+int uniform3ui(int location, me::vec3ui* vec, uint32_t count = 1)
+{
+  if (count == 1) glUniform3ui(location, vec->x, vec->y, vec->z);
+  else glUniform3uiv(location, count, (uint32_t*) vec);
+  return ME_FINE;
+}
+int uniform4ui(int location, me::vec4ui* vec, uint32_t count = 1)
+{
+  if (count == 1) glUniform4ui(location, vec->x, vec->y, vec->, vec->w);
+  else glUniform4uiv(location, count, (uint32_t*) vec);
+  return ME_FINE;
+}
+
+int uniformMat2x2(int location, me::real_t* mat, uint32_t count = 1)
+{
+  glUniformMatrix2fv(location, count, GL_FALSE, (float*) mat);
+  return ME_FINE;
+}
+int uniformMat3x3(int location, me::real_t* mat, uint32_t count = 1)
+{
+  glUniformMatrix3fv(location, count, GL_FALSE, (float*) mat);
+  return ME_FINE;
+}
+int uniformMat4x4(int location, me::real_t* mat, uint32_t count = 1)
+{
+  glUniformMatrix4fv(location, count, GL_FALSE, (float*) mat);
+  return ME_FINE;
+}
+int uniformMat2x3(int location, me::real_t* mat, uint32_t count = 1)
+{
+  glUniformMatrix2x3fv(location, count, GL_FALSE, (float*) mat);
+  return ME_FINE;
+}
+int uniformMat3x2(int location, me::real_t* mat, uint32_t count = 1)
+{
+  glUniformMatrix3x2fv(location, count, GL_FALSE, (float*) mat);
+  return ME_FINE;
+}
+int uniformMat2x4(int location, me::real_t* mat, uint32_t count = 1)
+{
+  glUniformMatrix2x4fv(location, count, GL_FALSE, (float*) mat);
+  return ME_FINE;
+}
+int uniformMat4x2(int location, me::real_t* mat, uint32_t count = 1)
+{
+  glUniformMatrix4x2fv(location, count, GL_FALSE, (float*) mat);
+  return ME_FINE;
+}
+int uniformMat3x4(int location, me::real_t* mat, uint32_t count = 1)
+{
+  glUniformMatrix3x4fv(location, count, GL_FALSE, (float*) mat);
+  return ME_FINE;
+}
+int uniformMat4x3(int location, me::real_t* mat, uint32_t count = 1)
+{
+  glUniformMatrix4x3fv(location, count, GL_FALSE, (float*) mat);
   return ME_FINE;
 }
 

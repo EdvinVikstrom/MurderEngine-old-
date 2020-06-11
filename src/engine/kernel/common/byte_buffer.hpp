@@ -1,7 +1,7 @@
 #ifndef BYTE_BUFFER_H
   #define BYTE_BUFFER_H
 
-#include "../kernel.h"
+#include "../kernel.hpp"
 
 namespace me {
 

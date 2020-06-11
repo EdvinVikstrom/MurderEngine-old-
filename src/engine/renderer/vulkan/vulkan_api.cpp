@@ -1,11 +1,11 @@
-#include "vulkan_api.h"
-#include "vulkan_utils.h"
+#include "vulkan_api.hpp"
+#include "vulkan_utils.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "vulkan_device.h"
-#include "vulkan_graphics_pipeline.h"
+#include "vulkan_device.hpp"
+#include "vulkan_graphics_pipeline.hpp"
 
 int me::vulkan_api::init_instance()
 {

@@ -1,8 +1,8 @@
 #ifndef VECTOR_UTILS_H
   #define VECTOR_UTILS_H
 
-#include "../kernel/kernel.h"
-#include "vectors.h"
+#include "../kernel/kernel.hpp"
+#include "vectors.hpp"
 #include <vector>
 
 namespace me {

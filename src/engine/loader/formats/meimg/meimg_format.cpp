@@ -1,4 +1,4 @@
-#include "meimg_format.h"
+#include "meimg_format.hpp"
 
 int me::format::meimg_format::load_image(me::fileattr &file, me::Image* image)
 {

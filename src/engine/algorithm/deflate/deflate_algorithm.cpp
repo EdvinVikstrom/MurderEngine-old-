@@ -1,4 +1,4 @@
-#include "deflate_algorithm.h"
+#include "deflate_algorithm.hpp"
 
 int me::deflate_algorithm::decode(me::bytebuff &input, me::bytebuff &output)
 {

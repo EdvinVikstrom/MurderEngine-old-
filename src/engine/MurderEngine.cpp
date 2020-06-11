@@ -1,13 +1,13 @@
-#include "MurderEngine.h"
-#include "EngineInit.h"
+#include "MurderEngine.hpp"
+#include "EngineInit.hpp"
 
 /* GLFW */
 #define GLFW_EXPOSE_NATIVE_X11
 #include "../external/glfw/include/GLFW/glfw3.h"
 #include "../external/glfw/include/GLFW/glfw3native.h"
 
-#include "renderer/vulkan/vulkan_api.h"
-#include "renderer/opengl/opengl_api.h"
+//#include "renderer/vulkan/vulkan_api.hpp"
+#include "renderer/opengl/opengl_api.hpp"
 
 static void error_callback(int error, const char* description)
 {

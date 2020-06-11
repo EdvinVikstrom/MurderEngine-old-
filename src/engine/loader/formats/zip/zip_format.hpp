@@ -1,7 +1,7 @@
 #ifndef ZIP_FORMAT_H
   #define ZIP_FORMAT_H
 
-#include "../../archive_format.h"
+#include "../../archive_format.hpp"
 
 namespace me {
 

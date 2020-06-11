@@ -1,7 +1,7 @@
 #ifndef SCRIPT_MANAGER_H
   #define SCRIPT_MANAGER_H
 
-#include "../kernel/kernel.h"
+#include "../kernel/kernel.hpp"
 
 namespace me {
 

@@ -1,4 +1,4 @@
-#include "script_manager.h"
+#include "script_manager.hpp"
 
 int me::script::loadScript(const std::string &filepath)
 {

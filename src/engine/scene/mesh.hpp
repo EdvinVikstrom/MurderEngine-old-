@@ -1,8 +1,8 @@
 #ifndef MESH_H
   #define MESH_H
 
-#include "../kernel/array_utils.h"
-#include "../math/transform.h"
+#include "../kernel/array_utils.hpp"
+#include "../math/transform.hpp"
 
 namespace me {
 

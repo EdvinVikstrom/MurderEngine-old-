@@ -1,4 +1,4 @@
-#include "ico_format.h"
+#include "ico_format.hpp"
 
 int me::format::ico_format::next_entry(me::bytebuff &buffer, ico_dir_entry &entry)
 {

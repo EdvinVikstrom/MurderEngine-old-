@@ -1,7 +1,7 @@
 #ifndef ALGORITHM_H
   #define ALGORITHM_H
 
-#include "../kernel/io/file_reader.h"
+#include "../kernel/io/file_reader.hpp"
 
 namespace me {
 

@@ -1,8 +1,8 @@
 #ifndef ME_WRITER_H
   #define ME_WRITER_H
 
-#include "../../file_format.h"
-#include "../../../MurderEngine.h"
+#include "../../file_format.hpp"
+#include "../../../MurderEngine.hpp"
 
 namespace me {
 

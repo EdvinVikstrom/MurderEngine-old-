@@ -1,14 +1,14 @@
 #ifndef BMP_READER_H
   #define BMP_READER_H
 
-#include "../../image_format.h"
+#include "../../image_format.hpp"
 
 namespace me {
 
   /* thanks: [http://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm] */
   namespace format {
 
-    enum bmp_color_type {
+    enum BMPColorType {
       MONOCHROME = 1,
       BIT4 = 4,
       BIT8 = 8,
@@ -16,13 +16,13 @@ namespace me {
       RGB24 = 24
     };
 
-    enum bmp_compression_type {
+    enum BMPCompressionType {
       BI_RGB = 0,
       BI_RLE8 = 1,
       BI_RLE4 = 2
     };
 
-    struct bmp_header {
+    struct BMPHeader {
 
       struct header {
         uint16_t signature;        // 'BM' | offset: 0
@@ -48,15 +48,15 @@ namespace me {
 
     };
 
-    struct bmp_format : image_format {
+    struct BMPFormat : ImageFormat {
 
-      bmp_format() : image_format(IFF_BMP) { }
+      BMPFormat() : ImageFormat(IFF_BMP) { }
 
-      int load_image(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
-      int write_image(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
-      bool recognized(me::fileattr &file) override;
-      std::vector<std::string> get_file_exts() override;
-      uint64_t supported_flags() override;
+      int readImage(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
+      int writeImage(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
+      bool recognized(me::filebuff* file) override;
+      std::vector<std::string> getFileExts() override;
+      uint64_t supportedFlags() override;
 
     };
 

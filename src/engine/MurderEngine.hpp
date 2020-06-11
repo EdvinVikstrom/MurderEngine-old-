@@ -1,21 +1,12 @@
 #ifndef MURDER_ENGINE_H
   #define MURDER_ENGINE_H
 
-#include "kernel/kernel.h"
+#include "kernel/kernel.hpp"
+#include "kernel/variable.hpp"
 
 /* utilities */
 #include <vector>
 #include <map>
-
-enum MeShaderType {
-  VERTEX = 0,
-  TESSELLATION = 1,
-  GEOMETRY = 2,
-  RASTERIZATION = 3,
-  FRAGMENT = 4,
-  COLOR_BLENDING = 5,
-  UNKNOWN_SHADER = -1
-};
 
 enum MeRendererAPI {
   ME_VULKAN = 0,
@@ -45,10 +36,10 @@ struct MeWindowInfo;
 struct MeRendererInfo;
 
 /* events */
-#include "events/engine_event.h"
+#include "events/engine_event.hpp"
 
 /* meshes, textures ... */
-#include "scene/scene_content.h"
+#include "scene/scene_content.hpp"
 
 struct MeCommand {
   MeCommandName name;
@@ -62,16 +53,21 @@ struct MeCommand {
 
 };
 
+struct MeShader {
+  uint32_t shaderID;
+  uint8_t shaderType;
+};
+
 struct MeShaderProgram {
+  uint32_t programID;
+};
 
-  static const uint32_t MAX_LIGHTS = 8;
-  static const uint32_t MAX_TEXTURES = 8;
-
-  int projLoc = 0, viewLoc = 1, modelLoc = 2;
-  int lightLoc = 3;
-  int texLoc = 11;
-
-  std::map<MeShaderType, std::string> shaders;
+struct MeShaders {
+  std::string source;
+  std::map<std::string, me::Var> variables;
+  std::map<std::string, uint32_t> locations;
+  MeShaderProgram program_final;
+  MeShaderProgram program_ui;
 };
 
 struct MeCommandBuffer {
@@ -94,7 +90,6 @@ struct MeWindowInfo {
 struct MeRendererInfo {
   MeRendererAPI api;
   MeShaderProgram* shaderProgram;
-  #define MESH_BUFF_CAP 2048
 };
 
 struct MeWindow {
@@ -110,20 +105,70 @@ struct MeWindow {
 
 struct MeRenderer {
 
+  #define FRAME_BUFFER_CAP 2048
+  struct FrameBuffer {
+    void shader(MeShaderProgram &program);
+    void translate(double x, double y, double z);
+    void rotate(double x, double y, double z);
+    void scale(double x, double y, double z);
+    void material(me::Material &material);
+    void mesh(me::Mesh &mesh);
+    void light(me::Light &light);
+    void camera(me::Camera &camera);
+  };
+
   MeRendererInfo* info;
 
   virtual int initializeApi(MeInstance* instance) = 0;
+  virtual int compileShader(const std::string &source, uint8_t type, MeShader &shader);
+  virtual int makeShaderProgram(MeShader* shaders, uint8_t count, MeShaderProgram &program);
 
-  virtual int uniformMatrix4(int location, me::maths::mat4 matrix) = 0;
-  virtual int uniformVec2(int location, me::vec2 vec) = 0;
-  virtual int uniformVec3(int location, me::vec3 vec) = 0;
-  virtual int uniformVec4(int location, me::vec4 vec) = 0;
+    virtual int uniform1f(int location, float* f, uint32_t count = 1) = 0;
+    virtual int uniform2f(int location, me::vec2* vec, uint32_t count = 1) = 0;
+    virtual int uniform3f(int location, me::vec3* vec, uint32_t count = 1) = 0;
+    virtual int uniform4f(int location, me::vec4* vec, uint32_t count = 1) = 0;
+
+    virtual int uniform1i(int location, int* i, uint32_t count = 1) = 0;
+    virtual int uniform2i(int location, me::vec2i* vec, uint32_t count = 1) = 0;
+    virtual int uniform3i(int location, me::vec3i* vec, uint32_t count = 1) = 0;
+    virtual int uniform4i(int location, me::vec4i* vec, uint32_t count = 1) = 0;
+
+    virtual int uniform1ui(int location, uint32_t* i, uint32_t count = 1) = 0;
+    virtual int uniform2ui(int location, me::vec2ui* vec, uint32_t count = 1) = 0;
+    virtual int uniform3ui(int location, me::vec3ui* vec, uint32_t count = 1) = 0;
+    virtual int uniform4ui(int location, me::vec4ui* vec, uint32_t count = 1) = 0;
+
+    virtual int uniformMat2x2(int location, me::real_t* mat, uint32_t count = 1) = 0;
+    virtual int uniformMat3x3(int location, me::real_t* mat, uint32_t count = 1) = 0;
+    virtual int uniformMat4x4(int location, me::real_t* mat, uint32_t count = 1) = 0;
+    virtual int uniformMat2x3(int location, me::real_t* mat, uint32_t count = 1) = 0;
+    virtual int uniformMat3x2(int location, me::real_t* mat, uint32_t count = 1) = 0;
+    virtual int uniformMat2x4(int location, me::real_t* mat, uint32_t count = 1) = 0;
+    virtual int uniformMat4x2(int location, me::real_t* mat, uint32_t count = 1) = 0;
+    virtual int uniformMat3x4(int location, me::real_t* mat, uint32_t count = 1) = 0;
+    virtual int uniformMat4x3(int location, me::real_t* mat, uint32_t count = 1) = 0;
 
   virtual int pushMesh(me::Mesh* mesh);
   virtual int pullMesh(me::Mesh* mesh);
 
   virtual int renderFrame(MeInstance* instance, unsigned long current_frame, bool &framebuffer_resized) = 0;
   virtual int cleanup() = 0;
+
+};
+
+template<typename T>
+struct MeMemPool {
+  std::vector<T> items;
+
+  void push(T item)
+  {
+    items.push_back(item);
+  }
+
+  void pull(T item)
+  {
+    items.erase(item);
+  }
 
 };
 
@@ -135,22 +180,9 @@ struct MeInstance {
   MeInputEventContext* inputContext;
   std::vector<MeEngineEvent*> events;
 
-  struct Storage {
-    std::vector<me::Mesh*> meshes;
-    std::vector<me::Image*> images;
-    std::vector<me::Material*> materials;
-
-    bool registerItem(uint8_t type, void* ptr)
-    {
-      if (type == 0) meshes.push_back((me::Mesh*) ptr);
-      else if (type == 1) images.push_back((me::Image*) ptr);
-      else if (type == 2) materials.push_back((me::Material*) ptr);
-      else
-        return false;
-      return true;
-    }
-
-  } storage;
+  MeMemPool<me::Image*> memPool_textures;
+  MeMemPool<me::Material*> memPool_materials;
+  MeMemPool<me::Mesh> memPool_meshes;
 
   uint64_t currentFrame = 0;
 

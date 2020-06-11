@@ -1,4 +1,4 @@
-#include "wave_format.h"
+#include "wave_format.hpp"
 
 int me::format::wave_format::load_audio(me::bytebuff &buffer, me::AudioTrack* track, uint64_t flags)
 {

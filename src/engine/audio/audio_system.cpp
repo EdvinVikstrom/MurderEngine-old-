@@ -1,6 +1,6 @@
-#include "audio_system.h"
-#include "../kernel/kernel.h"
-#include "../../external/portaudio/include/portaudio.h"
+#include "audio_system.hpp"
+#include "../kernel/kernel.hpp"
+#include "../../external/portaudio/include/portaudio.hpp"
 
 #include <iostream>
 #include <vector>

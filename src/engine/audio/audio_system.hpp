@@ -1,7 +1,7 @@
 #ifndef AUDIO_SYSTEM_H
   #define AUDIO_SYSTEM_H
 
-#include "audio.h"
+#include "audio.hpp"
 
 namespace me {
 

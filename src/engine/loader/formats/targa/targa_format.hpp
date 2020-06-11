@@ -1,7 +1,7 @@
 #ifndef TARGA_FORMAT_H
   #define TARGA_FORMAT_H
 
-#include "../../image_format.h"
+#include "../../image_format.hpp"
 
 namespace me {
 

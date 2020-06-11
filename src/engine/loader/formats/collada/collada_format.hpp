@@ -2,7 +2,7 @@
   #define COLLADA_READER_H
 
 #include "../../../../external/rapidxml.hpp"
-#include "../../scene_format.h"
+#include "../../scene_format.hpp"
 
 namespace me {
 

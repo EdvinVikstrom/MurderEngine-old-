@@ -1,4 +1,4 @@
-#include "targa_format.h"
+#include "targa_format.hpp"
 
 int me::format::targa_format::read_extension_area(me::bytebuff &buffer, targa_ext_area &ext_area)
 {

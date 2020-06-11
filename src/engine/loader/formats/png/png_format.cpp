@@ -1,5 +1,5 @@
-#include "png_format.h"
-#include "../../../../external/libpng/png.h"
+#include "png_format.hpp"
+#include "../../../../external/libpng/png.hpp"
 
 int me::format::png_format::read_header(me::bytebuff &buffer, png_header &header)
 {

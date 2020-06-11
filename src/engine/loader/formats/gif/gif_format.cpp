@@ -1,4 +1,4 @@
-#include "gif_format.h"
+#include "gif_format.hpp"
 
 int me::format::gif_format::load_image(me::bytebuff &buffer, me::Image* image, uint64_t flags)
 {

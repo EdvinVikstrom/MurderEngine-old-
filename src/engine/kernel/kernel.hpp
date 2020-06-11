@@ -11,7 +11,8 @@ enum MeResult {
   ME_ERR = 1,
   ME_FILE_CORRUPT = 2,
   ME_FILE_WRONG_TYPE = 3,
-  ME_NONE = 5
+  ME_NONE = 5,
+  ME_FORMAT_NOT_FOUND = 6
 };
 
 #define ME_DEBUG

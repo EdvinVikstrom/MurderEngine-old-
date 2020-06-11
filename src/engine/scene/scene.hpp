@@ -1,34 +1,24 @@
-#ifndef SCENE_H
-  #define SCENE_H
+#ifndef SCENE_HPP
+  #define SCENE_HPP
 
-#include "scene_content.h"
-#include "../MurderEngine.h"
+#include <vector>
+
+#include "particle/particle.hpp"
+#include "texture.hpp"
+#include "material.hpp"
+#include "camera.hpp"
+#include "light.hpp"
+#include "mesh.hpp"
+#include "item.hpp"
 
 namespace me {
 
-  class scene : public MeEngineEvent {
-
-  protected:
-
-    std::string identifier;
-    int x, y;
-    unsigned int width, height;
-    me::Camera* camera;
-
-  public:
-
-    scene(std::string identifier, int x, int y, unsigned int width, unsigned int height);
-
-    virtual void onPreInit(MeInstance* instance);
-    virtual void onInit(MeInstance* instance);
-    virtual void onDestroyed(MeInstance* instance);
-
-    virtual void onRender(MeRenderer* renderer);
-    virtual void onLoop(MeInstance* instance);
-
-    virtual bool onMouseInput(MeInputEventContext* context, int action, double posX, double posY, int button);
-    virtual bool onKeyInput(MeInputEventContext* context, int action, int key);
-
+  struct Scene {
+    std::vector<me::Image*> images;
+    std::vector<me::Material*> materials;
+    std::vector<me::Mesh*> meshes;
+    std::vector<me::Light*> lights;
+    std::vector<me::Camera*> cameras;
   };
 
 };

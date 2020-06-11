@@ -1,10 +1,10 @@
 #ifndef FILE_FORMAT_H
   #define FILE_FORMAT_H
 
-#include "../MurderEngine.h"
-#include "../kernel/io/file_reader.h"
-#include "../scene/scene_content.h"
-#include "../audio/audio.h"
+#include "../MurderEngine.hpp"
+#include "../kernel/io/file_reader.hpp"
+#include "../scene/scene_content.hpp"
+#include "../audio/audio.hpp"
 #include <vector>
 
 #define FLAG_COMPRESSION_NONE                       0x0000000000000001
@@ -124,36 +124,6 @@ namespace me {
     enum ArchiveFileFormat {
       AFF_ZIP
     };
-
-    struct file_format {
-
-      me::format::FileType type;
-
-      file_format(me::format::FileType type)
-      {
-        this->type = type;
-      }
-
-      virtual bool recognized(me::fileattr &file) = 0;
-      virtual std::vector<std::string> get_file_exts() = 0;
-      virtual uint64_t supported_flags() = 0;
-
-    };
-
-    void loadInstance(MeInstance* instance, const std::string &filepath, std::vector<int> flags);
-    void loadImage(MeInstance* instance, const std::string &filepath, me::Image* image, uint64_t flags);
-    void loadAudio(MeInstance* instance, const std::string &filepath, me::AudioTrack* track, uint64_t flags);
-    void loadScene(MeInstance* instance, const std::string &filepath, me::ScenePacket* packet, uint64_t flags);
-    void loadArchive(MeInstance* instance, const std::string &filepath, me::Archive* archive, uint64_t flags);
-
-    void writeImage(MeInstance* instance, const std::string &filepath, me::format::ImageFileFormat image_format, me::Image* image, uint64_t flags);
-
-    unsigned char* loadRAWData(MeInstance* instance, const std::string &filepath, uint32_t &length);
-
-    void init();
-    void cleanup();
-
-  };
 
 };
 

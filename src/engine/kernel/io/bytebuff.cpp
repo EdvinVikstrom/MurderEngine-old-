@@ -1,7 +1,7 @@
 /* *THIS CLASS CAN BE VERY CONFUSING */
 
-#include "file_reader.h"
-#include "../../math/maths.h"
+#include "bytebuff.hpp"
+#include "../../math/maths.hpp"
 
 #include <iostream> // remove
 

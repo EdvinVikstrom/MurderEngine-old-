@@ -1,4 +1,4 @@
-#include "vector2.h"
+#include "vector2.hpp"
 
 me::vec2 me::vec2::abs() const
 {

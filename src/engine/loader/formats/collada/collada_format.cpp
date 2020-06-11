@@ -1,5 +1,5 @@
-#include "collada_format.h"
-#include "../../../math/vector_utils.h"
+#include "collada_format.hpp"
+#include "../../../math/vector_utils.hpp"
 #include "../../../../external/rapidxml.hpp"
 
 static void fix_matrix(me::maths::mat4 &matrix)

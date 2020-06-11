@@ -1,8 +1,8 @@
 #ifndef GEOMETRY_H
   #define GEOMETRY_H
 
-#include "../kernel/array_utils.h"
-#include "vectors.h"
+#include "../kernel/array_utils.hpp"
+#include "vectors.hpp"
 
 namespace me {
 

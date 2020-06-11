@@ -1,4 +1,4 @@
-#include "ffmpeg_format.h"
+#include "ffmpeg_format.hpp"
 //#include "../../../../external/ffmpeg/libavcodec/avcodec.h"
 //#include "../../../../external/ffmpeg/libavformat/avformat.h"
 

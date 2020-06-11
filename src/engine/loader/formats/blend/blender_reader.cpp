@@ -1,6 +1,6 @@
-#include "blender_reader.h"
-#include "../../../utilities/StringUtils.h"
-#include "../../../utilities/Logger.h"
+#include "blender_reader.hpp"
+#include "../../../utilities/StringUtils.hpp"
+#include "../../../utilities/Logger.hpp"
 
 int read_blender(me::file_state &file, me::scene_packet* scene)
 {

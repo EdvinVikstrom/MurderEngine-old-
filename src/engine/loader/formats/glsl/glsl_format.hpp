@@ -1,8 +1,8 @@
 #ifndef GLSL_READER_H
   #define GLSL_READER_H
 
-#include "../../../kernel/kernel.h"
-#include "../../../MurderEngine.h"
+#include "../../../kernel/kernel.hpp"
+#include "../../../MurderEngine.hpp"
 #include <string>
 #include <map>
 

@@ -3,7 +3,7 @@
 
 #include <atomic>
 #include <cstdint>
-#include "metadata.h"
+#include "metadata.hpp"
 
 #define IMAGE_MAX_WIDTH                    44100
 #define IMAGE_MAX_HEIGHT                   44100

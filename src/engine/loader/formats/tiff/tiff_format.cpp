@@ -1,5 +1,5 @@
-#include "tiff_format.h"
-#include "tifflzw_decompressor.h"
+#include "tiff_format.hpp"
+#include "tifflzw_decompressor.hpp"
 
 static me::format::tiff_field_type getTIFFFieldType(uint16_t type)
 {

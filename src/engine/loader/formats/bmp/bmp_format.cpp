@@ -1,8 +1,8 @@
-#include "bmp_format.h"
+#include "bmp_format.hpp"
 
-int me::format::bmp_format::load_image(me::bytebuff &buffer, me::Image* image, uint64_t flags)
+int me::format::BMPFormat::readImage(me::bytebuff &buffer, me::Image* image, uint64_t flags)
 {
-  bmp_header header;
+  BMPHeader header;
   header.file.signature = buffer.pull_uint16();
   header.file.file_size = buffer.pull_uint32();
   header.file.reserved1 = buffer.pull_uint16();
@@ -59,7 +59,7 @@ int me::format::bmp_format::load_image(me::bytebuff &buffer, me::Image* image, u
   return ME_FINE;
 }
 
-int me::format::bmp_format::write_image(me::bytebuff &buffer, me::Image* image, uint64_t flags)
+int me::format::BMPFormat::writeImage(me::bytebuff &buffer, me::Image* image, uint64_t flags)
 {
   uint32_t size = image->bitmap->width * image->bitmap->height * ((image->bitmap->bitsPerSample / 8) * image->info.format & 0x00FF);
   uint32_t header_size = 14 + 40;
@@ -90,17 +90,17 @@ int me::format::bmp_format::write_image(me::bytebuff &buffer, me::Image* image, 
   return ME_FINE;
 }
 
-bool me::format::bmp_format::recognized(me::fileattr &file)
+bool me::format::BMPFormat::recognized(me::filebuff* file)
 {
-  return me::str_ends(file.filepath, ".bmp") || (file.buffer->data.size() >= 2 && file.buffer->data[0]=='b' && file.buffer->data[1]=='m');
+  return me::str_ends(file->filepath, ".bmp") || (file.buffer->data.size() >= 2 && file->buffer->data[0]=='b' && file->buffer->data[1]=='m');
 }
 
-std::vector<std::string> me::format::bmp_format::get_file_exts()
+std::vector<std::string> me::format::BMPFormat::getFileExts()
 {
   return { "bmp" };
 }
 
-uint64_t me::format::bmp_format::supported_flags()
+uint64_t me::format::BMPFormat::supportedFlags()
 {
   return 0; // TODO:
 }

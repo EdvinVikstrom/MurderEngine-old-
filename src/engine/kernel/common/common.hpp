@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <map>
-#include "../kernel.h"
-#include "../../math/maths.h"
-#include "../../math/transform.h"
+#include "../kernel.hpp"
+#include "../../math/maths.hpp"
+#include "../../math/transform.hpp"
 
 #endif

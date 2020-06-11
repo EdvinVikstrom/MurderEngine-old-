@@ -1,4 +1,4 @@
-#include "lzw_algorithm.h"
+#include "lzw_algorithm.hpp"
 #include "../../math/maths.h" // remove maybe not
 
 #define LZW_EOI_CODE          257

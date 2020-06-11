@@ -1,8 +1,8 @@
 #ifndef CAMERA_H
   #define CAMERA_H
 
-#include "../math/matrix.h"
-#include "../math/transform.h"
+#include "../math/matrix.hpp"
+#include "../math/transform.hpp"
 
 namespace me {
 

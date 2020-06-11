@@ -1,7 +1,7 @@
 #ifndef PNG_READER_H
   #define PNG_READER_H
 
-#include "../../image_format.h"
+#include "../../image_format.hpp"
 
 namespace me {
 

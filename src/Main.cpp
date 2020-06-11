@@ -1,10 +1,10 @@
 #include <iostream>
-#include "engine/kernel/kernel.h"
-#include "engine/MurderEngine.h"
+#include "engine/kernel/kernel.hpp"
+#include "engine/MurderEngine.hpp"
 
 /* sandbox stuff */
-#include "engine/scene/scenes/scene_2d_viewport.h"
-#include "engine/loader/formats/glsl/glsl_format.h"
+#include "engine/scene/scenes/scene_2d_viewport.hpp"
+#include "engine/loader/formats/glsl/glsl_format.hpp"
 
 MeInstance instance;
 MeWindow window;

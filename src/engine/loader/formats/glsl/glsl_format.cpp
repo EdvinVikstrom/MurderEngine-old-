@@ -1,5 +1,5 @@
-#include "glsl_format.h"
-#include "../../../kernel/io/file_reader.h"
+#include "glsl_format.hpp"
+#include "../../../kernel/io/file_reader.hpp"
 #include <vector>
 
 #include <iostream> // remove

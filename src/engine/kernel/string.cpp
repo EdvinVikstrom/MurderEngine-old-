@@ -1,5 +1,5 @@
-#include "string.h"
-#include "../math/maths.h"
+#include "string.hpp"
+#include "../math/maths.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 

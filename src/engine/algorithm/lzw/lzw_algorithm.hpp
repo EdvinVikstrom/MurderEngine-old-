@@ -1,7 +1,7 @@
 #ifndef LZW_COMPRESSION_H
   #define LZW_COMPRESSION_H
 
-#include "../algorithm.h"
+#include "../algorithm.hpp"
 #include <bits/stdc++.h>
 
 namespace me {

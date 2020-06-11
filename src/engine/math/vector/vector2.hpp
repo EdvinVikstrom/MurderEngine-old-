@@ -1,7 +1,7 @@
 #ifndef VECTOR2_H
   #define VECTOR2_H
 
-#include "maths.h"
+#include "maths.hpp"
 
 namespace me {
 

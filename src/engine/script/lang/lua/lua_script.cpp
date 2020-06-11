@@ -1,4 +1,4 @@
-#include "lua_lang.h"
+#include "lua_lang.hpp"
 
 extern "C" {
 

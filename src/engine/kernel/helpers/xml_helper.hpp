@@ -1,7 +1,7 @@
 #ifndef XML_HELPER_H
   #define XML_HELPER_H
 
-#include "../kernel.h"
+#include "../kernel.hpp"
 
 namespace me_helper {
 

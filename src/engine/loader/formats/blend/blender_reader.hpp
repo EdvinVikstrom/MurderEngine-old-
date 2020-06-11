@@ -1,7 +1,7 @@
 #ifndef BLENDER_READER_H
   #define BLENDER_READER_H
 
-#include "../../mesh_reader.h"
+#include "../../mesh_reader.hpp"
 
 namespace me {
 

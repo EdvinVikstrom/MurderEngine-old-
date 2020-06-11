@@ -1,7 +1,7 @@
 #ifndef GIF_FORMAT_H
   #define GIF_FORMAT_H
 
-#include "../../image_format.h"
+#include "../../image_format.hpp"
 
 namespace me {
 

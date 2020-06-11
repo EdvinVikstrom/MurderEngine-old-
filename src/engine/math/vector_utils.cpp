@@ -1,4 +1,4 @@
-#include "vector_utils.h"
+#include "vector_utils.hpp"
 
 bool me::utils::float_to_vec2_array(uint32_t size, float* array, std::vector<me::vec2> &vectors, bool allocate)
 {

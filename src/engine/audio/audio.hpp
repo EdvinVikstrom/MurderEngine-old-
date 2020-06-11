@@ -1,7 +1,7 @@
 #ifndef AUDIO_H
   #define AUDIO_H
 
-#include "../scene/metadata.h"
+#include "../scene/metadata.hpp"
 #include <string>
 #include <map>
 

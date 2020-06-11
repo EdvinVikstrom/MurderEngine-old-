@@ -1,7 +1,7 @@
 #ifndef WAVE_FORMAT_H
   #define WAVE_FORMAT_H
 
-#include "../../audio_format.h"
+#include "../../audio_format.hpp"
 
 namespace me {
 

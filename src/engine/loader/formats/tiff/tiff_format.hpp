@@ -1,7 +1,7 @@
 #ifndef TIFF_FORMAT_H
   #define TIFF_FORMAT_H
 
-#include "../../image_format.h"
+#include "../../image_format.hpp"
 
 namespace me {
 

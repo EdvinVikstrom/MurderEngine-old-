@@ -1,7 +1,7 @@
 #ifndef LUA_LANG_H
   #define LUA_LANG_H
 
-#include "../../../kernel/kernel.h"
+#include "../../../kernel/kernel.hpp"
 
 namespace me {
 
