@@ -1,6 +1,9 @@
 #ifndef BYTEBUFF_HPP
   #define BYTEBUFF_HPP
 
+#include "../common.hpp"
+#include <vector>
+
 namespace me {
 
   enum ByteOrder : unsigned char {
@@ -15,28 +18,38 @@ namespace me {
 
   struct bytebuff {
     std::string source;
-    std::vector<unsigned char> data;
+    uint8_t* data;
     uint64_t length, pos;
     me::ByteOrder byte_order;
     me::ByteBuffMode mode;
 
-    bytebuff(std::string source, uint64_t length, ByteOrder byte_order, me::ByteBuffMode mode)
+    bytebuff(std::string source, uint8_t* data, uint64_t length, ByteOrder byte_order, me::ByteBuffMode mode)
     {
       this->source = source;
+      this->data = data;
       this->length = length;
       this->byte_order = byte_order;
-      this->bit_order = bit_order;
       this->mode = mode;
+      pos = 0;
+    }
+
+    bytebuff(std::string source, uint64_t length, ByteOrder byte_order)
+    {
+      this->source = source;
+      data = new uint8_t[length];
+      this->length = length;
+      this->byte_order = byte_order;
+      this->mode = BBMODE_WRITE;
       pos = 0;
     }
 
     bytebuff()
     {
       source = "unknown";
+      data = nullptr;
       length = 0;
       pos = 0;
       byte_order = BO_BIG_ENDIAN;
-      bit_order = BO_LAST;
       mode = BBMODE_WRITE;
     }
 
@@ -57,7 +70,6 @@ namespace me {
 
     void byteOrder(me::ByteOrder order);
 
-    void pushMem(uint64_t mem);
     void flip();
     bool hasRemaining();
     bool canPull(uint32_t length);
@@ -71,7 +83,6 @@ namespace me {
     uint32_t pull_uint24();
     uint32_t pull_uint32();
     uint64_t pull_uint64();
-    uint64_t pull_uint(uint32_t bits);
 
     void push(unsigned char byte);
     void push(unsigned char* data, uint32_t length);

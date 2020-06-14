@@ -1,10 +1,10 @@
 #ifndef XML_HELPER_H
   #define XML_HELPER_H
 
-#include "../kernel.hpp"
+#include "../common.hpp"
 
 namespace me_helper {
-
+  
   inline std::string getXMLNodePath(rapidxml::xml_node<>* node)
   {
     std::string path = std::string(node->name()) + "/";
@@ -16,7 +16,7 @@ namespace me_helper {
     }
     return path;
   }
-
+  
 };
 
 #endif

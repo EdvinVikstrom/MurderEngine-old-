@@ -1,7 +1,7 @@
-#ifndef BMP_READER_H
-  #define BMP_READER_H
+#ifndef BMP_FORMAT_HPP
+  #define BMP_FORMAT_HPP
 
-#include "../../image_format.hpp"
+#include "../image_format.hpp"
 
 namespace me {
 
@@ -9,17 +9,17 @@ namespace me {
   namespace format {
 
     enum BMPColorType {
-      MONOCHROME = 1,
-      BIT4 = 4,
-      BIT8 = 8,
-      RGB16 = 16,
-      RGB24 = 24
+      BMP_COLOR_MONOCHROME = 1,
+      BMP_COLOR_BIT4 = 4,
+      BMP_COLOR_BIT8 = 8,
+      BMP_COLOR_RGB16 = 16,
+      BMP_COLOR_RGB24 = 24
     };
 
     enum BMPCompressionType {
-      BI_RGB = 0,
-      BI_RLE8 = 1,
-      BI_RLE4 = 2
+      BMP_COMPRESSION_RGB = 0,
+      BMP_COMPRESSION_RLE8 = 1,
+      BMP_COMPRESSION_RLE4 = 2
     };
 
     struct BMPHeader {

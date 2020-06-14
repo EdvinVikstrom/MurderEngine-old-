@@ -4,17 +4,17 @@
 #include "../../audio_format.hpp"
 
 namespace me {
-
+  
   namespace format {
-
+    
     struct wave_header {
-
+      
       struct riff_header {
         uint32_t chunkID;
         uint32_t chunkSize;
         uint32_t format;
       } riff;
-
+      
       struct fmt_chunk {
         uint32_t subChunkID;
         uint32_t subChunkSize;
@@ -25,27 +25,27 @@ namespace me {
         uint16_t blockAlign;
         uint16_t bitsPerSample;
       } fmt;
-
+      
       struct data_chunk {
         uint32_t subChunkID;
         uint32_t subChunkSize;
       } data;
-
+      
     };
-
+    
     struct wave_format : audio_format {
-
+      
       wave_format() : audio_format(AFF_WAVE) { }
-
+      
       int load_audio(me::bytebuff &buffer, me::AudioTrack* track, uint64_t flags) override;
       bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
       uint64_t supported_flags() override;
-
+      
     };
-
+    
   };
-
+  
 };
 
 #endif

@@ -29,6 +29,9 @@ library:
   ${CURRENT_DIR}/src/external/libpng/libpng.so
   ${CURRENT_DIR}/src/external/portaudio
 
+verify:
+  SOURCES
+
 exec:
   -std=c++17
   ${SOURCES}

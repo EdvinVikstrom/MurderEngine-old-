@@ -23,9 +23,9 @@ int me::glsl_format::read_shader_file(const char* filepath, MeShaderProgram* pro
     else if (line=="#none") { type = MeShaderType::UNKNOWN_SHADER; continue; }
     if (type==MeShaderType::UNKNOWN_SHADER) continue;
     if (program->shaders.count(type))
-      program->shaders[type].append(line + "\n");
+    program->shaders[type].append(line + "\n");
     else
-      program->shaders[type] = std::string(line + "\n");
+    program->shaders[type] = std::string(line + "\n");
   }
   return ME_FINE;
 }

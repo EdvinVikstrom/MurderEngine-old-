@@ -3,8 +3,8 @@
 int me::format::targa_format::read_extension_area(me::bytebuff &buffer, targa_ext_area &ext_area)
 {
   if (!buffer.canPull(sizeof(targa_ext_area)))
-    return ME_ERR;
-
+  return ME_ERR;
+  
   ext_area.authorName = new uint8_t[41];
   ext_area.authorComment = new uint8_t[324];
   ext_area.dateTime = new uint8_t[12];
@@ -12,7 +12,7 @@ int me::format::targa_format::read_extension_area(me::bytebuff &buffer, targa_ex
   ext_area.jobTime = new uint8_t[6];
   ext_area.softwareId = new uint8_t[41];
   ext_area.softwareVersion = new uint8_t[3];
-
+  
   ext_area.size = buffer.pull_uint16();
   buffer.pull(ext_area.authorName, 41);
   buffer.pull(ext_area.authorComment, 324);
@@ -34,15 +34,15 @@ int me::format::targa_format::read_extension_area(me::bytebuff &buffer, targa_ex
 int me::format::targa_format::read_header(me::bytebuff &buffer, targa_header &header)
 {
   if (!buffer.canPull(sizeof(header)))
-    return ME_ERR;
+  return ME_ERR;
   header.idLength = buffer.pull();
   header.colorMapType = buffer.pull();
   header.imageType = buffer.pull();
-
+  
   header.colorMapSpec.entryIndex = buffer.pull_uint16();
   header.colorMapSpec.mapLength = buffer.pull_uint16();
   header.colorMapSpec.mapEntrySize = buffer.pull();
-
+  
   header.imageSpec.xOrigin = buffer.pull_uint16();
   header.imageSpec.yOrigin = buffer.pull_uint16();
   header.imageSpec.width = buffer.pull_uint16();
@@ -76,7 +76,7 @@ int me::format::targa_format::load_image(me::bytebuff &buffer, me::Image* image,
       return ME_ERR;
     }
     for (uint32_t i = 0; i < 41; i++)
-      std::cout << ext_area.authorName[i];
+    std::cout << ext_area.authorName[i];
     std::cout << "\n";
   }
   return ME_FINE;

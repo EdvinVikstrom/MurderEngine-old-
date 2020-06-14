@@ -4,7 +4,6 @@ append:
   ${CURRENT_DIR}/EngineInit.cpp
 
 directory:
-  ${CURRENT_DIR}/algorithm
   ${CURRENT_DIR}/audio
   ${CURRENT_DIR}/kernel
   ${CURRENT_DIR}/loader

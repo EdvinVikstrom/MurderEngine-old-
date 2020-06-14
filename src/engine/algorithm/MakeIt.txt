@@ -1,4 +1,0 @@
-append:
-  SOURCES
-  ${CURRENT_DIR}/deflate/deflate_algorithm.cpp
-  ${CURRENT_DIR}/lzw/lzw_algorithm.cpp

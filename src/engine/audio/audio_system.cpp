@@ -1,6 +1,6 @@
 #include "audio_system.hpp"
-#include "../kernel/kernel.hpp"
-#include "../../external/portaudio/include/portaudio.hpp"
+#include "../kernel/common.hpp"
+#include "../../external/portaudio/include/portaudio.h"
 
 #include <iostream>
 #include <vector>
@@ -12,14 +12,14 @@ static std::map<uint32_t, me::AudioTrack*> tracks;
 static std::map<uint32_t, PaStream*> streams;
 
 static int pa_callback(const void *inputBuffer, void *outputBuffer,
-                           unsigned long framesPerBuffer,
-                           const PaStreamCallbackTimeInfo* timeInfo,
-                           PaStreamCallbackFlags statusFlags,
-                           void *userData)
+unsigned long framesPerBuffer,
+const PaStreamCallbackTimeInfo* timeInfo,
+PaStreamCallbackFlags statusFlags,
+void *userData)
 {
   me::AudioTrack* track = (me::AudioTrack*) userData;
   if (!track->state.playing)
-    return 0;
+  return 0;
 
   uint32_t* out = (uint32_t*) outputBuffer;
   unsigned char* bytes = (unsigned char*) track->waveform->bytes;
@@ -85,14 +85,14 @@ int me::audio::load_track(uint32_t track_id)
   }
   PaStream* stream;
   PaError err = Pa_OpenDefaultStream(
-    &stream,
-    0,
-    track->info.channels,
-    format,
-    track->info.sampleRate,
-    FRAMES_PER_BUFFER,
-    pa_callback,
-    track
+  &stream,
+  0,
+  track->info.channels,
+  format,
+  track->info.sampleRate,
+  FRAMES_PER_BUFFER,
+  pa_callback,
+  track
   );
   if (err != paNoError)
   {

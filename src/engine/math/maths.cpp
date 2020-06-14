@@ -56,49 +56,49 @@ float me::maths::tan(float angle)
 /* acos */
 long double me::maths::acos(long double angle)
 {
-
+  
 }
 double me::maths::acos(double angle)
 {
-
+  
 }
 float me::maths::acos(float angle)
 {
-
+  
 }
 
 /* asin */
 long double me::maths::asin(long double angle)
 {
-
+  
 }
 double me::maths::asin(double angle)
 {
-
+  
 }
 float me::maths::asin(float angle)
 {
-
+  
 }
 
 /* atan */
 long double me::maths::atan(long double angle)
 {
-
+  
 }
 double me::maths::atan(double angle)
 {
-
+  
 }
 float me::maths::atan(float angle)
 {
-
+  
 }
 
 /* atan2 */
 long double me::maths::atan2(long double y, long double x)
 {
-
+  
 }
 double me::maths::atan2(double y, double x)
 {
@@ -106,7 +106,7 @@ double me::maths::atan2(double y, double x)
 }
 float me::maths::atan2(float y, float x)
 {
-
+  
 }
 
 /* cos from sin */
@@ -128,85 +128,85 @@ float me::maths::cosfsin(float sin, float angle)
 /* sinh */
 long double me::maths::sinh(long double angle)
 {
-
+  
 }
 double me::maths::sinh(double angle)
 {
-
+  
 }
 float me::maths::sinh(float angle)
 {
-
+  
 }
 
 /* cosh */
 long double me::maths::cosh(long double angle)
 {
-
+  
 }
 double me::maths::cosh(double angle)
 {
-
+  
 }
 float me::maths::cosh(float angle)
 {
-
+  
 }
 
 /* tanh */
 long double me::maths::tanh(long double angle)
 {
-
+  
 }
 double me::maths::tanh(double angle)
 {
-
+  
 }
 float me::maths::tanh(float angle)
 {
-
+  
 }
 
 /* asinh */
 long double me::maths::asinh(long double angle)
 {
-
+  
 }
 double me::maths::asinh(double angle)
 {
-
+  
 }
 float me::maths::asinh(float angle)
 {
-
+  
 }
 
 /* acosh */
 long double me::maths::acosh(long double angle)
 {
-
+  
 }
 double me::maths::acosh(double angle)
 {
-
+  
 }
 float me::maths::acosh(float angle)
 {
-
+  
 }
 
 /* atanh */
 long double me::maths::atanh(long double angle)
 {
-
+  
 }
 double me::maths::atanh(double angle)
 {
-
+  
 }
 float me::maths::atanh(float angle)
 {
-
+  
 }
 
 // rounding
@@ -242,57 +242,57 @@ float me::maths::floor(float a)
 /* trunc */
 long double me::maths::trunc(long double a)
 {
-
+  
 }
 double me::maths::trunc(double a)
 {
-
+  
 }
 float me::maths::trunc(float a)
 {
-
+  
 }
 
 /* round */
 long double me::maths::round(long double a)
 {
-
+  
 }
 double me::maths::round(double a)
 {
-
+  
 }
 float me::maths::round(float a)
 {
-
+  
 }
 
 /* nearbyint */
 long double me::maths::nearbyint(long double a)
 {
-
+  
 }
 double me::maths::nearbyint(double a)
 {
-
+  
 }
 float me::maths::nearbyint(float a)
 {
-
+  
 }
 
 /* rint */
 long double me::maths::rint(long double a)
 {
-
+  
 }
 double me::maths::rint(double a)
 {
-
+  
 }
 float me::maths::rint(float a)
 {
-
+  
 }
 
 /* Manipulation functions  */
@@ -300,85 +300,85 @@ float me::maths::rint(float a)
 /* frexp */
 long double me::maths::frexp(long double a, int* exp)
 {
-
+  
 }
 double me::maths::frexp(double a, int* exp)
 {
-
+  
 }
 float me::maths::frexp(float a, int* exp)
 {
-
+  
 }
 
 /* ldexp */
 long double me::maths::ldexp(long double a, int exp)
 {
-
+  
 }
 double me::maths::ldexp(double a, int exp)
 {
-
+  
 }
 float me::maths::ldexp(float a, int exp)
 {
-
+  
 }
 
 /* modfl */
 long double me::maths::modf(long double a, long double* iptr)
 {
-
+  
 }
 double me::maths::modf(double a, double* iptr)
 {
-
+  
 }
 float me::maths::modf(float a, float* iptr)
 {
-
+  
 }
 
 /* scalbn */
 long double me::maths::scalbn(long double a, int exp)
 {
-
+  
 }
 double me::maths::scalbn(double a, int exp)
 {
-
+  
 }
 float me::maths::scalbn(float a, int exp)
 {
-
+  
 }
 
 /* nextafter */
 long double me::maths::nextafter(long double from, long double to)
 {
-
+  
 }
 double me::maths::nextafter(double from, double to)
 {
-
+  
 }
 float me::maths::nextafter(float from, float to)
 {
-
+  
 }
 
 /* nexttoward */
 long double me::maths::nexttoward(long double from, long double to)
 {
-
+  
 }
 double me::maths::nexttoward(double from, long double to)
 {
-
+  
 }
 float me::maths::nexttoward(float from, long double to)
 {
-
+  
 }
 
 /* copysign */
@@ -513,66 +513,66 @@ unsigned long me::maths::min(unsigned long a, unsigned long b)
 /* exp */
 long double me::maths::exp(long double a)
 {
-
+  
 }
 double me::maths::exp(double a)
 {
-
+  
 }
 
 long double me::maths::exp2(long double a)
 {
-
+  
 }
 double me::maths::exp2(double a)
 {
-
+  
 }
 
 long double me::maths::expm1(long double a)
 {
-
+  
 }
 double me::maths::expm1(double a)
 {
-
+  
 }
 
 /* log */
 long double me::maths::log(long double a)
 {
-
+  
 }
 double me::maths::log(double a)
 {
-
+  
 }
 
 long double me::maths::log2(long double a)
 {
-
+  
 }
 double me::maths::log2(double a)
 {
-
+  
 }
 
 long double me::maths::log10(long double a)
 {
-
+  
 }
 double me::maths::log10(double a)
 {
-
+  
 }
 
 long double me::maths::log1p(long double a)
 {
-
+  
 }
 double me::maths::log1p(double a)
 {
-
+  
 }
 
 // Power functions
@@ -580,7 +580,7 @@ double me::maths::log1p(double a)
 /* sqrt */
 long double me::maths::sqrt(long double a)
 {
-
+  
 }
 double me::maths::sqrt(double a)
 {
@@ -590,21 +590,21 @@ double me::maths::sqrt(double a)
 /* cbrt */
 long double me::maths::cbrt(long double a)
 {
-
+  
 }
 double me::maths::cbrtl(double a)
 {
-
+  
 }
 
 /* hypot */
 long double me::maths::hypot(long double a, long double b)
 {
-
+  
 }
 double me::maths::hypot(double a, double b)
 {
-
+  
 }
 
 /* pow */

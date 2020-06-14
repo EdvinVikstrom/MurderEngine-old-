@@ -28,7 +28,7 @@ void me::format::me_format::write_file(me::fileattr &file, MeInstance* instance,
 
 bool me::format::me_format::recognized(me::file_state &file)
 {
-
+  
 }
 
 std::vector<std::string> me::format::me_format::get_file_exts()

@@ -2,11 +2,11 @@
   #define ENGINE_EVENT_H
 
 enum MeKey {
-
+  
   ME_KEY_NONE =                                         -1,
-
+  
   ME_KEY_SPACE =                                        32,
-
+  
   ME_KEY_A =                                            65,
   ME_KEY_B =                                            66,
   ME_KEY_C =                                            67,
@@ -33,7 +33,7 @@ enum MeKey {
   ME_KEY_X =                                            88,
   ME_KEY_Y =                                            89,
   ME_KEY_Z =                                            90,
-
+  
   ME_KEY_0 =                                            91,
   ME_KEY_1 =                                            92,
   ME_KEY_2 =                                            93,
@@ -44,16 +44,16 @@ enum MeKey {
   ME_KEY_7 =                                            98,
   ME_KEY_8 =                                            99,
   ME_KEY_9 =                                            100,
-
+  
   ME_KEY_RIGHT =                                        262,
   ME_KEY_LEFT =                                         263,
   ME_KEY_DOWN =                                         264,
   ME_KEY_UP =                                           265,
-
+  
   ME_MOUSE_LEFT_BUTTON =                                76697084,
   ME_MOUSE_MIDDLE_BUTTON =                              777368,
   ME_MOUSE_RIGHT_BUTTON =                               827184,
-
+  
   ME_PRESS =                                            154,
   ME_RELEASE =                                          155,
   ME_REPEAT =                                           158,
@@ -70,42 +70,42 @@ enum MeInputType {
 };
 
 struct MeInputEventContext {
-
+  
   MeInstance* instance;
   double cursorX, cursorY;
   std::map<int, bool> pressed;
-
+  
 };
 
 struct MeEngineEvent {
-
+  
   virtual void onPreInit(MeInstance* instance) = 0;
   virtual void onInit(MeInstance* instance) = 0;
   virtual void onDestroyed(MeInstance* instance) = 0;
-
+  
   virtual void onLoop(MeInstance* instance) = 0;
   virtual void onRender(MeRenderer* renderer) = 0;
-
+  
   virtual bool onMouseInput(MeInputEventContext* context, int action, double posX, double posY, int button) = 0;
   virtual bool onKeyInput(MeInputEventContext* context, int action, int key) = 0;
-
+  
   static MeKey fromGLFW(int i, MeInputType type)
   {
     if (i==0 && type==ME_MOUSE)
-      return ME_MOUSE_LEFT_BUTTON;
+    return ME_MOUSE_LEFT_BUTTON;
     else if (i==2 && type==ME_MOUSE)
-      return ME_MOUSE_MIDDLE_BUTTON;
+    return ME_MOUSE_MIDDLE_BUTTON;
     else if (i==1 && type==ME_MOUSE)
-      return ME_MOUSE_RIGHT_BUTTON;
+    return ME_MOUSE_RIGHT_BUTTON;
     else if (i==1)
-      return ME_PRESS;
+    return ME_PRESS;
     else if (i==0)
-      return ME_RELEASE;
+    return ME_RELEASE;
     else if (i==2)
-      return ME_REPEAT;
+    return ME_REPEAT;
     return ME_KEY_NONE;
   }
-
+  
 };
 
 #endif

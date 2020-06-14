@@ -59,3 +59,4 @@ MurderEngine
 ignoreme
 /src/external/*
 !/src/external/rapidxml.hpp
+makeit

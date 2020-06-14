@@ -10,14 +10,14 @@ void me::format::initSceneFormats()
 void me::format::cleanupSceneFormats()
 {
   for (me::format::SceneFormat* format : formats)
-    delete format;
+  delete format;
   formats.clear();
 }
 
 int me::reader::readScene(const std::string &filepath, me::Scene* scene, uint64_t flags)
 {
   me::filebuff* file = me::loadFile(filepath)->readFile();
-  me::format::SceneFileFormat format = IFF_RAW;
+  me::format::SceneFileFormat format = me::format::SceneFileFormat::SFF_NAN;
   for (me::format::SceneFormat* sceneFormat : formats)
   {
     if (sceneFormat->recognized(file))
@@ -39,7 +39,7 @@ int me::reader::readScene(me::bytebuff* buffer, me::format::SceneFileFormat form
   return ME_FORMAT_NOT_FOUND;
 }
 
-int me::writer::writeImage(me::bytebuff* buffer, me::format::SceneFileFormat format, me::Scene* scene, uint64_t flags)
+int me::writer::writeScene(me::bytebuff* buffer, me::format::SceneFileFormat format, me::Scene* scene, uint64_t flags)
 {
   for (me::format::SceneFormat* sceneFormat : formats)
   {

@@ -1,5 +1,6 @@
 append:
   SOURCES
+  ${CURRENT_DIR}/shader_loader.cpp
   ${CURRENT_DIR}/formats/image_format.cpp
   ${CURRENT_DIR}/formats/scene_format.cpp
   ${CURRENT_DIR}/formats/bmp/bmp_format.cpp

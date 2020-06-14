@@ -11,9 +11,9 @@ int me::parser::json_parser::parse_json(me::fileattr &file, json_tree* tree)
     switch(c)
     {
       case '{':
-      
-      break;
+        
+        break;
+      }
     }
+    return ME_FINE;
   }
-  return ME_FINE;
-}

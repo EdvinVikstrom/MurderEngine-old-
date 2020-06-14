@@ -9,16 +9,16 @@ int me::format::gif_format::load_image(me::bytebuff &buffer, me::Image* image, u
     file.buffer->pull(), file.buffer->pull(), file.buffer->pull(),
     file.buffer->pull(), file.buffer->pull(), file.buffer->pull()
   };
-
+  
   header.width = file.buffer->pull_uint16();
   header.height = file.buffer->pull_uint16();
   header.packedFields = file.buffer->pull();
-
+  
   header.globalColorTableFlag = (header.packedFields & 128) != 0;
   header.colorResolution = (header.packedFields >> 4 & 7) + 1;
   header.sortFlag = (header.packedFields & 8) != 0;
   header.nGCTEntries = 1 << (header.packedFields & 7) + 1;
-
+  
   header.bgColorIndex = file.buffer->pull();
   header.pixelAspectRatio = file.buffer->pull();
   */

@@ -1,7 +1,7 @@
-#ifndef MURDER_ENGINE_H
-  #define MURDER_ENGINE_H
+#ifndef MURDER_ENGINE_HPP
+  #define MURDER_ENGINE_HPP
 
-#include "kernel/kernel.hpp"
+#include "kernel/common.hpp"
 #include "kernel/variable.hpp"
 
 /* utilities */
@@ -35,11 +35,8 @@ struct MeInstanceInfo;
 struct MeWindowInfo;
 struct MeRendererInfo;
 
-/* events */
 #include "events/engine_event.hpp"
-
-/* meshes, textures ... */
-#include "scene/scene_content.hpp"
+#include "scene/scene.hpp"
 
 struct MeCommand {
   MeCommandName name;
@@ -89,7 +86,6 @@ struct MeWindowInfo {
 
 struct MeRendererInfo {
   MeRendererAPI api;
-  MeShaderProgram* shaderProgram;
 };
 
 struct MeWindow {
@@ -120,36 +116,39 @@ struct MeRenderer {
   MeRendererInfo* info;
 
   virtual int initializeApi(MeInstance* instance) = 0;
-  virtual int compileShader(const std::string &source, uint8_t type, MeShader &shader);
-  virtual int makeShaderProgram(MeShader* shaders, uint8_t count, MeShaderProgram &program);
+  virtual int compileShader(const std::string &source, uint8_t type, MeShader &shader) = 0;
+  virtual int makeShaderProgram(MeShader* shaders, uint8_t count, MeShaderProgram &program) = 0;
 
-    virtual int uniform1f(int location, float* f, uint32_t count = 1) = 0;
-    virtual int uniform2f(int location, me::vec2* vec, uint32_t count = 1) = 0;
-    virtual int uniform3f(int location, me::vec3* vec, uint32_t count = 1) = 0;
-    virtual int uniform4f(int location, me::vec4* vec, uint32_t count = 1) = 0;
+  virtual int uniform1f(int location, float* f, uint32_t count = 1) = 0;
+  virtual int uniform2f(int location, me::vec2* vec, uint32_t count = 1) = 0;
+  virtual int uniform3f(int location, me::vec3* vec, uint32_t count = 1) = 0;
+  virtual int uniform4f(int location, me::vec4* vec, uint32_t count = 1) = 0;
 
-    virtual int uniform1i(int location, int* i, uint32_t count = 1) = 0;
-    virtual int uniform2i(int location, me::vec2i* vec, uint32_t count = 1) = 0;
-    virtual int uniform3i(int location, me::vec3i* vec, uint32_t count = 1) = 0;
-    virtual int uniform4i(int location, me::vec4i* vec, uint32_t count = 1) = 0;
+  virtual int uniform1i(int location, int* i, uint32_t count = 1) = 0;
+  virtual int uniform2i(int location, me::vec2i* vec, uint32_t count = 1) = 0;
+  virtual int uniform3i(int location, me::vec3i* vec, uint32_t count = 1) = 0;
+  virtual int uniform4i(int location, me::vec4i* vec, uint32_t count = 1) = 0;
 
-    virtual int uniform1ui(int location, uint32_t* i, uint32_t count = 1) = 0;
-    virtual int uniform2ui(int location, me::vec2ui* vec, uint32_t count = 1) = 0;
-    virtual int uniform3ui(int location, me::vec3ui* vec, uint32_t count = 1) = 0;
-    virtual int uniform4ui(int location, me::vec4ui* vec, uint32_t count = 1) = 0;
+  virtual int uniform1ui(int location, uint32_t* i, uint32_t count = 1) = 0;
+  virtual int uniform2ui(int location, me::vec2ui* vec, uint32_t count = 1) = 0;
+  virtual int uniform3ui(int location, me::vec3ui* vec, uint32_t count = 1) = 0;
+  virtual int uniform4ui(int location, me::vec4ui* vec, uint32_t count = 1) = 0;
 
-    virtual int uniformMat2x2(int location, me::real_t* mat, uint32_t count = 1) = 0;
-    virtual int uniformMat3x3(int location, me::real_t* mat, uint32_t count = 1) = 0;
-    virtual int uniformMat4x4(int location, me::real_t* mat, uint32_t count = 1) = 0;
-    virtual int uniformMat2x3(int location, me::real_t* mat, uint32_t count = 1) = 0;
-    virtual int uniformMat3x2(int location, me::real_t* mat, uint32_t count = 1) = 0;
-    virtual int uniformMat2x4(int location, me::real_t* mat, uint32_t count = 1) = 0;
-    virtual int uniformMat4x2(int location, me::real_t* mat, uint32_t count = 1) = 0;
-    virtual int uniformMat3x4(int location, me::real_t* mat, uint32_t count = 1) = 0;
-    virtual int uniformMat4x3(int location, me::real_t* mat, uint32_t count = 1) = 0;
+  virtual int uniformMat2x2(int location, real_t* mat, uint32_t count = 1) = 0;
+  virtual int uniformMat3x3(int location, real_t* mat, uint32_t count = 1) = 0;
+  virtual int uniformMat4x4(int location, real_t* mat, uint32_t count = 1) = 0;
+  virtual int uniformMat2x3(int location, real_t* mat, uint32_t count = 1) = 0;
+  virtual int uniformMat3x2(int location, real_t* mat, uint32_t count = 1) = 0;
+  virtual int uniformMat2x4(int location, real_t* mat, uint32_t count = 1) = 0;
+  virtual int uniformMat4x2(int location, real_t* mat, uint32_t count = 1) = 0;
+  virtual int uniformMat3x4(int location, real_t* mat, uint32_t count = 1) = 0;
+  virtual int uniformMat4x3(int location, real_t* mat, uint32_t count = 1) = 0;
 
-  virtual int pushMesh(me::Mesh* mesh);
-  virtual int pullMesh(me::Mesh* mesh);
+  virtual int pushMesh(me::Mesh* mesh) = 0;
+  virtual int pullMesh(me::Mesh* mesh) = 0;
+
+  virtual int pushImage(me::Image* image) = 0;
+  virtual int pullImage(me::Image* image) = 0;
 
   virtual int renderFrame(MeInstance* instance, unsigned long current_frame, bool &framebuffer_resized) = 0;
   virtual int cleanup() = 0;

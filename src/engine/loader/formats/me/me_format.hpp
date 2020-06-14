@@ -5,9 +5,9 @@
 #include "../../../MurderEngine.hpp"
 
 namespace me {
-
+  
   namespace format {
-
+    
     enum MEWFlags {
       MEWF_MESHES = 0,
       MEWF_IMAGES = 1,
@@ -18,20 +18,20 @@ namespace me {
       MEWF_SETTINGS = 6,
       MEWF_PROPERITES = 7
     };
-
+    
     struct me_format : file_format {
-
+      
       me_format() : file_format(FileType::FTYPE_INSTANCE) { }
-
+      
       void write_file(me::fileattr &file, MeInstance* instance, std::vector<MEWFlags> flags);
-
+      
       bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
-
+      
     };
-
+    
   };
-
+  
 };
 
 #endif

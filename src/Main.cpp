@@ -1,33 +1,24 @@
 #include <iostream>
-#include "engine/kernel/kernel.hpp"
+#include "engine/kernel/common.hpp"
 #include "engine/MurderEngine.hpp"
 
-/* sandbox stuff */
-#include "engine/scene/scenes/scene_2d_viewport.hpp"
-#include "engine/loader/formats/glsl/glsl_format.hpp"
+#include "engine/loader/shader_loader.hpp"
 
 MeInstance instance;
 MeWindow window;
 MeCommandBuffer commandBuffer;
 
-static void sandbox()
-{
-  me::scene_2d_viewport* scene = new me::scene_2d_viewport("en viewport", 0, 0, 1550, 770);
-  meRegisterEvent(&instance, scene);
-}
-
 int main()
 {
   #ifdef DEBUG
-    std::cout << "[DEBUG MODE]\n";
+  std::cout << "[DEBUG MODE]\n";
   #else
-    std::cout << "[RELEASE MODE]\n";
+  std::cout << "[RELEASE MODE]\n";
   #endif
   MeInstanceInfo instance_info = {};
   instance_info.appName = "Sandbox";
   instance_info.appVersion = 457;
   meInitInstance(&instance_info, &instance);
-  sandbox();
 
   MeWindowInfo window_info = {};
   window_info.title = "Sandbox - MurderEngine";
@@ -36,14 +27,17 @@ int main()
   window_info.posX = 0;
   window_info.posY = 0;
   window_info.monitor = 0;
+
+  MeRendererInfo renderer_info = {};
+  renderer_info.api = ME_OPENGL;
+
   meInitWindow(&instance, &window_info, &window);
   meInitCommandBuffer(&instance, &commandBuffer);
-  MeRendererInfo renderer_info = {};
-  MeShaderProgram* shaderProgram = new MeShaderProgram;
-  me::glsl_format::read_shader_file("src/res/shaders/shader.glsl", shaderProgram);
-  renderer_info.api = ME_OPENGL;
-  renderer_info.shaderProgram = shaderProgram;
   meInitRenderer(&instance, &renderer_info);
+
+  MeShaders* shaders = new MeShaders;
+  me::loadShaders("./src/res/shaders/meshader",  *shaders, *instance.renderer);
+
   meRunLoop(&instance);
 
   /* cleanup */

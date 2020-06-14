@@ -4,9 +4,9 @@
 #include "../../image_format.hpp"
 
 namespace me {
-
+  
   namespace format {
-
+    
     enum png_color_type : unsigned char {
       INDEXED,
       GRAYSCALE,
@@ -14,7 +14,7 @@ namespace me {
       TRUECOLOR,
       TRUECOLOR_ALPHA
     };
-
+    
     enum png_chunk_type : uint32_t {
       PNG_CHUNK_IHDR = 0x49484452,
       PNG_CHUNK_PLTE = 0x504C5445,
@@ -38,44 +38,44 @@ namespace me {
       PNG_CHUNK_TRNS = 0x74524E53,
       PNG_CHUNK_ZTXT = 0x7A545874
     };
-
+    
     struct png_chunk {
       uint32_t length;
       uint32_t type;
       uint8_t* data;
       uint32_t crc;
     };
-    #include "png_chunks.h"
-
-
+#include "png_chunks.h"
+    
+    
     struct png_header {
       uint8_t* signature;
-
+      
     };
-
+    
     struct png_struct {
       png_header header;
       std::map<uint32_t, png_chunk*> chunks;
     };
-
+    
     struct png_format : image_format {
-
+      
       png_format() : image_format(IFF_PNG) { }
-
+      
       int read_header(me::bytebuff &buffer, png_header &header);
       int next_chunk(me::bytebuff &buffer, png_chunk* chunk);
       int read_chunks(me::bytebuff &buffer, std::map<uint32_t, png_chunk*> &chunks);
-
+      
       int load_image(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
       int write_image(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
       bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
       uint64_t supported_flags() override;
-
+      
     };
-
+    
   };
-
+  
 };
 
 #endif

@@ -1,7 +1,7 @@
-#ifndef FILE_READER_H
-  #define FILE_READER_H
+#ifndef FILEBUFF_HPP
+  #define FILEBUFF_HPP
 
-#include "../kernel.hpp"
+#include "../common.hpp"
 #include "bytebuff.hpp"
 
 namespace me {

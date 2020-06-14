@@ -18,7 +18,7 @@ int me::vulkan_api::init_instance()
   app_info.pEngineName = "MurderEngine";
   app_info.engineVersion = VK_MAKE_VERSION(0, 4, 7);
   app_info.apiVersion = VK_API_VERSION_1_2;
-
+  
   /* instance info */
   VkInstanceCreateInfo instance_info = {};
   instance_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -27,7 +27,7 @@ int me::vulkan_api::init_instance()
   instance_info.pApplicationInfo = &app_info;
   instance_info.enabledLayerCount = 0;
   instance_info.enabledExtensionCount = 0;
-
+  
   /* create instance */
   VkResult result = vkCreateInstance(&instance_info, nullptr, &instance);
   if (result == VK_ERROR_INCOMPATIBLE_DRIVER)
@@ -60,17 +60,17 @@ int me::vulkan_api::initializeApi(MeInstance* instance)
   this->window = (GLFWwindow*)instance->window->window;
   this->width = instance->window->info->width;
   this->height = instance->window->info->height;
-
+  
   init_instance_extensions();
   init_device_extensions();
-
+  
   init_instance();
   init_enumerate_device();
   init_surface();
   init_device();
   init_swapchain();
   init_command_buffers();
-
+  
   return ME_FINE;
 }
 
@@ -117,9 +117,9 @@ int me::vulkan_api::cleanup()
   VkCommandBuffer command_buffers[1] = {command_buffer};
   vkFreeCommandBuffers(device, command_pool, 1, command_buffers);
   vkDestroyCommandPool(device, command_pool, nullptr);
-
+  
   // TODO: for (uint32_t i = 0; i < swapchain_image_count; i++)
-    // TODO: vkDestroyImageView(device, buffers[i].view, nullptr);
+  // TODO: vkDestroyImageView(device, buffers[i].view, nullptr);
   vkDestroySwapchainKHR(device, swapchain, nullptr);
   vkDestroyDevice(device, nullptr);
   vkDestroyInstance(instance, nullptr);

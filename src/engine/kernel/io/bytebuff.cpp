@@ -3,28 +3,6 @@
 #include "bytebuff.hpp"
 #include "../../math/maths.hpp"
 
-#include <iostream> // remove
-
-#define BIT_POS_0         1
-#define BIT_POS_1         2
-#define BIT_POS_2         4
-#define BIT_POS_3         8
-#define BIT_POS_4         16
-#define BIT_POS_5         32
-#define BIT_POS_6         64
-#define BIT_POS_7         128
-
-static unsigned char* BIT_POS = new unsigned char[8] {
-  BIT_POS_0,
-  BIT_POS_1,
-  BIT_POS_2,
-  BIT_POS_3,
-  BIT_POS_4,
-  BIT_POS_5,
-  BIT_POS_6,
-  BIT_POS_7
-};
-
 static uint8_t* to_bit_array(uint8_t* bytes, uint8_t offset, uint32_t length)
 {
   uint64_t count = 1;
@@ -192,19 +170,10 @@ void me::bytebuff::byteOrder(me::ByteOrder order)
 {
   byte_order = order;
 }
-void me::bytebuff::bitOrder(me::BitOrder order)
-{
-  bit_order = order;
-}
 
-void me::bytebuff::pushMem(uint64_t mem)
-{
-  data.reserve(data.size() + mem);
-}
 void me::bytebuff::flip()
 {
   pos != 0 ? 0 : length - 1;
-  bit_pos != 0 ? 0 : (length * 8L) - 1;
 }
 bool me::bytebuff::hasRemaining()
 {
@@ -221,32 +190,21 @@ uint64_t me::bytebuff::remaining()
 void me::bytebuff::skip(uint32_t nBytes)
 {
   pos+=nBytes;
-  bit_pos+=(uint64_t) nBytes * 8L;
 }
 void me::bytebuff::jump(uint64_t index)
 {
-  if (mode == me::ByteBuffMode::BBMODE_WRITE && index >= length)
-  {
-    data.reserve(index);
-    for (uint32_t i = length; i < index; i++)
-      data.emplace_back(0);
-    length = me::maths::max(length, index);
-  }
   pos = index;
-  bit_pos = pos * 8;
 }
 
 unsigned char me::bytebuff::pull()
 {
   pos++;
-  bit_pos = pos * 8;
   return data[pos - 1];
 }
 uint8_t* me::bytebuff::pull(uint8_t* bytes, uint32_t length)
 {
   for (uint32_t i = 0; i < length; i++)
-    bytes[i] = data[pos++];
-  bit_pos = pos * 8;
+  bytes[i] = data[pos++];
   return bytes;
 }
 uint16_t me::bytebuff::pull_uint16()
@@ -254,7 +212,6 @@ uint16_t me::bytebuff::pull_uint16()
   uint16_t i = 0;
   if (byte_order == me::ByteOrder::BO_LITTLE_ENDIAN) i = (data[pos++] << 8) | (data[pos++]);
   else i = (data[pos++]) | (data[pos++] << 8);
-  bit_pos = pos * 8;
   return i;
 }
 uint32_t me::bytebuff::pull_uint24()
@@ -262,7 +219,6 @@ uint32_t me::bytebuff::pull_uint24()
   uint32_t i = 0;
   if (byte_order == me::ByteOrder::BO_LITTLE_ENDIAN) i = (data[pos++] << 16) | (data[pos++] << 8) | (data[pos++]);
   else i = (data[pos++]) | (data[pos++] << 8) | (data[pos++] << 16);
-  bit_pos = pos * 8;
   return i;
 }
 uint32_t me::bytebuff::pull_uint32()
@@ -270,7 +226,6 @@ uint32_t me::bytebuff::pull_uint32()
   uint32_t i = 0;
   if (byte_order == me::ByteOrder::BO_LITTLE_ENDIAN) i = (data[pos++] << 24) | (data[pos++] << 16) | (data[pos++] << 8) | (data[pos++]);
   else i = (data[pos++]) | (data[pos++] << 8) | (data[pos++] << 16) | (data[pos++] << 24);
-  bit_pos = pos * 8;
   return i;
 }
 uint64_t me::bytebuff::pull_uint64()
@@ -278,116 +233,44 @@ uint64_t me::bytebuff::pull_uint64()
   uint64_t i = 0;
   if (byte_order == me::ByteOrder::BO_LITTLE_ENDIAN) i = (data[pos++] << 56L) | (data[pos++] << 48L) | (data[pos++] << 40L) | (data[pos++] << 32L) | (data[pos++] << 24L) | (data[pos++] << 16L) | (data[pos++] << 8L) | (data[pos++]);
   else i = (data[pos++]) | (data[pos++] << 8L) | (data[pos++] << 16L) | (data[pos++] << 24L) | (data[pos++] << 32L) | (data[pos++] << 40L) | (data[pos++] << 48L) | (data[pos++] << 56L);
-  bit_pos = pos * 8;
-  return i;
-}
-
-uint64_t me::bytebuff::pull_uint(uint32_t bits)
-{
-  uint64_t val = 0;
-  uint64_t count = 1;
-  uint8_t offset = bit_pos % 8;
-  uint8_t* bit_array = to_bit_array(&data[pos], offset, bits);
-  for (uint32_t i = 0; i < bits; i++)
-  {
-    if (bit_order == me::BitOrder::BO_LAST)
-    {
-      if (bit_array[(bits - 1) - i] != 0)
-        val+=count;
-    }else
-    {
-      if (bit_array[i] != 0)
-        val+=count;
-    }
-    count*=2;
-    bit_pos++;
-  }
-  pos = bit_pos / 8L;
-  return val;
-}
-
-uint16_t me::bytebuff::pull_bits(uint16_t bit_length)
-{
-  uint16_t i = 0;
-  uint32_t count = 1;
-  for (uint16_t j = 0; j < bit_length; j++)
-  {
-    pos = bit_pos / 8;
-    uint16_t offset = bit_pos % 8;
-    if (((data[pos] >> offset) & 1U) != 0)
-      i+=count;
-    count*=2;
-    bit_pos++;
-  }
   return i;
 }
 
 void me::bytebuff::push(unsigned char byte)
 {
-  data.emplace_back(byte);
-  length+=1;
+  data[pos] = byte;
 }
 void me::bytebuff::push(unsigned char* data, uint32_t length)
 {
-  pushMem(length);
   for (uint32_t i = 0; i < length; i++)
-    this->data.emplace_back(data[i]);
-  this->length+=length;
+    this->data[pos + i] = data[i];
 }
 void me::bytebuff::push_uint16(uint16_t i)
 {
   uint8_t* bytes = from_uint16(new uint8_t[2], i, byte_order);
   for (uint8_t j = 0; j < sizeof(uint16_t); j++)
-    data.emplace_back(bytes[j]);
-  length+=sizeof(uint16_t);
+    this->data[pos + j] = data[j];
 }
 void me::bytebuff::push_uint24(uint32_t i)
 {
   uint8_t* bytes = from_uint24(new uint8_t[3], i, byte_order);
   for (uint8_t j = 0; j < 3; j++)
-    data.emplace_back(bytes[j]);
-  length+=3;
+    this->data[pos + j] = data[j];
 }
 void me::bytebuff::push_uint32(uint32_t i)
 {
   uint8_t* bytes = from_uint32(new uint8_t[4], i, byte_order);
   for (uint8_t j = 0; j < sizeof(uint32_t); j++)
-    data.emplace_back(bytes[j]);
-  length+=sizeof(uint32_t);
+    this->data[pos + j] = data[j];
 }
 void me::bytebuff::push_uint64(uint64_t i)
 {
   uint8_t* bytes = from_uint64(new uint8_t[8], i, byte_order);
   for (uint8_t j = 0; j < sizeof(uint64_t); j++)
-    data.emplace_back(bytes[j]);
-  length+=sizeof(uint64_t);
-}
-
-/*
-len: 9
-off 5
-      0000000111111111
-  $$$$$$$$$$$000000000000000000000000000000000000000000000
-*/
-
-void me::bytebuff::push_bits(uint32_t i, uint16_t bit_length)
-{
-  for (uint16_t j = 0; j < bit_length; j++)
-  {
-    pos = bit_pos / 8;
-    if (pos >= data.size())
-    {
-      data.emplace_back(0);
-      length++;
-    }
-    uint16_t offset = bit_pos % 8;
-    if (((i >> j) & 1U) != 0)
-      data[pos] |= 1UL << offset;
-    bit_pos++;
-  }
+    this->data[pos + j] = data[j];
 }
 
 void me::bytebuff::flush()
 {
-  data.clear();
+  delete[] data;
 }

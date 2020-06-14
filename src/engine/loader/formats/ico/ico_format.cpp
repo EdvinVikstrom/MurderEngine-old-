@@ -3,7 +3,7 @@
 int me::format::ico_format::next_entry(me::bytebuff &buffer, ico_dir_entry &entry)
 {
   if (!buffer.canPull(sizeof(ico_dir_entry)))
-    return ME_ERR;
+  return ME_ERR;
   entry.imageWidth = buffer.pull();
   entry.imageHeight = buffer.pull();
   entry.nColors = buffer.pull();
@@ -18,7 +18,7 @@ int me::format::ico_format::next_entry(me::bytebuff &buffer, ico_dir_entry &entr
 int me::format::ico_format::read_header(me::bytebuff &buffer, ico_header &header)
 {
   if (!buffer.canPull(sizeof(ico_header))) // yes i know, the header contains a pointer
-    return ME_ERR;
+  return ME_ERR;
   header.reserved = buffer.pull_uint16();
   header.type = buffer.pull_uint16();
   header.nImages = buffer.pull_uint16();

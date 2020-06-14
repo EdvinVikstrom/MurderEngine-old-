@@ -12,7 +12,7 @@ namespace me {
       delete[] mem;
     }
   };
-
+  
 };
 
 #endif

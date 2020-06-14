@@ -1,7 +1,8 @@
-#ifndef IMAGE_READER_H
-  #define IMAGE_READER_H
+#ifndef IMAGE_FORMAT_HPP
+  #define IMAGE_FORMAT_HPP
 
 #include "../../scene/texture.hpp"
+#include "../../kernel/io/filebuff.hpp"
 #include "file_format.hpp"
 
 namespace me {
@@ -12,9 +13,9 @@ namespace me {
 
       ImageFileFormat format;
 
-      image_format(ImageFileFormat format)
+      ImageFormat(ImageFileFormat format)
       {
-         this->format = format;
+        this->format = format;
       }
 
       virtual int readImage(me::bytebuff &buffer, me::Image* image, uint64_t flags) = 0;

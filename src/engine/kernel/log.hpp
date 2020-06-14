@@ -28,9 +28,9 @@
 #define LOG_BG_COLOR_YELLOW              "\e[43m"
 
 namespace me {
-
+  
   struct log {
-
+    
     void operator<<(const char* string)
     {
       std::cout << string;
@@ -67,9 +67,9 @@ namespace me {
     {
       std::cout << d;
     }
-
+    
   };
-
+  
 };
 
 #endif

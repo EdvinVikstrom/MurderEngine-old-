@@ -5,15 +5,15 @@ int me::format::png_format::read_header(me::bytebuff &buffer, png_header &header
 {
   header.signature = buffer.pull(new uint8_t[8], 8);
   if (
-    header.signature[0] == 0x89 &&
-    header.signature[1] == 0x50 &&
-    header.signature[2] == 0x4E &&
-    header.signature[3] == 0x47 &&
-    header.signature[4] == 0x0D &&
-    header.signature[5] == 0x0A &&
-    header.signature[6] == 0x1A &&
-    header.signature[7] == 0x0A)
-    return ME_FINE;
+  header.signature[0] == 0x89 &&
+  header.signature[1] == 0x50 &&
+  header.signature[2] == 0x4E &&
+  header.signature[3] == 0x47 &&
+  header.signature[4] == 0x0D &&
+  header.signature[5] == 0x0A &&
+  header.signature[6] == 0x1A &&
+  header.signature[7] == 0x0A)
+  return ME_FINE;
   return ME_FILE_WRONG_TYPE;
 }
 

@@ -2,7 +2,7 @@
 <shaders>
   <name>MEShaders</name>
   <settings>
-    <gamma type="float", value="1.0F"/>
-    <saturation type="float", value="1.0F"/>
+    <gamma type="float" value="1.0F"/>
+    <saturation type="float" value="1.0F"/>
   </settings>
 </shaders>

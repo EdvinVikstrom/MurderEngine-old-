@@ -14,13 +14,12 @@ namespace me {
     VAR_BYTE_ARRAY
   };
 
-  template<typename T>
   struct Var {
     VarType type;
     uint32_t size;
-    T value;
+    void* value;
 
-    Var(VarType type, uint32_t size, T value)
+    Var(VarType type, uint32_t size, void* value)
     {
       this->type = type;
       this->size = size;

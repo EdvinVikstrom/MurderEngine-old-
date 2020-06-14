@@ -315,7 +315,7 @@ static std::string getTagName(uint16_t tag)
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_GPS_DATE_STAMP: return "GPS_DATE_STAMP"; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_GPS_DIFFERENTIAL: return "GPS_DIFFERENTIAL"; break;
     default:
-      return "UNKNOWN";
+    return "UNKNOWN";
     break;
   }
 }
@@ -596,20 +596,20 @@ static uint64_t getFlagFromTag(me::format::tiff_ifd_tag tag)
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_IMAGE_DESCRIPTION: return FLAG_METADATA_DESC; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_HOST_COMPUTER: return FLAG_METADATA_HOST_NAME; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_DATE_TIME: return FLAG_METADATA_DATE | FLAG_METADATA_TIME; break;
-
+    
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_FILE_SOURCE: return FLAG_METADATA_FILE; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_DOCUMENT_NAME: return FLAG_METADATA_FILE; break;
-
+    
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_SUBJECT_AREA: return FLAG_METADATA_SUBJECT; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_SUBJECT_DISTANCE: return FLAG_METADATA_SUBJECT; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_SUBJECT_LOCATION: return FLAG_METADATA_SUBJECT; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_SUBJECT_DISTANCE_RANGE: return FLAG_METADATA_SUBJECT; break;
-
+    
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_SCENE_TYPE: return FLAG_METADATA_SCENE; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_LIGHT_SOURCE: return FLAG_METADATA_SCENE; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_METERING_MODE: return FLAG_METADATA_SCENE; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_SCENE_CAPTURE_TYPE: return FLAG_METADATA_SCENE; break;
-
+    
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_FLASH: return FLAG_METADATA_CAMERA; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_F_NUMBER: return FLAG_METADATA_CAMERA; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_CONSTRAST: return FLAG_METADATA_CAMERA; break;
@@ -634,7 +634,7 @@ static uint64_t getFlagFromTag(me::format::tiff_ifd_tag tag)
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_FOCAL_LENGTH_IN_35MM_FILM: return FLAG_METADATA_CAMERA; break;
     case me::format::tiff_ifd_tag::TIFF_IFD_TAG_DEVICE_SETTING_DESCRIPTION: return FLAG_METADATA_CAMERA; break;
     default:
-      return 0;
+    return 0;
     break;
   }
 }
@@ -642,14 +642,14 @@ static uint64_t getFlagFromTag(me::format::tiff_ifd_tag tag)
 static std::string getTIFFMetadataString(me::format::tiff_header &header)
 {
   std::string string = "{\n";
-  for (auto const &[key, value] : header.IFDs)
-  {
-    string.append("  ");
-    string.append(getTagName(key));
-    string.append(": ");
-    string.append(value->val(header.byteOrder == 0x4D4D ? me::ByteOrder::BO_LITTLE_ENDIAN : me::ByteOrder::BO_BIG_ENDIAN));
-    string.append(",\n");
-  }
+    for (auto const &[key, value] : header.IFDs)
+    {
+      string.append("  ");
+      string.append(getTagName(key));
+      string.append(": ");
+      string.append(value->val(header.byteOrder == 0x4D4D ? me::ByteOrder::BO_LITTLE_ENDIAN : me::ByteOrder::BO_BIG_ENDIAN));
+      string.append(",\n");
+    }
   string.append("}\n");
   return string;
 }
@@ -693,7 +693,7 @@ void me::format::tiff_format::addTIFFField(me::bytebuff &buffer, uint32_t &offse
     /* adding missing bytes if any */
     uint32_t missing = 4 - IFD->length;
     for (uint8_t j = 0; j < missing; j++)
-      buffer.push(0);
+    buffer.push(0);
   }
 }
 void me::format::tiff_format::writeTIFFFields(me::bytebuff &buffer, tiff_header &header)
@@ -701,16 +701,16 @@ void me::format::tiff_format::writeTIFFFields(me::bytebuff &buffer, tiff_header 
   uint32_t offset_start = header.offset + (header.IFDs.size() * 12);
   uint32_t offset = header.offset + (header.IFDs.size() * 12);
   for (auto const &[key, value] : header.IFDs)
-    addTIFFField(buffer, offset, value);
+  addTIFFField(buffer, offset, value);
   for (auto const &[key, value] : header.IFDs)
-    buffer.push(value->value, value->length);
+  buffer.push(value->value, value->length);
 }
 
 void me::format::tiff_format::decompressImage(me::bytebuff* input, me::Image* image)
 {
   tiff_decompressor* decompressor = nullptr;
   if (image->info.compression == ME_IMG_COMPRESSION_LZW)
-    decompressor = new me::tiff::lzw(input, image);
+  decompressor = new me::tiff::lzw(input, image);
   decompressor->decode();
 }
 
@@ -719,9 +719,9 @@ int me::format::tiff_format::load_image(me::bytebuff &buffer, me::Image* image, 
   tiff_header header;
   header.byteOrder = buffer.pull_uint16();
   if (header.byteOrder == 0x4D4D)
-    buffer.byteOrder(me::ByteOrder::BO_LITTLE_ENDIAN);
+  buffer.byteOrder(me::ByteOrder::BO_LITTLE_ENDIAN);
   else if (header.byteOrder == 0x4949)
-    buffer.byteOrder(me::ByteOrder::BO_BIG_ENDIAN);
+  buffer.byteOrder(me::ByteOrder::BO_BIG_ENDIAN);
   else
   {
     std::cout << "[TIFFLoader] [WARN]: bad byte order, assuming little-endian\n";
@@ -735,48 +735,48 @@ int me::format::tiff_format::load_image(me::bytebuff &buffer, me::Image* image, 
   }
   header.offset = buffer.pull_uint32();
   readTIFFFields(buffer, header);
-
+  
   std::cout << "<== TAGS ==>\n";
   std::cout << getTIFFMetadataString(header) << "\n";
-
+  
   /* -----------------------[ FIELDS ]----------------------- */
-    tiff_ifd* PHOTOMETRICINTERPRETATION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_PHOTOMETRIC_INTERPRETATION];
-    tiff_ifd* PLANARCONFIGURATION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_PLANAR_CONFIGURATION];
-    tiff_ifd* COMPRESSION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_COMPRESSION];
-    tiff_ifd* IMAGELENGTH = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_IMAGE_LENGTH];
-    tiff_ifd* IMAGEWIDTH = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_IMAGE_WIDTH];
-    tiff_ifd* RESOLUTIONUNIT = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_RESOLUTION_UNIT];
-    tiff_ifd* XRESOLUTION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_XRESOLUTION];
-    tiff_ifd* YRESOLUTION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_YRESOLUTION];
-    tiff_ifd* THRESHHOLDING = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_THRESHHOLDING];
-    tiff_ifd* ROWSPERSTRIP = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_ROWS_PER_STRIP];
-    tiff_ifd* STRIPOFFSETS = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_STRIP_OFFSETS];
-    tiff_ifd* STRIPBYTECOUNTS = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_STRIP_BYTE_COUNTS];
-    tiff_ifd* COLORMAP = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_COLOR_MAP];
-    tiff_ifd* SAMPLESPERPIXEL = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_SAMPLES_PER_PIXEL];
-    tiff_ifd* BITSPERSAMPLE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_BITS_PER_SAMPLE];
-    tiff_ifd* CELLLENGTH = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_CELL_LENGTH];
-    tiff_ifd* CELLWIDTH = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_CELL_WIDTH];
-    tiff_ifd* FILLORDER = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_FILL_ORDER];
-    tiff_ifd* FREEBYTECOUNTS = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_FREE_BYTE_COUNTS];
-    tiff_ifd* FREEOFFSETS = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_FREE_OFFSETS];
-    tiff_ifd* GRAYRESPONSECURVE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_GRAY_RESPONSE_CURVE];
-    tiff_ifd* GRAYRESPONSEUNIT = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_GRAY_RESPONSE_UNIT];
-    tiff_ifd* MAXSAMPLEVALUE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_MAX_SAMPLE_VALUE];
-    tiff_ifd* MINSAMPLEVALUE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_MIN_SAMPLE_VALUE];
-    tiff_ifd* MODEL = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_MODEL];
-    tiff_ifd* NEWSUBFILETYPE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_NEW_SUBFILE_TYPE];
-    tiff_ifd* ORIENTATION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_ORIENTATION];
-    tiff_ifd* ARTIST = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_ARTIST];
-    tiff_ifd* COPYRIGHT = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_COPYRIGHT];
-    tiff_ifd* DATETIME = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_DATE_TIME];
-    tiff_ifd* EXTRASAMPLES = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_EXTRA_SAMPLES];
-    tiff_ifd* HOSTCOMPUTER = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_HOST_COMPUTER];
-    tiff_ifd* IMAGEDESCRIPTION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_IMAGE_DESCRIPTION];
-    tiff_ifd* SOFTWARE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_SOFTWARE];
-    tiff_ifd* MAKE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_MAKE];
+  tiff_ifd* PHOTOMETRICINTERPRETATION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_PHOTOMETRIC_INTERPRETATION];
+  tiff_ifd* PLANARCONFIGURATION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_PLANAR_CONFIGURATION];
+  tiff_ifd* COMPRESSION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_COMPRESSION];
+  tiff_ifd* IMAGELENGTH = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_IMAGE_LENGTH];
+  tiff_ifd* IMAGEWIDTH = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_IMAGE_WIDTH];
+  tiff_ifd* RESOLUTIONUNIT = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_RESOLUTION_UNIT];
+  tiff_ifd* XRESOLUTION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_XRESOLUTION];
+  tiff_ifd* YRESOLUTION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_YRESOLUTION];
+  tiff_ifd* THRESHHOLDING = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_THRESHHOLDING];
+  tiff_ifd* ROWSPERSTRIP = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_ROWS_PER_STRIP];
+  tiff_ifd* STRIPOFFSETS = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_STRIP_OFFSETS];
+  tiff_ifd* STRIPBYTECOUNTS = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_STRIP_BYTE_COUNTS];
+  tiff_ifd* COLORMAP = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_COLOR_MAP];
+  tiff_ifd* SAMPLESPERPIXEL = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_SAMPLES_PER_PIXEL];
+  tiff_ifd* BITSPERSAMPLE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_BITS_PER_SAMPLE];
+  tiff_ifd* CELLLENGTH = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_CELL_LENGTH];
+  tiff_ifd* CELLWIDTH = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_CELL_WIDTH];
+  tiff_ifd* FILLORDER = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_FILL_ORDER];
+  tiff_ifd* FREEBYTECOUNTS = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_FREE_BYTE_COUNTS];
+  tiff_ifd* FREEOFFSETS = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_FREE_OFFSETS];
+  tiff_ifd* GRAYRESPONSECURVE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_GRAY_RESPONSE_CURVE];
+  tiff_ifd* GRAYRESPONSEUNIT = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_GRAY_RESPONSE_UNIT];
+  tiff_ifd* MAXSAMPLEVALUE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_MAX_SAMPLE_VALUE];
+  tiff_ifd* MINSAMPLEVALUE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_MIN_SAMPLE_VALUE];
+  tiff_ifd* MODEL = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_MODEL];
+  tiff_ifd* NEWSUBFILETYPE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_NEW_SUBFILE_TYPE];
+  tiff_ifd* ORIENTATION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_ORIENTATION];
+  tiff_ifd* ARTIST = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_ARTIST];
+  tiff_ifd* COPYRIGHT = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_COPYRIGHT];
+  tiff_ifd* DATETIME = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_DATE_TIME];
+  tiff_ifd* EXTRASAMPLES = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_EXTRA_SAMPLES];
+  tiff_ifd* HOSTCOMPUTER = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_HOST_COMPUTER];
+  tiff_ifd* IMAGEDESCRIPTION = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_IMAGE_DESCRIPTION];
+  tiff_ifd* SOFTWARE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_SOFTWARE];
+  tiff_ifd* MAKE = header.IFDs[me::format::tiff_ifd_tag::TIFF_IFD_TAG_MAKE];
   /* -------------------------------------------------------- */
-
+  
   /* check if something is not right */
   if (IMAGEWIDTH == nullptr || IMAGELENGTH == nullptr || BITSPERSAMPLE == nullptr || SAMPLESPERPIXEL == nullptr)
   {
@@ -787,12 +787,12 @@ int me::format::tiff_format::load_image(me::bytebuff &buffer, me::Image* image, 
     std::cout << "==> { SamplesPerPixel, [0x115] }: " << (SAMPLESPERPIXEL == nullptr ? "\e[33mmissing" : "\e[32mfound") << "\e[0m\n";
     return ME_ERR;
   }
-
+  
   /* getting the image width, height and depth */
   uint32_t width = IMAGEWIDTH->asUint(buffer.byte_order), height = IMAGELENGTH->asUint(buffer.byte_order);
   uint8_t depth = (uint8_t) BITSPERSAMPLE->asUint(buffer.byte_order) * SAMPLESPERPIXEL->asUint(buffer.byte_order);
   uint32_t image_size = width * height * (depth / 8);
-
+  
   /* check if the image width and height is good */
   if (width >= IMAGE_MAX_WIDTH || height >= IMAGE_MAX_HEIGHT)
   {
@@ -800,7 +800,7 @@ int me::format::tiff_format::load_image(me::bytebuff &buffer, me::Image* image, 
     if (height >= IMAGE_MAX_HEIGHT) std::cout << "[TIFFLoader] [ERR]: image height[" << height << "] out of limit, max height: " << IMAGE_MAX_HEIGHT << "\n";
   }
   std::cout << "[TIFFLoader]: width: " << width << ", height: " << height << ", depth: " << (uint16_t) depth << "\n";
-
+  
   /* checking the compression type */
   uint16_t compression = COMPRESSION->asUint16(buffer.byte_order);
   if (compression == 1) image->info.compression = ME_IMG_COMPRESSION_NONE;
@@ -809,14 +809,14 @@ int me::format::tiff_format::load_image(me::bytebuff &buffer, me::Image* image, 
   else if (compression == 4) image->info.compression = ME_IMG_COMPRESSION_CCITT6;
   else if (compression == 5) image->info.compression = ME_IMG_COMPRESSION_LZW;
   else if (compression == 32773) image->info.compression = ME_IMG_COMPRESSION_PACK_BITS;
-
+  
   /* creating the "bitmap" */
   image->bitmap = new me::Bitmap;
   image->bitmap->width = width;
   image->bitmap->height = height;
   image->bitmap->bitsPerSample = depth;
   image->bitmap->map = new unsigned char[image_size];
-
+  
   decompressImage(&buffer, image);
   return ME_FINE;
 }
@@ -831,12 +831,12 @@ int me::format::tiff_format::write_image(me::bytebuff &buffer, me::Image* image,
   buffer.push_uint16(header.byteOrder);
   buffer.push_uint16(header.magic);
   buffer.push_uint32(header.offset);
-
+  
   uint16_t compression = 0;
   uint16_t resolution_unit = 10;
   uint64_t x_resolution = (uint64_t) image->bitmap->width / (uint64_t) resolution_unit;
   uint64_t y_resolution = (uint64_t) image->bitmap->height / (uint64_t) resolution_unit;
-
+  
   /* default tags */
   header.IFDs[TIFF_IFD_TAG_IMAGE_WIDTH] = new tiff_ifd(TIFF_IFD_TAG_IMAGE_WIDTH, tiff_field_type::TIFF_FT_LONG, 1, 0, 8, me::bytebuff::from_uint64(new uint8_t[2], image->bitmap->width, buffer.byte_order));
   header.IFDs[TIFF_IFD_TAG_IMAGE_LENGTH] = new tiff_ifd(TIFF_IFD_TAG_IMAGE_LENGTH, tiff_field_type::TIFF_FT_LONG, 1, 0, 8, me::bytebuff::from_uint64(new uint8_t[2], image->bitmap->height, buffer.byte_order));
@@ -851,7 +851,7 @@ int me::format::tiff_format::write_image(me::bytebuff &buffer, me::Image* image,
   header.IFDs[TIFF_IFD_TAG_YRESOLUTION] = new tiff_ifd(TIFF_IFD_TAG_YRESOLUTION, tiff_field_type::TIFF_FT_RATIONAL, 1, 0, 16, me::bytebuff::from_uint64(new uint8_t[16], y_resolution, buffer.byte_order));
   header.IFDs[TIFF_IFD_TAG_RESOLUTION_UNIT] = new tiff_ifd(TIFF_IFD_TAG_RESOLUTION_UNIT, tiff_field_type::TIFF_FT_SHORT, 1, 0, 2, me::bytebuff::from_uint16(new uint8_t[2], resolution_unit, buffer.byte_order));
   /* ------------ */
-
+  
   if (image->info.metadata != nullptr)
   {
     for (auto const &[key, value] : image->info.metadata->tags)
@@ -886,16 +886,16 @@ std::vector<std::string> me::format::tiff_format::get_file_exts()
 uint64_t me::format::tiff_format::supported_flags()
 {
   return (
-    FLAG_COMPRESSION_NONE |
-    FLAG_COMPRESSION_DEFLATE |
-    FLAG_COMPRESSION_LZW |
-    FLAG_COMPRESSION_PACK_BITS |
-
-    FLAG_METADATA_ALL |
-    FLAG_IMAGE_BW |
-    FLAG_IMAGE_RGB |
-    FLAG_IMAGE_RGBA |
-    FLAG_IMAGE_DEPTH8 |
-    FLAG_IMAGE_DEPTH16
+  FLAG_COMPRESSION_NONE |
+  FLAG_COMPRESSION_DEFLATE |
+  FLAG_COMPRESSION_LZW |
+  FLAG_COMPRESSION_PACK_BITS |
+  
+  FLAG_METADATA_ALL |
+  FLAG_IMAGE_BW |
+  FLAG_IMAGE_RGB |
+  FLAG_IMAGE_RGBA |
+  FLAG_IMAGE_DEPTH8 |
+  FLAG_IMAGE_DEPTH16
   );
 }

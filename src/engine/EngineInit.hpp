@@ -1,5 +1,5 @@
-#ifndef ENGINE_INIT_H
-  #define ENGINE_INIT_H
+#ifndef ENGINE_INIT_HPP
+  #define ENGINE_INIT_HPP
 
 void meInitEverything();
 void meCleanupEverything();

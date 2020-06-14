@@ -6,7 +6,7 @@ static const char* vkErrStr(VkResult err)
   switch(err)
   {
     case VK_ERROR_DEVICE_LOST:
-      return "VK_ERROR_DEVICE_LOST"; break;
+    return "VK_ERROR_DEVICE_LOST"; break;
     case VK_ERROR_FRAGMENTATION:
     return "VK_ERROR_FRAGMENTATION"; break;
     case VK_ERROR_FRAGMENTED_POOL:
@@ -45,17 +45,17 @@ static const char* vkDeviceType(VkPhysicalDeviceType type)
   switch(type)
   {
     case VK_PHYSICAL_DEVICE_TYPE_CPU:
-      return "CPU"; break;
+    return "CPU"; break;
     case VK_PHYSICAL_DEVICE_TYPE_OTHER:
-      return "OTHER"; break;
+    return "OTHER"; break;
     case VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
-      return "VIRTUAL GPU"; break;
+    return "VIRTUAL GPU"; break;
     case VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
-      return "DISCRETE GPU"; break;
+    return "DISCRETE GPU"; break;
     case VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
-      return "INTERGRATED GPU"; break;
+    return "INTERGRATED GPU"; break;
     default:
-      return "Unknow"; break;
+    return "Unknow"; break;
   }
   return "*this message should not exists*\n";
 }

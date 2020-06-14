@@ -2,6 +2,7 @@
   #define SCENE_FORMAT_HPP
 
 #include "../../scene/scene.hpp"
+#include "../../kernel/io/filebuff.hpp"
 #include "file_format.hpp"
 
 namespace me {
@@ -15,9 +16,9 @@ namespace me {
 
     struct SceneFormat {
 
-      SceneFileFormat format;
+      me::format::SceneFileFormat format;
 
-      scene_format(SceneFileFormat format)
+      SceneFormat(me::format::SceneFileFormat format)
       {
         this->format = format;
       }
@@ -37,7 +38,7 @@ namespace me {
 
   namespace reader {
 
-    int readScene(const std::string &filepath, me::Image* image, uint64_t flags);
+    int readScene(const std::string &filepath, me::Scene* scene, uint64_t flags);
     int readScene(me::bytebuff* buffer, me::format::SceneFileFormat format, me::Scene* scene, uint64_t flags);
 
   };

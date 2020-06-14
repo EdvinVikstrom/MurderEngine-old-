@@ -17,7 +17,7 @@ namespace me {
 
     /*
     [
-        [0]  [1]  [2]  [3]
+    [0]  [1]  [2]  [3]
     [0]  0,   1,   2,   3,
     [1]  4,   5,   6,   7,
     [2]  8,   9,   10,  11,
@@ -28,7 +28,7 @@ namespace me {
     inline void identify(real_t* matrix)
     {
       for (uint8_t i = 0; i < 16; i++)
-        matrix[i] = 0;
+      matrix[i] = 0;
       matrix[0] = 1;
       matrix[5] = 1;
       matrix[10] = 1;
@@ -70,7 +70,7 @@ namespace me {
       matrix[15] = (0.0F);
     }
 
-    inline void orthographic(mat &matrix, real_t left, real_t right, real_t bottom, real_t top, real_t znear, real_t zfar)
+    inline void orthographic(real_t* matrix, real_t left, real_t right, real_t bottom, real_t top, real_t znear, real_t zfar)
     {
       matrix[0] = (2.0F / (right - left));
       matrix[0] = (2.0F / (top - bottom));
@@ -80,7 +80,7 @@ namespace me {
       matrix[0] = (-znear / (zfar - znear));
     }
 
-    inline void look(mat &matrix, me::vec3 eye, me::vec3 center, me::vec3 up)
+    inline void look(real_t* matrix, me::vec3 eye, me::vec3 center, me::vec3 up)
     {
       me::vec3 f(me::normalize(center - eye));
       me::vec3 s(me::normalize(me::cross(f, up)));
@@ -99,21 +99,21 @@ namespace me {
       matrix[14] = (-me::dot(f, eye));
     }
 
-    inline void translate(mat &matrix, real_t x, real_t y, real_t z)
+    inline void translate(real_t* matrix, real_t x, real_t y, real_t z)
     {
       matrix[12] = x;
       matrix[13] = y;
       matrix[14] = z;
     }
 
-    inline void scale(mat &matrix, real_t x, real_t y, real_t z)
+    inline void scale(real_t* matrix, real_t x, real_t y, real_t z)
     {
       matrix[0] = matrix[0] * x;
       matrix[5] = matrix[5] * y;
       matrix[10] = matrix[10] * z;
     }
 
-    inline void rotate(mat &matrix, real_t rotX, real_t rotY, real_t rotZ)
+    inline void rotate(real_t* matrix, real_t rotX, real_t rotY, real_t rotZ)
     {
       real_t sinX = me::maths::sin(rotX);
       real_t cosX = me::maths::cos(rotX);
@@ -146,7 +146,7 @@ namespace me {
       matrix[6] = (nm02 * sinZ + nm12 * cosZ);
     }
 
-    inline void rotateTranslation(mat mat, me::vec4 quat)
+    inline void rotateTranslation(real_t* matrix, me::vec4 quat)
     {
       real_t w2 = quat.w * quat.w, x2 = quat.x * quat.x;
       real_t y2 = quat.y * quat.y, z2 = quat.z * quat.z;
@@ -162,25 +162,25 @@ namespace me {
       real_t rm20 = dyw + dxz;
       real_t rm21 = dyz - dxw;
       real_t rm22 = z2 - y2 - x2 + w2;
-      mat[8] = (rm20);
-      mat[9] = (rm21);
-      mat[10] = (rm22);
-      mat[11] = (0.0f);
-      mat[0] = (rm00);
-      mat[1] = (rm01);
-      mat[2] = (rm02);
-      mat[3] = (0.0f);
-      mat[4] = (rm10);
-      mat[5] = (rm11);
-      mat[6] = (rm12);
-      mat[7] = (0.0f);
-      mat[12] = (mat[12]);
-      mat[13] = (mat[13]);
-      mat[14] = (mat[14]);
-      mat[15] = (mat[15]);
+      matrix[8] = (rm20);
+      matrix[9] = (rm21);
+      matrix[10] = (rm22);
+      matrix[11] = (0.0f);
+      matrix[0] = (rm00);
+      matrix[1] = (rm01);
+      matrix[2] = (rm02);
+      matrix[3] = (0.0f);
+      matrix[4] = (rm10);
+      matrix[5] = (rm11);
+      matrix[6] = (rm12);
+      matrix[7] = (0.0f);
+      matrix[12] = (matrix[12]);
+      matrix[13] = (matrix[13]);
+      matrix[14] = (matrix[14]);
+      matrix[15] = (matrix[15]);
     }
 
-    inline void rotationX(mat &matrix, real_t angle)
+    inline void rotationX(real_t* matrix, real_t angle)
     {
       real_t sin = me::maths::sin(angle);
       real_t cos = me::maths::cos(angle);
@@ -191,7 +191,7 @@ namespace me {
       matrix[10] = (cos);
     }
 
-    inline void rotationY(mat &matrix, real_t angle)
+    inline void rotationY(real_t* matrix, real_t angle)
     {
       real_t sin = me::maths::sin(angle);
       real_t cos = me::maths::cos(angle);
@@ -202,7 +202,7 @@ namespace me {
       matrix[10] = (cos);
     }
 
-    inline void rotationZ(mat &matrix, real_t angle)
+    inline void rotationZ(real_t* matrix, real_t angle)
     {
       real_t sin = me::maths::sin(angle);
       real_t cos = me::maths::cos(angle);

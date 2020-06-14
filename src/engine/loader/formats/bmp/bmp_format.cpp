@@ -1,5 +1,7 @@
 #include "bmp_format.hpp"
 
+#include <iostream> // remove ? maybe not
+
 int me::format::BMPFormat::readImage(me::bytebuff &buffer, me::Image* image, uint64_t flags)
 {
   BMPHeader header;
@@ -24,24 +26,24 @@ int me::format::BMPFormat::readImage(me::bytebuff &buffer, me::Image* image, uin
   image->bitmap->width = header.info.width;
   image->bitmap->height = header.info.height;
 
-  if (header.info.bits_per_pixel==bmp_color_type::MONOCHROME)
+  if (header.info.bits_per_pixel==BMPColorType::BMP_COLOR_MONOCHROME)
   {
     // TODO: < 8 bit image
     image->info.format = ME_IMG_FORMAT_BINARY;
     image->bitmap->bitsPerSample = 1;
-  }else if (header.info.bits_per_pixel==bmp_color_type::BIT4)
+  }else if (header.info.bits_per_pixel==BMPColorType::BMP_COLOR_BIT4)
   {
     image->info.format = ME_IMG_FORMAT_GRAY;
     image->bitmap->bitsPerSample = 4;
-  }else if (header.info.bits_per_pixel==bmp_color_type::BIT8)
+  }else if (header.info.bits_per_pixel==BMPColorType::BMP_COLOR_BIT8)
   {
     image->info.format = ME_IMG_FORMAT_GRAY;
     image->bitmap->bitsPerSample = 8;
-  }else if (header.info.bits_per_pixel==bmp_color_type::RGB16)
+  }else if (header.info.bits_per_pixel==BMPColorType::BMP_COLOR_RGB16)
   {
     image->info.format = ME_IMG_FORMAT_RGB;
     image->bitmap->bitsPerSample = 8;
-  }else if (header.info.bits_per_pixel==bmp_color_type::RGB24)
+  }else if (header.info.bits_per_pixel==BMPColorType::BMP_COLOR_RGB24)
   {
     image->info.format = ME_IMG_FORMAT_RGB;
     image->bitmap->bitsPerSample = 8;
@@ -61,6 +63,8 @@ int me::format::BMPFormat::readImage(me::bytebuff &buffer, me::Image* image, uin
 
 int me::format::BMPFormat::writeImage(me::bytebuff &buffer, me::Image* image, uint64_t flags)
 {
+  // buffer size must be known
+  /*
   uint32_t size = image->bitmap->width * image->bitmap->height * ((image->bitmap->bitsPerSample / 8) * image->info.format & 0x00FF);
   uint32_t header_size = 14 + 40;
   buffer.byteOrder(me::ByteOrder::BO_BIG_ENDIAN);
@@ -87,12 +91,13 @@ int me::format::BMPFormat::writeImage(me::bytebuff &buffer, me::Image* image, ui
     buffer.push(image->bitmap->map[i + 1]);
     buffer.push(image->bitmap->map[i]);
   }
+  */
   return ME_FINE;
 }
 
 bool me::format::BMPFormat::recognized(me::filebuff* file)
 {
-  return me::str_ends(file->filepath, ".bmp") || (file.buffer->data.size() >= 2 && file->buffer->data[0]=='b' && file->buffer->data[1]=='m');
+  return me::str_ends(file->filepath, ".bmp") || (file->buffer->length >= 2 && file->buffer->data[0]=='b' && file->buffer->data[1]=='m');
 }
 
 std::vector<std::string> me::format::BMPFormat::getFileExts()

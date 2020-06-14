@@ -4,7 +4,7 @@ int me::format::zip_format::next_file(me::bytebuff &buffer, zip_file &file)
 {
   file.header.signature = buffer.pull_uint32();
   if (file.header.signature != 0x04034b50)
-    return ME_FILE_WRONG_TYPE;
+  return ME_FILE_WRONG_TYPE;
   file.header.minVersion = buffer.pull_uint16();
   file.header.flag = buffer.pull_uint16();
   file.header.compressionMethod = buffer.pull_uint16();
@@ -19,7 +19,7 @@ int me::format::zip_format::next_file(me::bytebuff &buffer, zip_file &file)
   file.header.extraField = buffer.pull(new uint8_t[file.header.extraFieldLength], file.header.extraFieldLength);
   file.data = buffer.pull(new uint8_t[file.header.compressedSize], file.header.compressedSize);
   for (uint32_t i = 0; i < file.header.compressedSize; i++)
-    std::cout << file.data[i];
+  std::cout << file.data[i];
   std::cout << "\n\n";
   return ME_FINE;
 }
@@ -34,7 +34,7 @@ int me::format::zip_format::load_archive(me::bytebuff &buffer, me::Archive* arch
     zip.files.push_back(file);
     next_file(buffer, *file);
     for (uint32_t i = 0; i < file->header.fileNameLength; i++)
-      std::cout << file->header.fileName[i];
+    std::cout << file->header.fileName[i];
     std::cout << "\n";
   }
   return ME_FINE;

@@ -1,15 +1,11 @@
-#ifndef OPENGL_API_H
-  #define OPENGL_API_H
+#ifndef OPENGL_API_HPP
+  #define OPENGL_API_HPP
 
 #include "../../MurderEngine.hpp"
 
 namespace me {
 
   struct opengl_api : MeRenderer {
-
-    MeShaderProgram* program;
-
-    me::Mesh* meshBuffer[MESH_BUFF_CAP] = {nullptr};
 
     int initializeApi(MeInstance* instance);
     int compileShader(const std::string &source, uint8_t type, MeShader &shader);
@@ -30,21 +26,21 @@ namespace me {
     int uniform3ui(int location, me::vec3ui* vec, uint32_t count = 1);
     int uniform4ui(int location, me::vec4ui* vec, uint32_t count = 1);
 
-    int uniformMat2x2(int location, me::real_t* mat, uint32_t count = 1);
-    int uniformMat3x3(int location, me::real_t* mat, uint32_t count = 1);
-    int uniformMat4x4(int location, me::real_t* mat, uint32_t count = 1);
-    int uniformMat2x3(int location, me::real_t* mat, uint32_t count = 1);
-    int uniformMat3x2(int location, me::real_t* mat, uint32_t count = 1);
-    int uniformMat2x4(int location, me::real_t* mat, uint32_t count = 1);
-    int uniformMat4x2(int location, me::real_t* mat, uint32_t count = 1);
-    int uniformMat3x4(int location, me::real_t* mat, uint32_t count = 1);
-    int uniformMat4x3(int location, me::real_t* mat, uint32_t count = 1);
-
-    int loadMesh(me::Mesh* mesh);
-    int loadImage(me::Image* image);
+    int uniformMat2x2(int location, real_t* mat, uint32_t count = 1);
+    int uniformMat3x3(int location, real_t* mat, uint32_t count = 1);
+    int uniformMat4x4(int location, real_t* mat, uint32_t count = 1);
+    int uniformMat2x3(int location, real_t* mat, uint32_t count = 1);
+    int uniformMat3x2(int location, real_t* mat, uint32_t count = 1);
+    int uniformMat2x4(int location, real_t* mat, uint32_t count = 1);
+    int uniformMat4x2(int location, real_t* mat, uint32_t count = 1);
+    int uniformMat3x4(int location, real_t* mat, uint32_t count = 1);
+    int uniformMat4x3(int location, real_t* mat, uint32_t count = 1);
 
     int pushMesh(me::Mesh* mesh);
     int pullMesh(me::Mesh* mesh);
+
+    int pushImage(me::Image* image);
+    int pullImage(me::Image* image);
 
     int renderFrame(MeInstance* instance, unsigned long current_frame, bool &framebuffer_resized);
     int cleanup();

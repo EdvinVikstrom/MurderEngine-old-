@@ -9,11 +9,11 @@ int me::vulkan_api::init_surface()
   create_info.pNext = nullptr;
   create_info.window = glfwGetX11Window(window);
   VkResult result = vkCreateXlibSurfaceKHR(instance, &create_info, nullptr, &surface);
-
+  
   /* graphics/present queue family index */
   VkBool32* supports_present = new VkBool32[queue_family_count];
   for (uint32_t i = 0; i < queue_family_count; i++)
-    vkGetPhysicalDeviceSurfaceSupportKHR(physical_device, i, surface, &supports_present[i]);
+  vkGetPhysicalDeviceSurfaceSupportKHR(physical_device, i, surface, &supports_present[i]);
   graphics_queue_family_index = UINT32_MAX;
   present_queue_family_index = UINT32_MAX;
   for (uint32_t i = 0; i < queue_family_count; i++)
@@ -21,7 +21,7 @@ int me::vulkan_api::init_surface()
     if ((queue_properties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) != 0)
     {
       if (graphics_queue_family_index == UINT32_MAX)
-        graphics_queue_family_index = i;
+      graphics_queue_family_index = i;
       if (supports_present[i] == VK_TRUE)
       {
         graphics_queue_family_index = i;
@@ -35,7 +35,7 @@ int me::vulkan_api::init_surface()
     for (uint32_t i = 0; i < queue_family_count; i++)
     {
       if (supports_present[i] == VK_TRUE)
-        present_queue_family_index = i;
+      present_queue_family_index = i;
     }
   }
   delete[] supports_present;
@@ -49,24 +49,24 @@ int me::vulkan_api::init_swapchain()
   VkResult result = vkGetPhysicalDeviceSurfaceFormatsKHR(physical_device, surface, &format_count, nullptr);
   VkSurfaceFormatKHR* surface_formats = new VkSurfaceFormatKHR[format_count];
   result = vkGetPhysicalDeviceSurfaceFormatsKHR(physical_device, surface, &format_count, surface_formats);
-
+  
   /* checking surface formats */
   if (format_count == 1 && surface_formats[0].format == VK_FORMAT_UNDEFINED)
-    format = VK_FORMAT_B8G8R8A8_UNORM;
+  format = VK_FORMAT_B8G8R8A8_UNORM;
   else
-    format = surface_formats[0].format;
+  format = surface_formats[0].format;
   delete[] surface_formats;
-
+  
   /* surface capabilities */
   VkSurfaceCapabilitiesKHR surface_capabilities;
   result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physical_device, surface, &surface_capabilities);
-
+  
   /* present modes */
   uint32_t present_mode_count;
   result = vkGetPhysicalDeviceSurfacePresentModesKHR(physical_device, surface, &present_mode_count, nullptr);
   VkPresentModeKHR* present_modes = new VkPresentModeKHR[present_mode_count];
   result = vkGetPhysicalDeviceSurfacePresentModesKHR(physical_device, surface, &present_mode_count, present_modes);
-
+  
   /* swapchain extent */
   if (surface_capabilities.currentExtent.width = 0xFFFFFFFF)
   {
@@ -74,28 +74,28 @@ int me::vulkan_api::init_swapchain()
     swapchain_extent.height = height;
     /* width */
     if (swapchain_extent.width < surface_capabilities.minImageExtent.width)
-      swapchain_extent.width = surface_capabilities.minImageExtent.width;
+    swapchain_extent.width = surface_capabilities.minImageExtent.width;
     else if (swapchain_extent.width > surface_capabilities.maxImageExtent.width)
-      swapchain_extent.width = surface_capabilities.maxImageExtent.width;
-
+    swapchain_extent.width = surface_capabilities.maxImageExtent.width;
+    
     /* height */
     if (swapchain_extent.height < surface_capabilities.minImageExtent.height)
-      swapchain_extent.height = surface_capabilities.minImageExtent.height;
+    swapchain_extent.height = surface_capabilities.minImageExtent.height;
     else if (swapchain_extent.height > surface_capabilities.maxImageExtent.height)
-      swapchain_extent.height = surface_capabilities.maxImageExtent.height;
+    swapchain_extent.height = surface_capabilities.maxImageExtent.height;
   }else
-    swapchain_extent = surface_capabilities.currentExtent;
-
+  swapchain_extent = surface_capabilities.currentExtent;
+  
   /* present mode */
   VkPresentModeKHR swapchain_present_mode = VK_PRESENT_MODE_FIFO_KHR;
-
+  
   uint32_t desired_number_of_swapchain_images = surface_capabilities.minImageCount;
   VkSurfaceTransformFlagBitsKHR pre_transform;
   if (surface_capabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
-    pre_transform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
+  pre_transform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
   else
-    pre_transform = surface_capabilities.currentTransform;
-
+  pre_transform = surface_capabilities.currentTransform;
+  
   /* composite */
   VkCompositeAlphaFlagBitsKHR composite_alpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
   VkCompositeAlphaFlagBitsKHR composite_alpha_flags[4] = {
@@ -112,7 +112,7 @@ int me::vulkan_api::init_swapchain()
       break;
     }
   }
-
+  
   /* swapchain info */
   VkSwapchainCreateInfoKHR swapchain_info = {};
   swapchain_info.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -141,16 +141,16 @@ int me::vulkan_api::init_swapchain()
     swapchain_info.pQueueFamilyIndices = queue_family_indices;
   }
   result = vkCreateSwapchainKHR(device, &swapchain_info, nullptr, &swapchain);
-
+  
   /* swapchain images */
   result = vkGetSwapchainImagesKHR(device, swapchain, &swapchain_image_count, nullptr);
   VkImage* swapchain_images = new VkImage[swapchain_image_count];
   result = vkGetSwapchainImagesKHR(device, swapchain, &swapchain_image_count, swapchain_images);
   buffers.resize(swapchain_image_count);
   // TODO: for (uint32_t i = 0; i < swapchain_image_count; i++)
-    // TODO: buffers[i].image = swapchain_images[i];
+  // TODO: buffers[i].image = swapchain_images[i];
   delete[] swapchain_images;
-
+  
   /* image view */
   for (uint32_t i = 0; i < swapchain_image_count; i++)
   {
@@ -189,7 +189,7 @@ int me::vulkan_api::init_command_buffers()
     printf("[Vulkan] [ERR]: [%s] Failed to create command pool\n", vkErrStr(result));
     return ME_ERR;
   }
-
+  
   /* create command buffer */
   VkCommandBufferAllocateInfo alloc_info = {};
   alloc_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;

@@ -20,7 +20,7 @@ int me::vulkan_api::init_queue_family_index(VkDeviceQueueCreateInfo &queue_info)
   vkGetPhysicalDeviceQueueFamilyProperties(physical_device, &queue_family_count, nullptr);
   queue_properties.resize(queue_family_count);
   vkGetPhysicalDeviceQueueFamilyProperties(physical_device, &queue_family_count, queue_properties.data());
-
+  
   /* finding a property with VK_QUEUE_GRAPHICS_BIT */
   for (uint32_t i = 0; i < queue_family_count; i++)
   {
@@ -43,7 +43,7 @@ int me::vulkan_api::init_device()
   queue_info.pNext = nullptr;
   queue_info.queueCount = 1;
   queue_info.pQueuePriorities = queue_priorities;
-
+  
   /* device info */
   VkDeviceCreateInfo device_info = {};
   device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;

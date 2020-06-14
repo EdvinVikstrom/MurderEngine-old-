@@ -5,9 +5,9 @@
 #include <map>
 
 namespace me {
-
+  
   struct metadata {
-
+    
     enum TagType : uint16_t {
       MTT_NAN = 0x0000,
       MTT_UINT8 = 0x0101,
@@ -27,13 +27,13 @@ namespace me {
       MTT_STRING = 0x0F00,
       MTT_ARRAY = 0x1000
     };
-
+    
     struct Tag {
       std::string key;
       TagType type;
       uint32_t length;
       uint8_t* value;
-
+      
       Tag(std::string key, TagType type, uint32_t length, uint8_t* value)
       {
         this->key = key;
@@ -41,25 +41,25 @@ namespace me {
         this->length = length;
         this->value = value;
       }
-
+      
     };
-
+    
     std::map<std::string, Tag*> tags;
-
+    
     inline Tag* getTag(std::string key)
     {
       if (!tags.count(key))
-        return nullptr;
+      return nullptr;
       return tags[key];
     }
-
+    
     inline void putTag(Tag* tag)
     {
       tags[tag->key] = tag;
     }
-
+    
   };
-
+  
 };
 
 #endif

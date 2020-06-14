@@ -1,11 +1,11 @@
 #include "lua_lang.hpp"
 
 extern "C" {
-
-  #include "../../../../external/lua/src/lua.h"
-  #include "../../../../external/lua/src/luaxlib.h"
-  #include "../../../../external/lua/src/lualib.h"
-
+  
+#include "../../../../external/lua/src/lua.h"
+#include "../../../../external/lua/src/luaxlib.h"
+#include "../../../../external/lua/src/lualib.h"
+  
 };
 
 int me::lang::lua::load_lua_script(const std::string &filepath)

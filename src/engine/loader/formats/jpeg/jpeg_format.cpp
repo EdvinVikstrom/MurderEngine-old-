@@ -42,7 +42,7 @@ int me::format::jpeg_format::load_image(me::bytebuff &buffer, me::Image* image, 
     return ME_ERR;
   }
   for (uint16_t i = 0; i < header.APP[0].length; i++)
-    std::cout << header.APP[0].info[i];
+  std::cout << header.APP[0].info[i];
   std::cout << "\n";
   return ME_FINE;
 }

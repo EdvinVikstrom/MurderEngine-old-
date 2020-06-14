@@ -1,4 +1,2 @@
 append:
   SOURCES
-  ${CURRENT_DIR}/scene.cpp
-  ${CURRENT_DIR}/scenes/scene_2d_viewport.cpp

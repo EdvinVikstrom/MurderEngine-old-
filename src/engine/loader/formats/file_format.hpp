@@ -1,11 +1,5 @@
-#ifndef FILE_FORMAT_H
-  #define FILE_FORMAT_H
-
-#include "../MurderEngine.hpp"
-#include "../kernel/io/file_reader.hpp"
-#include "../scene/scene_content.hpp"
-#include "../audio/audio.hpp"
-#include <vector>
+#ifndef FILE_FORMAT_HPP
+  #define FILE_FORMAT_HPP
 
 #define FLAG_COMPRESSION_NONE                       0x0000000000000001
 #define FLAG_COMPRESSION_LZW                        0x0000000000000002
@@ -42,8 +36,8 @@
 #define FLAG_METADATA_USE_STRIP                     0x0000000010000000
 #define FLAG_METADATA_COPYRIGHT                     0x0000004000000000
 
-  #define FLAG_OVERWRITE                              0x0000000020000000
-  #define FLAG_FILE_EXT                               0x0000000040000000
+#define FLAG_OVERWRITE                              0x0000000020000000
+#define FLAG_FILE_EXT                               0x0000000040000000
 
 #define FLAG_IMAGE_BW                               0x0000000080000000
 #define FLAG_IMAGE_RGB                              0x0000000100000000
@@ -90,6 +84,7 @@ namespace me {
     };
 
     enum ImageFileFormat {
+      IFF_NAN,
       IFF_PNG,
       IFF_JPEG,
       IFF_GIF,
@@ -104,6 +99,7 @@ namespace me {
     };
 
     enum AudioFileFormat {
+      AFF_NAN,
       AFF_FLAC,
       AFF_ALAC,
       AFF_WAVE,
@@ -113,6 +109,7 @@ namespace me {
     };
 
     enum SceneFileFormat {
+      SFF_NAN,
       SFF_COLLADA,
       SFF_WAVEFRONT,
       SFF_STANFORD,
@@ -125,6 +122,7 @@ namespace me {
       AFF_ZIP
     };
 
+  };
 };
 
 #endif

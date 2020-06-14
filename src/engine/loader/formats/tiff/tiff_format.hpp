@@ -4,9 +4,9 @@
 #include "../../image_format.hpp"
 
 namespace me {
-
+  
   namespace format {
-
+    
     enum tiff_ifd_tag : uint16_t {
       TIFF_IFD_TAG_UNKNOWN =                           0xFAFA,
       TIFF_IFD_TAG_NEW_SUBFILE_TYPE =                  0x00FE,
@@ -45,7 +45,7 @@ namespace me {
       TIFF_IFD_TAG_COLOR_MAP =                         0x0140,
       TIFF_IFD_TAG_EXTRA_SAMPLES =                     0x0152,
       TIFF_IFD_TAG_COPYRIGHT =                         0x8298,
-
+      
       TIFF_IFD_TAG_DOCUMENT_NAME =                     0x010D,
       TIFF_IFD_TAG_PAGE_NAME =                         0x011D,
       TIFF_IFD_TAG_XPOSITION =                         0x011E,
@@ -106,7 +106,7 @@ namespace me {
       TIFF_IFD_TAG_XMP =                               0x02BC,
       TIFF_IFD_TAG_IMAGE_ID =                          0x800D,
       TIFF_IFD_TAG_IMAGE_LAYER =                       0x87AC,
-
+      
       TIFF_IFD_TAG_WANG_ANNOTATION =                   0x80A4,
       TIFF_IFD_TAG_MD_FILE_TAG =                       0x82A5,
       TIFF_IFD_TAG_MD_SCALE_PIXEL =                    0x82A6,
@@ -182,7 +182,7 @@ namespace me {
       TIFF_IFD_TAG_ALIAS_LAYER_METADATA =              0xC660,
       TIFF_IFD_TAG_TIFF_RSID =                         0xC6DC,
       TIFF_IFD_TAG_GEO_METADATA =                      0xC6DD,
-
+      
       TIFF_IFD_TAG_EXPOSURE_TIME =                     0x829A,
       TIFF_IFD_TAG_F_NUMBER =                          0x829D,
       TIFF_IFD_TAG_EXPOSURE_PROGRAM =                  0x8822,
@@ -239,7 +239,7 @@ namespace me {
       TIFF_IFD_TAG_DEVICE_SETTING_DESCRIPTION =        0xA40B,
       TIFF_IFD_TAG_SUBJECT_DISTANCE_RANGE =            0xA40C,
       TIFF_IFD_TAG_IMAGE_UNIQUE_ID =                   0xA420,
-
+      
       TIFF_IFD_TAG_GPS_VERSION_ID =                    0x0000,
       TIFF_IFD_TAG_GPS_LATITUDE_REF =                  0x0001,
       TIFF_IFD_TAG_GPS_LATITUDE =                      0x0002,
@@ -272,7 +272,7 @@ namespace me {
       TIFF_IFD_TAG_GPS_DATE_STAMP =                    0x001D,
       TIFF_IFD_TAG_GPS_DIFFERENTIAL =                  0x001E
     };
-
+    
     enum tiff_field_type : uint16_t {
       TIFF_FT_BYTE = 0x0101,
       TIFF_FT_ASCII = 0x0201,
@@ -287,16 +287,16 @@ namespace me {
       TIFF_FT_FLOAT = 0x0B04,
       TIFF_FT_DOUBLE = 0x0C08
     };
-
+    
     struct tiff_ifd {
       uint16_t tag;
       tiff_field_type type;
       uint32_t nValues;
       uint32_t offset;
-
+      
       uint32_t length = 0;
       uint8_t* value = nullptr;
-
+      
       tiff_ifd(uint16_t tag, tiff_field_type type, uint32_t nValues, uint32_t offset, uint32_t length, uint8_t* value)
       {
         this->tag = tag;
@@ -306,9 +306,9 @@ namespace me {
         this->length = length;
         this->value = value;
       }
-
+      
       tiff_ifd() { }
-
+      
       void init(me::bytebuff &buffer)
       {
         uint32_t size = type & 0x00FF;
@@ -324,7 +324,7 @@ namespace me {
           buffer.jump(old_pos);
         }
       }
-
+      
       uint16_t asUint16(me::ByteOrder order)
       {
         return me::bytebuff::to_uint16(value, order);
@@ -337,7 +337,7 @@ namespace me {
       {
         return me::bytebuff::to_uint64(value, order);
       }
-
+      
       uint64_t* asRational(me::ByteOrder order)
       {
         return new uint64_t[2] {
@@ -345,23 +345,23 @@ namespace me {
           me::bytebuff::to_uint64(value, 8, order)
         };
       }
-
+      
       uint64_t asUint(me::ByteOrder order)
       {
         if (type == TIFF_FT_BYTE)
-          return value[0];
+        return value[0];
         else if (type == TIFF_FT_SHORT)
-          return me::bytebuff::to_uint16(value, order);
+        return me::bytebuff::to_uint16(value, order);
         else if (type == TIFF_FT_LONG)
-          return me::bytebuff::to_uint64(value, order);
+        return me::bytebuff::to_uint64(value, order);
         return 0;
       }
-
+      
       std::string asASCII()
       {
         return std::string((const char*) value, length);
       }
-
+      
       std::string val(me::ByteOrder order)
       {
         if (type == TIFF_FT_BYTE) return std::to_string(value[0]);
@@ -386,9 +386,9 @@ namespace me {
         else if (type == TIFF_FT_DOUBLE) return "DOUBLE";
         return "NO TYPE";
       }
-
+      
     };
-
+    
     struct tiff_header {
       uint16_t byteOrder = 0x4D4D;
       uint16_t magic = 0x4A00;
@@ -396,45 +396,45 @@ namespace me {
       uint16_t entries = 0;
       std::map<uint16_t, tiff_ifd*> IFDs;
     };
-
+    
     struct tiff_decompressor {
-
+      
       me::bytebuff* inputStream = nullptr;
       me::Image* image = nullptr;
-
+      
       tiff_decompressor(me::bytebuff* inputStream, me::Image* image)
       {
         this->inputStream = inputStream;
         this->image = image;
       }
-
+      
       virtual int decode() = 0;
-
+      
     };
-
+    
     struct tiff_format : image_format {
-
+      
       tiff_format() : image_format(IFF_TIFF) { }
-
+      
       tiff_ifd* nextTIFFField(me::bytebuff &buffer);
       void readTIFFFields(me::bytebuff &buffer, tiff_header &header);
-
+      
       void addTIFFField(me::bytebuff &buffer, uint32_t &offset, tiff_ifd* IFD);
       void writeTIFFFields(me::bytebuff &buffer, tiff_header &header);
-
+      
       void decompressImage(me::bytebuff* input, me::Image* image);
       void compressImage(me::Image* image, me::bytebuff* output);
-
+      
       int load_image(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
       int write_image(me::bytebuff &buffer, me::Image* image, uint64_t flags) override;
       bool recognized(me::fileattr &file) override;
       std::vector<std::string> get_file_exts() override;
       uint64_t supported_flags() override;
-
+      
     };
-
+    
   };
-
+  
 };
 
 #endif

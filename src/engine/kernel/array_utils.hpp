@@ -2,7 +2,7 @@
   #define ARRAY_UTILS_H
 
 namespace me {
-
+  
   template<typename T>
   struct array {
     T* values;
@@ -20,14 +20,14 @@ namespace me {
     void put(unsigned int index, T* elements, unsigned int count)
     {
       for (unsigned int i = index; i < count+index; i++)
-        values[i] = elements[i-index];
+      values[i] = elements[i-index];
     }
     ~array()
     {
       delete[] values;
     }
   };
-
+  
 };
 
 #endif

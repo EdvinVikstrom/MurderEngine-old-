@@ -19,7 +19,7 @@ void me::format::cleanupImageFormats()
 int me::reader::readImage(const std::string &filepath, me::Image* image, uint64_t flags)
 {
   me::filebuff* file = me::loadFile(filepath)->readFile();
-  me::format::ImageFileFormat format = IFF_RAW;
+  me::format::ImageFileFormat format = me::format::ImageFileFormat::IFF_RAW;
   for (me::format::ImageFormat* imageFormat : formats)
   {
     if (imageFormat->recognized(file))

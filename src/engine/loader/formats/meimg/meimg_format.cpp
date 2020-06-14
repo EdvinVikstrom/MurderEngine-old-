@@ -13,7 +13,7 @@ int me::format::meimg_format::write_image(me::bytebuff &buffer, me::Image* image
   buffer.push(image->bitmap->depth);
   buffer.push(image->info.format);
   buffer.push(image->info.compression);
-
+  
   me::metadata* meta = image->info.metadata;
   buffer.push(meta != nullptr ? meta->tags.size() : 0);
   if (meta != nullptr)

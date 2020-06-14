@@ -9,7 +9,7 @@ struct png_chunk_hdri {
   uint8_t compression;
   uint8_t filter;
   uint8_t interlace;
-
+  
   png_chunk_hdri(png_chunk &chunk)
   {
     width = me::bytebuff::to_uint32(chunk.data, 0, me::ByteOrder::BO_LITTLE_ENDIAN);
@@ -20,13 +20,13 @@ struct png_chunk_hdri {
     filter = chunk.data[11];
     interlace = chunk.data[12];
   }
-
+  
 };
 
 struct png_chunk_plte {
   uint32_t entries;
   uint8_t *red, *green, *blue;
-
+  
   png_chunk_plte(png_chunk &chunk)
   {
     entries = chunk.length / 3;
@@ -40,34 +40,34 @@ struct png_chunk_plte {
       blue[i / 3] = chunk.data[i+2];
     }
   }
-
+  
 };
 
 struct png_chunk_trns {
   uint32_t entries;
   uint8_t* alphaData;
-
+  
   png_chunk_trns(png_chunk &chunk)
   {
     entries = chunk.length;
     alphaData = new uint8_t[entries];
     for (uint32_t i = 0; i < chunk.length; i++)
-      alphaData[i] = chunk.data[i];
+    alphaData[i] = chunk.data[i];
   }
-
+  
   inline uint32_t get_alpha(uint32_t index, uint16_t bit_depth)
   {
     if (bit_depth == 8)
-      return alphaData[index];
+    return alphaData[index];
     else if (bit_depth == 16)
-     return me::bytebuff::to_uint16(alphaData, index * 2, me::ByteOrder::BO_LITTLE_ENDIAN);
+    return me::bytebuff::to_uint16(alphaData, index * 2, me::ByteOrder::BO_LITTLE_ENDIAN);
     else if (bit_depth == 24)
-      return me::bytebuff::to_uint24(alphaData, index * 3, me::ByteOrder::BO_LITTLE_ENDIAN);
+    return me::bytebuff::to_uint24(alphaData, index * 3, me::ByteOrder::BO_LITTLE_ENDIAN);
     else if (bit_depth == 32)
-      return me::bytebuff::to_uint32(alphaData, index * 4, me::ByteOrder::BO_LITTLE_ENDIAN);
+    return me::bytebuff::to_uint32(alphaData, index * 4, me::ByteOrder::BO_LITTLE_ENDIAN);
     return 0;
   }
-
+  
 };
 
 #endif

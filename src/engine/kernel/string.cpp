@@ -33,14 +33,13 @@ std::string& me::lower_case(const std::string &str)
 {
 
 }
-std::vector<std::string> me::split_str(std::string &str, char delimeter)
+std::vector<std::string> me::split_str(const std::string &str, char delimeter)
 {
   std::vector<std::string> strings;
   unsigned int start = 0, end = 0;
   for (unsigned int i = 0; i < str.size(); i++)
   {
-    char &c = str.at(i);
-    if (c==delimeter)
+    if (str.at(i) == delimeter)
     {
       strings.emplace_back(&str.at(start), end);
       start = i + 1;
@@ -66,6 +65,21 @@ std::string me::to_folder_path(const std::string &str)
   if (last < 1)
     return str;
   return str.substr(0, last);
+}
+
+std::string me::fix_file_path(const std::string &str, bool dir)
+{
+  std::string fixed(str.size() + ((dir && str.size() > 0 && str.at(str.size() - 1) != '/') ? 1 : 0), ' ');
+  for (uint32_t i = 0; i < str.size(); i++)
+  {
+    if (str.at(i) == '\\')
+      fixed.at(i) = '/';
+    else
+      fixed.at(i) = str.at(i);
+  }
+  if (fixed.size() > str.size())
+    fixed.at(str.size()) = '/';
+  return fixed;
 }
 
 /* very fast functions */

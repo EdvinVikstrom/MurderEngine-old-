@@ -3,13 +3,11 @@
 
 #include <vector>
 
-#include "particle/particle.hpp"
 #include "texture.hpp"
 #include "material.hpp"
 #include "camera.hpp"
 #include "light.hpp"
 #include "mesh.hpp"
-#include "item.hpp"
 
 namespace me {
 
