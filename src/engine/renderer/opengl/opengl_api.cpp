@@ -20,6 +20,25 @@ static int getPolygonMode(me::MeshPolygonMode mode)
   return -1;
 }
 
+static std::string getGLenum(GLenum e)
+{
+  if (e == GL_INVALID_ENUM) return "INVALID_ENUM";
+  else if (e == GL_INVALID_VALUE) return "INVALID_VALUE";
+  else if (e == GL_INVALID_OPERATION) return "INVALID_OPERATION";
+  else if (e == GL_INVALID_FRAMEBUFFER_OPERATION) return "INVALID_FRAMEBUFFER_OPERATION";
+  else if (e == GL_OUT_OF_MEMORY) return "OUT_OF_MEMORY";
+  else if (e == GL_STACK_UNDERFLOW) return "STACK_UNDERFLOW";
+  else if (e == GL_STACK_OVERFLOW) return "STACK_OVERFLOW";
+  else return "UNKNOWN";
+}
+
+static void printGLErr()
+{
+  GLenum error = glGetError();
+  if (error != GL_NO_ERROR)
+    std::cout << "[OpenGL] [ERR]: " << getGLenum(error) << "\n";
+}
+
 int me::opengl_api::initializeApi(MeInstance* instance)
 {
   glewInit();
@@ -46,6 +65,8 @@ int me::opengl_api::compileShader(const std::string &source, uint8_t type, MeSha
     int length;
     char log[1024];
     glGetShaderInfoLog(shader.shaderID, 1024, &length, log);
+    if (length <= 0)
+      return ME_ERR;
     log[length - 1] = 0;
     std::cout << "[OpenGL] [ERR]: Failed to compile shader \"" << log << "\"\n";
     return ME_ERR;
@@ -61,12 +82,14 @@ int me::opengl_api::makeShaderProgram(MeShader* shaders, uint8_t count, MeShader
   glLinkProgram(program.programID);
   glValidateProgram(program.programID);
   int result;
-  glGetShaderiv(program.programID, GL_LINK_STATUS, &result);
+  glGetProgramiv(program.programID, GL_LINK_STATUS, &result);
   if (result != GL_TRUE)
   {
-    int length;
+    int length = 0;
     char log[1024];
     glGetShaderInfoLog(program.programID, 1024, &length, log);
+    if (length <= 0)
+      return ME_ERR;
     log[length - 1] = 0;
     std::cout << "[OpenGL] [ERR]: Failed to link shaders \"" << log << "\"\n";
     return ME_ERR;
@@ -286,6 +309,8 @@ int me::opengl_api::renderFrame(MeInstance* instance, unsigned long current_fram
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
+  for (MeScene* scene : instance->scenes)
+    scene->MeScene_render(instance->renderer, instance->currentFrame, instance->window->framebufferResized);
   return ME_FINE;
 }
 int me::opengl_api::cleanup()

@@ -1,2 +1,5 @@
 append:
   SOURCES
+
+directory:
+  ${CURRENT_DIR}/scenes

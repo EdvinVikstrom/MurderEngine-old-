@@ -23,39 +23,43 @@ static void framebuffer_resize_callback(GLFWwindow* window, int width, int heigh
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
-  for (MeEngineEvent* event : instance->events)
-  event->onMouseInput(instance->inputContext, ME_MOUSE_MOVE, instance->inputContext->cursorX - xpos, instance->inputContext->cursorY - ypos, ME_KEY_NONE);
-  instance->inputContext->cursorX = xpos;
-  instance->inputContext->cursorY = ypos;
+
+  for (MeScene* scene : instance->scenes)
+    scene->MeScene_input(instance, DEV_MOUSE, 2, 0, xpos, ypos);
+
+  instance->inputInfo.cursorX = xpos;
+  instance->inputInfo.cursorY = ypos;
 }
 
 static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
-  for (MeEngineEvent* event : instance->events)
-  event->onMouseInput(instance->inputContext, ME_MOUSE_SCROLL, xoffset, yoffset, ME_KEY_NONE);
+  for (MeScene* scene : instance->scenes)
+    scene->MeScene_input(instance, DEV_MOUSE, 3, 0, xoffset, yoffset);
 }
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   if (action==GLFW_PRESS)
-  instance->inputContext->pressed[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = true;
+    instance->inputInfo.pressedButtons.insert(button);
   if (action==GLFW_RELEASE)
-  instance->inputContext->pressed[MeEngineEvent::fromGLFW(button, ME_MOUSE)] = false;
-  for (MeEngineEvent* event : instance->events)
-  event->onMouseInput(instance->inputContext, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), instance->inputContext->cursorX, instance->inputContext->cursorY, button);
+    instance->inputInfo.pressedButtons.erase(button);
+
+  for (MeScene* scene : instance->scenes)
+    scene->MeScene_input(instance, DEV_MOUSE, action, button);
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   if (action==GLFW_PRESS)
-  instance->inputContext->pressed[static_cast<MeKey>(key)] = true;
+    instance->inputInfo.pressedKeys.insert(key);
   if (action==GLFW_RELEASE)
-  instance->inputContext->pressed[static_cast<MeKey>(key)] = false;
-  for (MeEngineEvent* event : instance->events)
-  event->onKeyInput(instance->inputContext, MeEngineEvent::fromGLFW(action, ME_INPUT_TYPE_OTHER), key);
+    instance->inputInfo.pressedKeys.erase(key);
+
+  for (MeScene* scene : instance->scenes)
+    scene->MeScene_input(instance, DEV_KEYBOARD, action, key);
 }
 
 MeResult MeCommand::execute(MeInstance* instance)
@@ -80,7 +84,6 @@ bool MeInstance::shouldExit()
 MeResult meInitInstance(MeInstanceInfo* info, MeInstance* instance)
 {
   instance->info = info;
-  instance->inputContext = new MeInputEventContext;
   return ME_SUCCESS;
 }
 MeResult meInitWindow(MeInstance* instance, MeWindowInfo* info, MeWindow* window)
@@ -119,7 +122,8 @@ MeResult meInitRenderer(MeInstance* instance, MeRendererInfo* info)
       instance->renderer = new me::opengl_api;
     break;
     default:
-      std::cout << "API not supported yet.\n";
+      std::cout << "API not supported\n";
+      return ME_ERR;
     break;
   }
   instance->renderer->info = info;
@@ -134,32 +138,20 @@ MeResult meInitCommandBuffer(MeInstance* instance, MeCommandBuffer* commandBuffe
 MeResult meRunLoop(MeInstance* instance)
 {
   meInitEverything();
-  for (MeEngineEvent* event : instance->events)
-  event->onInit(instance);
+  for (MeScene* scene : instance->scenes)
+    scene->MeScene_initialize(instance);
   while(instance->shouldExit() != true)
   {
+    for (MeScene* scene : instance->scenes)
+      scene->MeScene_tick(instance);
     instance->renderer->renderFrame(instance, instance->currentFrame, instance->window->framebufferResized);
-    for (MeEngineEvent* event : instance->events)
-    event->onLoop(instance);
-    for (MeEngineEvent* event : instance->events)
-    event->onRender(instance->renderer);
     glfwSwapBuffers((GLFWwindow*)instance->window->window);
     glfwPollEvents();
     instance->currentFrame++;
   }
+  for (MeScene* scene : instance->scenes)
+    scene->MeScene_finalize(instance);
   meCleanupEverything();
-  return ME_SUCCESS;
-}
-
-MeResult meLoadShaders(const char* filepath, MeShaderProgram* shaderProgram)
-{
-
-  return ME_SUCCESS;
-}
-
-MeResult meRegisterEvent(MeInstance* instance, MeEngineEvent* event)
-{
-  instance->events.push_back(event);
   return ME_SUCCESS;
 }
 
@@ -176,27 +168,27 @@ void meStopRecord(MeCommandBuffer* commandBuffer)
 void meRenderFrame(MeCommandBuffer* commandBuffer)
 {
   if (!commandBuffer->recording) return;
-  commandBuffer->commands.push_back(MeCommand(ME_RENDER_FRAME_FUNC));
+    commandBuffer->commands.push_back(MeCommand(ME_RENDER_FRAME_FUNC));
 }
 void mePollEvents(MeCommandBuffer* commandBuffer)
 {
   if (!commandBuffer->recording) return;
-  commandBuffer->commands.push_back(MeCommand(ME_POLL_EVENTS_FUNC));
+    commandBuffer->commands.push_back(MeCommand(ME_POLL_EVENTS_FUNC));
 }
 void mePollWindowEvents(MeCommandBuffer* commandBuffer)
 {
   if (!commandBuffer->recording) return;
-  commandBuffer->commands.push_back(MeCommand(ME_POLL_WINDOW_EVENTS_FUNC));
+    commandBuffer->commands.push_back(MeCommand(ME_POLL_WINDOW_EVENTS_FUNC));
 }
 void meSwapBuffers(MeCommandBuffer* commandBuffer)
 {
   if (!commandBuffer->recording) return;
-  commandBuffer->commands.push_back(MeCommand(ME_SWAP_BUFFERS_FUNC));
+    commandBuffer->commands.push_back(MeCommand(ME_SWAP_BUFFERS_FUNC));
 }
 void meIdle(MeCommandBuffer* commandBuffer)
 {
   if (!commandBuffer->recording) return;
-  commandBuffer->commands.push_back(MeCommand(ME_IDLE_FUNC));
+    commandBuffer->commands.push_back(MeCommand(ME_IDLE_FUNC));
 }
 void mePullFunction(MeCommandBuffer* commandBuffer, MeEventFunc* func)
 {
@@ -206,8 +198,6 @@ void mePullFunction(MeCommandBuffer* commandBuffer, MeEventFunc* func)
 /* cleanup */
 void meDestroyInstance(MeInstance* instance)
 {
-  for (MeEngineEvent* event : instance->events)
-  event->onDestroyed(instance);
 }
 void meDestroyWindow(MeWindow* window)
 {

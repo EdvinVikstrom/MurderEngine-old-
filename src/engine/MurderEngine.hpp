@@ -3,11 +3,14 @@
 
 #include "kernel/common.hpp"
 #include "kernel/variable.hpp"
+// #include "math/maths.hpp"
 
 /* utilities */
 #include <vector>
 #include <map>
+#include <set>
 
+/* renderer stuff */
 enum MeRendererAPI {
   ME_VULKAN = 0,
   ME_OPENGL = 1,
@@ -16,6 +19,7 @@ enum MeRendererAPI {
   ME_GLES = 4
 };
 
+/* other stuff */
 enum MeCommandName {
   ME_RENDER_FRAME_FUNC = 4,
   ME_POLL_EVENTS_FUNC = 5,
@@ -25,9 +29,18 @@ enum MeCommandName {
   ME_PULL_FUNCTION_FUNC = 9
 };
 
+/* hardware stuff */
+enum MeDeviceType {
+  DEV_KEYBOARD,
+  DEV_MOUSE,
+  DEV_GAMEPAD,
+  DEV_JOYSTICK
+};
+
 struct MeInstance;
 struct MeWindow;
 struct MeRenderer;
+struct MeScene;
 struct MeCommandBuffer;
 struct MeCommand;
 struct MeShaderProgram;
@@ -35,7 +48,6 @@ struct MeInstanceInfo;
 struct MeWindowInfo;
 struct MeRendererInfo;
 
-#include "events/engine_event.hpp"
 #include "scene/scene.hpp"
 
 struct MeCommand {
@@ -101,18 +113,6 @@ struct MeWindow {
 
 struct MeRenderer {
 
-  #define FRAME_BUFFER_CAP 2048
-  struct FrameBuffer {
-    void shader(MeShaderProgram &program);
-    void translate(double x, double y, double z);
-    void rotate(double x, double y, double z);
-    void scale(double x, double y, double z);
-    void material(me::Material &material);
-    void mesh(me::Mesh &mesh);
-    void light(me::Light &light);
-    void camera(me::Camera &camera);
-  };
-
   MeRendererInfo* info;
 
   virtual int initializeApi(MeInstance* instance) = 0;
@@ -155,6 +155,23 @@ struct MeRenderer {
 
 };
 
+struct MeScene {
+  virtual int MeScene_initialize(MeInstance* instance) = 0;
+  virtual int MeScene_finalize(MeInstance* instance) = 0;
+  virtual int MeScene_tick(MeInstance* instance) = 0;
+  virtual int MeScene_render(MeRenderer* renderer, unsigned long current_frame, bool &framebuffer_resized) = 0;
+
+  /*
+    action {
+      0: pressed,
+      1: released,
+      2: move,
+      3: scroll
+    }
+  */
+  virtual int MeScene_input(MeInstance* instance, MeDeviceType deviceType, uint8_t action, uint8_t keyCode, double x = 0.0D, double y = 0.0D) = 0;
+};
+
 template<typename T>
 struct MeMemPool {
   std::vector<T> items;
@@ -176,12 +193,16 @@ struct MeInstance {
   MeWindow* window;
   MeRenderer* renderer;
   MeCommandBuffer* commandBuffer;
-  MeInputEventContext* inputContext;
-  std::vector<MeEngineEvent*> events;
+  struct {
+    std::set<uint8_t> pressedKeys;
+    std::set<uint8_t> pressedButtons;
+    double cursorX, cursorY;
+  } inputInfo;
+  std::vector<MeScene*> scenes;
 
   MeMemPool<me::Image*> memPool_textures;
   MeMemPool<me::Material*> memPool_materials;
-  MeMemPool<me::Mesh> memPool_meshes;
+  MeMemPool<me::Mesh*> memPool_meshes;
 
   uint64_t currentFrame = 0;
 
@@ -196,10 +217,6 @@ MeResult meInitWindow(MeInstance* instance, MeWindowInfo* info, MeWindow* window
 MeResult meInitRenderer(MeInstance* instance, MeRendererInfo* info);
 MeResult meInitCommandBuffer(MeInstance* instance, MeCommandBuffer* commandBuffer);
 MeResult meRunLoop(MeInstance* instance);
-
-MeResult meLoadShaders(const char* filepath, MeShaderProgram* shaderProgram);
-
-MeResult meRegisterEvent(MeInstance* instance, MeEngineEvent* event);
 
 void meStartRecord(MeCommandBuffer* commandBuffer);
 void meStopRecord(MeCommandBuffer* commandBuffer);

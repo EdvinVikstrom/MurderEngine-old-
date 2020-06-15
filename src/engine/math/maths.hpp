@@ -12,8 +12,6 @@
 #define TO_RADIANS    0.017453292519943295D
 #define TO_DEGREES    57.29577951308232D
 
-#define ME_USE_TYPE_FLOAT
-
 #ifdef ME_USE_TYPE_FLOAT
   typedef float real_t;
 #elif ME_USE_TYPE_DOUBLE

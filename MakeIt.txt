@@ -32,6 +32,10 @@ library:
 verify:
   SOURCES
 
+define:
+  DEBUG
+  ME_USE_TYPE_FLOAT
+
 exec:
   -std=c++17
   ${SOURCES}

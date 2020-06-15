@@ -1,5 +1,5 @@
-#ifndef ME_KERNEL_HPP
-  #define ME_KERNEL_HPP
+#ifndef ME_COMMON_HPP
+  #define ME_COMMON_HPP
 
 #include <stdint.h>
 #include <cstring>

@@ -4,6 +4,10 @@
 
 #include "engine/loader/shader_loader.hpp"
 
+/* testing */
+  #include "engine/scene/scenes/debug_scene.hpp"
+/* ------- */
+
 MeInstance instance;
 MeWindow window;
 MeCommandBuffer commandBuffer;
@@ -11,9 +15,9 @@ MeCommandBuffer commandBuffer;
 int main()
 {
   #ifdef DEBUG
-  std::cout << "[DEBUG MODE]\n";
+    std::cout << "[DEBUG MODE]\n";
   #else
-  std::cout << "[RELEASE MODE]\n";
+    std::cout << "[RELEASE MODE]\n";
   #endif
   MeInstanceInfo instance_info = {};
   instance_info.appName = "Sandbox";
@@ -36,7 +40,9 @@ int main()
   meInitRenderer(&instance, &renderer_info);
 
   MeShaders* shaders = new MeShaders;
-  me::loadShaders("./src/res/shaders/meshader",  *shaders, *instance.renderer);
+  me::loadShaders("./src/res/shaders/meshader", *shaders, *instance.renderer);
+
+  instance.scenes.push_back(new me::scene::DebugScene);
 
   meRunLoop(&instance);
 
