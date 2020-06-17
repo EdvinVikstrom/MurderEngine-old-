@@ -18,6 +18,8 @@ static void framebuffer_resize_callback(GLFWwindow* window, int width, int heigh
 {
   MeInstance* instance = reinterpret_cast<MeInstance*>(glfwGetWindowUserPointer(window));
   instance->window->framebufferResized = true;
+  instance->window->width = width;
+  instance->window->height = height;
 }
 
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -62,11 +64,22 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     scene->MeScene_input(instance, DEV_KEYBOARD, action, key);
 }
 
+/* MeCommand:: */
 MeResult MeCommand::execute(MeInstance* instance)
 {
   return ME_SUCCESS;
 }
+/* */
 
+/* MeShaderProgram */
+void MeShaderProgram::loadLocations(MeRenderer* renderer)
+{
+  locations.projection = renderer->uniformLocation(this, "projection");
+  locations.view = renderer->uniformLocation(this, "view");
+}
+/* */
+
+/* MeWindow:: */
 void MeWindow::destroy()
 {
   glfwDestroyWindow((GLFWwindow*)window);
@@ -75,11 +88,14 @@ bool MeWindow::shouldClose()
 {
   return glfwWindowShouldClose((GLFWwindow*) window);
 }
+/* */
 
+/* MeInstance:: */
 bool MeInstance::shouldExit()
 {
   return window != nullptr ? window->shouldClose() : false;
 }
+/* */
 
 MeResult meInitInstance(MeInstanceInfo* info, MeInstance* instance)
 {
@@ -126,7 +142,9 @@ MeResult meInitRenderer(MeInstance* instance, MeRendererInfo* info)
       return ME_ERR;
     break;
   }
-  instance->renderer->info = info;
+  instance->renderer->api = info->api;
+  instance->renderer->shaders = info->shaders;
+  instance->renderer->makeFrameBuffer(&instance->renderer->frameBuffer, info->frameBuffCap);
   instance->renderer->initializeApi(instance);
   return ME_SUCCESS;
 }

@@ -32,14 +32,17 @@ int main()
   window_info.posY = 0;
   window_info.monitor = 0;
 
+  MeShaders* shaders;
   MeRendererInfo renderer_info = {};
   renderer_info.api = ME_OPENGL;
+  renderer_info.shaders = shaders;
+  renderer_info.frameBuffCap = 2048;
 
   meInitWindow(&instance, &window_info, &window);
   meInitCommandBuffer(&instance, &commandBuffer);
   meInitRenderer(&instance, &renderer_info);
 
-  MeShaders* shaders = new MeShaders;
+  shaders = new MeShaders;
   me::loadShaders("./src/res/shaders/meshader", *shaders, *instance.renderer);
 
   instance.scenes.push_back(new me::scene::DebugScene);

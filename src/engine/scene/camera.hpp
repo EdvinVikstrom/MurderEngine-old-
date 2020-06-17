@@ -1,11 +1,11 @@
-#ifndef CAMERA_H
-  #define CAMERA_H
+#ifndef CAMERA_HPP
+  #define CAMERA_HPP
 
 #include "../math/matrix.hpp"
 #include "../math/transform.hpp"
 
 namespace me {
-  
+
   enum CameraProjection {
     PROJ_PERSPECTIVE,
     PROJ_FRUSTUM,
@@ -13,26 +13,38 @@ namespace me {
     PROJ_VIEW_2D,
     PROJ_ENC_VIEW_2D
   };
-  
+
   struct CameraInfo {
     uint32_t data[4];
-    std::string source;
-    std::string identifier;
-    me::metadata* metadata = new me::metadata;
-    CameraProjection projection;
+    std::string identifier = "?";
+    CameraProjection projection = PROJ_PERSPECTIVE;
   };
-  
+
   struct Camera {
-    
+
     me::transform transform;
-    
+    real_t* projMatrix;
+    real_t* viewMatrix;
+
     float focalLength;
     float aspectRatio;
     float znear, zfar;
     uint32_t width, height;
-    
+
     CameraInfo info;
-    
+
+    inline void setupProjMatrix()
+    {
+      me::maths::identify_mat4(projMatrix);
+      if (info.projection == PROJ_PERSPECTIVE)
+        me::maths::perspective_mat4(projMatrix, focalLength, aspectRatio, znear, zfar);
+    }
+
+    inline void setupViewMatrix()
+    {
+      me::maths::identify_mat4(viewMatrix);
+    }
+
     Camera(me::transform transform, float focalLength, float aspectRatio, float znear, float zfar, uint32_t width, uint32_t height, CameraInfo info)
     {
       this->transform = transform;
@@ -43,16 +55,20 @@ namespace me {
       this->width = width;
       this->height = height;
       this->info = info;
+      projMatrix = new real_t[16];
+      viewMatrix = new real_t[16];
+      setupProjMatrix();
+      setupViewMatrix();
     }
-    
+
     Camera() { }
-    
+
     ~Camera()
     {
     }
-    
+
   };
-  
+
 };
 
 #endif

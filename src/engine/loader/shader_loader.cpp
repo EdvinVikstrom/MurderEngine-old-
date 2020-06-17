@@ -74,4 +74,5 @@ void me::loadShaderProgram(const std::string &filepath, uint8_t* types, uint8_t 
     shaders.push_back(readShaderFile(filepath + ext, renderer));
   }
   renderer.makeShaderProgram(&shaders[0], shaders.size(), program);
+  program.loadLocations(&renderer);
 }

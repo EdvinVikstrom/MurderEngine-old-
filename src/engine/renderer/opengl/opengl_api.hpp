@@ -10,6 +10,7 @@ namespace me {
     int initializeApi(MeInstance* instance);
     int compileShader(const std::string &source, uint8_t type, MeShader &shader);
     int makeShaderProgram(MeShader* shaders, uint8_t count, MeShaderProgram &program);
+    int makeFrameBuffer(MeFrameBuffer** frameBuffer, uint32_t capacity);
 
     int uniform1f(int location, float* f, uint32_t count = 1);
     int uniform2f(int location, me::vec2* vec, uint32_t count = 1);
@@ -36,6 +37,8 @@ namespace me {
     int uniformMat3x4(int location, real_t* mat, uint32_t count = 1);
     int uniformMat4x3(int location, real_t* mat, uint32_t count = 1);
 
+    uint32_t uniformLocation(MeShaderProgram* program, const char* str);
+
     int pushMesh(me::Mesh* mesh);
     int pullMesh(me::Mesh* mesh);
 
@@ -44,6 +47,12 @@ namespace me {
 
     int renderFrame(MeInstance* instance, unsigned long current_frame, bool &framebuffer_resized);
     int cleanup();
+
+  };
+
+  struct opengl_api_cmd : MeFrameBuffer {
+
+    int useProgram(MeShaderProgram* program);
 
   };
 

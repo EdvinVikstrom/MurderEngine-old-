@@ -2,6 +2,8 @@
 
 #include <GL/glew.h>
 
+/* helpers */
+
 static int getUniformLocation(int program, std::string varName)
 {
   return glGetUniformLocation(program, varName.c_str());
@@ -38,6 +40,8 @@ static void printGLErr()
   if (error != GL_NO_ERROR)
     std::cout << "[OpenGL] [ERR]: " << getGLenum(error) << "\n";
 }
+
+/* opengl_api */
 
 int me::opengl_api::initializeApi(MeInstance* instance)
 {
@@ -94,6 +98,12 @@ int me::opengl_api::makeShaderProgram(MeShader* shaders, uint8_t count, MeShader
     std::cout << "[OpenGL] [ERR]: Failed to link shaders \"" << log << "\"\n";
     return ME_ERR;
   }
+  return ME_FINE;
+}
+
+int me::opengl_api::makeFrameBuffer(MeFrameBuffer** frameBuffer, uint32_t capacity)
+{
+  *frameBuffer = new opengl_api_cmd;
   return ME_FINE;
 }
 
@@ -218,6 +228,11 @@ int me::opengl_api::uniformMat4x3(int location, real_t* mat, uint32_t count)
   return ME_FINE;
 }
 
+uint32_t me::opengl_api::uniformLocation(MeShaderProgram* program, const char* str)
+{
+  return glGetUniformLocation(program->programID, str);
+}
+
 int me::opengl_api::pushMesh(me::Mesh* mesh)
 {
   bool has_color = mesh->colors.size() != 0;
@@ -310,10 +325,19 @@ int me::opengl_api::renderFrame(MeInstance* instance, unsigned long current_fram
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
   for (MeScene* scene : instance->scenes)
-    scene->MeScene_render(instance->renderer, instance->currentFrame, instance->window->framebufferResized);
+    scene->MeScene_render(this, frameBuffer, instance->currentFrame, instance->window->framebufferResized);
   return ME_FINE;
 }
 int me::opengl_api::cleanup()
 {
+  return ME_FINE;
+}
+
+/* opengl_api_cmd */
+
+int me::opengl_api_cmd::useProgram(MeShaderProgram* program)
+{
+  this->program = program;
+  glUseProgram(program->programID);
   return ME_FINE;
 }

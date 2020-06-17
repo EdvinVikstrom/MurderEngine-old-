@@ -40,6 +40,7 @@ enum MeDeviceType {
 struct MeInstance;
 struct MeWindow;
 struct MeRenderer;
+struct MeFrameBuffer;
 struct MeScene;
 struct MeCommandBuffer;
 struct MeCommand;
@@ -69,6 +70,15 @@ struct MeShader {
 
 struct MeShaderProgram {
   uint32_t programID;
+  struct {
+    uint32_t
+      projection,
+      view,
+      model;
+  } locations;
+
+  void loadLocations(MeRenderer* renderer);
+
 };
 
 struct MeShaders {
@@ -98,6 +108,8 @@ struct MeWindowInfo {
 
 struct MeRendererInfo {
   MeRendererAPI api;
+  MeShaders* shaders;
+  uint32_t frameBuffCap;
 };
 
 struct MeWindow {
@@ -105,6 +117,7 @@ struct MeWindow {
   void* window;
 
   bool framebufferResized;
+  uint32_t width, height;
 
   void destroy();
   bool shouldClose();
@@ -113,11 +126,14 @@ struct MeWindow {
 
 struct MeRenderer {
 
-  MeRendererInfo* info;
+  MeRendererAPI api;
+  MeShaders* shaders;
+  MeFrameBuffer* frameBuffer;
 
   virtual int initializeApi(MeInstance* instance) = 0;
   virtual int compileShader(const std::string &source, uint8_t type, MeShader &shader) = 0;
   virtual int makeShaderProgram(MeShader* shaders, uint8_t count, MeShaderProgram &program) = 0;
+  virtual int makeFrameBuffer(MeFrameBuffer** frameBuffer, uint32_t capacity) = 0;
 
   virtual int uniform1f(int location, float* f, uint32_t count = 1) = 0;
   virtual int uniform2f(int location, me::vec2* vec, uint32_t count = 1) = 0;
@@ -144,6 +160,8 @@ struct MeRenderer {
   virtual int uniformMat3x4(int location, real_t* mat, uint32_t count = 1) = 0;
   virtual int uniformMat4x3(int location, real_t* mat, uint32_t count = 1) = 0;
 
+  virtual uint32_t uniformLocation(MeShaderProgram* program, const char* str) = 0;
+
   virtual int pushMesh(me::Mesh* mesh) = 0;
   virtual int pullMesh(me::Mesh* mesh) = 0;
 
@@ -155,11 +173,19 @@ struct MeRenderer {
 
 };
 
+struct MeFrameBuffer {
+
+  MeShaderProgram* program;
+
+  virtual int useProgram(MeShaderProgram* program) = 0;
+
+};
+
 struct MeScene {
   virtual int MeScene_initialize(MeInstance* instance) = 0;
   virtual int MeScene_finalize(MeInstance* instance) = 0;
   virtual int MeScene_tick(MeInstance* instance) = 0;
-  virtual int MeScene_render(MeRenderer* renderer, unsigned long current_frame, bool &framebuffer_resized) = 0;
+  virtual int MeScene_render(MeRenderer* renderer, MeFrameBuffer* frameBuffer, unsigned long current_frame, bool &framebuffer_resized) = 0;
 
   /*
     action {

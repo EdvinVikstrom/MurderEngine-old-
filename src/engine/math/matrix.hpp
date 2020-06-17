@@ -1,5 +1,5 @@
-#ifndef ME_MATRIX_H
-  #define ME_MATRIX_H
+#ifndef ME_MATRIX_HPP
+  #define ME_MATRIX_HPP
 
 #define PROPERTY_PERSPECTIVE          1 << 0;
 #define PROPERTY_ORTHONORMAL          1 << 1;
@@ -25,10 +25,10 @@ namespace me {
     ]
     */
 
-    inline void identify(real_t* matrix)
+    inline void identify_mat4(real_t* matrix)
     {
       for (uint8_t i = 0; i < 16; i++)
-      matrix[i] = 0;
+        matrix[i] = 0;
       matrix[0] = 1;
       matrix[5] = 1;
       matrix[10] = 1;
@@ -48,7 +48,7 @@ namespace me {
     matrix[15] = (0.0F);
     */
 
-    inline void perspective(real_t* matrix, real_t fov, real_t aspect, real_t znear, real_t zfar)
+    inline void perspective_mat4(real_t* matrix, real_t fov, real_t aspect, real_t znear, real_t zfar)
     {
       real_t hfov = me::maths::tan(fov / 2.0F);
       matrix[0] = (1.0F / (aspect * hfov));
@@ -58,7 +58,7 @@ namespace me {
       matrix[14] = (-(2.0F * zfar * znear) / (zfar - znear));
     }
 
-    inline void frustum(real_t* matrix, real_t left, real_t right, real_t bottom, real_t top, real_t znear, real_t zfar)
+    inline void frustum_mat4(real_t* matrix, real_t left, real_t right, real_t bottom, real_t top, real_t znear, real_t zfar)
     {
       matrix[0] = ((znear + znear) / (right - left));
       matrix[5] = ((znear + znear) / (top - bottom));
@@ -70,7 +70,7 @@ namespace me {
       matrix[15] = (0.0F);
     }
 
-    inline void orthographic(real_t* matrix, real_t left, real_t right, real_t bottom, real_t top, real_t znear, real_t zfar)
+    inline void orthographic_mat4(real_t* matrix, real_t left, real_t right, real_t bottom, real_t top, real_t znear, real_t zfar)
     {
       matrix[0] = (2.0F / (right - left));
       matrix[0] = (2.0F / (top - bottom));
@@ -80,7 +80,7 @@ namespace me {
       matrix[0] = (-znear / (zfar - znear));
     }
 
-    inline void look(real_t* matrix, me::vec3 eye, me::vec3 center, me::vec3 up)
+    inline void look_mat4(real_t* matrix, me::vec3 eye, me::vec3 center, me::vec3 up)
     {
       me::vec3 f(me::normalize(center - eye));
       me::vec3 s(me::normalize(me::cross(f, up)));
@@ -99,21 +99,21 @@ namespace me {
       matrix[14] = (-me::dot(f, eye));
     }
 
-    inline void translate(real_t* matrix, real_t x, real_t y, real_t z)
+    inline void translate_mat4(real_t* matrix, real_t x, real_t y, real_t z)
     {
       matrix[12] = x;
       matrix[13] = y;
       matrix[14] = z;
     }
 
-    inline void scale(real_t* matrix, real_t x, real_t y, real_t z)
+    inline void scale_mat4(real_t* matrix, real_t x, real_t y, real_t z)
     {
       matrix[0] = matrix[0] * x;
       matrix[5] = matrix[5] * y;
       matrix[10] = matrix[10] * z;
     }
 
-    inline void rotate(real_t* matrix, real_t rotX, real_t rotY, real_t rotZ)
+    inline void rotate_mat4(real_t* matrix, real_t rotX, real_t rotY, real_t rotZ)
     {
       real_t sinX = me::maths::sin(rotX);
       real_t cosX = me::maths::cos(rotX);
@@ -146,7 +146,7 @@ namespace me {
       matrix[6] = (nm02 * sinZ + nm12 * cosZ);
     }
 
-    inline void rotateTranslation(real_t* matrix, me::vec4 quat)
+    inline void rotateTranslation_mat4(real_t* matrix, me::vec4 quat)
     {
       real_t w2 = quat.w * quat.w, x2 = quat.x * quat.x;
       real_t y2 = quat.y * quat.y, z2 = quat.z * quat.z;
@@ -180,7 +180,7 @@ namespace me {
       matrix[15] = (matrix[15]);
     }
 
-    inline void rotationX(real_t* matrix, real_t angle)
+    inline void rotationX_mat4(real_t* matrix, real_t angle)
     {
       real_t sin = me::maths::sin(angle);
       real_t cos = me::maths::cos(angle);
@@ -191,7 +191,7 @@ namespace me {
       matrix[10] = (cos);
     }
 
-    inline void rotationY(real_t* matrix, real_t angle)
+    inline void rotationY_mat4(real_t* matrix, real_t angle)
     {
       real_t sin = me::maths::sin(angle);
       real_t cos = me::maths::cos(angle);
@@ -202,7 +202,7 @@ namespace me {
       matrix[10] = (cos);
     }
 
-    inline void rotationZ(real_t* matrix, real_t angle)
+    inline void rotationZ_mat4(real_t* matrix, real_t angle)
     {
       real_t sin = me::maths::sin(angle);
       real_t cos = me::maths::cos(angle);
@@ -212,22 +212,7 @@ namespace me {
       matrix[4] = (-sin);
       matrix[5] = (cos);
     }
-
-    inline void print_matrix(real_t* matrix)
-    {
-      std::cout << "----------------------\n";
-      for (int i = 0; i < 16; i+=4)
-      {
-        std::cout << matrix[i] << ", ";
-        std::cout << matrix[i+1] << ", ";
-        std::cout << matrix[i+2] << ", ";
-        std::cout << matrix[i+3] << "\n";
-      }
-      std::cout << "----------------------\n";
-    }
-
-  };
-
+  }
 };
 
 #endif

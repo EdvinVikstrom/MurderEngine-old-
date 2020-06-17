@@ -1,22 +1,29 @@
 #ifndef TRANSFORM_HPP
   #define TRANSFORM_HPP
 
-#include "maths.hpp"
-
 namespace me {
 
   struct transform {
 
-    me::vec3 location, rotation, scale;
+    struct {
+      double x, y, z;
+    } location, rotation, scale;
 
-    transform(me::vec3 location, me::vec3 rotation, me::vec3 scale)
+    transform(double locX, double locY, double locZ,
+              double rotX, double rotY, double rotZ,
+              double scaleX, double scaleY, double scaleZ)
     {
-      this->location = location;
-      this->rotation = rotation;
-      this->scale = scale;
+      location = {locX, locY, locZ};
+      rotation = {rotX, rotY, rotZ};
+      scale = {scaleX, scaleY, scaleZ};
     }
 
-    transform() { }
+    transform()
+    {
+      location = {0.0D, 0.0D, 0.0D};
+      rotation = {0.0D, 0.0D, 0.0D};
+      scale = {0.0D, 0.0D, 0.0D};
+    }
 
   };
 
