@@ -35,9 +35,12 @@ namespace me {
 
     inline void setupProjMatrix()
     {
+      std::cout << "a\n";
       me::maths::identify_mat4(projMatrix);
+      std::cout << "b\n";
       if (info.projection == PROJ_PERSPECTIVE)
         me::maths::perspective_mat4(projMatrix, focalLength, aspectRatio, znear, zfar);
+        std::cout << "c\n";
     }
 
     inline void setupViewMatrix()
@@ -47,7 +50,9 @@ namespace me {
 
     Camera(me::transform transform, float focalLength, float aspectRatio, float znear, float zfar, uint32_t width, uint32_t height, CameraInfo info)
     {
+      std::cout << "t\n";
       this->transform = transform;
+      std::cout << "t\n";
       this->focalLength = focalLength;
       this->aspectRatio = aspectRatio;
       this->znear = znear;

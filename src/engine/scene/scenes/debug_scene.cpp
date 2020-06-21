@@ -1,15 +1,19 @@
 #include "debug_scene.hpp"
 
-me::Camera cam;
+me::Camera* cam;
 
 int me::scene::DebugScene::MeScene_initialize(MeInstance* instance)
 {
+  std::cout << "hej\n";
   uint32_t windowWidth = instance->window->width;
   uint32_t windowHeight = instance->window->height;
+  std::cout << "hej\n";
   CameraInfo info = {};
   info.projection = me::CameraProjection::PROJ_PERSPECTIVE;
   info.identifier = "testing";
-  cam = me::Camera(me::transform(), 50.0F, windowWidth / windowHeight, 0.1F, 100.0F, windowWidth, windowHeight, info);
+  std::cout << "hej\n";
+  cam = new me::Camera(me::transform(), 50.0F, windowWidth / windowHeight, 0.1F, 100.0F, windowWidth, windowHeight, info);
+  std::cout << "hej\n";
   return ME_FINE;
 }
 int me::scene::DebugScene::MeScene_finalize(MeInstance* instance)
@@ -23,8 +27,8 @@ int me::scene::DebugScene::MeScene_tick(MeInstance* instance)
 int me::scene::DebugScene::MeScene_render(MeRenderer* renderer, MeFrameBuffer* frameBuffer, unsigned long current_frame, bool &framebuffer_resized)
 {
   frameBuffer->useProgram(&renderer->shaders->program_final);
-  renderer->uniformMat4x4(frameBuffer->program->locations.projection, cam.projMatrix);
-  renderer->uniformMat4x4(frameBuffer->program->locations.view, cam.viewMatrix);
+  renderer->uniformMat4x4(frameBuffer->program->locations.projection, cam->projMatrix);
+  renderer->uniformMat4x4(frameBuffer->program->locations.view, cam->viewMatrix);
   return ME_FINE;
 }
 int me::scene::DebugScene::MeScene_input(MeInstance* instance, MeDeviceType deviceType, uint8_t action, uint8_t keyCode, double x, double y)

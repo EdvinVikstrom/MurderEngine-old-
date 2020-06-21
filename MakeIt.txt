@@ -3,7 +3,12 @@ project:
 
 var:
   SOURCES
+  HEADERS
   LIBS
+
+append:
+  HEADERS
+  ${CURRENT_DIR}/src/engine/**.hpp
 
 append:
   LIBS
@@ -29,14 +34,20 @@ library:
   ${CURRENT_DIR}/src/external/libpng/libpng.so
   ${CURRENT_DIR}/src/external/portaudio
 
+find:
+  HEADERS
+  ${HEADERS}
+
 verify:
   SOURCES
+  HEADERS
 
 define:
   DEBUG
   ME_USE_TYPE_FLOAT
 
-exec:
+makefile:
   -std=c++17
   ${SOURCES}
+  ${HEADERS}
   ${LIBS}
